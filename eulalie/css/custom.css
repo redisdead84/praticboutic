@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+body
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: white;
+  background-color: #005b88;
+  background-image: url("../img/Eulalie-poissonnerie-sep-2018-ririoulabellevie-57-1024x683.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+.accordion {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: #DDEEEE;
+  color: #005b88;
+  border-radius: 10px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 3%;
+  margin-right: 3%;
+  width: 94%;
+  height: auto;
+  border: 2px solid #005b88;
+}
+
+.active, .accordion:hover {
+  background-color: #a3cccc;
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: #005b88;
+}
+
+.accordion:after {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: #005b88;
+}
+
+.accordion:before {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: #005b88;
+}
+
+.active:after {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+}
+
+.panel {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  /*background-color: #005b88;*/
+  background-color: transparent;
+ 
+}
+
+.inpmove {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: #005b88;
+  border-radius: 10px;
+  border: 2px solid #005b88;
+  font-weight: bold;
+  /*width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;*/
+}
+
+input.cont:-webkit-autofill,
+input.cont:-webkit-autofill:hover, 
+input.cont:-webkit-autofill:focus
+{
+  -webkit-box-shadow: 0 0 0px 1000px #DDEEEE inset;
+  -webkit-text-fill-color: #005b88;
+}
+
+#logo
+{
+  border: 3px solid #DDEEEE;
+  border-radius: 10px;  
+  margin: 3%;
+  width: 94%;
+  height: auto;
+}
+
+/*.artcel
+{
+  border: 1px solid #DDEEEE;  
+}*/
+.artcel
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: #005b88;
+  border-radius: 10px;
+  min-height: 100px;
+  border: 1px solid white; 
+  padding: 2%;
+}  
+
+.lcont
+{
+  background-color: #005b88;
+  margin-left: 10%;
+  width: 25%;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+.cont
+{
+  border-radius: 10px;
+}
+
+.artqt
+{
+  border-radius: 10px;
+  width: 20%;
+}
+
+#grpinfo
+{
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+table,th,td
+{
+  border-collapse: collapse;
+  background-color: #005b88;
+  border: 1px solid white;
+  text-align: center;
+  margin: auto;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+
+#methodid
+{
+  background-color: #005b88;
+}
+
+#sommeid
+{
+  background-color: #005b88;
+}
+
+#backbutton
+{
+  background-color: #005b88;
+}
+
+#submit
+{
+  background-color: #005b88;
+}
+
+#tableid
+{
+  background-color: #005b88;
+}
+
+.rightpic
+{
+  float: right;
+  height: auto;
+  width: auto;
+  max-width:200px;  
+/*  max-width: 200px;*/
+  max-height: 75px;
+/*  max-height: 200px;  */
+  border-radius: 10px;
+  vertical-align: middle;
+  border: 3px solid #DDEEEE;
+}
+
+p.result-message
+{
+  color: white;  
+  background-color: #005b88;
+}
+
+#pan
+{
+  background-color: #005b88;
+  border-radius: 10px;
+  opacity: 0.8;
+  text-align: center;  
+  margin: 3%;
+}
+
+/*#footer
+{
+  width: 94%;  
+  height: auto%; 
+   
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+#backbutton
+{
+  border-radius: 10px;
+}
+
+#submit
+{
+  border-radius: 10px;
+}
+*/
+
+a.nom{
+font-size:124%;  
+}
+
+a.prix{
+font-size:100%;  
+}
+
+a.desc{
+font-size:90%;  
+}
+

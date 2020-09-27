@@ -1,0 +1,8 @@
+/deluxe/composer.json
+/deluxe/composer.lock
+/deluxe/config/config.php
+/deluxe/vendor/*
+/eulalie/composer.json
+/eulalie/composer.lock
+/eulalie/config/config.php
+/eulalie/vendor/*
