@@ -218,3 +218,29 @@ a.desc{
 font-size:90%;  
 }
 
+#paye
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: #005b88;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.divopt
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+}
+
+#cgv
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: #005b88;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+}

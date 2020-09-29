@@ -266,8 +266,28 @@
 		  	}						
 		  	$result3->close();
       }
+      
+      if  ($method == 3)
+      {
+        $chp = GetValeurParam("Choix_Paiement",$conn);         
+        
+        $cmpt = GetValeurParam("MP_Comptant",$conn); 
+    
+        $livr = GetValeurParam("MP_Livraison",$conn);
+
+        echo '<div id="paye">';
+        echo '<div id="modep" data-permis="' . $chp . '">';
+        echo '</div>';
+        echo '<br>';
+        echo '<label id="pcomptant" hidden>' . $cmpt . '</label>';
+        echo '<label id="plivraison" hidden>' . $livr . '</label>';
+        echo '<br>';
+        echo '</div>';
+      }
+      echo '<div id="cgv">Vous pouvez consulter nos conditions générales de vente<a href="CGV.htm">ici</a></div>';
       echo '</form>';
-      echo '</div>';  
+            
+      echo '</div>';
     ?>
     <div id="footer">
       <?php
@@ -360,6 +380,8 @@
           localStorage.setItem("ville", document.getElementById("laville").value);
           localStorage.setItem("telephone", document.getElementById("letel").value);
         }
+        if (localStorage.getItem("method")==3)
+          localStorage.setItem("choice", document.getElementById("modep").getAttribute("data-choice"));        
         var artcel = document.getElementsByClassName("artcel");
         var artqt = document.getElementsByClassName("artqt");
 
@@ -493,6 +515,11 @@
           alert("Vous n\'êtes pas situé dans notre zone de livraison, impossible de continuer.");
           failed = true;
         }
+        if (document.getElementById("modep").getAttribute("data-choice") == "NONE") {
+          alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
+          failed = true;
+        }
+        
       } else {
         if (somme < mntcmdmini) {
           alert("La commmande doit être au moins de " + mntcmdmini + " €");
@@ -696,6 +723,86 @@
         }
           
       }          
+    </script>
+    <script type="text/javascript">
+    
+      function displaypos(choice) 
+      {
+        var modep = document.getElementById("modep");
+      	var pcomptant = document.getElementById("pcomptant");
+      	var plivraison = document.getElementById("plivraison");
+        if (choice == 'COMPTANT')
+        {
+          pcomptant.hidden = false;
+          plivraison.hidden = true;
+        }
+        if (choice == 'LIVRAISON')
+        {
+          pcomptant.hidden = true;
+          plivraison.hidden = false;
+        }
+        modep.setAttribute("data-choice", choice);
+      }    
+    
+      if (document.getElementById("main").getAttribute("data-method") == 3) {
+        var modep = document.getElementById("modep");
+        var permis = modep.getAttribute("data-permis");
+        modep.setAttribute("data-choice", "NONE");
+        if (permis == 'COMPTANT')
+        {
+          var lanode = document.createElement("label");
+          var comptant = document.createTextNode("Paiement au COMPTANT"); 
+          lanode.appendChild(comptant);
+          modep.appendChild(lanode);
+          displaypos('COMPTANT');
+        }
+        if (permis == 'LIVRAISON')
+        {
+          var lanode = document.createElement("label");
+          var livraison = document.createTextNode("Paiement à la LIVRAISON"); 
+          lanode.appendChild(livraison);
+          modep.appendChild(lanode);
+          displaypos('LIVRAISON');
+        }
+        if (permis == 'TOUS')
+        {
+          var lanode1 = document.createElement("label");
+          var pmt = document.createTextNode("Paiement au ");
+          var br = document.createElement("br");
+          lanode1.appendChild(pmt); 
+          lanode1.appendChild(br);
+          var inp1 = document.createElement("input");
+          inp1.classList.add("paiement");
+          inp1.type = "radio";
+          inp1.name = "modepaiement";
+          inp1.id = "comptant";
+          inp1.onclick = function() {displaypos('COMPTANT')};
+          var lanode11 = document.createElement("label");
+          var cpt = document.createTextNode("COMPTANT");
+          lanode11.appendChild(cpt);
+          var lanode2 = document.createElement("label");
+          var ou = document.createTextNode(" ou à la ");
+          lanode2.appendChild(ou);
+          var inp2 = document.createElement("input");
+          inp2.classList.add("paiement");
+          inp2.type = "radio";
+          inp2.name = "modepaiement";
+          inp2.id = "livraison";
+          inp2.onclick =  function() {displaypos('LIVRAISON')};
+          var lanode21 = document.createElement("label");
+          var livr = document.createTextNode("LIVRAISON");
+          lanode21.appendChild(livr);
+          
+          modep.appendChild(lanode1);        
+          modep.appendChild(inp1);
+          modep.appendChild(lanode11);
+          modep.appendChild(lanode2);
+          modep.appendChild(inp2);
+          modep.appendChild(lanode21);
+          
+        }
+      }
+
     </script>
     
   </body>

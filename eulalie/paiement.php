@@ -32,15 +32,10 @@
     <link rel="stylesheet" href="global.css" />
     <link rel="stylesheet" href="css/custom.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-<!--    <link rel="stylesheet" href="css/style.css">-->    
 
     <script src="https://js.stripe.com/v3/"></script>
-<?php
-    if ($method == 3)
-      echo '<script src="client.js" defer></script>';
-    else
-      echo '<script src="mail.js" defer></script>';
-?>    
+    <script src="client.js" defer></script>
+    
   </head>
 
   <body onload="reachBottom()">
@@ -66,39 +61,33 @@
     </div>
     <div class="inpmove" id="footer">
       <!-- Display a payment form -->
-      <?php
-        if ($method == 3)
-        {
-          echo '<form id="payment-form">';
-          echo '<div id="card-element"><!--Stripe.js injects the Card Element--></div>';
-          echo '<button id="submit">';
-          echo '<div class="spinner hidden" id="spinner"></div>';
-          echo '<span id="button-text">Payer</span>';
-          echo '</button>';
-          echo '<p id="card-error" role="alert"></p>';
-          echo  '<p class="result-message hidden">';
-          echo  'Paiement effectué<!--, Voyez le résultat dans votre';
-          echo '<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.';
-          echo '</p>';
-          echo '</form>';
+      <script type="text/javascript" >
+      
+        if ((localStorage.getItem("method")==3) && (localStorage.getItem("choice")=="COMPTANT")) {
+          document.write('<form id="payment-form">');
+          document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
+          document.write('<button id="submit">');
+          document.write('<div class="spinner hidden" id="spinner"></div>');
+          document.write('<span id="button-text">Payer</span>');
+          document.write('</button>');
+          document.write('<p id="card-error" role="alert"></p>');
+          document.write('<p class="result-message hidden">');
+          document.write('Paiement effectué<!--, Voyez le résultat dans votre');
+          document.write('<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.');
+          document.write('</p>');
+          document.write('</form>');
         }
-      ?>
-      <!--<input class="inpmove" value="Annuler (transaction non effectuée)" onclick="genCartList()">-->
-      <?php
-          echo '<button id="backbutton" ';
-          echo 'onclick="document.location=\'carte.php?method=' . $method . '&table=' . $table . '\'">';
-          /*?method="';
-          echo $method;
-          echo '"&table="';
-          echo $table;
-          echo '""';
-          echo '>';*/
-          if ($method == 3)
-            echo 'Annuler (transaction non effectuée)';
-          else 
-            echo 'Commander à nouveau';
-          echo '</button>';
-      ?>
+        
+        document.write('<button id="backbutton" ');
+        document.write('onclick="document.location=\'carte.php?method=' + localStorage.getItem("method") + '&table=' + localStorage.getItem("table") + '\'">');
+        
+        if ((localStorage.getItem("method")==3) && (localStorage.getItem("choice")=="COMPTANT"))
+          document.write('Annuler (transaction non effectuée)');
+        else 
+          document.write('Commander à nouveau');
+
+        document.write('</button>');
+      </script>      
     </div>
     <script type="text/javascript">
       function reachBottom()

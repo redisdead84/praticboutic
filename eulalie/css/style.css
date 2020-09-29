@@ -137,6 +137,11 @@ body
   font-family: 'Roboto';
 }
 
+.active:before {
+  content: '\0025BC';
+  font-family: 'Roboto';
+}
+
 .panel {
   padding: 0 18px;
   background-color: white;
@@ -300,15 +305,15 @@ body#backbody
 
 .qtopt
 {
- float: left;
- width: 6%;
- height: 8px;
+  float: left;
+  width: 6%;
+  height: 10px;
   text-align: right;
 }
 
 .divopt
 {
- font-size: 80%;
+ font-size: 90%;
 }
 
 .arrow
@@ -316,7 +321,29 @@ body#backbody
   width: 10%;
 }
 
+.paiement
+{
+  width: auto;
+}
 
+#paye
+{
+  text-align: center;
+  margin: 3% 3% 3% 3%;
+}
 
+#cgv
+{
+  text-align: center;
+  margin: 3% 3% 3% 3%;
+}
+/*#pcomptant
+{
+  text-align: center;
+}
 
+#plivraison
+{
+  text-align: center;
+}*/
 
