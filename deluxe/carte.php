@@ -6,6 +6,9 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/custom.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
   </head>
   <body onload="reachBottom()">
     <?php
@@ -284,7 +287,7 @@
         echo '<br>';
         echo '</div>';
       }
-      echo '<div id="cgv">Vous pouvez consulter nos conditions générales de vente<a href="CGV.htm">ici</a></div>';
+      echo '<div id="cgv">Vous pouvez consulter <a href="CGV.htm">nos conditions générales de vente</a></div>';
       echo '</form>';
             
       echo '</div>';
