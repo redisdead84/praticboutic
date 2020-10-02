@@ -81,7 +81,7 @@
         {
           if ($isPasswordCorrect) 
           {
-            session_start();          
+            session_start();
             $_SESSION['id'] = $id;
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['auth'] = 'oui';
