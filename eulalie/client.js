@@ -1,5 +1,5 @@
 
-if ((localStorage.getItem("method")==3) && (localStorage.getItem("choice")=="COMPTANT")) 
+if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) 
 {
   
   var pkey = document.getElementById("main").getAttribute("data-publickey");
@@ -10,7 +10,7 @@ if ((localStorage.getItem("method")==3) && (localStorage.getItem("choice")=="COM
   // A reference to Stripe.js initialized with your real test publishable API key.
   var stripe = Stripe(pkey);
   
-  var obj = JSON.parse(localStorage.getItem("commande"));
+  var obj = JSON.parse(sessionStorage.getItem("commande"));
   
   // The items the customer wants to buy
   var purchase = {
@@ -105,32 +105,11 @@ if ((localStorage.getItem("method")==3) && (localStorage.getItem("choice")=="COM
     document.querySelector("button").disabled = true;
     // Insert here code for process after card paiement
     
-    document.getElementById("backbutton").innerHTML = "Commander à nouveau";  
-    reachBottom();  
-    
-    var commande = {
-      method: localStorage.getItem("method"),
-      table: localStorage.getItem("table"),
-      nom: localStorage.getItem("nom"),
-      prenom: localStorage.getItem("prenom"),
-      adresse1: localStorage.getItem("adresse1"),
-      adresse2: localStorage.getItem("adresse2"),
-      codepostal: localStorage.getItem("codepostal"),
-      ville: localStorage.getItem("ville"),
-      telephone: localStorage.getItem("telephone"),
-      items: JSON.parse(localStorage.getItem("commande"))
-    };
-    
-    fetch("mailj.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(commande)
-    })
-      .then(function(result) {
-        return result.text();
-      })  
+/*    document.getElementById("backbutton").innerHTML = "Commander à nouveau";  
+    reachBottom();*/  
+
+    // Naviguer vers fin.php
+    window.location.href = "fin.php?method=" + sessionStorage.getItem("method") + "&table=" + sessionStorage.getItem("table");
     
   };
   
@@ -157,29 +136,4 @@ if ((localStorage.getItem("method")==3) && (localStorage.getItem("choice")=="COM
       document.querySelector("#button-text").classList.remove("hidden");
     }
   };
-} else {
-    
-  var commande = {
-    method: localStorage.getItem("method"),
-    table: localStorage.getItem("table"),
-    nom: localStorage.getItem("nom"),
-    prenom: localStorage.getItem("prenom"),
-    adresse1: localStorage.getItem("adresse1"),
-    adresse2: localStorage.getItem("adresse2"),
-    codepostal: localStorage.getItem("codepostal"),
-    ville: localStorage.getItem("ville"),
-    telephone: localStorage.getItem("telephone"),
-    items: JSON.parse(localStorage.getItem("commande"))
-  };
-  
-  fetch("mailj.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(commande)
-  })
-    .then(function(result) {
-      return result.text();
-    })
 }

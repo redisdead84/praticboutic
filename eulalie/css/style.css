@@ -186,6 +186,7 @@ input
   display:inline-block; 
   font-size: 100%;
   width:40%;  
+  z-index: 9999;
 }
 
 
@@ -307,7 +308,7 @@ body#backbody
 {
   float: left;
   width: 6%;
-  height: 10px;
+  height: 12px;
   text-align: right;
 }
 
@@ -337,6 +338,13 @@ body#backbody
   text-align: center;
   margin: 3% 3% 3% 3%;
 }
+
+.paiers
+{
+  width: auto;
+}
+
+
 /*#pcomptant
 {
   text-align: center;
