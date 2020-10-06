@@ -310,6 +310,7 @@ body#backbody
   width: 6%;
   height: 12px;
   text-align: right;
+  margin: 0;
 }
 
 .divopt
@@ -344,7 +345,12 @@ body#backbody
   width: auto;
 }
 
-
+.bts
+{
+  width: 7%;
+  font-weight: bold;
+  font-size: 112%;
+}
 /*#pcomptant
 {
   text-align: center;

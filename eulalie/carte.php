@@ -89,7 +89,12 @@
 					  		  echo '<label>Quantit&eacute;</label>';
 					  		  $id = 'qt' . $row2[0];
 					  		  $name = 'qty' . $row2[0];    
-            		  echo '<input class="artqt" type="number" id="' . $id . '" name="' . $name . '" min="0" max="100" onkeyup="showoptions(this)" onchange="showoptions(this)">';
+            		  echo '<input class="artqt" type="number" id="' . $id . '" name="' . $name . '" value="0" min="0" max="100" onkeyup="showoptions(this)" onchange="showoptions(this)" readonly>';
+            		  echo '<label> ';
+            		  echo '<button class="bts bplus" type="button" onclick="addqt(this)">  +  </button>';
+            		  echo ' ';
+            		  echo '<button class="bts bmoins" type="button" onclick="subqt(this)">  -  </button>';
+            		  echo ' </label>';
                   echo '<br />'; 
               	}
               	else 
@@ -240,6 +245,24 @@
       ?>
     </div>
     <script type="text/javascript">
+      function addqt(elem)
+      {
+        //var obj = elem.parentElement.previousSibling;  
+         
+        elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) + 1;
+        showoptions(elem.parentElement.previousSibling);
+      }
+      function subqt(elem)
+      {
+        if (parseInt(elem.parentElement.previousSibling.value) > 0)
+        {
+          elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) - 1;
+          showoptions(elem.parentElement.previousSibling);
+        }
+      }
+    </script>    
+    
+    <script type="text/javascript">
     function genCartList()
     {
       var somme =0;
@@ -353,12 +376,16 @@
                     {
                       if (secase[im].checked == true)
                       {
-                        var theid = secase[im].id.substr(6);
+                        var mystr = secase[im].id;
+                        var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
+                        //var theid = secase[im].id.substr(6);
                         var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
                         var alfd = false;                          
                         for(io=0;io<opt.length;io++)
                         {
-                          if (opt[io].id == myoption.id )
+                          var mystr2 = opt[io].id;
+                          //var theid2 = mystr2.substring(mystr2.indexOf('opt')+3, mystr2.length);
+                          if (mystr2 == myoption.id )
                           {
                             alfd = true;
                             opt[io].qt = opt[io].qt + 1;                              
@@ -387,7 +414,7 @@
       }
       
       if (sessionStorage.getItem("method")==3) {
-        if (somme < mntcmdmini) {
+        if (somme < mntlivraisonmini) {
           alert("Les livraison sont acceptées à partir de " + mntlivraisonmini + " €");
           failed = true;
         }
@@ -415,13 +442,13 @@
       function showoptions(eleminp) 
       {
         var fart = eleminp.parentElement.getElementsByTagName("TEXTAREA")[0];
-        
+         
         if (eleminp.value > 0)
           fart.hidden = false;
         else
         	fart.hidden = true;
         
-        
+        eleminp.blur();
         var elemopt = eleminp.parentElement.getElementsByClassName("divopt")[0];
        
         var slide = elemopt.getElementsByClassName("slide")[0]; 
@@ -469,9 +496,18 @@
                 
         var etodel = elemopt.getElementsByClassName("divopttab");
        
-        while (etodel.length > 0)
-          etodel[0].remove();
-        
+        while (etodel.length > eleminp.value) // modif here replaced 0 by eleminp.value
+        {
+          etodel[eleminp.value].remove();     // here too
+          for (var i=0; i<etodel.length; i++) 
+          {
+            if (i == 0)
+              etodel[0].hidden = false;
+            else
+            	etodel[i].hidden = true;
+          }       
+        }
+
         var etodup = elemopt.getElementsByClassName("divopt2")[0];
         
         if (etodup.innerHTML != "")
@@ -479,17 +515,18 @@
         else
         	slide.hidden = true;
                 
-        for (j=0; j<eleminp.value; j++)
+        //for (j=0; j<eleminp.value; j++)
+        while ((elemopt.childElementCount - 2) < eleminp.value)
         {
           var edup = etodup.cloneNode(true);
-          if (j>0)
+          if (elemopt.childElementCount > 2)    // j replaced
             edup.hidden = true;
           else {
           	edup.hidden = false;
           }
           edup.setAttribute("class","divopttab");
-          edup.setAttribute("data-numero", j);
-          
+          edup.setAttribute("data-numero", elemopt.childElementCount - 2);
+                    
           var sefld = edup.children;
           
           for (k=0; k<sefld.length; k++) 
@@ -499,13 +536,14 @@
             {
               if (secase[l].tagName == "INPUT") 
               {
-                secase[l].name = "art" + artid + "num" + (j+1) + "case" + k;
-                secase[l].id = "art" + artid + "num" + (j+1) + secase[l].id;
+                secase[l].name = "art" + artid + "num" + (elemopt.childElementCount - 2) + "case" + k;
+                secase[l].id = "art" + artid + "num" + (elemopt.childElementCount - 2) + secase[l].id;
               }
             }
           }         
           elemopt.appendChild(edup);
         }
+   
 
         eleminp.parentElement.parentElement.previousElementSibling.classList.add("active");        
         
@@ -670,6 +708,11 @@
        	    var panel = artqt[i].parentElement.parentElement;
             panel.style.maxHeight = panel.scrollHeight + "px";
           }
+          /*else if (((artqt[i].value == 0) || (artqt[i].value == null)) && (artqt[i].type !== "hidden")) 
+          {
+            artqt[i].nextSibling.childNodes[0].disabled = false;
+            artqt[i].nextSibling.childNodes[1].disabled = true;
+          }*/
         }
       }
     </script>
