@@ -104,35 +104,31 @@
         if ($chp == "TOUS")
         {
           echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
-          echo '<label for="pcomptant">COMPTANT : </label><br>';
+          echo '<label for="pcomptant">AU COMPTANT : </label><br>';
           echo '<label>';
           echo $cmpt; 
           echo '</label><br>';
           echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
-          echo '<label for="plivraison">LIVRAISON : </label><br>';
+          echo '<label for="plivraison">A LA LIVRAISON : </label><br>';
           echo '<label>';
           echo $livr;
           echo '</label><br>';
         }
         if ($chp == "COMPTANT")
         {
-          echo '<label for="pcomptant">COMPTANT : </label><br>';
+          echo '<label for="pcomptant">AU COMPTANT : </label><br>';
           echo '<label>';
           echo $cmpt; 
           echo '</label><br>';
         }  
         if ($chp == "LIVRAISON")
         {
-          echo '<label for="plivraison">LIVRAISON : </label><br>';
+          echo '<label for="plivraison">A LA LIVRAISON : </label><br>';
           echo '<label>';
           echo $livr;
           echo '</label><br>';
         }  
         echo '</div>';
-        /*echo '<br>';
-        echo '<label id="pcomptant" hidden>' . $cmpt . '</label>';
-        echo '<label id="plivraison" hidden>' . $livr . '</label>';
-        echo '<br>';*/
         echo '</div>';
       }
       echo '<div id="cgv">Vous pouvez consulter <a href="CGV.htm">nos conditions générales de vente</a></div>';
@@ -204,7 +200,6 @@
       {
         if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
         {
-          //if (document.getElementById("pcomptant").checked == true)
           if (sessionStorage.getItem("choice") == "COMPTANT")
           {
             document.getElementById("pcomptant").checked = true;
@@ -315,7 +310,7 @@
               sessionStorage.setItem("choice", "NONE");
           }
           else
-            sessionStorage.setItem("choice", document.getElementById("modep").getAttribute("data-choice"));        
+            sessionStorage.setItem("choice", document.getElementById("modep").getAttribute("data-permis"));        
         }
       }
     </script>
