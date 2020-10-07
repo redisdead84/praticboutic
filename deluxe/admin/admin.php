@@ -592,7 +592,7 @@
       
     echo '<div class=tabs>'," \n ";
     echo '<div id=tabCat> <a href="admin.php#tabCat">CATEGORIE</a>'," \n ";
-    echo '<div>'," \n ";
+    echo '<div class=sheet>'," \n ";
 
     
     if (empty($modif) && empty($ins))
@@ -677,7 +677,7 @@
 	  echo '</div>'," \n ";
       
     echo '<div id=tabArt> <a href="admin.php#tabArt">ARTICLE</a>'," \n ";
-    echo '<div>'," \n ";
+    echo '<div class=sheet>'," \n ";
 
     if (empty($modif) && empty($ins))
     {
@@ -879,7 +879,7 @@
     {
     
       echo '<div id=tabRgoa> <a href="admin.php#tabRgoa">RELGRPOPTART</a>'," \n ";
-      echo '<div>'," \n ";
+      echo '<div class=sheet>'," \n ";
   
      
       if (empty($modif) && empty($ins))
@@ -1022,7 +1022,7 @@
       echo '</div>'," \n ";
   
       echo '<div id=tabGrpo> <a href="admin.php#tabGrpo">GROUPEOPT</a>'," \n ";
-      echo '<div>'," \n ";
+      echo '<div class=sheet>'," \n ";
   
       
       if (empty($modif) && empty($ins))
@@ -1117,7 +1117,7 @@
   	  echo '</div>'," \n ";
       
       echo '<div id=tabOpt> <a href="admin.php#tabOpt">OPTION</a>'," \n ";
-      echo '<div>'," \n ";
+      echo '<div class=sheet>'," \n ";
   
       if (empty($modif) && empty($ins))
       {
@@ -1254,7 +1254,7 @@
       
       
       echo '<div id=tabAdmin> <a href="admin.php#tabAdmin">ADMINISTRATEUR</a>'," \n ";
-      echo '<div>'," \n ";
+      echo '<div class=sheet>'," \n ";
   
       if (empty($modif) && empty($ins))
       {
@@ -1370,7 +1370,7 @@
       echo '</div>'," \n ";
   
       echo '<div id=tabParam> <a href="admin.php#tabParam">PARAMETRE</a>'," \n ";
-      echo '<div>'," \n ";
+      echo '<div class=sheet>'," \n ";
       
       if (empty($modif) && empty($ins))
       {
@@ -1457,7 +1457,7 @@
     
   
       echo '<div id=tabZone> <a href="admin.php#tabZone">CPZONE</a>'," \n ";
-      echo '<div>'," \n ";
+      echo '<div class=sheet>'," \n ";
     
       
       if (empty($modif) && empty($ins))

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Prise de commande</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
@@ -10,7 +11,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body onload="reachBottom()">
+  <body>
     <?php
 
     include "config/config.php";
@@ -22,9 +23,7 @@
     $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
     $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
 
-    // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
-    // Check connection
     if ($conn->connect_error) 
  	    die("Connection failed: " . $conn->connect_error);
 
@@ -33,60 +32,16 @@
     $mntcmdmini = GetValeurParam("MntCmdMini",$conn);
     
     $mntlivraisonmini = GetValeurParam("MntLivraisonMini",$conn);
-    
-    $verifcp = GetValeurParam("VerifCP",$conn);    
-    
-    
+ 
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'">';
     echo '<img id="logo" src="' . $logo . '">';
 
-    echo '<form name="mainform" method="post" action="paiement.php?method=';
+    echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php?method=';
     echo $method ;
     echo '&table=';
     echo $table ;
     echo '">';
     
-    echo '<div id="grpinfo">';
-    
-    if ($method == '3')
-    {
-      echo '<label class="lcont">Nom : </label>';
-      echo '<input class="cont" type="string" id="lenom" name="nom" required>';
-      echo '<br>';            
-    }
-    if (($method == '3') ||($method == '2'))
-    {
-      echo '<label class="lcont">Pr&eacute;nom : </label>';
-      echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
-    }
-    if ($method == '3')
-    {
-      echo '<br>';
-      echo '<label class="lcont">Adresse 1 : </label>';
-      echo '<input class="cont" type="string" id="ladresse1" name="adresse1" required>';
-      echo '<br>';
-      echo '<label class="lcont">Adresse 2 : </label>';
-      echo '<input class="cont" type="string" id="ladresse2" name="adresse2">';
-      echo '<br>';
-      echo '<label class="lcont">Code Postal : </label>';
-      if ($verifcp > 0) {
-        echo '<input class="cont" type="string" id="lecp" name="cp" required 
-        pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
-      } else {
-        echo '<input class="cont" type="string" id="lecp" name="cp" required 
-        pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
-      }
-      echo '<br>';
-      echo '<label class="lcont">Ville : </label>';
-      echo '<input class="cont" type="string" id="laville" name="ville" required>';
-      echo '<br>';
-      echo '<label class="lcont">T&eacutel&eacutephone : </label>';
-      echo '<input class="cont" type="string" id="letel" name="tel" required 
-      pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" 
-      title="Il faut un numéro de téléphone français valide">';
-    }
-
-    echo '</div>';
     
       //echo "Connected successfully";
       $query = 'SELECT catid, nom, visible FROM categorie';
@@ -99,9 +54,7 @@
     				echo html_entity_decode($row[1]);
     				echo '</button>';
     				echo '<div class="panel">';
-    				//$conn2 = new mysqli($servername, $username, $password);
 		      	$query2 = 'SELECT artid, nom, prix, unite, description, image, imgvisible FROM article WHERE visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] ;
-		      	//echo $query2;
   					if ($result2 = $conn->query($query2)) 
 	  				{
     					while ($row2 = $result2->fetch_row()) 
@@ -109,7 +62,6 @@
             		echo '<div class="artcel" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
               	if ($row2[6]>0)
               	  echo '<img class="rightpic" src="upload/' . $row2[5] . '" alt = "nopic">';
-              	//echo '<div>';
               	echo '<a class="nom">';
        	      	echo $row2[1];
        	      	echo '<br />';
@@ -132,7 +84,12 @@
 					  		  echo '<label>Quantit&eacute;</label>';
 					  		  $id = 'qt' . $row2[0];
 					  		  $name = 'qty' . $row2[0];    
-            		  echo '<input class="artqt" type="number" id="' . $id . '" name="' . $name . '" min="0" max="100" onkeyup="showoptions(this)" onchange="showoptions(this)">';
+            		  echo '<input class="artqt" type="number" id="' . $id . '" name="' . $name . '" value="0" min="0" max="100" onkeyup="showoptions(this)" onchange="showoptions(this)" readonly>';
+            		  echo '<label> ';
+            		  echo '<button class="bts bplus" type="button" onclick="addqt(this)">  +  </button>';
+            		  echo ' ';
+            		  echo '<button class="bts bmoins" type="button" onclick="subqt(this)">  -  </button>';
+            		  echo ' </label>';
                   echo '<br />'; 
               	}
               	else 
@@ -140,7 +97,7 @@
                   echo '<br />';
                   echo '<br />'; 
               	}
-              	//echo '</div>';
+
                 echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article"  hidden></textarea>';              
                 
  				  		  $id = 'opt' . $row2[0];
@@ -160,7 +117,6 @@
 				        }
 				        
                 $query3 = 'SELECT groupeopt.grpoptid, groupeopt.nom, groupeopt.multiple FROM relgrpoptart, groupeopt WHERE relgrpoptart.visible = 1 AND groupeopt.visible = 1 AND artid = ' . $row2[0] . ' AND relgrpoptart.grpoptid = groupeopt.grpoptid';
-                //echo $query3;
   					    if ($result3 = $conn->query($query3)) 
 	  				    {
     					    while ($row3 = $result3->fetch_row()) 
@@ -182,16 +138,16 @@
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . '</input>';
                           }
                           else if ($row3[2] == 1)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . '</input>';
                           }
                         }
                         else 
@@ -199,16 +155,16 @@
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
                           }
                           else if ($row3[2] == 1)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="opt1' . $row3[0] . '" id="opt1id' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
                           }
                         } 
                         echo '<br/>';
@@ -232,7 +188,6 @@
 			}
 			// Affichage des Frais Fixe
     	$query3 = 'SELECT artid, nom, prix, unite, description, image, imgvisible FROM article WHERE visible = 1 AND obligatoire = 1';
-    	//echo $query2;
 			if ($result3 = $conn->query($query3)) 
 			{
 				while ($row3 = $result3->fetch_row()) 
@@ -270,24 +225,6 @@
 		  	$result3->close();
       }
       
-      if  ($method == 3)
-      {
-        $chp = GetValeurParam("Choix_Paiement",$conn);         
-        
-        $cmpt = GetValeurParam("MP_Comptant",$conn); 
-    
-        $livr = GetValeurParam("MP_Livraison",$conn);
-
-        echo '<div id="paye">';
-        echo '<div id="modep" data-permis="' . $chp . '">';
-        echo '</div>';
-        echo '<br>';
-        echo '<label id="pcomptant" hidden>' . $cmpt . '</label>';
-        echo '<label id="plivraison" hidden>' . $livr . '</label>';
-        echo '<br>';
-        echo '</div>';
-      }
-      echo '<div id="cgv">Vous pouvez consulter <a href="CGV.htm">nos conditions générales de vente</a></div>';
       echo '</form>';
             
       echo '</div>';
@@ -296,60 +233,26 @@
       <?php
         if  ($method > 0)
         {
-            echo '<input class="inpmove" type="button" value="Envoyer la commande" onclick="genCartList(this)">';
+          echo '<input class="inpmove" type="button" value="Poursuivre la commande" onclick="genCartList()">';
         }
       ?>
     </div>
-    <script type="text/javascript" >
-      if(/Android/.test(navigator.appVersion)) {
-        window.addEventListener("resize", function() {
-          if(document.activeElement.tagName=="INPUT" || document.activeElement.tagName=="TEXTAREA") {
-            document.activeElement.scrollIntoView();
-          }
-        })
-      }     
-    </script>
     <script type="text/javascript">
-    	var acc = document.getElementsByClassName("accordion");
-      var i;
-
-        for (i = 0; i < acc.length; i++) 
+      function addqt(elem)
+      {
+        elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) + 1;
+        showoptions(elem.parentElement.previousSibling);
+      }
+      function subqt(elem)
+      {
+        if (parseInt(elem.parentElement.previousSibling.value) > 0)
         {
-          acc[i].addEventListener("click", function() {
-      	    this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) 
-            {
-            	panel.style.maxHeight = null;
-            } 
-            else 
-            {
-              panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-          });
+          elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) - 1;
+          showoptions(elem.parentElement.previousSibling);
         }
-    </script>
-    <script type="text/javascript">
-    	var aqt = document.getElementsByClassName("artqt");
-      var i;
-
-        for (i = 0; i < aqt.length; i++) 
-        {
-          aqt[i].addEventListener("focus", function() {
-      	    this.parentElement.parentElement.previousElementSibling.classList.add("active");
-      	    var panel = this.parentElement.parentElement;
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          });
-        }
-    </script>
-    <script type="text/javascript">
-    function reachBottom()
-    {
-      var x = window.innerHeight - document.getElementById("footer").clientHeight;
-      x = x + "px";
-      document.getElementById("main").style.height = x;
-    }
-    </script>
+      }
+    </script>    
+    
     <script type="text/javascript">
     function genCartList()
     {
@@ -358,42 +261,21 @@
       var opt = [];
       var mntcmdmini = document.getElementById("main").getAttribute("data-mntcmdmini");
       var mntlivraisonmini = document.getElementById("main").getAttribute("data-mntlivraisonmini");
-      localStorage.removeItem("method");
-      localStorage.removeItem("table");
-      localStorage.removeItem("nom");
-      localStorage.removeItem("prenom");
-      localStorage.removeItem("adresse1");
-      localStorage.removeItem("adresse2");
-      localStorage.removeItem("codepostal");
-      localStorage.removeItem("ville");
-      localStorage.removeItem("telephone");
-      localStorage.setItem("method", document.getElementById("main").getAttribute("data-method"));
-      localStorage.setItem("table", document.getElementById("main").getAttribute("data-table"));
-      if (localStorage.getItem("method") > 0)
+      sessionStorage.setItem("method", document.getElementById("main").getAttribute("data-method"));
+      sessionStorage.setItem("table", document.getElementById("main").getAttribute("data-table"));
+      if (sessionStorage.getItem("method") > 0)
       {
-        if (localStorage.getItem("method")==3)
-          localStorage.setItem("nom", document.getElementById("lenom").value);
-        if ((localStorage.getItem("method")==2)||(localStorage.getItem("method")==3))
-          localStorage.setItem("prenom", document.getElementById("leprenom").value);
-        if (localStorage.getItem("method")==3)
-        {
-          localStorage.setItem("adresse1", document.getElementById("ladresse1").value);
-          localStorage.setItem("adresse2", document.getElementById("ladresse2").value);
-          localStorage.setItem("codepostal", document.getElementById("lecp").value);
-          localStorage.setItem("ville", document.getElementById("laville").value);
-          localStorage.setItem("telephone", document.getElementById("letel").value);
-        }
-        if (localStorage.getItem("method")==3)
-          localStorage.setItem("choice", document.getElementById("modep").getAttribute("data-choice"));        
         var artcel = document.getElementsByClassName("artcel");
         var artqt = document.getElementsByClassName("artqt");
-
+        
         var ligne = [];
         var idc = 0;
         var qtc = 0;
         var j = 0;
         for (var i = 0; i<artcel.length; i++ )
         {
+          if (artqt[i].type !== "hidden" )
+            sessionStorage.setItem(artqt[i].id, artqt[i].value);
           var options = "";
           var artopt = artcel[i].getElementsByClassName("divopt2")[0];
           if (artopt != null)
@@ -418,7 +300,10 @@
                         {
                           options = options + " / " + secase[m].value;
                           alfa = false;
+                          sessionStorage.setItem(secase[m].id, 1);
                         }
+                        else
+                        	sessionStorage.setItem(secase[m].id, 0);
                       }
                       if (secase[m].type == "checkbox")
                       {
@@ -426,7 +311,10 @@
                         if (secase[m].checked == true)
                         {
                           options = options + " + " + secase[m].value;
+                          sessionStorage.setItem(secase[m].id, 1);
                         }
+                        else
+                        	sessionStorage.setItem(secase[m].id, 0);
                       }
                     }
                   }
@@ -442,8 +330,11 @@
           }
           var txt = "";
           var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
-          if (txtf != null)          
+          if (txtf != null)
+          {
             txt = txtf.value;
+            sessionStorage.setItem(txtf.id, txt);
+          }          
           idc = artcel[i].id.substr(5);  
           qtc = artqt[i].value; 
           if (qtc === "")
@@ -476,12 +367,16 @@
                     {
                       if (secase[im].checked == true)
                       {
-                        var theid = secase[im].id.substr(6);
+                        var mystr = secase[im].id;
+                        var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
+                        //var theid = secase[im].id.substr(6);
                         var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
                         var alfd = false;                          
                         for(io=0;io<opt.length;io++)
                         {
-                          if (opt[io].id == myoption.id )
+                          var mystr2 = opt[io].id;
+                          //var theid2 = mystr2.substring(mystr2.indexOf('opt')+3, mystr2.length);
+                          if (mystr2 == myoption.id )
                           {
                             alfd = true;
                             opt[io].qt = opt[io].qt + 1;                              
@@ -506,23 +401,14 @@
         }
         var jsonligne = JSON.stringify(ligne);          
           
-        localStorage.setItem("commande", jsonligne);
+        sessionStorage.setItem("commande", jsonligne);
       }
       
-      if (localStorage.getItem("method")==3) {
-        if (somme < mntcmdmini) {
+      if (sessionStorage.getItem("method")==3) {
+        if (somme < mntlivraisonmini) {
           alert("Les livraison sont acceptées à partir de " + mntlivraisonmini + " €");
           failed = true;
         }
-        if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-          alert("Vous n\'êtes pas situé dans notre zone de livraison, impossible de continuer.");
-          failed = true;
-        }
-        if (document.getElementById("modep").getAttribute("data-choice") == "NONE") {
-          alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
-          failed = true;
-        }
-        
       } else {
         if (somme < mntcmdmini) {
           alert("La commmande doit être au moins de " + mntcmdmini + " €");
@@ -547,13 +433,13 @@
       function showoptions(eleminp) 
       {
         var fart = eleminp.parentElement.getElementsByTagName("TEXTAREA")[0];
-        
+         
         if (eleminp.value > 0)
           fart.hidden = false;
         else
         	fart.hidden = true;
         
-        
+        eleminp.blur();
         var elemopt = eleminp.parentElement.getElementsByClassName("divopt")[0];
        
         var slide = elemopt.getElementsByClassName("slide")[0]; 
@@ -601,9 +487,18 @@
                 
         var etodel = elemopt.getElementsByClassName("divopttab");
        
-        while (etodel.length > 0)
-          etodel[0].remove();
-        
+        while (etodel.length > eleminp.value) // modif here replaced 0 by eleminp.value
+        {
+          etodel[eleminp.value].remove();     // here too
+          for (var i=0; i<etodel.length; i++) 
+          {
+            if (i == 0)
+              etodel[0].hidden = false;
+            else
+            	etodel[i].hidden = true;
+          }       
+        }
+
         var etodup = elemopt.getElementsByClassName("divopt2")[0];
         
         if (etodup.innerHTML != "")
@@ -611,16 +506,18 @@
         else
         	slide.hidden = true;
                 
-        for (j=0; j<eleminp.value; j++)
+        //for (j=0; j<eleminp.value; j++)
+        while ((elemopt.childElementCount - 2) < eleminp.value)
         {
           var edup = etodup.cloneNode(true);
-          if (j>0)
+          if (elemopt.childElementCount > 2)    // j replaced
             edup.hidden = true;
           else {
           	edup.hidden = false;
           }
           edup.setAttribute("class","divopttab");
-          
+          edup.setAttribute("data-numero", elemopt.childElementCount - 2);
+                    
           var sefld = edup.children;
           
           for (k=0; k<sefld.length; k++) 
@@ -630,7 +527,8 @@
             {
               if (secase[l].tagName == "INPUT") 
               {
-                secase[l].name = "art" + artid + "opt" + j + "case" + k;
+                secase[l].name = "art" + artid + "num" + (elemopt.childElementCount - 2) + "case" + k;
+                secase[l].id = "art" + artid + "num" + (elemopt.childElementCount - 2) + secase[l].id;
               }
             }
           }         
@@ -661,7 +559,6 @@
           aeid = "fg";
         else 
           aeid = "fd";
-        	
          
         valdef = Number(elemopt.getElementsByClassName("curarticle")[0].innerHTML);
         valdef = valdef + val;
@@ -695,118 +592,113 @@
       }
     </script>
     <script type="text/javascript">
+      function reachBottom() 
+      {
+        var x = window.innerHeight - document.getElementById("footer").clientHeight;
+        x = x + "px";
+        document.getElementById("main").style.height = x;
+      }
+    </script>
+    <script type="text/javascript" >
+      if(/Android/.test(navigator.appVersion)) {
         window.addEventListener("resize", function() {
-          reachBottom();
+          if(document.activeElement.tagName=="INPUT" || document.activeElement.tagName=="TEXTAREA") {
+            document.activeElement.scrollIntoView();
+          }
         })
+      }     
     </script>
     <script type="text/javascript">
-   
-      function checkcp(elem)      
-      {
-        var retour;      
-      
-        if (elem.value.length == 5)
-        {   
-      
-          fetch("cpzone.php", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(elem.value)
-          })
-            .then(function(result) {
-              return result.json();
-            })
-            .then(function(data) {
-              document.getElementById("lecp").setAttribute("data-inrange", data);
-          })
-        } else {
-          document.getElementById("lecp").setAttribute("data-inrange", "ko");
+    	var acc = document.getElementsByClassName("accordion");
+      var i;
+
+        for (i = 0; i < acc.length; i++) 
+        {
+          acc[i].addEventListener("click", function() {
+      	    this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) 
+            {
+            	panel.style.maxHeight = null;
+            } 
+            else 
+            {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+          });
         }
-          
-      }          
     </script>
     <script type="text/javascript">
-    
-      function displaypos(choice) 
+    	var aqt = document.getElementsByClassName("artqt");
+      var i;
+
+        for (i = 0; i < aqt.length; i++) 
+        {
+          aqt[i].addEventListener("focus", function() {
+      	    this.parentElement.parentElement.previousElementSibling.classList.add("active");
+      	    var panel = this.parentElement.parentElement;
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          });
+        }
+    </script>
+    <script type="text/javascript" >
+      reachBottom();
+    </script>
+    <script type="text/javascript">
+      window.addEventListener("resize", function() {
+        reachBottom();
+      })
+    </script>
+    <script type="text/javascript" >
+      var artcel = document.getElementsByClassName("artcel");
+      var artqt = document.getElementsByClassName("artqt");
+
+      for (var i = 0; i<artqt.length; i++ )
       {
-        var modep = document.getElementById("modep");
-      	var pcomptant = document.getElementById("pcomptant");
-      	var plivraison = document.getElementById("plivraison");
-        if (choice == 'COMPTANT')
+        bakqt = sessionStorage.getItem(artqt[i].id);
+        if (bakqt !== null)
         {
-          pcomptant.hidden = false;
-          plivraison.hidden = true;
-        }
-        if (choice == 'LIVRAISON')
-        {
-          pcomptant.hidden = true;
-          plivraison.hidden = false;
-        }
-        modep.setAttribute("data-choice", choice);
-      }    
-    
-      if (document.getElementById("main").getAttribute("data-method") == 3) {
-        var modep = document.getElementById("modep");
-        var permis = modep.getAttribute("data-permis");
-        modep.setAttribute("data-choice", "NONE");
-        if (permis == 'COMPTANT')
-        {
-          var lanode = document.createElement("label");
-          var comptant = document.createTextNode("Paiement au COMPTANT"); 
-          lanode.appendChild(comptant);
-          modep.appendChild(lanode);
-          displaypos('COMPTANT');
-        }
-        if (permis == 'LIVRAISON')
-        {
-          var lanode = document.createElement("label");
-          var livraison = document.createTextNode("Paiement à la LIVRAISON"); 
-          lanode.appendChild(livraison);
-          modep.appendChild(lanode);
-          displaypos('LIVRAISON');
-        }
-        if (permis == 'TOUS')
-        {
-          var lanode1 = document.createElement("label");
-          var pmt = document.createTextNode("Paiement au ");
-          var br = document.createElement("br");
-          lanode1.appendChild(pmt); 
-          lanode1.appendChild(br);
-          var inp1 = document.createElement("input");
-          inp1.classList.add("paiement");
-          inp1.type = "radio";
-          inp1.name = "modepaiement";
-          inp1.id = "comptant";
-          inp1.onclick = function() {displaypos('COMPTANT')};
-          var lanode11 = document.createElement("label");
-          var cpt = document.createTextNode("COMPTANT");
-          lanode11.appendChild(cpt);
-          var lanode2 = document.createElement("label");
-          var ou = document.createTextNode(" ou à la ");
-          lanode2.appendChild(ou);
-          var inp2 = document.createElement("input");
-          inp2.classList.add("paiement");
-          inp2.type = "radio";
-          inp2.name = "modepaiement";
-          inp2.id = "livraison";
-          inp2.onclick =  function() {displaypos('LIVRAISON')};
-          var lanode21 = document.createElement("label");
-          var livr = document.createTextNode("LIVRAISON");
-          lanode21.appendChild(livr);
-          
-          modep.appendChild(lanode1);        
-          modep.appendChild(inp1);
-          modep.appendChild(lanode11);
-          modep.appendChild(lanode2);
-          modep.appendChild(inp2);
-          modep.appendChild(lanode21);
-          
+          artqt[i].value = bakqt; 
+          if ((artqt[i].value > 0) && (artqt[i].type !== "hidden"))
+          {
+            showoptions(artqt[i]);
+            var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
+            txtf.value = sessionStorage.getItem(txtf.id);
+            var artopt = artcel[i].getElementsByClassName("divopt2")[0];
+            if (artopt != null)
+            {
+              if (artopt.innerHTML != "")
+              {
+                var opttab = artcel[i].getElementsByClassName("divopttab");
+                for (k=0; k<opttab.length; k++)
+                {
+                  var sefld = opttab[k].children;
+                  for (l=0; l<sefld.length; l++) 
+                  {
+                    var secase = sefld[l].children;
+                    for (m=0; m<secase.length; m++) 
+                    {
+                      if (secase[m].tagName == "INPUT") 
+                      {
+                        if ((secase[m].type == "radio") ||(secase[m].type == "checkbox"))
+                        { 
+                          if (sessionStorage.getItem(secase[m].id) == 1)
+                            secase[m].checked = true;
+                          else 
+                            secase[m].checked = false;
+                        }
+                      }
+                    }
+                  }              
+                }         
+              }
+            }
+       	    artqt[i].parentElement.parentElement.previousElementSibling.classList.add("active");
+       	    var panel = artqt[i].parentElement.parentElement;
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          }
         }
       }
-
     </script>
-    
   </body>
 </html>

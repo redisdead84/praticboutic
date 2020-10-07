@@ -534,7 +534,6 @@
           }         
           elemopt.appendChild(edup);
         }
-   
 
         eleminp.parentElement.parentElement.previousElementSibling.classList.add("active");        
         
