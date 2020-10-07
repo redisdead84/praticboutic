@@ -23,9 +23,7 @@
     $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
     $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
 
-    // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
-    // Check connection
     if ($conn->connect_error) 
  	    die("Connection failed: " . $conn->connect_error);
 
@@ -56,9 +54,7 @@
     				echo html_entity_decode($row[1]);
     				echo '</button>';
     				echo '<div class="panel">';
-    				//$conn2 = new mysqli($servername, $username, $password);
 		      	$query2 = 'SELECT artid, nom, prix, unite, description, image, imgvisible FROM article WHERE visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] ;
-		      	//echo $query2;
   					if ($result2 = $conn->query($query2)) 
 	  				{
     					while ($row2 = $result2->fetch_row()) 
@@ -66,7 +62,6 @@
             		echo '<div class="artcel" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
               	if ($row2[6]>0)
               	  echo '<img class="rightpic" src="upload/' . $row2[5] . '" alt = "nopic">';
-              	//echo '<div>';
               	echo '<a class="nom">';
        	      	echo $row2[1];
        	      	echo '<br />';
@@ -102,7 +97,7 @@
                   echo '<br />';
                   echo '<br />'; 
               	}
-              	//echo '</div>';
+
                 echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article"  hidden></textarea>';              
                 
  				  		  $id = 'opt' . $row2[0];
@@ -122,7 +117,6 @@
 				        }
 				        
                 $query3 = 'SELECT groupeopt.grpoptid, groupeopt.nom, groupeopt.multiple FROM relgrpoptart, groupeopt WHERE relgrpoptart.visible = 1 AND groupeopt.visible = 1 AND artid = ' . $row2[0] . ' AND relgrpoptart.grpoptid = groupeopt.grpoptid';
-                //echo $query3;
   					    if ($result3 = $conn->query($query3)) 
 	  				    {
     					    while ($row3 = $result3->fetch_row()) 
@@ -194,7 +188,6 @@
 			}
 			// Affichage des Frais Fixe
     	$query3 = 'SELECT artid, nom, prix, unite, description, image, imgvisible FROM article WHERE visible = 1 AND obligatoire = 1';
-    	//echo $query2;
 			if ($result3 = $conn->query($query3)) 
 			{
 				while ($row3 = $result3->fetch_row()) 
@@ -247,8 +240,6 @@
     <script type="text/javascript">
       function addqt(elem)
       {
-        //var obj = elem.parentElement.previousSibling;  
-         
         elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) + 1;
         showoptions(elem.parentElement.previousSibling);
       }
@@ -569,7 +560,6 @@
           aeid = "fg";
         else 
           aeid = "fd";
-        	
          
         valdef = Number(elemopt.getElementsByClassName("curarticle")[0].innerHTML);
         valdef = valdef + val;
@@ -708,11 +698,6 @@
        	    var panel = artqt[i].parentElement.parentElement;
             panel.style.maxHeight = panel.scrollHeight + "px";
           }
-          /*else if (((artqt[i].value == 0) || (artqt[i].value == null)) && (artqt[i].type !== "hidden")) 
-          {
-            artqt[i].nextSibling.childNodes[0].disabled = false;
-            artqt[i].nextSibling.childNodes[1].disabled = true;
-          }*/
         }
       }
     </script>

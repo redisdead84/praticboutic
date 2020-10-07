@@ -116,7 +116,12 @@ try
   }
   if ($json_obj->method == '3') 
   {
-    $text = $text . '<h2>Vente en livraison<br<></h2><h3>Adresse : <br></h3>';
+    $text = $text . '<h2>Vente en livraison<br></h2>';
+    if (strcmp($json_obj->paiement, "COMPTANT") == 0)
+      $text = $text . '<h3>Paiement au comptant<br></h3>';
+    if (strcmp($json_obj->paiement, "LIVRAISON") == 0)
+      $text = $text . '<h3>Paiement à la livraison<br></h3>';
+    $text = $text . '<h3>Adresse : <br></h3>';
     $text = $text . '<h3>' . $json_obj->nom . '<br>' . $json_obj->prenom . '<br>' . $json_obj->adresse1 . '<br>' . $json_obj->adresse2 . '<br>' . $json_obj->codepostal . '<br>' . $json_obj->ville . '<br>' . $json_obj->telephone . '<br><br></h3>';
   }    
   

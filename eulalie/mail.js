@@ -8,6 +8,7 @@
     codepostal: sessionStorage.getItem("codepostal"),
     ville: sessionStorage.getItem("ville"),
     telephone: sessionStorage.getItem("telephone"),
+    paiement: sessionStorage.getItem("choice"),
     items: JSON.parse(sessionStorage.getItem("commande"))
   };
   
