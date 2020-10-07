@@ -21,6 +21,8 @@ html
 .artqt
 {
   text-align: right;
+  width: 15%;
+
 }
 
 body
@@ -346,7 +348,7 @@ body#backbody
 
 .bts
 {
-  width: 7%;
+  width: 10%;
   font-weight: bold;
   font-size: 112%;
 }
