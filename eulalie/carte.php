@@ -445,12 +445,17 @@
         var slide = elemopt.getElementsByClassName("slide")[0]; 
         
         slide.innerHTML = "";        
-        
         var cur = 1;
         var nbtab = eleminp.value;
         
       	var nom = slide.getAttribute("data-nom");
       	var artid = slide.getAttribute("data-artid");
+      	if (nbtab == 0)
+          sessionStorage.removeItem("slidepos" + artid);
+        if (nbtab == 1)
+          sessionStorage.setItem("slidepos" + artid, 1); 
+      	if (nbtab > 1)
+          cur = sessionStorage.getItem("slidepos" + artid);
       	
       	var lbl = document.createElement("A");
       	lbl.innerHTML = nom + " numéro";
@@ -474,7 +479,7 @@
       	inputd.type ="button";
       	inputd.value = ">";
         inputd.onclick = function() {setart(this, 1)};
-        if (nbtab == 1)
+        if (nbtab == cur)
           inputd.disabled = true;
         slide.appendChild(inputd);
         var lbl2 = document.createElement("A");
@@ -489,11 +494,17 @@
        
         while (etodel.length > eleminp.value) // modif here replaced 0 by eleminp.value
         {
+          if (cur > eleminp.value)
+          {
+            cur = cur - 1;
+            setart(inputg, -1);
+            inputd.disabled = true;
+          }
           etodel[eleminp.value].remove();     // here too
           for (var i=0; i<etodel.length; i++) 
           {
-            if (i == 0)
-              etodel[0].hidden = false;
+            if (i == (cur - 1))
+              etodel[cur - 1].hidden = false;
             else
             	etodel[i].hidden = true;
           }       
@@ -510,11 +521,12 @@
         while ((elemopt.childElementCount - 2) < eleminp.value)
         {
           var edup = etodup.cloneNode(true);
-          if (elemopt.childElementCount > 2)    // j replaced
-            edup.hidden = true;
-          else {
-          	edup.hidden = false;
-          }
+          
+          edup.hidden = true;
+          
+          if ((elemopt.childElementCount - 2) == (cur - 1))
+            edup.hidden = false;
+
           edup.setAttribute("class","divopttab");
           edup.setAttribute("data-numero", elemopt.childElementCount - 2);
                     
@@ -563,7 +575,8 @@
         valdef = Number(elemopt.getElementsByClassName("curarticle")[0].innerHTML);
         valdef = valdef + val;
         elemopt.getElementsByClassName("curarticle")[0].innerHTML = valdef;
-         
+        sessionStorage.setItem("slidepos" + elem.parentElement.getAttribute("data-artid"), valdef);
+                 
         var listtab = elemopt.getElementsByClassName("divopttab");
         for (j=0; j<listtab.length; j++)
         {
