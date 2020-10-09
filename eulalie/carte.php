@@ -88,7 +88,7 @@
             		  echo '<label> ';
             		  echo '<button class="bts bplus" type="button" onclick="addqt(this)">  +  </button>';
             		  echo ' ';
-            		  echo '<button class="bts bmoins" type="button" onclick="subqt(this)">  -  </button>';
+            		  echo '<button class="bts bmoins" type="button" onclick="subqt(this)" disabled>  -  </button>';
             		  echo ' </label>';
                   echo '<br />'; 
               	}
@@ -242,6 +242,8 @@
       {
         elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) + 1;
         showoptions(elem.parentElement.previousSibling);
+        if (parseInt(elem.parentElement.previousSibling.value) > 0)
+          elem.nextElementSibling.disabled = false
       }
       function subqt(elem)
       {
@@ -249,6 +251,8 @@
         {
           elem.parentElement.previousSibling.value = parseInt(elem.parentElement.previousSibling.value) - 1;
           showoptions(elem.parentElement.previousSibling);
+          if (parseInt(elem.parentElement.previousSibling.value) == 0)
+            elem.disabled = true;
         }
       }
     </script>    
@@ -675,6 +679,7 @@
           if ((artqt[i].value > 0) && (artqt[i].type !== "hidden"))
           {
             showoptions(artqt[i]);
+            artqt[i].nextElementSibling.children[1].disabled = false;
             var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
             txtf.value = sessionStorage.getItem(txtf.id);
             var artopt = artcel[i].getElementsByClassName("divopt2")[0];
