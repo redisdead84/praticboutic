@@ -410,12 +410,12 @@
       
       if (sessionStorage.getItem("method")==3) {
         if (somme < mntlivraisonmini) {
-          alert("Les livraison sont acceptées à partir de " + mntlivraisonmini + " € or la commande est de " + somme + " €");
+          alert("Les livraison sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
           failed = true;
         }
       } else {
         if (somme < mntcmdmini) {
-          alert("La commmande doit être au moins de " + mntcmdmini + " € or la commande est de " + somme + " €");
+          alert("La commmande doit être au moins de " + parseFloat(mntcmdmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
           failed = true;
         }
       }
