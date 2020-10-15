@@ -68,7 +68,6 @@ function calculateOrderAmount(array $items, $conn): int
       else
         throw new Exception("Prix invalide");
     }    
-    
   }
   
   return ($price * 100);

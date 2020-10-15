@@ -12,7 +12,7 @@
   $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
   $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
 
-  //session_start();
+  session_start();
   
   if (strcmp($_SESSION['mail'],'oui') == 0)
   {
