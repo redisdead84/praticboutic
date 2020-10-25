@@ -4,8 +4,8 @@ body
 {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
   color: white;
-  background-color: #005b88;
-  background-image: url("../img/Eulalie-poissonnerie-sep-2018-ririoulabellevie-57-1024x683.jpg");
+  background-color: black;
+  background-image: url("../img/fond.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -14,8 +14,8 @@ body
 
 .accordion {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  background-color: #DDEEEE;
-  color: #005b88;
+  background-color: lightgrey;
+  color: black;
   border-radius: 10px;
   margin-top: 1%;
   margin-bottom: 1%;
@@ -23,23 +23,23 @@ body
   margin-right: 3%;
   width: 94%;
   height: auto;
-  border: 2px solid #005b88;
+  border: 2px solid black;
 }
 
 .active, .accordion:hover {
-  background-color: #a3cccc;
+  background-color: darkgrey;
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  color: #005b88;
+  color: black;
 }
 
 .accordion:after {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  color: #005b88;
+  color: black;
 }
 
 .accordion:before {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  color: #005b88;
+  color: black;
 }
 
 .active:after {
@@ -48,16 +48,16 @@ body
 
 .panel {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  /*background-color: #005b88;*/
+  /*background-color: black;*/
   background-color: transparent;
  
 }
 
 .inpmove {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  color: #005b88;
+  color: black;
   border-radius: 10px;
-  border: 2px solid #005b88;
+  border: 2px solid black;
   font-weight: bold;
   /*width: 94%;
   margin-left: 3%;
@@ -68,13 +68,13 @@ input.cont:-webkit-autofill,
 input.cont:-webkit-autofill:hover, 
 input.cont:-webkit-autofill:focus
 {
-  -webkit-box-shadow: 0 0 0px 1000px #DDEEEE inset;
-  -webkit-text-fill-color: #005b88;
+  -webkit-box-shadow: 0 0 0px 1000px lightgrey inset;
+  -webkit-text-fill-color: black;
 }
 
 #logo
 {
-  border: 3px solid #DDEEEE;
+  border: 3px solid lightgrey;
   border-radius: 10px;  
   margin: 3%;
   width: 94%;
@@ -83,12 +83,12 @@ input.cont:-webkit-autofill:focus
 
 /*.artcel
 {
-  border: 1px solid #DDEEEE;  
+  border: 1px solid lightgrey;  
 }*/
 .artcel
 {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  background-color: #005b88;
+  background-color: black;
   border-radius: 10px;
   min-height: 100px;
   border: 1px solid white; 
@@ -97,7 +97,7 @@ input.cont:-webkit-autofill:focus
 
 .lcont
 {
-  background-color: #005b88;
+  background-color: black;
   margin-left: 10%;
   width: 25%;
   border-radius: 10px;
@@ -123,7 +123,7 @@ input.cont:-webkit-autofill:focus
 table,th,td
 {
   border-collapse: collapse;
-  background-color: #005b88;
+  background-color: black;
   border: 1px solid white;
   text-align: center;
   margin: auto;
@@ -133,27 +133,27 @@ table,th,td
 
 #methodid
 {
-  background-color: #005b88;
+  background-color: black;
 }
 
 #sommeid
 {
-  background-color: #005b88;
+  background-color: black;
 }
 
 #backbutton
 {
-  background-color: #005b88;
+  background-color: black;
 }
 
 #submit
 {
-  background-color: #005b88;
+  background-color: black;
 }
 
 #tableid
 {
-  background-color: #005b88;
+  background-color: black;
 }
 
 .rightpic
@@ -167,18 +167,18 @@ table,th,td
 /*  max-height: 200px;  */
   border-radius: 10px;
   vertical-align: middle;
-  border: 3px solid #DDEEEE;
+  border: 3px solid lightgrey;
 }
 
 p.result-message
 {
   color: white;  
-  background-color: #005b88;
+  background-color: black;
 }
 
 #pan
 {
-  background-color: #005b88;
+  background-color: black;
   border-radius: 10px;
   opacity: 0.8;
   text-align: center;  
@@ -220,7 +220,7 @@ font-size:90%;
 #paye
 {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  background-color: #005b88;
+  background-color: black;
   border-radius: 10px;
   border: 1px solid white; 
   padding: 2%;
@@ -236,7 +236,7 @@ font-size:90%;
 #cgv
 {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  background-color: #005b88;
+  background-color: black;
   border-radius: 10px;
   border: 1px solid white; 
   padding: 2%;
@@ -244,14 +244,47 @@ font-size:90%;
   margin-right: 3%;
 }
 
-#envoieok
+#livraison
 {
   font-family: 'Source Sans Pro', sans-serif, 'Roboto';
-  background-color: #005b88;
+  background-color: black;
   border-radius: 10px;
   border: 1px solid white; 
   padding: 2%;
   margin-left: 3%;
   margin-right: 3%;
+  text-align: center;
+}
+
+#envoieok
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+#validbutton
+{
+  background-color:darkgrey;
+}
+
+#backbutton
+{
+  background-color:lightgrey;
+}
+
+
+.poursuivre
+{
+  background-color: darkgrey;
+}
+
+.revenir
+{
+  background-color: lightgrey;
 }
 

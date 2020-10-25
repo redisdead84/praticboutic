@@ -50,7 +50,7 @@
     </div>
     <div id="footer">
       <?php
-        echo '<input class="inpmove" type="button" value="Commander à nouveau" onclick="window.location.href = \'carte.php?method=' . $method . '&table=' . $table . '\'">';
+        echo '<input class="inpmove poursuivre" type="button" value="Commander à nouveau" onclick="window.location.href = \'carte.php?method=' . $method . '&table=' . $table . '\'">';
       ?>
     </div>
     <script type="text/javascript" >

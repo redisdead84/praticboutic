@@ -49,8 +49,11 @@
       echo '<img id="logo" src="' . $logo . '">';
       
       echo '<div id="grpinfo">';
+      
       if ($method == '3')
       {
+        echo '<div id="livraison">Adresse de livraison</div>';
+        echo '<br>';
         echo '<label class="lcont">Nom : </label>';
         echo '<input class="cont" type="string" id="lenom" name="nom" required>';
         echo '<br>';            
@@ -147,8 +150,8 @@
       <?php
         if  ($method > 0)
         {
-            echo '<input class="inpmove" type="button" value="Poursuivre la commande" onclick="checkInfo()">';
-            echo '<input class="inpmove" type="button" value="Revenir sur la commande" onclick="bakInfo();window.history.back()">';
+            echo '<input class="inpmove poursuivre" type="button" value="Poursuivre la commande" onclick="checkInfo()">';
+            echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="bakInfo();window.history.back()">';
         }
       ?>
     </div>

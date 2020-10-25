@@ -73,14 +73,14 @@
           document.write('</p>');
           document.write('</form>');
         } else {
-          document.write('<button id="validbutton" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '\'">');
+          document.write('<button class="poursuivre" id="validbutton" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '\'">');
           //document.write('<button id="validbutton" onclick="window.location.href = \'fin.php?method=3&table=0\'">');
           //document.write('window.location.href = "fin.php">');
           document.write('Valider la commande');
           document.write('</button>');
         }
         
-        document.write('<button id="backbutton" ');
+        document.write('<button class="revenir" id="backbutton" ');
         document.write('onclick="window.history.back()">');
         document.write('Revenir sur la commande');
         document.write('</button>');

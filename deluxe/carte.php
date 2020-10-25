@@ -233,7 +233,7 @@
       <?php
         if  ($method > 0)
         {
-          echo '<input class="inpmove" type="button" value="Poursuivre la commande" onclick="genCartList()">';
+          echo '<input class="inpmove poursuivre" type="button" value="Poursuivre la commande" onclick="genCartList()">';
         }
       ?>
     </div>
