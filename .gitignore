@@ -6,3 +6,4 @@
 /eulalie/composer.lock
 /eulalie/config/config.php
 /eulalie/vendor/*
+/.vscode/launch.json
