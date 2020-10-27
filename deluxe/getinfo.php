@@ -134,7 +134,7 @@
         echo '</div>';
         echo '</div>';
       }
-      /*echo '<div id="cgv">Vous pouvez consulter <a href="CGV.htm">nos conditions générales de vente</a></div>';*/
+      echo '<div id="cgv">Vous pouvez consulter <a href="CGV.php?method=' . $method . '&table=' . $table .  '">nos conditions générales de vente</a></div>';
   
     ?>
     <div id="pan">
@@ -151,7 +151,12 @@
         if  ($method > 0)
         {
             echo '<input class="inpmove poursuivre" type="button" value="Poursuivre la commande" onclick="checkInfo()">';
-            echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="bakInfo();window.history.back()">';
+            echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="bakInfo();';
+            echo 'window.location.href = \'carte.php?method=';
+            echo $method;
+            echo '&table=';
+            echo $table;
+            echo '\'"';
         }
       ?>
     </div>
@@ -326,8 +331,7 @@
         
         if (sessionStorage.getItem("method")==3) {
           if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-            alert("Vous n\'êtes pas situé dans notre zone de livraison, impossible de continuer.");
-            failed = true;
+            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à Eulalie Poisonnerie, 5 Place Ferdinand Buisson, 84800 L'Isle-sur-la-Sorgue");
           }
           if (sessionStorage.getItem("choice") == "NONE") {
             alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");

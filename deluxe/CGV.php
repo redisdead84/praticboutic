@@ -1,3 +1,26 @@
+<?php
+
+  include "config/config.php";
+  include "param.php";
+
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $bdd);
+  // Check connection
+  if ($conn->connect_error) 
+    die("Connection failed: " . $conn->connect_error);    
+
+  $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
+  $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
+
+  session_start();
+  
+  if (strcmp($_SESSION['mail'],'oui') == 0)
+  {
+    header('LOCATION: carte.php?method=' . $method . '&table=' . $table);
+    exit();
+  }
+?>
+
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,14 +32,15 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-  <button onclick="goBack()">Revenir à l'écran précédent</button>
-  <script>
-
-function goBack() {
-  window.history.back();
-}
-</script>
-
+  <?php
+    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="';
+    echo 'window.location.href = \'getinfo.php?method=';
+    echo $method;
+    echo '&table=';
+    echo $table;
+    echo '\'"';
+  ?>
+<br>
 <p style="text-align: justify; text-justify: inter-word;">
 Qlick Resto<br>
 <br>
@@ -239,12 +263,14 @@ L’inscription et les conditions générales standard de QLICK RESTO sont appli
 QLICK RESTO utilisera les données personnelles fournies sur le compte du client et lors des commandes, uniquement à des fins de gestion des commandes et à aucune autre fin, sauf si nous avons obtenu votre consentement. QLICK RESTO se réserve le droit de divulguer les données personnelles du client à ses prestataires, afin de permettre le bon déroulement d’une commande ou en réponse à une question de la part d’un client.<br>
 <br>
 </p>
-<button onclick="goBack()">Revenir à l'écran précédent</button>
+  <?php
+    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="';
+    echo 'window.location.href = \'getinfo.php?method=';
+    echo $method;
+    echo '&table=';
+    echo $table;
+    echo '\'"';
+  ?>
 
-<script>
-function goBack() {
-  window.history.back();
-}
-</script>
   </body>
 </html>
