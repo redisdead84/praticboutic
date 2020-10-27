@@ -134,7 +134,7 @@
         echo '</div>';
         echo '</div>';
       }
-      echo '<div id="cgv">Vous pouvez consulter <a href="CGV.htm">nos conditions générales de vente</a></div>';
+      /*echo '<div id="cgv">Vous pouvez consulter <a href="CGV.htm">nos conditions générales de vente</a></div>';*/
   
     ?>
     <div id="pan">
