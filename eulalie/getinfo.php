@@ -134,7 +134,7 @@
         echo '</div>';
         echo '</div>';
       }
-      echo '<div id="cgv">Vous pouvez consulter <a href="CGV.php?method=' . $method . '&table=' . $table .  '">nos conditions générales de vente</a></div>';
+      echo '<div id="cgv">Vous pouvez consulter <a href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '\'">nos conditions générales de vente</a></div>';
   
     ?>
     <div id="pan">
