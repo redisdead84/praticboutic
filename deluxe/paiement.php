@@ -66,11 +66,13 @@
           document.write('<div class="spinner hidden" id="spinner"></div>');
           document.write('<span id="button-text">Payer</span>');
           document.write('</button>');
+          document.write('<div class="intercalaire">');
           document.write('<p id="card-error" role="alert"></p>');
           document.write('<p class="result-message hidden">');
           document.write('Paiement effectué<!--, Voyez le résultat dans votre');
           document.write('<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.');
           document.write('</p>');
+          document.write('</div>');
           document.write('</form>');
         } else {
           document.write('<button class="poursuivre" id="validbutton" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '\'">');
