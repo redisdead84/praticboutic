@@ -410,7 +410,7 @@
       
       if (sessionStorage.getItem("method")==3) {
         if (somme < mntlivraisonmini) {
-          alert("Les livraison sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
+          alert("Les livraisons sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
           failed = true;
         }
       } else {
