@@ -33,7 +33,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body onload="reachBottom()">
+  <body>
     <div id="main">
     <?php
       
@@ -227,7 +227,6 @@
       }
 
     </script>
-
     <script type="text/javascript">
       function reachBottom()
       {
@@ -235,6 +234,14 @@
         x = x + "px";
         document.getElementById("main").style.height = x;
       }
+    </script>
+    <script type="text/javascript">
+      reachBottom();
+    </script>
+    <script type="text/javascript">
+      window.addEventListener("resize", function() {
+        reachBottom();
+      })
     </script>
     <script type="text/javascript">
       var cart = JSON.parse(sessionStorage.getItem("commande"));

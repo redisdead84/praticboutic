@@ -40,7 +40,7 @@
     <meta http-equiv="Expires" content="0" />
   </head>
 
-  <body onload="reachBottom()">
+  <body>
     <div id="main">
       <?php
         $logo = GetValeurParam("master_logo",$conn);     
@@ -63,6 +63,14 @@
         x = x + "px";
         document.getElementById("main").style.height = x;
       }
+    </script>
+    <script type="text/javascript">
+      reachBottom();
+    </script>
+    <script type="text/javascript">
+      window.addEventListener("resize", function() {
+        reachBottom();
+      })
     </script>
   </body>
 </html>
