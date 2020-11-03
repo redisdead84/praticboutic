@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.1">
-    <link rel="stylesheet" href="css/custom.css?v=1.1">
+    <link rel="stylesheet" href="css/style.css?v=1.11">
+    <link rel="stylesheet" href="css/custom.css?v=1.11">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -138,16 +138,16 @@
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
                           }
                           else if ($row3[2] == 1)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
                           }
                         }
                         else 
@@ -155,16 +155,16 @@
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
                           }
                           else if ($row3[2] == 1)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
                           }
                         } 
                         echo '<br/>';
@@ -234,7 +234,7 @@
         if  ($method > 0)
         {
           echo '<div class="tot">';
-          echo '<label class="labtot" for="totaliseur">Total commande :</label>';
+          echo '<label class="labtot" for="totaliseur">Total :</label>';
           echo '<input name="totaliseur" id="totaliseur" type="number" readonly>';
           echo '<label class="labtot" for="totaliseur"> &euro; </label>';
           echo '</div>';
