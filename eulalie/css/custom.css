@@ -81,6 +81,27 @@ input.cont:-webkit-autofill:focus
   height: auto;
 }
 
+.tot
+{
+  border: 1px solid white;
+  background-color: black;
+  border-radius: 10px;
+  width: 50%;
+  
+}
+
+#totaliseur
+{
+  border-radius: 10px;
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+}  
+
+.labtot
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color:white;
+}
+
 /*.artcel
 {
   border: 1px solid lightgrey;  

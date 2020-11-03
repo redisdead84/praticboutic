@@ -361,3 +361,25 @@ body#backbody
   text-align: center;
 }*/
 
+.tot
+{
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2%;
+}
+
+#totaliseur
+{
+  width: 150px;
+  height: auto;
+  font-size: 112%;
+  margin: 0 auto;
+  text-align: right;
+}  
+
+.labtot
+{
+  color:black;
+}
