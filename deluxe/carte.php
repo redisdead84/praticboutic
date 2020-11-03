@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.0">
-    <link rel="stylesheet" href="css/custom.css?v=1.0">
+    <link rel="stylesheet" href="css/style.css?v=1.1">
+    <link rel="stylesheet" href="css/custom.css?v=1.1">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -138,16 +138,16 @@
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
                           }
                           else if ($row3[2] == 1)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="op' . $row3[0] . '" id="opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
                           }
                         }
                         else 
@@ -233,10 +233,67 @@
       <?php
         if  ($method > 0)
         {
+          echo '<div class="tot">';
+          echo '<label class="labtot" for="totaliseur">Total commande :</label>';
+          echo '<input name="totaliseur" id="totaliseur" type="number" readonly>';
+          echo '<label class="labtot" for="totaliseur"> &euro; </label>';
+          echo '</div>';
           echo '<input class="inpmove poursuivre" type="button" value="Poursuivre la commande" onclick="genCartList()">';
         }
       ?>
     </div>
+    <script type="text/javascript" >
+      function totaliser() 
+      {
+        var artcel = document.getElementsByClassName("artcel");
+        var artqt = document.getElementsByClassName("artqt");
+        var somme = 0;
+        var opt = [];
+        
+        for (var i = 0; i<artqt.length; i++ )
+        {
+          idc = artcel[i].id.substr(5);  
+          qtc = artqt[i].value; 
+          if (qtc === "")
+            qtc = 0;          
+          if (qtc > 0)
+          {
+            somme = somme + artcel[i].getAttribute("data-prix") * qtc;
+          }
+        }
+        for (var ii = 0; ii<artcel.length; ii++ )
+        {
+          var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
+          if (artopt != null)
+          {
+            if (artopt.innerHTML != "")
+            {
+              var opttab = artcel[ii].getElementsByClassName("divopttab");
+              for (ik=0; ik<opttab.length; ik++)
+              {
+                var sefld = opttab[ik].children;
+                for (il=0; il<sefld.length; il++) 
+                {
+                  var secase = sefld[il].children;
+                  for (im=0; im<secase.length; im++) 
+                  {
+                    if (secase[im].tagName == "INPUT") 
+                    {
+                      if (secase[im].checked == true)
+                      {
+                        somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));                            
+                      } 
+                    }
+                  }
+                }              
+              }         
+            }
+          }
+        }
+        document.getElementById("totaliseur").value = somme.toFixed(2);      	
+      }
+    </script>
+
     <script type="text/javascript">
       function addqt(elem)
       {
@@ -244,6 +301,8 @@
         showoptions(elem.parentElement.previousSibling);
         if (parseInt(elem.parentElement.previousSibling.value) > 0)
           elem.nextElementSibling.disabled = false
+        totaliser();
+
       }
       function subqt(elem)
       {
@@ -254,6 +313,7 @@
           if (parseInt(elem.parentElement.previousSibling.value) == 0)
             elem.disabled = true;
         }
+        totaliser();
       }
     </script>    
     
@@ -717,6 +777,11 @@
           }
         }
       }
+      totaliser();
+      
+    </script>
+    <script type="text/javascript">
+      totaliser();
     </script>
   </body>
 </html>
