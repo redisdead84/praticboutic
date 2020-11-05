@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.11">
-    <link rel="stylesheet" href="css/custom.css?v=1.11">
+    <link rel="stylesheet" href="css/style.css?v=1.21">
+    <link rel="stylesheet" href="css/custom.css?v=1.21">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -127,14 +127,12 @@
                     else if ($row3[2] == 1)
                       echo '<legend>' . $row3[1] . ' (plusieurs choix possible)</legend>';
      					      $query4 = 'SELECT optid, nom, surcout FROM `option` WHERE visible = 1 AND grpoptid = ' . $row3[0];
-     					      //echo $query4;
        					    if ($result4 = $conn->query($query4)) 
          				    {
          					    while ($row4 = $result4->fetch_row()) 
          					    {
          					      if($method > 0)
          					      {
-                        //echo '<label for="opt1">' . $row4[1] . '</label>';
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
@@ -238,7 +236,7 @@
           echo '<input name="totaliseur" id="totaliseur" type="number" readonly>';
           echo '<label class="labtot" for="totaliseur"> &euro; </label>';
           echo '</div>';
-          echo '<input class="inpmove poursuivre" type="button" value="Poursuivre la commande" onclick="genCartList()">';
+          echo '<input id="validcarte" class="inpmove poursuivre" type="button" value="Poursuivre" onclick="genCartList()">';
         }
       ?>
     </div>
@@ -433,13 +431,11 @@
                       {
                         var mystr = secase[im].id;
                         var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
-                        //var theid = secase[im].id.substr(6);
                         var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
                         var alfd = false;                          
                         for(io=0;io<opt.length;io++)
                         {
                           var mystr2 = opt[io].id;
-                          //var theid2 = mystr2.substring(mystr2.indexOf('opt')+3, mystr2.length);
                           if (mystr2 == myoption.id )
                           {
                             alfd = true;
@@ -525,7 +521,7 @@
       	lbl.innerHTML = nom + " numéro";
         slide.appendChild(lbl);
       	var inputg = document.createElement("INPUT");
-      	inputg.id = "fg";
+      	inputg.id = "art"+ artid + "fg";
       	inputg.classList.add("arrow"); 
       	inputg.type ="button";
       	inputg.value = "<";
@@ -538,7 +534,7 @@
         cura.classList.add("curarticle");
         slide.appendChild(cura);
       	var inputd = document.createElement("INPUT");
-      	inputd.id = "fd";
+      	inputd.id = "art"+ artid + "fd";
       	inputd.classList.add("arrow"); 
       	inputd.type ="button";
       	inputd.value = ">";
@@ -581,7 +577,6 @@
         else
         	slide.hidden = true;
                 
-        //for (j=0; j<eleminp.value; j++)
         while ((elemopt.childElementCount - 2) < eleminp.value)
         {
           var edup = etodup.cloneNode(true);
@@ -629,12 +624,6 @@
       {
         var valdef = 0;
         var elemopt = elem.parentElement.parentElement; 
-        var eid = elem.id;
-        var aeid;
-        if (eid == "fd")
-          aeid = "fg";
-        else 
-          aeid = "fd";
          
         valdef = Number(elemopt.getElementsByClassName("curarticle")[0].innerHTML);
         valdef = valdef + val;

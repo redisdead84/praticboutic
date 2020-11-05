@@ -27,8 +27,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.0">
-    <link rel="stylesheet" href="css/custom.css?v=1.01">
+    <link rel="stylesheet" href="css/style.css?v=1.21">
+    <link rel="stylesheet" href="css/custom.css?v=1.21">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -50,53 +50,90 @@
       
       echo '<div id="grpinfo">';
       
-      if ($method == '3')
+      if ($method >= 2)
       {
-        echo '<div id="livraison">Adresse de livraison</div>';
+        echo '<div id="livraison">Informations concernant la livraison</div>';
         echo '<br>';
         echo '<label class="lcont">Nom : </label>';
         echo '<input class="cont" type="string" id="lenom" name="nom" required>';
         echo '<br>';            
-      }
-      if (($method == '3') ||($method == '2'))
-      {
         echo '<label class="lcont">Pr&eacute;nom : </label>';
         echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
-      }
-      if ($method == '3')
-      {
         echo '<br>';
-        echo '<label class="lcont">Adresse 1 : </label>';
-        echo '<input class="cont" type="string" id="ladresse1" name="adresse1" required>';
-        echo '<br>';
-        echo '<label class="lcont">Adresse 2 : </label>';
-        echo '<input class="cont" type="string" id="ladresse2" name="adresse2">';
-        echo '<br>';
-        echo '<label class="lcont">Code Postal : </label>';
-        if ($verifcp > 0) {
-          echo '<input class="cont" type="string" id="lecp" name="cp" required 
-          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
-        } else {
-          echo '<input class="cont" type="string" id="lecp" name="cp" required 
-          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
-        }
-        echo '<br>';
-        echo '<label class="lcont">Ville : </label>';
-        echo '<input class="cont" type="string" id="laville" name="ville" required>';
-        echo '<br>';
-        echo '<label class="lcont">T&eacutel&eacutephone : </label>';
+        echo '<label class="lcont">T&eacute;l. Portable : </label>';
         echo '<input class="cont" type="string" id="letel" name="tel" required 
-        pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$" 
-        title="Il faut un numéro de téléphone français valide">';
+        pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
+        title="Il faut un numéro de téléphone portable français valide">';
       }
-  
+      if ($method >= 2)
+      {
+        $chm = GetValeurParam("Choix_Method",$conn);         
+       
+        $cmemp = GetValeurParam("CM_Emporter",$conn); 
+    
+        $cmlivr = GetValeurParam("CM_Livrer",$conn);
+
+        echo '<div id="met">';
+        echo '<div id="model" data-permis="' . $chm . '">';
+        echo 'Retrait :<br>';
+        if ($chm == "TOUS")
+        { 
+          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true)">';
+          echo '<label for="lemporter">A EMPORTER : </label><br>';
+          echo '<label>';
+          echo $cmemp; 
+          echo '</label><br>';
+          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false)">';
+          echo '<label for="llivrer">EN LIVRAISON : </label><br>';
+          echo '<label>';
+          echo $cmlivr;
+          echo '</label><br>';
+        }
+        if ($chm == "EMPORTER")
+        {
+          echo '<label for="lemporter">A EMPORTER : </label><br>';
+          echo '<label>';
+          echo $cmemp; 
+          echo '</label><br>';
+        }  
+        if ($chm == "LIVRER")
+        {
+          echo '<label for="llivrer">EN LIVRAISON : </label><br>';
+          echo '<label>';
+          echo $cmlivr;
+          echo '</label><br>';
+        }  
+        echo '</div>';
+        echo '</div>';
+      }
+
+      echo '<div id="adrlivr">';
+      echo '<label class="lcont">Adresse 1 : </label>';
+      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
+      echo '<br>';
+      echo '<label class="lcont">Adresse 2 : </label>';
+      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
+      echo '<br>';
+      echo '<label class="lcont">Code Postal : </label>';
+      if ($verifcp > 0) {
+        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
+      } else {
+        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
+      }
+      echo '<br>';
+      echo '<label class="lcont ">Ville : </label>';
+      echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
+      echo '</div>';
+        
       echo '</div>';
       echo '</form>';
-  
-      if  ($method == 3)
+   
+      if  ($method >= 2)
       {
         $chp = GetValeurParam("Choix_Paiement",$conn);         
-        
+       
         $cmpt = GetValeurParam("MP_Comptant",$conn); 
     
         $livr = GetValeurParam("MP_Livraison",$conn);
@@ -105,7 +142,7 @@
         echo '<div id="modep" data-permis="' . $chp . '">';
         echo 'Paiement :<br>';
         if ($chp == "TOUS")
-        {
+        { 
           echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
           echo '<label for="pcomptant">AU COMPTANT : </label><br>';
           echo '<label>';
@@ -137,9 +174,10 @@
       echo '<div id="cgv">Vous pouvez consulter <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '\'">nos conditions générales de vente</a></div>';
   
     ?>
+    <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)"></textarea>
     <div id="pan">
       <br>
-      <a id="methodid"></a><br>
+<!--      <a id="methodid"></a><br>-->
       <a id="tableid"></a><br>
       <div id="commandediv"></div><br>
       <a id="sommeid"></a><br>
@@ -188,24 +226,31 @@
           
       }          
     </script>
-    
+    <script type="text/javascript" >
+      function eraseAdrLivr(etat) 
+      {
+        var fieldAdrLiv = document.getElementsByClassName("adrliv");
+        for (i=0;i<fieldAdrLiv.length;i++) 
+        {
+          fieldAdrLiv[i].disabled = etat;
+        }
+        document.getElementById("adrlivr").hidden = etat;      	
+      }
+    </script>
+    <script type="text/javascript" >
+      /*if (document.getElementById("model").getAttribute("data-permis") == "LIVRER")
+        eraseAdrLivr(false);
+      else {
+      	
+      }*/
+    </script>
     <script type="text/javascript" >
         
-      if (sessionStorage.getItem("method")==3)
+      if (sessionStorage.getItem("method")>=2)
+      {
         document.getElementById("lenom").value = sessionStorage.getItem("nom");    
-      if ((sessionStorage.getItem("method")==3) || (sessionStorage.getItem("method")==2)) 
         document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
-      if (sessionStorage.getItem("method")==3)
-      {
-        document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
-        document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
-        document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-        checkcp(document.getElementById("lecp"));
-        document.getElementById("laville").value = sessionStorage.getItem("ville");
         document.getElementById("letel").value = sessionStorage.getItem("telephone");
-      }
-      if (sessionStorage.getItem("method")==3)
-      {
         if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
         {
           if (sessionStorage.getItem("choice") == "COMPTANT")
@@ -224,7 +269,52 @@
             document.getElementById("plivraison").checked = false;
           } 
         }
+        if (document.getElementById("model").getAttribute("data-permis") == "TOUS")
+        {
+          if (sessionStorage.getItem("choicel") == "EMPORTER")
+          {
+            document.getElementById("lemporter").checked = true;
+            document.getElementById("llivrer").checked = false;
+            eraseAdrLivr(true);
+          }
+          else if (sessionStorage.getItem("choicel") == "LIVRER")
+          {
+            document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
+            document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
+            document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
+            checkcp(document.getElementById("lecp"));
+            document.getElementById("laville").value = sessionStorage.getItem("ville");
+            document.getElementById("lemporter").checked = false;
+            document.getElementById("llivrer").checked = true;
+            eraseAdrLivr(false);
+          } 
+          else
+          {
+            document.getElementById("lemporter").checked = false;
+            document.getElementById("llivrer").checked = false;
+            eraseAdrLivr(true);
+          } 
+        }
+        if (document.getElementById("model").getAttribute("data-permis") == "LIVRER")
+        {
+            document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
+            document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
+            document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
+            checkcp(document.getElementById("lecp"));
+            document.getElementById("laville").value = sessionStorage.getItem("ville");
+            document.getElementById("lemporter").checked = false;
+            document.getElementById("llivrer").checked = true;
+            eraseAdrLivr(false);
+        }
+        if (document.getElementById("model").getAttribute("data-permis") == "EMPORTER")
+        {
+            document.getElementById("lemporter").checked = true;
+            document.getElementById("llivrer").checked = false;
+            eraseAdrLivr(true);
+        }
+
       }
+      document.getElementById("infosup").value = sessionStorage.getItem("infosup");
 
     </script>
     <script type="text/javascript">
@@ -282,14 +372,14 @@
 
       var method = sessionStorage.getItem("method");
       var method_txt = "";
-      if (method == 1) 
+      if (method == 1)
+      {
         method_txt = "Consomation sur place";
-      if (method == 2) 
-        method_txt = "Vente à emporter";
-      if (method == 3) 
-        method_txt = "Vente en livraison";
+        document.getElementById("methodid").innerHTML = method_txt + '<br>';
+      } 
+/*      if (method >= 2) 
+        method_txt = "Vente à emporter ou à livrer";*/
 
-      document.getElementById("methodid").innerHTML = method_txt + '<br>';
       if (method == 1) 
       {
         document.getElementById("tableid").innerHTML = "Table numéro " + sessionStorage.getItem("table") + "<br>";
@@ -300,21 +390,15 @@
     <script type="text/javascript" >
       function bakInfo()
       {
-        if (sessionStorage.getItem("method")==3)
-          sessionStorage.setItem("nom", document.getElementById("lenom").value);
-        if ((sessionStorage.getItem("method")==2)||(sessionStorage.getItem("method")==3))
-          sessionStorage.setItem("prenom", document.getElementById("leprenom").value);
-        if (sessionStorage.getItem("method")==3)
+        if (sessionStorage.getItem("method")>=2)
         {
+          sessionStorage.setItem("nom", document.getElementById("lenom").value);
+          sessionStorage.setItem("prenom", document.getElementById("leprenom").value);
+          sessionStorage.setItem("telephone", document.getElementById("letel").value);
           sessionStorage.setItem("adresse1", document.getElementById("ladresse1").value);
           sessionStorage.setItem("adresse2", document.getElementById("ladresse2").value);
           sessionStorage.setItem("codepostal", document.getElementById("lecp").value);
           sessionStorage.setItem("ville", document.getElementById("laville").value);
-          sessionStorage.setItem("telephone", document.getElementById("letel").value);
-        }
-        if (sessionStorage.getItem("method")==3)
-        {
-          
           if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
           {
             if (document.getElementById("pcomptant").checked == true)
@@ -325,8 +409,20 @@
               sessionStorage.setItem("choice", "NONE");
           }
           else
-            sessionStorage.setItem("choice", document.getElementById("modep").getAttribute("data-permis"));        
+            sessionStorage.setItem("choice", document.getElementById("modep").getAttribute("data-permis"));
+          if (document.getElementById("model").getAttribute("data-permis") == "TOUS")
+          {
+            if (document.getElementById("lemporter").checked == true)
+              sessionStorage.setItem("choicel", "EMPORTER");
+            else if (document.getElementById("llivrer").checked == true)
+              sessionStorage.setItem("choicel", "LIVRER");
+            else 
+              sessionStorage.setItem("choicel", "NONE");
+          }
+          else
+            sessionStorage.setItem("choicel", document.getElementById("model").getAttribute("data-permis"));
         }
+        sessionStorage.setItem("infosup", document.getElementById("infosup").value);
       }
     </script>
     <script type="text/javascript" >
@@ -336,7 +432,7 @@
         
         bakInfo();        
         
-        if (sessionStorage.getItem("method")==3) {
+        if (sessionStorage.getItem("choicel") == "LIVRER") {
           if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
             alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à Eulalie Poisonnerie, 5 Place Ferdinand Buisson, 84800 L'Isle-sur-la-Sorgue");
           }
@@ -344,6 +440,11 @@
             alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
             failed = true;
           }
+          if (sessionStorage.getItem("choicel") == "NONE") {
+            alert("Vous n\'avez pas choisi comment la vente aller se dérouler, impossible de continuer");
+            failed = true;
+          }
+
         }
         
         for (var j=0; j < document.forms["mainform"].length; j++)

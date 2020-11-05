@@ -9,6 +9,8 @@
     ville: sessionStorage.getItem("ville"),
     telephone: sessionStorage.getItem("telephone"),
     paiement: sessionStorage.getItem("choice"),
+    vente: sessionStorage.getItem("choicel"),
+    infosup: sessionStorage.getItem("infosup"),
     items: JSON.parse(sessionStorage.getItem("commande"))
   };
   

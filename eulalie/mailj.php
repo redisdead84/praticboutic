@@ -87,19 +87,6 @@ try
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
 
-  //$mailIntent = [
-  //  'method' => $json_obj->method,
-  //  'table' => $json_obj->table,
-  //  'nom' => $json_obj->nom,
-  //  'prenom' => $json_obj->prenom,
-  //  'adresse1' => $json_obj->adresse1,
-  //  'adresse2' => $json_obj->adresse2,
-  //  'cp' => $json_obj->cp,
-  //  'ville' => $json_obj->ville,
-  //  'tel' => $json_obj->tel,
-  //  'items' => $json_obj->items
-  //];    
-
   $text = '<!DOCTYPE html>';
   $text = $text . '<html>';
   $text = $text . '<body>';
@@ -109,25 +96,37 @@ try
     $text = $text . '<h2>Consomation sur place<br><h2>';
     $text = $text . '<h3>Commande table numéro ' . $json_obj->table . '<br></h3>';
   }
-  if ($json_obj->method == '2') 
+  /*if ($json_obj->method == '2') 
   {
     $text = $text . '<h2>Vente à emporter<br></h2>';
     $text = $text . '<h3>Commande pour ' . $json_obj->prenom . '<br></h3>';
-  }
+  }*/
   if ($json_obj->method == '3') 
   {
-    $text = $text . '<h2>Vente en livraison<br></h2>';
+    if (strcmp($json_obj->vente, "EMPORTER") == 0)
+      $text = $text . '<h3>Vente à emporter<br></h3>';
+    if (strcmp($json_obj->vente, "LIVRER") == 0)
+      $text = $text . '<h3>Vente à livrer<br></h3>';
     if (strcmp($json_obj->paiement, "COMPTANT") == 0)
       $text = $text . '<h3>Paiement au comptant<br></h3>';
     if (strcmp($json_obj->paiement, "LIVRAISON") == 0)
       $text = $text . '<h3>Paiement à la livraison<br></h3>';
-    $text = $text . '<h3>Adresse : <br></h3>';
-    $text = $text . '<h3>' . $json_obj->nom . '<br>' . $json_obj->prenom . '<br>' . $json_obj->adresse1 . '<br>' . $json_obj->adresse2 . '<br>' . $json_obj->codepostal . '<br>' . $json_obj->ville . '<br>' . $json_obj->telephone . '<br><br></h3>';
-  }    
+    $text = $text . '<h3>Client: <br></h3>';
+    $text = $text . '<h3>' . $json_obj->nom . '<br>' . $json_obj->prenom . '<br>' . $json_obj->telephone . '<br></h3>';
+    if (strcmp($json_obj->vente, "LIVRER") == 0)
+    {   
+      $text = $text . '<h3>Adresse de livraison: <br></h3>';
+      $text = $text . '<h3>' . $json_obj->adresse1 . '<br>' . $json_obj->adresse2 . '<br>' . $json_obj->codepostal . '<br>' . $json_obj->ville . '<br></h3>';
+    }
+  }
+  
+  $text = $text . '<h3>Information suplémentaire: <br></h3>';
+  $text = $text . '<h3>' . $json_obj->infosup . '</h3>';
   
   $val=0;
   $sum = 0;
    
+  $text = $text . '<h3>Commande: <br></h3>';
   foreach( $json_obj->items as $value) 
 	{
 			$text = $text . '<h3>' . $value->name . ' : ' . $value->qt . ' x ' . number_format($value->prix, 2, ',', ' ') . $value->unite . '<br>' . $value->opts . '</h3>';
@@ -148,11 +147,6 @@ try
   $mail->send();
   $_SESSION['mail'] = 'oui';  
 } 
-//catch (Error $e) 
-//{
-//	echo 'Mailer Error: ' . $mail->ErrorInfo;    
-	//echo '<script language=\'Javascript\'>alert(\'Erreur Le message n a pu etre envoye\' );location.href = \'carte.php\';</script>';
-//}
 catch (Exception $e) 
 {
   http_response_code(500);

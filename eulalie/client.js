@@ -4,9 +4,6 @@ if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")==
   
   var pkey = document.getElementById("main").getAttribute("data-publickey");
   
-  // public key test
-  // "pk_test_51H8fNKHGzhgYgqhxjTrk1jhYn1AyPAZvKUjjTXOAcOZ3AS8wXYAHbTgq6kS2tVw8bg57KNmJTUEJ6jciNwwc5KbX00ovJ3hmZD"
-  
   // A reference to Stripe.js initialized with your real test publishable API key.
   var stripe = Stripe(pkey);
   
