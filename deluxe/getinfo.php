@@ -432,15 +432,14 @@
           if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
             alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à Eulalie Poisonnerie, 5 Place Ferdinand Buisson, 84800 L'Isle-sur-la-Sorgue");
           }
-          if (sessionStorage.getItem("choice") == "NONE") {
+        }
+        if (sessionStorage.getItem("choice") == "NONE") {
             alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
             failed = true;
-          }
-          if (sessionStorage.getItem("choicel") == "NONE") {
+        }
+        if (sessionStorage.getItem("choicel") == "NONE") {
             alert("Vous n\'avez pas choisi comment la vente aller se dérouler, impossible de continuer");
             failed = true;
-          }
-
         }
         
         for (var j=0; j < document.forms["mainform"].length; j++)
