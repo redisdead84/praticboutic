@@ -302,14 +302,10 @@
             document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
             checkcp(document.getElementById("lecp"));
             document.getElementById("laville").value = sessionStorage.getItem("ville");
-            document.getElementById("lemporter").checked = false;
-            document.getElementById("llivrer").checked = true;
             eraseAdrLivr(false);
         }
         if (document.getElementById("model").getAttribute("data-permis") == "EMPORTER")
         {
-            document.getElementById("lemporter").checked = true;
-            document.getElementById("llivrer").checked = false;
             eraseAdrLivr(true);
         }
 
