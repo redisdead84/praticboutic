@@ -121,7 +121,7 @@ try
   }
   
   $text = $text . '<h3>Information suplémentaire: <br></h3>';
-  $text = $text . '<h3>' . $json_obj->infosup . '</h3>';
+  $text = $text . '<h3>' . nl2br(stripslashes(strip_tags($json_obj->infosup))) . '</h3>';
   
   $val=0;
   $sum = 0;
@@ -130,7 +130,7 @@ try
   foreach( $json_obj->items as $value) 
 	{
 			$text = $text . '<h3>' . $value->name . ' : ' . $value->qt . ' x ' . number_format($value->prix, 2, ',', ' ') . $value->unite . '<br>' . $value->opts . '</h3>';
-			$text = $text . '<a><i>' . $value->txta . '</i></a>';
+			$text = $text . '<a><i>' . nl2br(stripslashes(strip_tags($value->txta))) . '</i></a>';
 			$val = $val + $value->qt;
 			$sum = $sum + $value->prix * $value->qt;
 	}
