@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.21">
-    <link rel="stylesheet" href="css/custom.css?v=1.21">
+    <link rel="stylesheet" href="css/style.css?v=1.22">
+    <link rel="stylesheet" href="css/custom.css?v=1.22">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />

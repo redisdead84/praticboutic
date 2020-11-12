@@ -639,7 +639,7 @@
 	    if (!empty($modif))
 	    {
 	      $action  = 'admin.php?commande=update&table=categorie&rectou=' . $modif . '#tabCat';
-		    echo '<form action="';
+		    echo '<form autocomplete="off" action="';
 		    echo $action;
 		    echo  '" method="POST">'," \n ";
 	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
@@ -658,7 +658,7 @@
 	    if (!(empty($ins)))
 	    {
 	      $action  = 'admin.php?commande=insert&table=categorie#tabCat';
-		    echo '<form action="';
+		    echo '<form autocomplete="off" action="';
 		    echo $action;
 		    echo  '" method="POST">'," \n ";
 	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
@@ -760,7 +760,7 @@
 	    if (!empty($modif))
 	    {
 		    $action1  = 'admin.php?commande=update&table=article&rectou=' . $modif . '#tabArt';
-		    echo '<form action="';
+		    echo '<form autocomplete="off" action="';
 		    echo $action1;
 		    echo  '" method="POST"  enctype="multipart/form-data">'," \n ";
 	  	  echo '<label for="inpnomart">Nom : </label><br>'," \n ";
@@ -822,7 +822,7 @@
 	    if (!(empty($ins)))
 	    {
 		    $action2  = 'admin.php?commande=insert&table=article#tabArt';
-		    echo '<form action="';
+		    echo '<form autocomplete="off" action="';
 		    echo $action2;
 		    echo  '" method="POST" enctype="multipart/form-data">'," \n ";
 	  	  echo '<label for="inpnomart">Nom : </label><br>'," \n ";
@@ -932,7 +932,7 @@
   	    if (!empty($modif))
   	    {
   	      $action  = 'admin.php?commande=update&table=relgrpoptart&rectou=' . $modif . '#tabRgoa';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpgrpopt">GroupeOpt : </label><br>'," \n ";
@@ -981,7 +981,7 @@
   	    if (!(empty($ins)))
   	    {
   	      $action  = 'admin.php?commande=insert&table=relgrpoptart#tabRgoa';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpgrpopt">Groupeopt : </label><br>'," \n ";
@@ -1073,7 +1073,7 @@
   	    if (!empty($modif))
   	    {
   	      $action  = 'admin.php?commande=update&table=groupeopt&rectou=' . $modif . '#tabGrpo';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
@@ -1097,7 +1097,7 @@
   	    if (!(empty($ins)))
   	    {
   	      $action  = 'admin.php?commande=insert&table=groupeopt#tabGrpo';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
@@ -1173,7 +1173,7 @@
   	    if (!empty($modif))
   	    {
   		    $action1  = 'admin.php?commande=update&table=option&rectou=' . $modif . '#tabOpt';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action1;
   		    echo  '" method="POST"  enctype="multipart/form-data">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
@@ -1214,7 +1214,7 @@
   	    if (!(empty($ins)))
   	    {
   		    $action2  = 'admin.php?commande=insert&table=option#tabOpt';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action2;
   		    echo  '" method="POST" enctype="multipart/form-data">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
@@ -1308,7 +1308,7 @@
   	  	if (!empty($modif))
   	  	{
   				$action1  = 'admin.php?commande=update&table=administrateur&rectou=' . $modif . '#tabAdmin';
-  				echo '<form action="';
+  				echo '<form autocomplete="off" action="';
   				echo $action1;
   				echo  '" method="POST">'," \n ";
   	  		echo '<label for="inppseudoad">Pseudo : </label><br>'," \n ";
@@ -1339,7 +1339,7 @@
     	  if (!(empty($ins)))
   	    {
   		  	$action2  = 'admin.php?commande=insert&table=administrateur#tabAdmin';
-  			  echo '<form action="';
+  			  echo '<form autocomplete="off" action="';
   			  echo $action2;
   			  echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inppseudoad">Pseudo : </label><br>'," \n ";
@@ -1417,7 +1417,7 @@
   	    if (!empty($modif))
   	    {
   	      $action41  = 'admin.php?commande=update&table=parametre&rectou=' . $modif . '#tabParam';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action41;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpnompa">Nom : </label><br>'," \n ";
@@ -1434,7 +1434,7 @@
   	    if (!(empty($ins)))
   	    {
   	      $action42  = 'admin.php?commande=insert&table=parametre#tabParam';
-  		    echo '<form action="';
+  		    echo '<form autocomplete="off" action="';
   		    echo $action42;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpnompa">Nom : </label><br>'," \n ";
@@ -1510,7 +1510,7 @@
         if (!empty($modif))
         {
           $action  = 'admin.php?commande=update&table=cpzone&rectou=' . $modif . '#tabZone';
-    	    echo '<form action="';
+    	    echo '<form autocomplete="off" action="';
     	    echo $action;
     	    echo  '" method="POST">'," \n ";
       	  echo '<label for="inpcp">CodePostal : </label><br>'," \n ";
@@ -1533,7 +1533,7 @@
         if (!(empty($ins)))
         {
           $action  = 'admin.php?commande=insert&table=cpzone#tabZone';
-    	    echo '<form action="';
+    	    echo '<form autocomplete="off" action="';
     	    echo $action;
     	    echo  '" method="POST">'," \n ";
   
