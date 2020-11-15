@@ -13,13 +13,15 @@
     infosup: sessionStorage.getItem("infosup"),
     items: JSON.parse(sessionStorage.getItem("commande"))
   };
-  
-  fetch("mailj.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(commande)
-  })
+  if (commande.items.length > 0)
+  { 
+    fetch("mailj.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(commande)
+    })
+  }
    
  

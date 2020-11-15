@@ -14,6 +14,12 @@
 
   session_start();
   
+  if (empty($_SESSION['mail']) == TRUE)
+  {
+    header("LOCATION: index.php");
+    exit();
+  }
+  
   if (strcmp($_SESSION['mail'],'oui') == 0)
   {
     header('LOCATION: carte.php?method=' . $method . '&table=' . $table);

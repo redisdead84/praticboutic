@@ -14,11 +14,20 @@
 
   session_start();
   
+  if (empty($_SESSION['mail']) == TRUE)
+  {
+    header("LOCATION: index.php");
+    exit();
+  }
+  
   if (strcmp($_SESSION['mail'],'oui') == 0)
   {
     header('LOCATION: carte.php?method=' . $method . '&table=' . $table);
     exit();
   }
+  
+  session_destroy();
+  
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +43,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="js/mail.js?v=1.22"></script>
+    <script src="js/mail.js?v=1.23"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -46,7 +55,7 @@
         $logo = GetValeurParam("master_logo",$conn);     
         echo '<img id="logo" src="' . $logo . '">';
       ?>
-      <div id="envoieok">Votre commande a été envoyé</div> 
+      <div id="envoieok">Votre commande a été envoyée.</div> 
     </div>
     <div id="footer">
       <?php

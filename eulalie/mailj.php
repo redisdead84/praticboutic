@@ -86,7 +86,7 @@ try
   
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
-
+  $tel_mobile = $json_obj->telephone;
   $text = '<!DOCTYPE html>';
   $text = $text . '<html>';
   $text = $text . '<body>';
@@ -137,15 +137,51 @@ try
 	
   $text = $text . '<h2>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
 	
-  $conn->close();
-  
   $text = $text . '</body>';
   $text = $text . '</html>';
 
   $mail->Body = $text;
   
   $mail->send();
-  $_SESSION['mail'] = 'oui';  
+
+	$validsms = GetValeurParam("VALIDATION_SMS", $conn);
+	if (strcmp($validsms,"1") == 0)
+	{
+    $token = GetValeurParam("TOKEN_SMS", $conn);
+
+    $content = 'Vote commande d\'un montant de ' . number_format($sum, 2, ',', ' ') . ' € a été transmise.'; 
+    $numbers = array($tel_mobile);
+    $sender = $sendnom;
+    $recipients = array();
+    foreach ($numbers as $n) {
+      $recipients[] = array('value' => $n);
+    }
+
+    $postdata = array(
+      'sms' => array(
+       'message' => array(
+        'text' => $content,
+        'sender' => $sender
+       ),
+       'recipients' => array('gsm' => $recipients)
+      )
+    );
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://api.smsfactor.com/send");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json', 'Authorization: Bearer ' . $token));
+    $response = curl_exec($ch);
+    curl_close($ch);
+	   
+	}
+
+  $_SESSION['mail'] = 'oui';
+  
+  $conn->close();
+  
 } 
 catch (Exception $e) 
 {
