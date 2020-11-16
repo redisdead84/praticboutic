@@ -14,6 +14,6 @@
 
   session_start();
   
-  header('LOCATION: carte.php?method=3');
+  header('LOCATION: carte.php?method=' . $metdef);
 
 ?>

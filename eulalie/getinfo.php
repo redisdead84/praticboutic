@@ -244,13 +244,6 @@
       }
     </script>
     <script type="text/javascript" >
-      /*if (document.getElementById("model").getAttribute("data-permis") == "LIVRER")
-        eraseAdrLivr(false);
-      else {
-      	
-      }*/
-    </script>
-    <script type="text/javascript" >
         
       if (sessionStorage.getItem("method")>=2)
       {
