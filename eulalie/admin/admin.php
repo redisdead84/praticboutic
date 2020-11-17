@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html id="backhtml">
   <head>
-    <title>Bienvenue sur le menu de la poisonnerie d'Eulalie</title>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="css/back.css?v=1.0">

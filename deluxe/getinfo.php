@@ -8,6 +8,8 @@
   // Check connection
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);    
+    
+  $adr = GetValeurParam("ADRESSE",$conn);
 
   $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
   $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
@@ -40,8 +42,9 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-    <div id="main">
     <?php
+
+      echo '<div id="main" data-adresse="' . $adr . '">';
       
       echo '<form name="mainform" autocomplete="off" method="post" action="paiement.php?method=';
       echo $method ;
@@ -429,7 +432,7 @@
         
         if (sessionStorage.getItem("choicel") == "LIVRER") {
           if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à Eulalie Poisonnerie, 5 Place Ferdinand Buisson, 84800 L'Isle-sur-la-Sorgue");
+            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique : " + document.getElementById("main").getAttribute("data-adresse"));
           }
         }
         if (sessionStorage.getItem("choice") == "NONE") {
