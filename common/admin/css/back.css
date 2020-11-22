@@ -1,0 +1,111 @@
+  body {
+    text-align: left;
+    font-family: 'Roboto'
+  }
+  .inpmove {
+    width: 320px;
+  }
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  border: none;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  border: none;
+}
+  .vcentered {
+     margin: 4px;
+     vertical-align:middle;
+  }
+
+#main {
+  width: 320px;
+  height: 360px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.lcont {
+  text-align: right;
+display:inline-block; width:100px;
+}
+
+/* Tabbed example */
+div.tabs {
+  min-height: 7em;		/* No height: can grow if :target doesn't work */
+  position: relative;		/* Establish a containing block */
+  line-height: 1;		/* Easier to calculate with */
+  z-index: 0}			/* So that we can put other things behind */
+div.tabs > div {
+  display: inline}		/* We want the buttons all on one line */
+div.tabs > div > a {
+  color: black;			/* Looks more like a button than a link */
+  background: #CCC;		/* Active tabs are light gray */
+  padding: 0.2em;		/* Some breathing space */
+  border: 0.1em outset #BBB;	/* Make it look like a button */
+  border-bottom: 0.1em solid #CCC} /* Visually connect tab and tab body */
+div.tabs > div:not(:target) > a {
+  border-bottom: none;		/* Make the bottom border disappear */
+  background: #999}		/* Inactive tabs are dark gray */
+div.tabs > div:target > a,	/* Apply to the targeted item or... */
+:target #tabParam > a {		/* ... to the default item */
+  border-bottom: 0.1em solid #CCC; /* Visually connect tab and tab body */
+  background: #CCC}		/* Active tab is light gray */
+div.tabs > div > div {
+  background: #CCC;		/* Light gray */
+  z-index: -2;			/* Behind, because the borders overlap */
+  left: 0; top: 1.3em;		/* The top needs some calculation... */
+  bottom: -500px; 
+  right: 0;		/* Other sides flush with containing block */
+  overflow: auto;		/* Scroll bar if needed */
+  padding: 0.3em;		/* Looks better */
+  border: 0.1em outset #BBB}	/* 3D look */
+div.tabs > div:not(:target) > div { /* Protect CSS1 & CSS2 browsers */
+  position: absolute }		/* All these DIVs overlap */
+div.tabs > div:target > div, :target #tabParam > div {
+  position: absolute;		/* All these DIVs overlap */
+  z-index: -1}			/* Raise it above the others */
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  /*width: auto;*/
+}
+
+td {
+  max-width: 400px;
+  overflow-wrap: break-word;
+}
+
+.sheet {
+  height:auto;
+  margin 0px;  
+}
