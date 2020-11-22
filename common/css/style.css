@@ -1,0 +1,396 @@
+textarea
+{
+  width: 100%;
+  height: 50px;
+  margin: 0;
+  resize:none;
+}
+
+#infosup
+{
+  width: 93%;
+  margin-left: 3%;
+  margin-right: 3%;
+  height: 50px;
+}
+
+html
+{
+  background-color: white;
+}
+
+.artcel
+{
+  margin: 3% 3% 3% 3%;
+  max-height: auto;
+  max-width: auto;
+}
+
+.artqt
+{
+  text-align: right;
+  width: 12%;
+
+}
+
+body
+{
+  font-family: 'Roboto';
+  font-size: 100%;
+  margin : 0;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 640px) {
+  body {
+    margin-right: 80px;
+    margin-left: 80px;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  body {
+    margin-right: 240px;
+    margin-left: 240px;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  body {
+    margin-right: 400px;
+    margin-left: 400px;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  body {
+    margin-right: 560px;
+    margin-left: 560px;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  body {
+    margin-right: 720px;
+    margin-left: 720px;
+  }
+}
+
+@media only screen and (min-width: 2880px) {
+  body {
+    margin-right: 1200px;
+    margin-left: 1200px;
+  }
+}
+
+@media only screen and (min-width: 3840px) {
+  body {
+    margin-right: 1680px;
+    margin-left: 1680px;
+  }
+}
+ 
+  .inpmove {
+    width: 92%;
+    height: 100%;
+    font-size: 112%;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
+  
+.poursuivre
+{
+  margin-bottom: 7px;
+}
+
+.revenir
+{
+  margin-top: 7px;
+}
+  
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 2%;
+  width: 100%;
+  text-align: left;
+  outline: none;
+  font-size: 112%;
+  transition: 0.4s;
+  border: none;
+  font-family: 'Roboto';
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+  font-family: 'Roboto';
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+  font-family: 'Roboto';
+}
+
+.accordion:before {
+  content: '\0025B6';
+  color: #777;
+  font-weight: bold;
+  float: left;
+  margin-right: 5px;
+  font-family: 'Roboto';
+}
+
+
+.active:after {
+  content: "\2212";
+  font-family: 'Roboto';
+}
+
+.active:before {
+  content: '\0025BC';
+  font-family: 'Roboto';
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  border: none;
+  text-align: left;
+  font-family: 'Roboto';
+}
+
+.vcentered {
+  margin: 4px;
+  vertical-align:middle;
+}
+
+#main {
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.lcont
+{
+  text-align: right;
+  display:inline-block;
+  font-size: 100%; 
+  width:40%;
+}
+
+.cont
+{
+  text-align: left;
+  display:inline-block; 
+  font-size: 100%;
+  width:50%;
+}
+
+input 
+{
+  display:inline-block; 
+  font-size: 100%;
+  width:40%;  
+}
+
+
+/* Tabbed example */
+div.tabs {
+  min-height: 7em;		/* No height: can grow if :target doesn't work */
+  position: relative;		/* Establish a containing block */
+  line-height: 1;		/* Easier to calculate with */
+  z-index: 0;		/* So that we can put other things behind */
+  height: 86%;
+  }	
+div.tabs > div {
+  display: inline}		/* We want the buttons all on one line */
+div.tabs > div > a {
+  color: black;			/* Looks more like a button than a link */
+  background: #CCC;		/* Active tabs are light gray */
+  padding: 0.2em;		/* Some breathing space */
+  border: 0.1em outset #BBB;	/* Make it look like a button */
+  border-bottom: 0.1em solid #CCC} /* Visually connect tab and tab body */
+div.tabs > div:not(:target) > a {
+  border-bottom: none;		/* Make the bottom border disappear */
+  background: #999}		/* Inactive tabs are dark gray */
+div.tabs > div:target > a,	/* Apply to the targeted item or... */
+:target #tabParam > a {		/* ... to the default item */
+  border-bottom: 0.1em solid #CCC; /* Visually connect tab and tab body */
+  background: #CCC}		/* Active tab is light gray */
+div.tabs > div > div {
+  background: #CCC;		/* Light gray */
+  z-index: -2;			/* Behind, because the borders overlap */
+  left: 0; top: 1.3em;		/* The top needs some calculation... */
+  bottom: 0px; 
+  right: 0;		/* Other sides flush with containing block */
+  overflow: auto;		/* Scroll bar if needed */
+  padding: 0.3em;		/* Looks better */
+  border: 0.1em outset #BBB}	/* 3D look */
+div.tabs > div:not(:target) > div { /* Protect CSS1 & CSS2 browsers */
+  position: absolute }		/* All these DIVs overlap */
+div.tabs > div:target > div, :target #tabParam > div {
+  position: absolute;		/* All these DIVs overlap */
+  z-index: -1}			/* Raise it above the others */
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: auto;
+}
+
+.socialn {
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  height: 30%;
+  text-align: center;
+  text-decoration: none;
+  margin: 0 auto;
+}
+
+.socialico
+{
+  font-size: 100%;
+  text-decoration: none;
+  margin: 0;
+}
+
+
+.hcenter {
+
+}
+
+html#backhtml
+{
+  height: 100%;
+}
+
+body#backbody
+{
+  margin: 1%;
+  height: 95%;
+}
+
+.rightpic
+{
+  float: right;
+  width: 20%;  
+  height: 20%;
+}
+
+#logo
+{
+  width: 100%;  
+  height: auto;  
+}
+
+#footer
+{
+  width: 100%;  
+  height: 100%;  
+  margin: 0px;
+}
+
+.intercalaire
+{
+  display: inline-block;
+  height: 50px;
+}
+
+.qtopt
+{
+  float: left;
+  width: 6%;
+  height: 12px;
+  text-align: right;
+}
+
+.divopt
+{
+ font-size: 90%;
+}
+
+.arrow
+{
+  width: 10%;
+}
+
+.paiement
+{
+  width: auto;
+}
+
+#paye, #met
+{
+  text-align: center;
+  margin: 3% 3% 3% 3%;
+}
+
+#cgv
+{
+  text-align: center;
+  margin: 3% 3% 3% 3%;
+}
+
+.paiers
+{
+  width: auto;
+}
+
+.bts
+{
+  width: 10%;
+  font-weight: bold;
+  font-size: 112%;
+}
+
+.tot
+{
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+  margin-left: 15px;
+  margin-right: auto;
+  padding: 2%;
+  display: inline;
+}
+
+#totaliseur
+{
+  width: 75px;
+  height: auto;
+  font-size: 112%;
+  margin: 0 auto;
+  text-align: right;
+}
+
+#validcarte
+{
+  width: 43%;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+.labtot
+{
+  color:black;
+}
+

@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+body
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: white;
+  background-color: black;
+  background-image: url("../img/fond.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+.accordion {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: lightgrey;
+  color: black;
+  border-radius: 10px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 3%;
+  margin-right: 3%;
+  width: 94%;
+  height: auto;
+  border: 2px solid black;
+}
+
+.active, .accordion:hover {
+  background-color: darkgrey;
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: black;
+}
+
+.accordion:after {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: black;
+}
+
+.accordion:before {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: black;
+}
+
+.active:after {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+}
+
+.panel {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: transparent;
+}
+
+.inpmove {
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  font-weight: bold;
+}
+
+input.cont:-webkit-autofill,
+input.cont:-webkit-autofill:hover, 
+input.cont:-webkit-autofill:focus
+{
+  -webkit-box-shadow: 0 0 0px 1000px lightgrey inset;
+  -webkit-text-fill-color: black;
+}
+
+#logo
+{
+  margin: 3%;
+  width: 94%;
+  height: auto;
+}
+
+.tot
+{
+  border: 1px solid white;
+  background-color: black;
+  border-radius: 10px;
+  width: 50%;
+  
+}
+
+#totaliseur
+{
+  border-radius: 10px;
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+}  
+
+.labtot
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  color:white;
+}
+
+.artcel
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: black;
+  border-radius: 10px;
+  min-height: 100px;
+  border: 1px solid white; 
+  padding: 2%;
+}  
+
+.lcont
+{
+  background-color: black;
+  margin-left: 10%;
+  width: 27%;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+.cont
+{
+  border-radius: 10px;
+}
+
+.artqt
+{
+  border-radius: 10px;
+}
+
+#grpinfo
+{
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+table,th,td
+{
+  border-collapse: collapse;
+  background-color: black;
+  border: 1px solid white;
+  text-align: center;
+  margin: auto;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+
+#methodid
+{
+  background-color: black;
+}
+
+#sommeid
+{
+  background-color: black;
+}
+
+#backbutton
+{
+  background-color: black;
+}
+
+#submit
+{
+  background-color: black;
+}
+
+#tableid
+{
+  background-color: black;
+}
+
+.rightpic
+{
+  float: right;
+  height: auto;
+  width: auto;
+  max-width:200px;  
+  max-height: 75px;
+  border-radius: 10px;
+  vertical-align: middle;
+  border: 3px solid lightgrey;
+}
+
+p.result-message
+{
+  color: white;  
+  background-color: black;
+}
+
+#pan
+{
+  background-color: black;
+  border-radius: 10px;
+  opacity: 0.8;
+  text-align: center;  
+  margin: 3%;
+}
+
+a.nom{
+font-size:124%;  
+}
+
+a.prix{
+font-size:100%;  
+}
+
+a.desc{
+font-size:90%;  
+}
+
+#paye, #met
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.divopt
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+}
+
+#cgv
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+#livraison
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+  text-align: center;
+}
+
+#envoieok
+{
+  font-family: 'Source Sans Pro', sans-serif, 'Roboto';
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid white; 
+  padding: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+#validbutton
+{
+  background-color:darkgrey;
+}
+
+#backbutton
+{
+  background-color:lightgrey;
+}
+
+.poursuivre
+{
+  background-color: darkgrey;
+}
+
+.revenir
+{
+  background-color: lightgrey;
+}
+
+#cgvlink
+{
+  color: darkgrey;
+}
+
