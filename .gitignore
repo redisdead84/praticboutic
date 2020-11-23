@@ -11,4 +11,7 @@
 /composer.lock
 /vendor/*
 *~
+/deluxe2/config/*
+/eulalie2/config/*
+/common/config/*
 
