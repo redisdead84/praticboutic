@@ -287,11 +287,25 @@ body#backbody
   height: 95%;
 }
 
+.bigimg
+{
+  height:98%;
+  width: 98%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.smallimg
+{
+  width: 20%;  
+  height: 20%;
+  max-width:200px;  
+  max-height: 75px;
+}
+
 .rightpic
 {
   float: right;
-  width: 20%;  
-  height: 20%;
 }
 
 #logo
@@ -393,4 +407,3 @@ body#backbody
 {
   color:black;
 }
-

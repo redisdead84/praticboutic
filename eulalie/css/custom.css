@@ -168,11 +168,6 @@ table,th,td
 
 .rightpic
 {
-  float: right;
-  height: auto;
-  width: auto;
-  max-width:200px;  
-  max-height: 75px;
   border-radius: 10px;
   vertical-align: middle;
   border: 3px solid lightgrey;

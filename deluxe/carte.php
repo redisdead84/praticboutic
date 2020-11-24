@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.22">
-    <link rel="stylesheet" href="css/custom.css?v=1.22">
+    <link rel="stylesheet" href="css/style.css?v=1.23">
+    <link rel="stylesheet" href="css/custom.css?v=1.23">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -32,6 +32,8 @@
     $mntcmdmini = GetValeurParam("MntCmdMini",$conn);
     
     $mntlivraisonmini = GetValeurParam("MntLivraisonMini",$conn);
+    
+    $sizeimg = GetValeurParam("SIZE_IMG",$conn);
  
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'">';
     echo '<img id="logo" src="' . $logo . '">';
@@ -61,7 +63,7 @@
     					{
             		echo '<div class="artcel" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
               	if ($row2[6]>0)
-              	  echo '<img class="rightpic" src="upload/' . $row2[5] . '" alt = "nopic">';
+              	  echo '<img class="rightpic ' . $sizeimg . '" src="upload/' . $row2[5] . '" alt = "nopic">';
               	echo '<a class="nom">';
        	      	echo $row2[1];
        	      	echo '<br />';
@@ -192,7 +194,7 @@
 				{
       		echo '<div class="artcel" id="artid' . $row3[0] . '" data-name="' . $row3[1] . '" data-prix="' . $row3[2] . '" data-unite="' . $row3[3] . '">';
         	if ($row3[6]>0)
-        	  echo '<img class="rightpic" src="upload/' . $row3[5] . '" alt = "nopic">';
+        	  echo '<img class="rightpic ' . $sizeimg . '" src="upload/' . $row3[5] . '" alt = "nopic">';
         	echo '<a class="nom">';
  	      	echo $row3[1];
  	      	echo '<br />';

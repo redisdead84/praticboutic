@@ -14,4 +14,10 @@
 /deluxe2/config/*
 /eulalie2/config/*
 /common/config/*
-
+/deluxe/upload/*
+/eulalie/upload/*
+/eulalie2/upload/*
+/deluxe/img/*
+/deluxe2/img/*
+/eulalie/img/*
+/deluxe2/upload/*

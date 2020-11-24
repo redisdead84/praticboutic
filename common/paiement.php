@@ -35,8 +35,8 @@
     <meta name="description" content="A demo of a card payment on Stripe" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--<link rel="stylesheet" href="css/style.css?v=1.22" />-->
-    <link rel="stylesheet" href="css/global.css?v=1.22" />
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.22">
+    <link rel="stylesheet" href="css/global.css?v=1.23" />
+    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.23">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="js/client.js?v=1.24" defer></script>
