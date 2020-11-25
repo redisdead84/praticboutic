@@ -10,8 +10,8 @@ $_SESSION[$customer . '_mail'] = "non";
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.24">
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.24">
+    <link rel="stylesheet" href="css/style.css?v=1.26">
+    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.26">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -75,7 +75,6 @@ $_SESSION[$customer . '_mail'] = "non";
               	if ($row2[6]>0)
                 {
               	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
-                  echo '<br />';
                 }
               	echo '<a class="nom">';
        	      	echo $row2[1];
