@@ -27,8 +27,6 @@ html
 .artcel
 {
   margin: 3% 3% 3% 3%;
-  max-height: auto;
-  max-width: auto;
 }
 
 .artqt
@@ -296,7 +294,6 @@ body#backbody
 {
   width: 98%;
   height: auto;
-  max-height: auto;
   max-width: 98%;
   float: none;
 }
@@ -304,9 +301,9 @@ body#backbody
 .smallimg
 {
   width: auto;  
-  height: 75px;
+  height: auto;
   max-height: 75px;
-  max-width:auto;  
+  max-width: 100px;
   float: right;
 }
 

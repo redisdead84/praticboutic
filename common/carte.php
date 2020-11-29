@@ -10,7 +10,7 @@ $_SESSION[$customer . '_mail'] = "non";
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.27">
+    <link rel="stylesheet" href="css/style.css?v=1.28">
     <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.27">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
