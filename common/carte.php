@@ -726,6 +726,8 @@ $_SESSION[$customer . '_mail'] = "non";
         }
     </script>
     <script type="text/javascript" >
+    window.onload=function()
+    {
       var artcel = document.getElementsByClassName("artcel");
       var artqt = document.getElementsByClassName("artqt");
 
@@ -777,7 +779,7 @@ $_SESSION[$customer . '_mail'] = "non";
         }
       }
       totaliser();
-      
+    }  
     </script>
     <script type="text/javascript" >
       reachBottom();
