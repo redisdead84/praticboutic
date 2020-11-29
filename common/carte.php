@@ -10,8 +10,8 @@ $_SESSION[$customer . '_mail'] = "non";
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.26">
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.26">
+    <link rel="stylesheet" href="css/style.css?v=1.27">
+    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.27">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -398,7 +398,7 @@ $_SESSION[$customer . '_mail'] = "non";
                       }
                     }
                   }
-                  if (alfa == true)
+                  if ((alfa == true) && (failed == false))
                   {
                     alert("Il manque un choix sur l article " + artcel[i].getAttribute("data-name") + " numéro " + (k+1) + " dans le groupe d'option " + secase[0].innerHTML );
                     failed = true;
@@ -483,12 +483,12 @@ $_SESSION[$customer . '_mail'] = "non";
       }
       
       if (sessionStorage.getItem("method")==3) {
-        if (somme < mntlivraisonmini) {
+        if ((somme < mntlivraisonmini) && (failed == false)) {
           alert("Les livraisons sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
           failed = true;
         }
       } else {
-        if (somme < mntcmdmini) {
+        if ((somme < mntcmdmini) && (failed == false)) {
           alert("La commmande doit être au moins de " + parseFloat(mntcmdmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
           failed = true;
         }
@@ -496,7 +496,7 @@ $_SESSION[$customer . '_mail'] = "non";
       
       for (var j=0; j < document.forms["mainform"].length; j++)
       {
-        if (document.forms["mainform"][j].checkValidity() == false)
+        if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false))
         {
           alert(document.forms["mainform"][j].name + " : " + document.forms["mainform"][j].validationMessage);
           failed = true;
@@ -726,14 +726,6 @@ $_SESSION[$customer . '_mail'] = "non";
         }
     </script>
     <script type="text/javascript" >
-      reachBottom();
-    </script>
-    <script type="text/javascript">
-      window.addEventListener("resize", function() {
-        reachBottom();
-      })
-    </script>
-    <script type="text/javascript" >
       var artcel = document.getElementsByClassName("artcel");
       var artqt = document.getElementsByClassName("artqt");
 
@@ -786,6 +778,14 @@ $_SESSION[$customer . '_mail'] = "non";
       }
       totaliser();
       
+    </script>
+    <script type="text/javascript" >
+      reachBottom();
+    </script>
+    <script type="text/javascript">
+      window.addEventListener("resize", function() {
+        reachBottom();
+      })
     </script>
     <script type="text/javascript">
       totaliser();

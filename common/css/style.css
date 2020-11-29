@@ -1,3 +1,8 @@
+
+* {
+  touch-action: manipulation;
+}
+  
 textarea
 {
   width: 100%;
@@ -206,7 +211,7 @@ input
 {
   display:inline-block; 
   font-size: 100%;
-  width:40%;  
+  /*width:40%;*/  
 }
 
 

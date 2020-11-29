@@ -45,8 +45,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.23">
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.26">
+    <link rel="stylesheet" href="css/style.css?v=1.27">
+    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.27">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -192,7 +192,11 @@
         echo '</div>';
         echo '</div>';
       }
-      echo '<div id="cgv">Vous pouvez consulter <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">nos conditions générales de vente</a></div>';
+      echo '<div id="cgv">';
+      echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()"">';
+      echo '<label for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
+      echo '</div>';
+//      echo '<div id="cgv">Vous pouvez consulter <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">nos conditions générales de vente</a></div>';
   
     ?>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)"></textarea>
@@ -327,7 +331,7 @@
 
       }
       document.getElementById("infosup").value = sessionStorage.getItem("infosup");
-
+      document.getElementById("chkcgv").checked = (sessionStorage.getItem("cgv") === 'true');
     </script>
     <script type="text/javascript">
       function reachBottom()
@@ -449,25 +453,39 @@
             alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique : " + document.getElementById("main").getAttribute("data-adresse"));
           }
         }
-        if (sessionStorage.getItem("choice") == "NONE") {
+        if ((sessionStorage.getItem("choice") == "NONE") && (failed == false)) {
             alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
             failed = true;
         }
-        if (sessionStorage.getItem("choicel") == "NONE") {
+        if ((sessionStorage.getItem("choicel") == "NONE") && (failed == false)) {
             alert("Vous n\'avez pas choisi comment la vente aller se dérouler, impossible de continuer");
             failed = true;
         }
         
         for (var j=0; j < document.forms["mainform"].length; j++)
         {
-          if (document.forms["mainform"][j].checkValidity() == false)
+          if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false))
           {
             alert(document.forms["mainform"][j].name + " : " + document.forms["mainform"][j].validationMessage);
             failed = true;
           }
         }
+        
+        if ((sessionStorage.getItem("cgv") !== 'true') && (failed == false))
+        {
+          alert("Vous devez accepter les conditions générales de vente pour continuer");
+          failed = true;        
+        }         
+        
         if (failed == false)
           document.forms["mainform"].submit();
+      }
+    </script>
+    <script type="text/javascript" >
+      function memcgv() 
+      {
+        var valcgv = document.getElementById("chkcgv").checked;
+        sessionStorage.setItem("cgv", valcgv);      	
       }
     </script>
   </body>
