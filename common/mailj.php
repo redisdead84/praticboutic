@@ -48,30 +48,30 @@ try
   $mail->SMTPDebug = 0;                                 // Enable verbose debug output
   $mail->isSMTP();                                      // Set mailer to use SMTP
 	
-	$host = GetValeurParam("Host_mail", $conn, $customid);
+  //$host = GetValeurParam("Host_mail", $conn, $customid);
   $mail->Host = $host;  // Specify main and backup SMTP servers
   
-  $smtpa = GetValeurParam("SMTPAuth_mail", $conn, $customid);
+  //$smtpa = GetValeurParam("SMTPAuth_mail", $conn, $customid);
   $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
   
-  $user = GetValeurParam("Username_mail", $conn, $customid);
+  //$user = GetValeurParam("Username_mail", $conn, $customid);
   $mail->Username = $user;                 // SMTP username
   
-  $pwd = GetValeurParam("Password_mail", $conn, $customid);
+  //$pwd = GetValeurParam("Password_mail", $conn, $customid);
   $mail->Password = $pwd;                               // SMTP password
   
-  $ssec = GetValeurParam("SMTPSecure_mail", $conn, $customid);
+  //$ssec = GetValeurParam("SMTPSecure_mail", $conn, $customid);
   $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
 
-  $port = GetValeurParam("Port_mail", $conn, $customid);
+  //$port = GetValeurParam("Port_mail", $conn, $customid);
   $mail->Port = $port;                                    // TCP port to connect to
   
-  $chars = GetValeurParam("CharSet_mail", $conn, $customid);
+  //$chars = GetValeurParam("CharSet_mail", $conn, $customid);
   $mail->CharSet = $chars;
 
   //Recipients
-  $sendmail = GetValeurParam("Sendermail_mail", $conn, $customid);
-  $sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
+  //$sendmail = GetValeurParam("Sendermail_mail", $conn, $customid);
+  //$sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
   $mail->setFrom($sendmail, $sendnom);
 
   $rcvmail = GetValeurParam("Receivermail_mail", $conn, $customid);

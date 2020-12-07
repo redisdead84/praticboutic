@@ -18,7 +18,7 @@
   	
     if (empty($_SESSION[$customer . '_auth']) == TRUE)
     {
-   	  header("LOCATION: ../../" . $customer . "index.php");
+   	  header("LOCATION: ../../" . $customer . "/index.php");
    	  exit();
     }	
     
@@ -1432,7 +1432,7 @@
   	  	  echo '<label for="inpnompa">Nom : </label><br>'," \n ";
   	  	  echo '<input type="text" id="inpnompa" name="inpnompa" value="' . $nom4 . '" maxlength="40" required></input><br>'," \n ";
   	  	  echo '<label for="inpvaleurpa">Valeur : </label><br>'," \n ";
-  	  	  echo '<input type="text" id="inpvaleurpa" name="inpvaleurpa" value="' . $valeur4 . '" maxlength="130"></input><br>'," \n ";
+  	  	  echo '<input type="text" id="inpvaleurpa" name="inpvaleurpa" value="' . $valeur4 . '" maxlength="500"></input><br>'," \n ";
   	  	  echo '<label for="inpcommentpa">Commentaire : </label><br>'," \n ";
   	  	  echo '<input type="text" id="inpcommentpa" name="inpcommentpa" value="' . $commentaire4 . '" maxlength="130"></input><br>'," \n ";
   		  		
@@ -1449,7 +1449,7 @@
   	  	  echo '<label for="inpnompa">Nom : </label><br>'," \n ";
   	  	  echo '<input type="text" id="inpnompa" name="inpnompa" maxlength="40" required></input><br>'," \n ";
   	  	  echo '<label for="inpvaleurpa">Valeur : </label><br>'," \n ";
-  	  	  echo '<input type="text" id="inpvaleurpa" name="inpvaleurpa" maxlength="130"></input><br>'," \n ";
+  	  	  echo '<input type="text" id="inpvaleurpa" name="inpvaleurpa" maxlength="500"></input><br>'," \n ";
   	  	  echo '<label for="inpcommentpa">Commentaire : </label><br>'," \n ";
   	  	  echo '<input type="text" id="inpcommentpa" name="inpcommentpa" maxlength="130"></input><br>'," \n ";
   
