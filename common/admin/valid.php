@@ -40,8 +40,8 @@
    	  $resultatci = $reqci->fetch();
    	  $reqci->close();
       
-		  $interval = GetValeurParam("Interval_try", $conn, $customid);
-      $maxretry = GetValeurParam("Max_try", $conn, $customid);
+		  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
+      $maxretry = GetValeurParam("Max_try", $conn, $customid, "4");
       
       $ip = $_SERVER["REMOTE_ADDR"];
     

@@ -75,8 +75,8 @@ try {
 
     $count2 = 0;
     
-	  $interval = GetValeurParam("Interval_try", $conn, $customid);
-    $maxretry = GetValeurParam("Max_try", $conn, $customid);
+	  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
+    $maxretry = GetValeurParam("Max_try", $conn, $customid, "4");
 
     $ip = $_SERVER["REMOTE_ADDR"];
     
@@ -102,30 +102,30 @@ try {
     $mail->SMTPDebug = 0;                                 // Enable verbose debug output
     $mail->isSMTP();                                      // Set mailer to use SMTP
 		
-		$host = GetValeurParam("Host_mail", $conn, $customid);
+		//$host = GetValeurParam("Host_mail", $conn, $customid);
     $mail->Host = $host;  // Specify main and backup SMTP servers
     
-    $smtpa = GetValeurParam("SMTPAuth_mail", $conn, $customid);
+    //$smtpa = GetValeurParam("SMTPAuth_mail", $conn, $customid);
     $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
     
-    $user = GetValeurParam("Username_mail", $conn, $customid);
+    //$user = GetValeurParam("Username_mail", $conn, $customid);
     $mail->Username = $user;                 // SMTP username
     
-    $pwd = GetValeurParam("Password_mail", $conn, $customid);
+    //$pwd = GetValeurParam("Password_mail", $conn, $customid);
     $mail->Password = $pwd;                               // SMTP password
     
-    $ssec = GetValeurParam("SMTPSecure_mail", $conn, $customid);
+    //$ssec = GetValeurParam("SMTPSecure_mail", $conn, $customid);
     $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
 
-    $port = GetValeurParam("Port_mail", $conn, $customid);
+    //$port = GetValeurParam("Port_mail", $conn, $customid);
     $mail->Port = $port;                                    // TCP port to connect to
     
-    $chars = GetValeurParam("CharSet_mail", $conn, $customid);
+    //$chars = GetValeurParam("CharSet_mail", $conn, $customid);
     $mail->CharSet = $chars;
 
     //Recipients
-    $sendmail = GetValeurParam("Sendermail_mail", $conn, $customid);
-    $sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
+    //$sendmail = GetValeurParam("Sendermail_mail", $conn, $customid);
+    //$sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
     $mail->setFrom($sendmail, $sendnom);
 
     $rcvmail = $_POST['email']; //GetValeurParam("Receivermail_mail", $conn);
@@ -167,11 +167,11 @@ try {
 		
     $text = $text . '<h3>Bonjour ';
     $text = $text . $pseudo . '<br /><br />';    		
-    $text = $text . '  Comme vous avez oubli&eacute; votre mot de passe qlickresto un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement <br />';    		
-    $text = $text . 'Voici votre nouveau mot de mot de passe administrateur qlickresto : ';
+    $text = $text . '  Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement <br />';    		
+    $text = $text . 'Voici votre nouveau mot de mot de passe administrateur praticboutic : ';
     $text = $text . $password . '<br />';
     $text = $text . 'Vous pourrez en personnaliser un nouveau à partir de l\'écran d\'administration.<br />';
-    $text = $text . 'Cordialement<br />L\'équipe qlickresto<br /></h3>';
+    $text = $text . 'Cordialement<br />L\'équipe praticboutic<br /></h3>';
     $text = $text . '</body>';
     $text = $text . '</html>';
 

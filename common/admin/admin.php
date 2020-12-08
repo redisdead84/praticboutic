@@ -150,7 +150,7 @@
 	 	  if(empty($fichier) == FALSE)
 	 	  {  
         $dossier = '../../' . $customer . '/upload/';
-        $taille_maxi = intval(GetValeurParam("Max_file_size", $conn, $customid));
+        $taille_maxi = intval(GetValeurParam("Max_file_size", $conn, $customid, "5000000"));
         $taille = filesize($_FILES['inpimgart']['tmp_name']);
         $extensions = array('.png', '.gif', '.jpg', '.jpeg');
         $extension = strtolower(strrchr($_FILES['inpimgart']['name'], '.')); 

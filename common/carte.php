@@ -38,11 +38,11 @@ $_SESSION[$customer . '_mail'] = "non";
 
     $logo = GetValeurParam("master_logo",$conn, $customid); 
 
-    $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid);
+    $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
     
-    $mntlivraisonmini = GetValeurParam("MntLivraisonMini",$conn, $customid);
+    $mntlivraisonmini = GetValeurParam("MntLivraisonMini",$conn, $customid, "0");
 
-    $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid);
+    $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"smallimg");
 
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'" data-customer="' . $customer .'">';
     echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';

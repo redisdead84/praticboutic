@@ -64,9 +64,9 @@
       echo $customer ;
       echo '">';
 
-      $verifcp = GetValeurParam("VerifCP",$conn, $customid);    
+      $verifcp = GetValeurParam("VerifCP",$conn, $customid,"0");    
     
-      $logo = GetValeurParam("master_logo",$conn, $customid);     
+      $logo = GetValeurParam("master_logo", $conn, $customid);     
       echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
       
       echo '<div id="grpinfo">';
@@ -88,11 +88,11 @@
       }
       if ($method >= 2)
       {
-        $chm = GetValeurParam("Choix_Method",$conn, $customid);         
+        $chm = GetValeurParam("Choix_Method",$conn, $customid,"TOUS");         
        
-        $cmemp = GetValeurParam("CM_Emporter",$conn, $customid); 
+        $cmemp = GetValeurParam("CM_Emporter",$conn, $customid,"Retrait Standard"); 
     
-        $cmlivr = GetValeurParam("CM_Livrer",$conn, $customid);
+        $cmlivr = GetValeurParam("CM_Livrer",$conn, $customid,"Livraison Standard");
 
         echo '<div id="met">';
         echo '<div id="model" data-permis="' . $chm . '">';
@@ -153,11 +153,11 @@
    
       if  ($method >= 2)
       {
-        $chp = GetValeurParam("Choix_Paiement",$conn, $customid);         
+        $chp = GetValeurParam("Choix_Paiement",$conn, $customid,"TOUS");         
        
-        $cmpt = GetValeurParam("MP_Comptant",$conn, $customid); 
+        $cmpt = GetValeurParam("MP_Comptant",$conn, $customid, "Prochain écran par CB"); 
     
-        $livr = GetValeurParam("MP_Livraison",$conn, $customid);
+        $livr = GetValeurParam("MP_Livraison",$conn, $customid, "Paiement à la livraison");
 
         echo '<div id="paye">';
         echo '<div id="modep" data-permis="' . $chp . '">';
@@ -450,7 +450,7 @@
         
         if (sessionStorage.getItem("choicel") == "LIVRER") {
           if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique : " + document.getElementById("main").getAttribute("data-adresse"));
+            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + document.getElementById("main").getAttribute("data-adresse"));
           }
         }
         if ((sessionStorage.getItem("choice") == "NONE") && (failed == false)) {

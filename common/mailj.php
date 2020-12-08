@@ -74,8 +74,8 @@ try
   //$sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
   $mail->setFrom($sendmail, $sendnom);
 
-  $rcvmail = GetValeurParam("Receivermail_mail", $conn, $customid);
-  $rcvnom = GetValeurParam("Receivernom_mail", $conn, $customid);
+  $rcvmail = GetValeurParam("Receivermail_mail", $conn, $customid,$maildef);
+  $rcvnom = GetValeurParam("Receivernom_mail", $conn, $customid,"Ma PraticBoutic");
   $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
 //  $mail->addAddress('ellen@example.com');               // Name is optional
 //  $mail->addReplyTo('info@example.com', 'Information');
@@ -87,10 +87,10 @@ try
 //  $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
   //Content
-  $isHTML = GetValeurParam("isHTML_mail", $conn, $customid);
+  $isHTML = GetValeurParam("isHTML_mail", $conn, $customid,"TRUE");
   $mail->isHTML($isHTML);                                  // Set email format to HTML
 
-  $subject = GetValeurParam("Subject_mail", $conn, $customid);
+  $subject = GetValeurParam("Subject_mail", $conn, $customid, "Une commande PraticBoutic");
   $mail->Subject = $subject;
   
   $json_str = file_get_contents('php://input');
@@ -153,7 +153,7 @@ try
   
   $mail->send();
 
-	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid);
+	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
 	if (strcmp($validsms,"1") == 0)
 	{
     $token = GetValeurParam("TOKEN_SMS", $conn, $customid);
