@@ -11,7 +11,7 @@ $_SESSION[$customer . '_mail'] = "non";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css?v=1.28">
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.27">
+    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.28">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -80,18 +80,18 @@ $_SESSION[$customer . '_mail'] = "non";
        	      	echo $row2[1];
        	      	echo '<br />';
        	      	echo '</a>';
-       	      	echo '<a class="prix">';
-       	      	echo number_format($row2[2], 2, ',', ' ');
-       	      	echo ' ';
-       	      	echo $row2[3];
-       	      	echo '<br />';
-       	      	echo '</a>';
        	      	echo '<a class="desc">';
        	      	if (!empty($row2[4]))
        	      	{
        	      	 echo $row2[4];
                  echo '<br />'; 
        	      	}
+       	      	echo '</a>';
+								echo '<a class="prix">';
+       	      	echo number_format($row2[2], 2, ',', ' ');
+       	      	echo ' ';
+       	      	echo $row2[3];
+       	      	echo '<br />';
        	      	echo '</a>';
        	      	if($method > 0) 
        	      	{
@@ -214,18 +214,18 @@ $_SESSION[$customer . '_mail'] = "non";
  	      	echo $row3[1];
  	      	echo '<br />';
  	      	echo '</a>';
- 	      	echo '<a class="prix">';
- 	      	echo number_format($row3[2], 2, ',', ' ');
- 	      	echo ' ';
- 	      	echo $row3[3];
- 	      	echo '<br />';
- 	      	echo '</a>';
  	      	echo '<a class="desc">';
  	      	if (!empty($row3[4]))
  	      	{
  	      	 echo $row3[4];
            echo '<br />'; 
  	      	} 
+ 	      	echo '</a>';
+ 	      	echo '<a class="prix">';
+ 	      	echo number_format($row3[2], 2, ',', ' ');
+ 	      	echo ' ';
+ 	      	echo $row3[3];
+ 	      	echo '<br />';
  	      	echo '</a>';
  	      	if($method > 0) 
  	      	{
