@@ -143,16 +143,21 @@ $_SESSION[$customer . '_mail'] = "non";
      					      $query4 = 'SELECT optid, nom, surcout FROM `option` WHERE customid = ' . $customid . ' AND visible = 1 AND grpoptid = ' . $row3[0];
        					    if ($result4 = $conn->query($query4)) 
          				    {
+         				    	$init = 0;
          					    while ($row4 = $result4->fetch_row()) 
          					    {
+         					    	if ($init == 0)
+         					    		$def = 'checked';
+         					    	else 
+         					    		$def = '';
          					      if($method > 0)
          					      {
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
+                             	echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()" ' . $def . '>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
                             else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()">' . $row4[1] . '</input>';
+                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" onclick="totaliser()" ' . $def . '>' . $row4[1] . '</input>';
                           }
                           else if ($row3[2] == 1)
                           {
@@ -180,6 +185,7 @@ $_SESSION[$customer . '_mail'] = "non";
                           }
                         } 
                         echo '<br/>';
+                        $init++;
                       }
                     }
                     echo '</fieldset>';
