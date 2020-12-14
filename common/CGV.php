@@ -3,6 +3,7 @@
   session_start();
   $customer = $_GET['customer'];
   
+  include "../" . $customer . "/config/custom_cfg.php";  
   include "config/common_cfg.php";
   include "param.php";
 

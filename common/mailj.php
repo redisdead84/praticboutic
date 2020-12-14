@@ -13,6 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 //Load composer's autoloader
 require '../vendor/autoload.php';
 
+include "../" . $customer . "/config/custom_cfg.php";
 include "config/common_cfg.php";
 include "param.php";
 
@@ -145,7 +146,12 @@ try
 	}
 	
   $text = $text . '<h2>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
-	
+  
+
+  $text = $text . '<br>';
+	$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été validée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Accepter la commande</a>';
+	$text = $text . '<br>';
+	$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été rejetée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Rejeter la commande</a>';
   $text = $text . '</body>';
   $text = $text . '</html>';
 
@@ -156,11 +162,14 @@ try
 	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
 	if (strcmp($validsms,"1") == 0)
 	{
-    $token = GetValeurParam("TOKEN_SMS", $conn, $customid);
-
-    $content = 'Vote commande d\'un montant de ' . number_format($sum, 2, ',', ' ') . ' € a été transmise.'; 
+		
+		$content = GetValeurParam("TEXT_SMS", $conn, $customid);
+		
+		$content = str_replace("%commercant%", $rcvnom, $content);
+		$content = str_replace("%somme%", number_format($sum, 2, ',', ' '), $content);		
+		
     $numbers = array($tel_mobile);
-    $sender = $sendnom;
+    
     $recipients = array();
     foreach ($numbers as $n) {
       $recipients[] = array('value' => $n);
@@ -170,7 +179,7 @@ try
       'sms' => array(
        'message' => array(
         'text' => $content,
-        'sender' => $sender
+        'sender' => $sendersms
        ),
        'recipients' => array('gsm' => $recipients)
       )
@@ -181,7 +190,7 @@ try
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json', 'Authorization: Bearer ' . $token));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json', 'Authorization: Bearer ' . $tokensms));
     $response = curl_exec($ch);
     curl_close($ch);
 	   

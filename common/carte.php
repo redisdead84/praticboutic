@@ -1,7 +1,11 @@
 <?php
-session_start();
-$customer = $_GET['customer'];
-$_SESSION[$customer . '_mail'] = "non";
+  session_start();
+  $customer = $_GET['customer'];
+  $_SESSION[$customer . '_mail'] = "non";
+  
+  include "../" . $customer . "/config/custom_cfg.php";
+  include "config/common_cfg.php";
+  include "param.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,17 +14,14 @@ $_SESSION[$customer . '_mail'] = "non";
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/style.css?v=1.28">
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=1.28">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
+    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
     <?php
-
-    include "config/common_cfg.php";
-    include "param.php";
 
     $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
     $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
