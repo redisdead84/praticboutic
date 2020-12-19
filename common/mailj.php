@@ -45,6 +45,8 @@ try
   $resultatci = $reqci->fetch();
   $reqci->close();
 
+	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
+
   //Server settings
   $mail->SMTPDebug = 0;                                 // Enable verbose debug output
   $mail->isSMTP();                                      // Set mailer to use SMTP
@@ -75,7 +77,7 @@ try
   //$sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
   $mail->setFrom($sendmail, $sendnom);
 
-  $rcvmail = GetValeurParam("Receivermail_mail", $conn, $customid,$maildef);
+  $rcvmail = GetValeurParam("Receivermail_mail", $conn, $customid, $maildef);
   $rcvnom = GetValeurParam("Receivernom_mail", $conn, $customid,"Ma PraticBoutic");
   $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
 //  $mail->addAddress('ellen@example.com');               // Name is optional
@@ -88,7 +90,7 @@ try
 //  $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
 
   //Content
-  $isHTML = GetValeurParam("isHTML_mail", $conn, $customid,"TRUE");
+  $isHTML = GetValeurParam("isHTML_mail", $conn, $customid, "TRUE");
   $mail->isHTML($isHTML);                                  // Set email format to HTML
 
   $subject = GetValeurParam("Subject_mail", $conn, $customid, "Une commande PraticBoutic");
@@ -147,11 +149,14 @@ try
 	
   $text = $text . '<h2>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
   
-
-  $text = $text . '<br>';
-	$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été validée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Accepter la commande</a>';
-	$text = $text . '<br>';
-	$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été rejetée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Rejeter la commande</a>';
+	if (strcmp($validsms,"1") == 0)
+	{
+	  $text = $text . '<br>';
+		$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été validée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Accepter la commande</a>';
+		$text = $text . '<br>';
+		$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été rejetée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Rejeter la commande</a>';
+	}
+	
   $text = $text . '</body>';
   $text = $text . '</html>';
 
@@ -159,7 +164,7 @@ try
   
   $mail->send();
 
-	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
+	
 	if (strcmp($validsms,"1") == 0)
 	{
 		

@@ -1,0 +1,8 @@
+AuthUserFile /var/www/qlickresto/common/superadmin/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Protection par mot de passe"
+AuthType Basic
+
+<Limit GET>
+require valid-user
+</Limit>
