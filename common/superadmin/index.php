@@ -9,12 +9,17 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
+    <form method="post" action="valid.php">
     <div class="main">
     <p>
-     <label>Départ du process de création d'une boutique</label><br><br>
-        <button onclick="window.location.href = 'depart.php';">Cliquez ici pour le démarrer</button>
+     <label>pseudo</label>
+     <input type="string" id="pseudoid" name="pseudo"><br>
+     <br />
+     <label>mot de passe</label>
+     <input type="password" id="passid" name="pass"><br>
      <br />
    </p>
+   <input class="inpmove" type="submit" value="Valider">
    </div>
    </form>
    <br />

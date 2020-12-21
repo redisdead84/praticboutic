@@ -1,3 +1,19 @@
+<?php
+
+		session_start();		
+		
+    if (empty($_SESSION['superadmin_auth']) == TRUE)
+    {
+   	  header("LOCATION: index.php");
+   	  exit();
+    }	
+    
+    if (strcmp($_SESSION['superadmin_auth'],'superadmin') != 0)
+	  {
+   	  header("LOCATION: index.php");
+   	  exit();
+	  }
+?>
 <!DOCTYPE html>
 <html>
   <head>

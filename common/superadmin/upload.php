@@ -10,12 +10,22 @@
   </head>
   <body>
 
-
     <?php
-
 
       session_start();
     
+	    if (empty($_SESSION['superadmin_auth']) == TRUE)
+	    {
+	   	  header("LOCATION: index.php");
+	   	  exit();
+	    }	
+	    
+	    if (strcmp($_SESSION['superadmin_auth'],'superadmin') != 0)
+		  {
+	   	  header("LOCATION: index.php");
+	   	  exit();
+		  }
+
       include "../config/common_cfg.php";
       include "../param.php";
      	
@@ -95,7 +105,9 @@
    	      else 
    	      {
      	      echo "Logo MAJ OK<br>";
-     	      echo("<button onclick=\"window.location.href = 'depart.php'\">Cliquez ici pour créer une autre bboutique</button>");
+     	      echo("<button onclick=\"window.location.href = 'depart.php'\">Cliquez ici pour créer une autre boutique</button>");
+     	      echo "<br>";
+     	      echo("<button onclick=\"window.location.href = 'logout.php'\">Cliquez ici pour quitter le superadmin</button>");
      	    }
 	      }
 				

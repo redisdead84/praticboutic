@@ -13,9 +13,20 @@
 
     <?php
 
-
       session_start();
     
+	    if (empty($_SESSION['superadmin_auth']) == TRUE)
+	    {
+	   	  header("LOCATION: index.php");
+	   	  exit();
+	    }	
+	    
+	    if (strcmp($_SESSION['superadmin_auth'],'superadmin') != 0)
+		  {
+	   	  header("LOCATION: index.php");
+	   	  exit();
+		  }
+
       include "../config/common_cfg.php";
       include "../param.php";
      	

@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <?php
-
-		session_start();		
 		
+		session_start();
+
     if (empty($_SESSION['superadmin_auth']) == TRUE)
     {
    	  header("LOCATION: index.php");
@@ -14,7 +15,6 @@
    	  exit();
 	  }
 ?>
-<!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0">
@@ -25,15 +25,15 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-    <form autocomplete="off" method="post" action="declaration.php">
     <div class="main">
     <p>
-     <label>identifiant de la boutique à créer</label>
-     <input type="string" id="identifid" name="identif" pattern="[a-z0-9]{3,}" required><br>
+     <label>Départ du process de création d'une boutique</label><br><br>
+        <button onclick="window.location.href = 'depart.php';">Cliquez ici pour le démarrer</button>
      <br />
-    </p>
-   <input class="inpmove" type="submit" value="Valider">
+   </p>
    </div>
    </form>
- </body>
+   <br />
+  </body>
 </html>
+
