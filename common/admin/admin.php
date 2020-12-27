@@ -65,6 +65,7 @@
 		$cmpgrpopt = strcmp($table,'groupeopt');
 		$cmpopt = strcmp($table,'option');
 		$cmpcpzone = strcmp($table,'cpzone');
+		$cmpbarlivr = strcmp($table,'barlivr');
 		$cmpadmin = strcmp($table,'administrateur');
 		$cmpparam = strcmp($table,'parametre');
 		$cmd = isset($_GET['commande']) ? $_GET ['commande'] : '';
@@ -572,6 +573,62 @@
 	    }
 	  }
 	  
+	  if ($cmpbarlivr == 0)
+	  {
+	    $q='';		
+	    	
+  	  $bLimHaute = 1;
+  	  if (isset($_POST['inplimitehaute']))
+	      $bLimHaute = 1;
+	    else 
+	 	    $bLimHaute = 0;
+	 	    
+  	  $bLimBasse = 1;
+  	  if (isset($_POST['inplimitebasse']))
+	      $bLimBasse = 1;
+	    else 
+	 	    $bLimBasse = 0;
+	 	    
+      if ($cmpi == 0)
+      { 
+      	$q = 'INSERT INTO `barlivr` (customid, valminin, valmaxex, surcout, limitebasse, limitehaute) ';
+    	  $q = $q . 'VALUES ("' . $customid . '","' . $_POST['inpvalminin'] . '","' . $_POST['inpvalmaxex'] . '","' . $_POST['inpsurcout'] . '","' . $bLimBasse . '","' . $bLimHaute . '")';
+        if ($conn->query($q) === FALSE) 
+        {
+  		    $ins = 1;
+  		    $error = $conn->error;
+  		    $cmpu = 1; $modif = 0;
+	      }
+	      else
+          header("LOCATION: admin.php?customer=" . $customer );
+      }
+      if ($cmpu == 0)
+      {
+        $q = 'UPDATE `barlivr` ';
+        $q = $q . 'SET customid = "' . $customid . '", valminin = "' . $_POST['inpvalminin'] . '", valmaxex = "' . $_POST['inpvalmaxex'] . '", surcout = "' . $_POST['inpsurcout'] . '", ';
+        $q = $q . 'limitebasse = "' . $bLimBasse . '", limitehaute = "' . $bLimHaute . '" '; 
+    	  $q = $q . 'WHERE barlivrid = "' . $recupd . '"';
+    	  if ($conn->query($q) === FALSE) 
+    	  {
+  		    $modif = $recupd;
+  		    $error = $conn->error;
+  		    $cmpi = 1;
+	      }
+	      else 
+  	      header("LOCATION: admin.php?customer=" . $customer );
+   	  }
+      
+	    if ($modif > 0)
+	    {
+	      $req9 = $conn->prepare('SELECT valminin, valmaxex, surcout, limitebasse, limitehaute FROM `barlivr` WHERE barlivrid = ?');
+     	  $req9->bind_param("s", $modif);
+     	  $req9->execute();
+     	  $req9->bind_result($valminin9, $valmaxex9, $surcout9, $limitebasse9, $limitehaute9);
+     	  $resultat9 = $req9->fetch();
+     	  $req9->close();
+	    }
+	  }
+
 	  
     if (strcmp($mode, 'basique') == 0)
     {
@@ -1461,13 +1518,10 @@
   	    echo '</div>'," \n ";
     	} 
     	echo '</div>'," \n ";
-  
       echo '</div>'," \n ";
-    
   
       echo '<div id=tabZone> <a href="admin.php?customer=' . $customer . '#tabZone">CPZONE</a>'," \n ";
       echo '<div class=sheet>'," \n ";
-    
       
       if (empty($modif) && empty($ins))
       {
@@ -1554,6 +1608,131 @@
     	  	echo '<label for="inpactif">Actif : </label><br>'," \n ";
       	  echo '<input type="checkbox" id="inpactif" name="inpactif" value="1" checked></input><br>'," \n ";     
       		echo '<a href="admin.php?customer=' . $customer . '#tabZone"><button type="button">Cancel</button></a>'," \n ";
+        	echo '<input type="submit" value="Submit">'," \n ";
+          echo '</form>'," \n ";
+        }
+        echo '<br />' . $error . " \n ";
+        echo '</div>'," \n ";
+    	} 
+    	echo '</div>'," \n ";
+      echo '</div>'," \n ";
+      
+      echo '<div id=tabLivr> <a href="admin.php?customer=' . $customer . '#tabLivr">BARLIVR</a>'," \n ";
+      echo '<div class=sheet>'," \n ";
+      
+      if (empty($modif) && empty($ins))
+      {
+        echo '<div id="inlistlivr">'," \n ";
+    
+        echo '<table>'," \n ";
+        echo '<tr>';
+        echo '<th>ValMinIn</th>';
+        echo '<th>ValMaxEx</th>';
+        echo '<th>Surcout</th>';
+        echo '<th>Limite Basse</th>';
+        echo '<th>Limite Haute</th>';
+        echo '</tr>'," \n ";
+        $query2 = 'SELECT barlivrid, valminin, valmaxex, surcout, limitebasse, limitehaute FROM barlivr WHERE customid = ' . $customid;
+        
+        //echo $query2;
+        if ($result2 = $conn->query($query2)) 
+        {	
+          while ($row2 = $result2->fetch_row()) 
+      	  {	
+         	  echo '<tr>';
+         	  echo '<td>';
+         	  echo $row2[1];
+         	  echo '</td>';
+         	  echo '<td>';
+         	  echo $row2[2];
+         	  echo '</td>';
+         	  echo '<td>';
+         	  echo $row2[3]; 
+         	  echo '</td>';
+         	  echo '<td>';
+         	  if ($row2[4] > 0) 
+         	    echo '<input type="checkbox" disabled="disabled" checked>';
+         	  else
+         	    echo '<input type="checkbox" disabled="disabled">';
+         	  echo '</td>';
+         	  echo '<td>';
+         	  if ($row2[5] > 0) 
+         	    echo '<input type="checkbox" disabled="disabled" checked>';
+         	  else
+         	    echo '<input type="checkbox" disabled="disabled">';
+         	  echo '</td>';
+         	  echo '<td>';
+    	      echo '<a href="admin.php?customer=' . $customer . '&modifier=' . $row2[0] . '&table=barlivr#tabLivr"> <input type="button" value="Modifier"> </a>';
+         	  echo '</td>';
+        	  echo '</tr>'," \n ";
+    
+    	    }						
+      	  $result2->close();
+        }
+        
+        echo '</table>'," \n ";
+        echo '<a href="admin.php?customer=' . $customer . '&inserer=1&table=barlivr#tabLivr"> <input type="button" value="Insérer"> </a>'," \n ";
+        echo '</div>'," \n ";      	
+      }
+    	
+      if ((!(empty($modif) && empty($ins))) && $cmpbarlivr == 0)
+    	{ 
+        echo '<div id="inRecordLivr">'," \n ";
+        if (!empty($modif))
+        {
+          $action  = 'admin.php?customer=' . $customer . '&commande=update&table=barlivr&rectou=' . $modif . '#tabLivr';
+    	    echo '<form autocomplete="off" action="';
+    	    echo $action;
+    	    echo  '" method="POST">'," \n ";
+      	  echo '<label for="inpvalminin"> Valeur mini incluse: </label><br>'," \n ";
+      	  echo '<input type="number" id="inpvalminin" name="inpvalminin" value="' . $valminin9 . '"></input><br>'," \n ";
+    
+      	  echo '<label for="inpvalmaxex"> Valeur maxi excluse: </label><br>'," \n ";
+      	  echo '<input type="number" id="inpvalmaxex" name="inpvalmaxex" value="' . $valmaxex9 . '"></input><br>'," \n ";
+          
+      	  echo '<label for="inpsurcout"> Surcout : </label><br>'," \n ";
+      	  echo '<input type="number" id="inpsurcout" name="inpsurcout" value="' . $surcout9 . '"></input><br>'," \n ";
+    	  		
+    	  	echo '<label for="inplimitebasse">Limite Basse : </label><br>'," \n ";
+    	  	if ($limitebasse9 == 1)
+    	      echo '<input type="checkbox" id="inplimitebasse" name="inplimitebasse" value="' . $limitebasse9 . '" checked></input><br>'," \n ";
+    	    else 
+    	      echo '<input type="checkbox" id="inplimitebasse" name="inplimitebasse" value="' . $limitebasse9 . '"></input><br>'," \n ";
+    	  		
+    	  	echo '<label for="inplimitehaute">Limite Haute : </label><br>'," \n ";
+    	  	if ($limitehaute9 == 1)
+    	      echo '<input type="checkbox" id="inplimitehaute" name="inplimitehaute" value="' . $limitehaute9 . '" checked></input><br>'," \n ";
+    	    else 
+    	      echo '<input type="checkbox" id="inplimitehaute" name="inplimitehaute" value="' . $limitehaute9 . '"></input><br>'," \n ";
+    	  		
+    	    echo '<a href="admin.php?customer=' . $customer . '#tabLivr"><button type="button">Cancel</button></a>'," \n ";
+        	echo '<input type="submit" value="Submit">'," \n ";
+        	echo '</form>'," \n ";
+        	
+        }
+        if (!(empty($ins)))
+        {
+          $action  = 'admin.php?customer=' . $customer . '&commande=insert&table=barlivr#tabLivr';
+    	    echo '<form autocomplete="off" action="';
+    	    echo $action;
+    	    echo  '" method="POST">'," \n ";
+  
+      	  echo '<label for="inpvalminin"> Valeur mini incluse : </label><br>'," \n ";
+      	  echo '<input type="number" id="inpvalminin" name="inpvalminin"></input><br>'," \n ";
+    
+      	  echo '<label for="inpvalmaxex"> Valeur maxi excluse : </label><br>'," \n ";
+      	  echo '<input type="number" id="inpvalmaxex" name="inpvalmaxex"></input><br>'," \n ";
+          
+      	  echo '<label for="inpsurcout"> Surcout : </label><br>'," \n ";
+      	  echo '<input type="number" id="inpsurcout" name="inpsurcout"></input><br>'," \n ";
+      	  
+    	  	echo '<label for="inplimitebasse">Limite basse : </label><br>'," \n ";
+      	  echo '<input type="checkbox" id="inplimitebasse" name="inplimitebasse" value="1" checked></input><br>'," \n ";     
+
+    	  	echo '<label for="inplimitehaute">Limite haute : </label><br>'," \n ";
+      	  echo '<input type="checkbox" id="inplimitehaute" name="inplimitehaute" value="1" checked></input><br>'," \n ";     
+
+      		echo '<a href="admin.php?customer=' . $customer . '#tabLivr"><button type="button">Cancel</button></a>'," \n ";
         	echo '<input type="submit" value="Submit">'," \n ";
           echo '</form>'," \n ";
         }

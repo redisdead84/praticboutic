@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="js/client.js?v=1.24" defer></script>
+    <script src="js/client.js?v=1.25" defer></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -64,6 +64,17 @@
     echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
     
     ?>
+   <div id="pan">
+      <br>
+<!--      <a id="methodid"></a><br>-->
+      <a id="tableid"></a>
+      <div id="commandediv"></div>
+      <a id="sstotalid"></a>
+      <a id="fraislivid"></a>
+			<a id="totalid"></a>
+      <br>
+    </div>
+
     </div>
     <div class="inpmove" id="footer">
       <!-- Display a payment form -->
@@ -96,6 +107,74 @@
         
       </script>      
     </div>
+    <script type="text/javascript">
+      var cart = JSON.parse(sessionStorage.getItem("commande"));
+      var str = "";
+      var somme = 0;
+      str = str + "<table>"; 
+      str = str + "<thead>";
+      str = str + "<tr>";
+      str = str + "<th>Article</th>";
+      str = str + "<th>Prix</th>";
+      str = str + "<th>Qté</th>";
+      str = str + "<th>Total</th>";
+      str = str + "</tr>";
+      str = str + "</thead>";
+      str = str + "<tbody>";
+        for (var art in cart) {
+          str = str + "<tr>";
+          str = str + "<td>";
+          str = str + cart[art].name;
+          str = str + "</td>";
+          str = str + "<td>";
+          var ton_chiffre = parseFloat(cart[art].prix); // Ta variable de chiffre
+          var ton_chiffre2 = ton_chiffre.toFixed(2); 
+          str = str + ton_chiffre2 + " € ";
+          str = str + "</td>";
+          str = str + "<td>";
+          str = str + cart[art].qt;
+          str = str + "</td>";
+          str = str + "<td>";
+          str = str + (cart[art].qt * cart[art].prix).toFixed(2) + " € ";
+          somme = somme + cart[art].qt * cart[art].prix;
+          str = str + "</td>";
+
+          str = str + "</tr>";
+        }
+      str = str + "</tbody>";
+      str = str + "</table>"; 
+
+      var method = sessionStorage.getItem("method");
+      var method_txt = "";
+      if (method == 1)
+      {
+        method_txt = "Consomation sur place";
+        document.getElementById("methodid").innerHTML = method_txt + '<br>';
+      } 
+/*      if (method >= 2) 
+        method_txt = "Vente à emporter ou à livrer";*/
+
+      if (method == 1) 
+      {
+        document.getElementById("tableid").innerHTML = "Table numéro " + sessionStorage.getItem("table") + "<br>";
+      }      
+      document.getElementById("commandediv").innerHTML = str;
+      
+			if (sessionStorage.getItem("choicel") == "LIVRER")
+			{
+	      document.getElementById("sstotalid").innerHTML = "Sous-total : " + somme.toFixed(2) + " € <br>";
+	      var frliv = parseFloat(sessionStorage.getItem("fraislivr"));
+	 	    document.getElementById("fraislivid").innerHTML = "Frais de livraison : " + frliv.toFixed(2) + " € <br>";
+	      var tota = parseFloat(sessionStorage.getItem("fraislivr")) + somme;
+	      document.getElementById("totalid").innerHTML = "Prix total de la commande : " + tota.toFixed(2) + " € <br>";
+			}
+			else if (sessionStorage.getItem("choicel") == "EMPORTER") 
+			{
+	      document.getElementById("totalid").innerHTML = "Prix total de la commande : " + somme.toFixed(2) + " € <br>";
+			}      
+      
+    </script>
+
     <script type="text/javascript">
       function reachBottom()
       {

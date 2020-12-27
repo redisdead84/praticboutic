@@ -2,7 +2,6 @@
 <?php
 
 session_start();
-$customer = $_GET['customer'];
 
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
@@ -13,26 +12,28 @@ use PHPMailer\PHPMailer\Exception;
 //Load composer's autoloader
 require '../vendor/autoload.php';
 
-include "../" . $customer . "/config/custom_cfg.php";
-include "config/common_cfg.php";
-include "param.php";
-
-$method = isset($_GET ['method']) ? $_GET ['method'] : '0';
-$table = isset($_GET ['table']) ? $_GET ['table'] : '0';
-
-if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-{
-  header('LOCATION: carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer);
-  exit();
-}
-
 header('Content-Type: application/json');
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try 
 {
+  $json_str = file_get_contents('php://input');
+  $json_obj = json_decode($json_str);
+
+	$customer = $json_obj->customer;
+	
+	include "../" . $customer . "/config/custom_cfg.php";
+	include "config/common_cfg.php";
+	include "param.php";
 		
-		
+	$method = isset($_GET ['method']) ? $_GET ['method'] : '0';
+	$table = isset($_GET ['table']) ? $_GET ['table'] : '0';
+	
+	if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+	{
+	  throw new Exception("Courriel déjà envoyé");
+	}
+
   $conn = new mysqli($servername, $username, $password, $bdd);
 
   if ($conn->connect_error) 
@@ -96,8 +97,6 @@ try
   $subject = GetValeurParam("Subject_mail", $conn, $customid, "Une commande PraticBoutic");
   $mail->Subject = $subject;
   
-  $json_str = file_get_contents('php://input');
-  $json_obj = json_decode($json_str);
   $tel_mobile = $json_obj->telephone;
   $text = '<!DOCTYPE html>';
   $text = $text . '<html>';
@@ -146,8 +145,14 @@ try
 			$val = $val + $value->qt;
 			$sum = $sum + $value->prix * $value->qt;
 	}
-	
-  $text = $text . '<h2>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
+	if (strcmp($json_obj->vente, "LIVRER") !== 0)
+  	$text = $text . '<h2>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
+  else 
+  {
+  	$text = $text . '<h2>Sous-total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
+  	$text = $text . '<h2>Frais de Livraison : ' . number_format($json_obj->fraislivr, 2, ',', ' ') . '€ <br><h2>';
+  	$text = $text . '<h2>Total Commande : ' . number_format($sum + $json_obj->fraislivr, 2, ',', ' ') . '€ <br><h2>';
+  }
   
 	if (strcmp($validsms,"1") == 0)
 	{

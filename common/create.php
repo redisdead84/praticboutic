@@ -1,36 +1,10 @@
 <?php
-session_start();
 
-$customer = $_GET['customer'];
+session_start();
 
 require '../vendor/autoload.php';
 
-include "../" . $customer . "/config/custom_cfg.php";
-include "config/common_cfg.php";
-include "param.php";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $bdd);
-// Check connection
-if ($conn->connect_error) 
-  die("Connection failed: " . $conn->connect_error);    
-  
-$reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
-$reqci->bind_param("s", $customer);
-$reqci->execute();
-$reqci->bind_result($customid);
-$resultatci = $reqci->fetch();
-$reqci->close();
-
- 	    
-$skey = GetValeurParam("SecretKey", $conn, $customid);
-
-// This is your real test secret API key.
-\Stripe\Stripe::setApiKey($skey);
-
-//\Stripe\Stripe::setApiKey('sk_test_51H8fNKHGzhgYgqhxXKxXLCKqGMGaHXXfQ3AedURHAd2BTaNjr07L7wLHVZP41UMNWnxRHt4R7XTdeydg0GWcUXL400QA2swxxl');
-
-function calculateOrderAmount(array $items, $conn, $customid): int 
+function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr): int 
 {
   $arrlength = count($items);
   $price = 0.0;
@@ -38,6 +12,7 @@ function calculateOrderAmount(array $items, $conn, $customid): int
     throw new Exception("Panier Vide");
   else 
   {
+  	// Calcul du cout des articles obligatoires
     $query = 'SELECT artid FROM article WHERE customid = ' . $customid . ' AND obligatoire = 1';
     
 		if ($result = $conn->query($query)) {
@@ -59,6 +34,7 @@ function calculateOrderAmount(array $items, $conn, $customid): int
    		$result->close();
    	}
     
+    // Calcul du cout des lignes de commandes
  		for ($i=0; $i<$arrlength ; $i++)
     { 
       // recuperre l'id
@@ -79,8 +55,32 @@ function calculateOrderAmount(array $items, $conn, $customid): int
         $price = $price + $items[$i]->prix * $items[$i]->qt;
       else
         throw new Exception("Prix invalide");
-    }    
+    }
+    
+    // Calcul du cout de livraison
+		if(strcmp($model, "LIVRER") == 0) 
+		{
+    	$query = 'SELECT surcout FROM barlivr WHERE customid = ' . $customid . ' AND (valminin <= ' . $price . ' OR limitebasse = 0) AND (valmaxex > ' . $price . ' OR limitehaute = 0)';
+		
+			if ($result = $conn->query($query)) 
+			{
+				if ($result->num_rows > 0)
+				{
+			  	if ($row = $result->fetch_row()) 
+		  			$surcout = $row[0];
+		  	}
+		  	else
+		  		$surcout = 0; 
+  		}
+  		
+			if($surcout !== $fraislivr) {
+        throw new Exception("erreur Frais de livraison");
+  		}
+  		
+  		$price = $price + $surcout;
+    }
   }
+  // Envoi du cout de la commande
   return (round($price * 100));
 }
 
@@ -92,8 +92,36 @@ try {
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
 
+  $customer = $json_obj->boutic;	
+  
+  include "../" . $customer . "/config/custom_cfg.php";
+	include "config/common_cfg.php";
+  include "param.php";
+
+	
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $bdd);
+	// Check connection
+	if ($conn->connect_error) 
+	  die("Connection failed: " . $conn->connect_error);    
+	  
+	$reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+	$reqci->bind_param("s", $customer);
+	$reqci->execute();
+	$reqci->bind_result($customid);
+	$resultatci = $reqci->fetch();
+	$reqci->close();
+	
+	$skey = GetValeurParam("SecretKey", $conn, $customid);
+	
+	// This is your real test secret API key.
+	\Stripe\Stripe::setApiKey($skey);
+	
+	//\Stripe\Stripe::setApiKey('sk_test_51H8fNKHGzhgYgqhxXKxXLCKqGMGaHXXfQ3AedURHAd2BTaNjr07L7wLHVZP41UMNWnxRHt4R7XTdeydg0GWcUXL400QA2swxxl');
+
+
   $paymentIntent = \Stripe\PaymentIntent::create([
-    'amount' => calculateOrderAmount($json_obj->items, $conn, $customid),
+    'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr),
     'currency' => 'eur',
   ]);
 

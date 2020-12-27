@@ -9,15 +9,19 @@ header('Content-Type: application/json');
 try {
 
   $json_str = file_get_contents('php://input');
-  $json_obj = json_decode($json_str);
+  $obj = json_decode($json_str);
   
-  $customer = $json_obj->customer;
+  $customer = $obj->customer;
+  
+  include "../" . $customer . "/config/custom_cfg.php";
+  include "config/common_cfg.php";
+  include "param.php";
 
-	include "../" . $customer . "/config/custom_cfg.php";
-	include "config/common_cfg.php";
-	include "param.php";
-	
-	// Create connection
+  $val = $obj->sstotal;
+  
+  $surcout = 0;
+  
+		// Create connection
 	$conn = new mysqli($servername, $username, $password, $bdd);
 	// Check connection
 	if ($conn->connect_error) 
@@ -28,18 +32,21 @@ try {
 	$reqci->execute();
 	$reqci->bind_result($customid);
 	$resultatci = $reqci->fetch();
-	$reqci->close();
-
-  $query = 'SELECT cpzoneid FROM cpzone WHERE customid = ' . $customid . ' AND codepostal = "' . $json_obj->cp . '" AND actif = 1';
-
-  $output = "ko";
-
-	if ($result = $conn->query($query)) {
-    if ($result->num_rows > 0)
-      $output = "ok";		
-  }   
+	$reqci->close();  
   
-  $result->free_result();
+  $query = 'SELECT surcout FROM barlivr WHERE customid = ' . $customid . ' AND (valminin <= ' . $val . ' OR limitebasse = 0) AND (valmaxex > ' . $val . ' OR limitehaute = 0)';
+
+	if ($result = $conn->query($query)) 
+	{
+		if ($result->num_rows > 0)
+		{
+	  	if ($row = $result->fetch_row()) 
+  			$surcout = $row[0];
+  	}
+  	else
+  		$surcout = 0; 
+  }   
+  $output = $surcout;
   
   $conn->close();
 
