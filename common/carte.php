@@ -330,7 +330,8 @@
             }
           }
         }
-        document.getElementById("totaliseur").value = somme.toFixed(2);      	
+        document.getElementById("totaliseur").value = somme.toFixed(2);
+        sessionStorage.setItem("sstotal", somme.toFixed(2));      	
       }
     </script>
 

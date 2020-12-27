@@ -8,18 +8,22 @@ if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")==
   var stripe = Stripe(pkey);
   
   var obj = JSON.parse(sessionStorage.getItem("commande"));
+  var customer = sessionStorage.getItem("customer");
+  var choicel = sessionStorage.getItem("choicel");
+  var coutlivr = sessionStorage.getItem("fraislivr");
   
   // The items the customer wants to buy
   var purchase = {
-    items: obj
+    items: obj,
+    boutic: customer,
+    model: choicel,
+    fraislivr: coutlivr
   };
   
   // Disable the button until we have Stripe set up on the page
   document.querySelector("button").disabled = true;
-  
-  customer = sessionStorage.getItem("customer");
 
-  fetch("create.php?customer=" + customer, {
+  fetch("create.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

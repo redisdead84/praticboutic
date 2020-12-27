@@ -54,8 +54,9 @@
   </head>
   <body>
     <?php
+      $verifcp = GetValeurParam("VerifCP", $conn, $customid, "0");    
 
-      echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '">';
+      echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '" data-verifcp="' . $verifcp . '" >';
       
       echo '<form name="mainform" autocomplete="off" method="post" action="paiement.php?method=';
       echo $method ;
@@ -65,8 +66,6 @@
       echo $customer ;
       echo '">';
 
-      $verifcp = GetValeurParam("VerifCP",$conn, $customid,"0");    
-    
       $logo = GetValeurParam("master_logo", $conn, $customid);     
       echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
       
@@ -89,11 +88,11 @@
       }
       if ($method >= 2)
       {
-        $chm = GetValeurParam("Choix_Method",$conn, $customid,"TOUS");         
+        $chm = GetValeurParam("Choix_Method", $conn, $customid, "TOUS");         
        
-        $cmemp = GetValeurParam("CM_Emporter",$conn, $customid,"Retrait Standard"); 
+        $cmemp = GetValeurParam("CM_Emporter", $conn, $customid, "Retrait Standard"); 
     
-        $cmlivr = GetValeurParam("CM_Livrer",$conn, $customid,"Livraison Standard");
+        $cmlivr = GetValeurParam("CM_Livrer", $conn, $customid, "Livraison Standard");
 
         echo '<div id="met">';
         echo '<div id="model" data-permis="' . $chm . '">';
@@ -105,7 +104,7 @@
           echo '<label>';
           echo $cmemp; 
           echo '</label><br>';
-          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false)">';
+          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">';
           echo '<label for="llivrer">EN LIVRAISON : </label><br>';
           echo '<label>';
           echo $cmlivr;
@@ -147,6 +146,8 @@
       echo '<br>';
       echo '<label class="lcont ">Ville : </label>';
       echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
+      echo '<br>';
+      echo '<div id="fraislivrid" >Frais de livraison : 0,00 €</div>';
       echo '</div>';
         
       echo '</div>';
@@ -154,11 +155,11 @@
    
       if  ($method >= 2)
       {
-        $chp = GetValeurParam("Choix_Paiement",$conn, $customid,"TOUS");         
+        $chp = GetValeurParam("Choix_Paiement", $conn, $customid, "TOUS");         
        
-        $cmpt = GetValeurParam("MP_Comptant",$conn, $customid, "Prochain écran par CB"); 
+        $cmpt = GetValeurParam("MP_Comptant", $conn, $customid, "Prochain écran par CB"); 
     
-        $livr = GetValeurParam("MP_Livraison",$conn, $customid, "Paiement à la livraison");
+        $livr = GetValeurParam("MP_Livraison", $conn, $customid, "Paiement à la livraison");
 
         echo '<div id="paye">';
         echo '<div id="modep" data-permis="' . $chp . '">';
@@ -197,18 +198,8 @@
       echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()"">';
       echo '<label for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
       echo '</div>';
-//      echo '<div id="cgv">Vous pouvez consulter <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">nos conditions générales de vente</a></div>';
-  
     ?>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)"></textarea>
-    <div id="pan">
-      <br>
-<!--      <a id="methodid"></a><br>-->
-      <a id="tableid"></a><br>
-      <div id="commandediv"></div><br>
-      <a id="sommeid"></a><br>
-      <br>
-    </div>
     </div>    
     <div id="footer">
       <?php
@@ -227,20 +218,22 @@
       ?>
     </div>
     <script type="text/javascript">
-   
+   		// Appel asynchrone pour savoir si on est dans le périmètre de livraison 
       function checkcp(elem)      
       {
         var retour;      
       
         if (elem.value.length == 5)
-        {   
-          customer = document.getElementById("main").getAttribute("data-customer");
-          fetch("cpzone.php?customer=" + customer, {
+        { 
+        	customer = document.getElementById("main").getAttribute("data-customer");
+        	var obj = { cp: elem.value, customer: customer };  
+          
+          fetch("cpzone.php", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(elem.value)
+            body: JSON.stringify(obj)
           })
             .then(function(result) {
               return result.json();
@@ -254,7 +247,33 @@
           
       }          
     </script>
+    <script type="text/javascript">
+   		// Appel asynchrone pour connaitre le cout de la livraison
+      function getFraisLivraison(sstotal)      
+      {
+        var retour;      
+      
+        var customer = document.getElementById("main").getAttribute("data-customer");
+				var obj = { sstotal: sstotal, customer: customer };
+        fetch("fraislivr.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(obj)
+        })
+          .then(function(result2) {
+            return result2.json();
+          })
+          .then(function(data) {
+          	var ret = parseFloat(data);
+            document.getElementById("fraislivrid").innerHTML = 'Frais de livraison : ' + ret.toFixed(2) + ' €';
+            sessionStorage.setItem("fraislivr", data);
+        })
+      }          
+    </script>
     <script type="text/javascript" >
+    	// Désactive la partie de formulaire utilisé pour la livraison
       function eraseAdrLivr(etat) 
       {
         var fieldAdrLiv = document.getElementsByClassName("adrliv");
@@ -266,7 +285,8 @@
       }
     </script>
     <script type="text/javascript" >
-        
+      // Affiche la page avec les contrôles par defaut  
+      var verifcp = document.getElementById("main").getAttribute("data-verifcp");
       if (sessionStorage.getItem("method")>=2)
       {
         document.getElementById("lenom").value = sessionStorage.getItem("nom");    
@@ -303,10 +323,12 @@
             document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
             document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
             document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-            checkcp(document.getElementById("lecp"));
+            if (verifcp > 0)
+            	checkcp(document.getElementById("lecp"));
             document.getElementById("laville").value = sessionStorage.getItem("ville");
             document.getElementById("lemporter").checked = false;
             document.getElementById("llivrer").checked = true;
+						getFraisLivraison(sessionStorage.getItem("sstotal"));
             eraseAdrLivr(false);
           } 
           else
@@ -321,8 +343,10 @@
             document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
             document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
             document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-            checkcp(document.getElementById("lecp"));
+            if (verifcp > 0)
+	            checkcp(document.getElementById("lecp"));
             document.getElementById("laville").value = sessionStorage.getItem("ville");
+            getFraisLivraison(sessionStorage.getItem("sstotal"));
             eraseAdrLivr(false);
         }
         if (document.getElementById("model").getAttribute("data-permis") == "EMPORTER")
@@ -335,6 +359,7 @@
       document.getElementById("chkcgv").checked = (sessionStorage.getItem("cgv") === 'true');
     </script>
     <script type="text/javascript">
+    	// Défini la zone scrollable
       function reachBottom()
       {
         var x = window.innerHeight - document.getElementById("footer").clientHeight;
@@ -350,61 +375,8 @@
         reachBottom();
       })
     </script>
-    <script type="text/javascript">
-      var cart = JSON.parse(sessionStorage.getItem("commande"));
-      var str = "";
-      var somme = 0;
-      str = str + "<table>"; 
-      str = str + "<thead>";
-      str = str + "<tr>";
-      str = str + "<th>Article</th>";
-      str = str + "<th>Prix</th>";
-      str = str + "<th>Qté</th>";
-      str = str + "<th>Total</th>";
-      str = str + "</tr>";
-      str = str + "</thead>";
-      str = str + "<tbody>";
-        for (var art in cart) {
-          str = str + "<tr>";
-          str = str + "<td>";
-          str = str + cart[art].name;
-          str = str + "</td>";
-          str = str + "<td>";
-          var ton_chiffre = parseFloat(cart[art].prix); // Ta variable de chiffre
-          var ton_chiffre2 = ton_chiffre.toFixed(2); 
-          str = str + ton_chiffre2 + " € ";
-          str = str + "</td>";
-          str = str + "<td>";
-          str = str + cart[art].qt;
-          str = str + "</td>";
-          str = str + "<td>";
-          str = str + (cart[art].qt * cart[art].prix).toFixed(2) + " € ";
-          somme = somme + cart[art].qt * cart[art].prix;
-          str = str + "</td>";
-
-          str = str + "</tr>";
-        }
-      str = str + "</tbody>";
-      str = str + "</table>"; 
-
-      var method = sessionStorage.getItem("method");
-      var method_txt = "";
-      if (method == 1)
-      {
-        method_txt = "Consomation sur place";
-        document.getElementById("methodid").innerHTML = method_txt + '<br>';
-      } 
-/*      if (method >= 2) 
-        method_txt = "Vente à emporter ou à livrer";*/
-
-      if (method == 1) 
-      {
-        document.getElementById("tableid").innerHTML = "Table numéro " + sessionStorage.getItem("table") + "<br>";
-      }      
-      document.getElementById("commandediv").innerHTML = str;
-      document.getElementById("sommeid").innerHTML = "Prix total de la commande : " + somme.toFixed(2) + " € ";
-    </script>
     <script type="text/javascript" >
+    	// Sauvegarde les valeurs de la pages
       function bakInfo()
       {
         if (sessionStorage.getItem("method")>=2)
@@ -416,6 +388,7 @@
           sessionStorage.setItem("adresse2", document.getElementById("ladresse2").value);
           sessionStorage.setItem("codepostal", document.getElementById("lecp").value);
           sessionStorage.setItem("ville", document.getElementById("laville").value);
+          getFraisLivraison(sessionStorage.getItem("sstotal"));
           if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
           {
             if (document.getElementById("pcomptant").checked == true)
@@ -443,6 +416,7 @@
       }
     </script>
     <script type="text/javascript" >
+      // Vérifie que les infos nécessaires ont été saisi pour quitter le formulaire
       function checkInfo() 
       {
         var failed = false;
@@ -483,6 +457,7 @@
       }
     </script>
     <script type="text/javascript" >
+    	// Mémorise que les conditions générales de vente ont été approuvés
       function memcgv() 
       {
         var valcgv = document.getElementById("chkcgv").checked;
