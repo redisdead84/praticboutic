@@ -166,11 +166,11 @@
 	      var frliv = parseFloat(sessionStorage.getItem("fraislivr"));
 	 	    document.getElementById("fraislivid").innerHTML = "Frais de livraison : " + frliv.toFixed(2) + " € <br>";
 	      var tota = parseFloat(sessionStorage.getItem("fraislivr")) + somme;
-	      document.getElementById("totalid").innerHTML = "Prix total de la commande : " + tota.toFixed(2) + " € <br>";
+	      document.getElementById("totalid").innerHTML = "<strong>Prix total de la commande : " + tota.toFixed(2) + " € </strong><br>";
 			}
 			else if (sessionStorage.getItem("choicel") == "EMPORTER") 
 			{
-	      document.getElementById("totalid").innerHTML = "Prix total de la commande : " + somme.toFixed(2) + " € <br>";
+	      document.getElementById("totalid").innerHTML = "<strong>Prix total de la commande : " + somme.toFixed(2) + " € </strong><br>";
 			}      
       
     </script>
