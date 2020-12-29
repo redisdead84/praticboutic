@@ -45,14 +45,18 @@
     <title>Prise d'information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	  <script type="text/javascript" src="js/bandeau.js?v=1.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
+
     <?php
       $verifcp = GetValeurParam("VerifCP", $conn, $customid, "0");    
 

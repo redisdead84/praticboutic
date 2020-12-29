@@ -46,13 +46,16 @@
     <title>Ecran de fin</title>
     <meta name="description" content="A demo of a card payment on Stripe" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    
+		<link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>" />
     <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 
     <script src="https://js.stripe.com/v3/"></script>
     <script src="js/mail.js?v=1.25"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	  <script type="text/javascript" src="js/bandeau.js?v=1.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -72,7 +75,12 @@
       ?>
     </div>
     <script type="text/javascript" >
+    	var close = 0; 
+    	if (sessionStorage.getItem("barre") == "close")
+    		close = 1;
       sessionStorage.clear();
+      if (close == 1)
+      	sessionStorage.setItem("barre", "close");
     </script>
     <script type="text/javascript">
       function reachBottom()

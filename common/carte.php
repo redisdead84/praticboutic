@@ -18,27 +18,12 @@
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	  <script type="text/javascript">
-	  	$(document).ready(function(){
-	      $('#barre').animate({
-		      marginTop: "0",
-	      }, 500);
-	      $("#fermer").mousedown(function(){      
-	        $('#barre').animate({ 
-		        marginBottom: "-90px",
-		      }, 500);
-	       });
-	     });
-	  </script>
+	  <script type="text/javascript" src="js/bandeau.js?v=1.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-    <div id="barre">
-      <?php echo $policy;?>
-    <div id="fermer"></div>
-		</div>
     <?php
 
     $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
