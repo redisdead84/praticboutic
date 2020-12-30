@@ -77,8 +77,7 @@
       
       if ($method >= 2)
       {
-        echo '<div id="livraison">Informations concernant la livraison</div>';
-        echo '<br>';
+        echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
         echo '<label class="lcont">Nom : </label>';
         echo '<input class="cont" type="string" id="lenom" name="nom" required>';
         echo '<br>';            
@@ -98,7 +97,7 @@
     
         $cmlivr = GetValeurParam("CM_Livrer", $conn, $customid, "Livraison Standard");
 
-        echo '<div id="met">';
+        echo '<div class="panneau" id="met">';
         echo '<div id="model" data-permis="' . $chm . '">';
         echo 'Retrait :<br>';
         if ($chm == "TOUS")
@@ -151,7 +150,7 @@
       echo '<label class="lcont ">Ville : </label>';
       echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
       echo '<br>';
-      echo '<div id="fraislivrid" >Frais de livraison : 0,00 €</div>';
+      echo '<div class="panneau" id="fraislivrid" >Frais de livraison : 0,00 €</div>';
       echo '</div>';
         
       echo '</div>';
@@ -165,7 +164,7 @@
     
         $livr = GetValeurParam("MP_Livraison", $conn, $customid, "Paiement à la livraison");
 
-        echo '<div id="paye">';
+        echo '<div class="panneau" id="paye">';
         echo '<div id="modep" data-permis="' . $chp . '">';
         echo 'Paiement :<br>';
         if ($chp == "TOUS")
@@ -198,7 +197,7 @@
         echo '</div>';
         echo '</div>';
       }
-      echo '<div id="cgv">';
+      echo '<div class="panneau" id="cgv">';
       echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()"">';
       echo '<label for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
       echo '</div>';

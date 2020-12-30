@@ -67,7 +67,7 @@
         $logo = GetValeurParam("master_logo",$conn, $customid);     
         echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
       ?>
-      <div id="envoieok">Votre commande a été envoyée.</div> 
+      <div class="panneau" id="envoieok">Votre commande a été envoyée.</div> 
     </div>
     <div id="footer">
       <?php

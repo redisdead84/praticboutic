@@ -407,4 +407,9 @@ body#backbody
   color:black;
 }
 
+.panneau
+{
+	text-align: center;
+	margin: 3% 3% 3% 3%;
+}
 
