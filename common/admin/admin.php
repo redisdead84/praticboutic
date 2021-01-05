@@ -709,7 +709,7 @@
 		    echo $action;
 		    echo  '" method="POST">'," \n ";
 	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
-	  	  echo '<input type="text" id="inpnom" name="inpnom" value="' . $nom . '" maxlength="40" required></input><br>'," \n ";
+	  	  echo '<input type="text" id="inpnom" name="inpnom" value="' . $nom . '" maxlength="130" required></input><br>'," \n ";
   	  	echo '<label for="inpvis">Visible : </label><br>'," \n ";
   	  	if ($visible == 1)
 		      echo '<input type="checkbox" id="inpvis" name="inpvis" value="' . $visible . '" checked></input><br>'," \n ";
@@ -728,7 +728,7 @@
 		    echo $action;
 		    echo  '" method="POST">'," \n ";
 	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
-	  	  echo '<input type="text" id="inpnom" name="inpnom" maxlength="40" required></input><br>'," \n ";
+	  	  echo '<input type="text" id="inpnom" name="inpnom" maxlength="130" required></input><br>'," \n ";
   	  	echo '<label for="inpvis">Visible : </label><br>'," \n ";
 	  	  echo '<input type="checkbox" id="inpvis" name="inpvis" value="1" checked></input><br>'," \n ";     
     		echo '<a href="admin.php?customer=' . $customer . '#tabCat"><button type="button">Cancel</button></a>'," \n ";
@@ -852,7 +852,7 @@
 	    	echo '<input type="number" id="inpprixart" name="inpprixart" value="' . $prix2 . '" step="0.01" required></input><br>'," \n ";
  
 		    echo '<label for="inpuniteart">Unite : </label><br>'," \n ";
-	  	  echo '<input type="text" id="inpuniteart" name="inpuniteart" value="' . $unite2 . '" maxlength="40"></input><br>'," \n ";
+	  	  echo '<input type="text" id="inpuniteart" name="inpuniteart" value="' . $unite2 . '" maxlength="130"></input><br>'," \n ";
 
 		    echo '<label for="inpdescart">Description : </label><br>'," \n ";
 	  	  echo '<input type="text" id="inpdescart" name="inpdescart" value="' . $desc2 . '" maxlength="300"></input><br>'," \n ";
@@ -892,7 +892,7 @@
 		    echo $action2;
 		    echo  '" method="POST" enctype="multipart/form-data">'," \n ";
 	  	  echo '<label for="inpnomart">Nom : </label><br>'," \n ";
-	  	  echo '<input type="text" id="inpnomart" name="inpnomart" maxlength="40" required></input><br>'," \n ";
+	  	  echo '<input type="text" id="inpnomart" name="inpnomart" maxlength="130" required></input><br>'," \n ";
 	  	
 	  	  echo '<label for="inpcatart">Categorie : </label><br>'," \n ";
 	  	  echo '<select name="inpcatart" required>'," \n ";
@@ -911,7 +911,7 @@
 	  	  echo '<input type="number" id="inpprixart" name="inpprixart" value="1" step="0.01" required></input><br>'," \n ";
 
 		    echo '<label for="inpuniteart">Unite : </label><br>'," \n ";
-	  	  echo '<input type="text" id="inpuniteart" name="inpuniteart" maxlength="40"></input><br>'," \n ";
+	  	  echo '<input type="text" id="inpuniteart" name="inpuniteart" maxlength="130"></input><br>'," \n ";
 
 		    echo '<label for="inpdescart">Description : </label><br>'," \n ";
 	  	  echo '<input type="text" id="inpdescart" name="inpdescart" maxlength="150"></input><br>'," \n ";
@@ -1143,7 +1143,7 @@
   		    echo $action;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
-  	  	  echo '<input type="text" id="inpnom" name="inpnom" value="' . $nom6 . '" maxlength="40" required></input><br>'," \n ";
+  	  	  echo '<input type="text" id="inpnom" name="inpnom" value="' . $nom6 . '" maxlength="130" required></input><br>'," \n ";
     	  	echo '<label for="inpvis">Visible : </label><br>'," \n ";
     	  	if ($visible6 == 1)
   		      echo '<input type="checkbox" id="inpvis" name="inpvis" value="' . $visible6 . '" checked></input><br>'," \n ";
@@ -1167,7 +1167,7 @@
   		    echo $action;
   		    echo  '" method="POST">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
-  	  	  echo '<input type="text" id="inpnom" name="inpnom" maxlength="40" required></input><br>'," \n ";
+  	  	  echo '<input type="text" id="inpnom" name="inpnom" maxlength="130" required></input><br>'," \n ";
     	  	echo '<label for="inpvis">Visible : </label><br>'," \n ";
   	  	  echo '<input type="checkbox" id="inpvis" name="inpvis" value="1" checked></input><br>'," \n ";     
     	  	echo '<label for="inpmulti">Multiple : </label><br>'," \n ";
@@ -1284,7 +1284,7 @@
   		    echo $action2;
   		    echo  '" method="POST" enctype="multipart/form-data">'," \n ";
   	  	  echo '<label for="inpnom">Nom : </label><br>'," \n ";
-  	  	  echo '<input type="text" id="inpnom" name="inpnom" maxlength="40" required></input><br>'," \n ";
+  	  	  echo '<input type="text" id="inpnom" name="inpnom" maxlength="130" required></input><br>'," \n ";
   
   	  	  echo '<label for="inpsurcout">Surcout : </label><br>'," \n ";
   	  	  echo '<input type="number" id="inpsurcout" name="inpsurcout" value="0" step="0.01" required></input><br>'," \n ";

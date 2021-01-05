@@ -80,23 +80,23 @@
                 {
               	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
                 }
-              	echo '<a class="nom">';
+              	echo '<div class="nom">';
        	      	echo $row2[1];
        	      	echo '<br />';
-       	      	echo '</a>';
-       	      	echo '<a class="desc">';
+       	      	echo '</div>';
+       	      	echo '<div class="desc">';
        	      	if (!empty($row2[4]))
        	      	{
        	      	 echo $row2[4];
                  echo '<br />'; 
        	      	}
-       	      	echo '</a>';
-								echo '<a class="prix">';
+       	      	echo '</div>';
+								echo '<div class="prix">';
        	      	echo number_format($row2[2], 2, ',', ' ');
        	      	echo ' ';
        	      	echo $row2[3];
        	      	echo '<br />';
-       	      	echo '</a>';
+       	      	echo '</div>';
        	      	if($method > 0) 
        	      	{
 					  		  echo '<label>Quantit&eacute;</label>';
@@ -220,23 +220,23 @@
         	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row3[5] . '" alt = "nopic">';
                   echo '<br>';
                 }
-        	echo '<a class="nom">';
+        	echo '<div class="nom">';
  	      	echo $row3[1];
  	      	echo '<br />';
- 	      	echo '</a>';
- 	      	echo '<a class="desc">';
+ 	      	echo '</div>';
+ 	      	echo '<div class="desc">';
  	      	if (!empty($row3[4]))
  	      	{
  	      	 echo $row3[4];
            echo '<br />'; 
  	      	} 
- 	      	echo '</a>';
- 	      	echo '<a class="prix">';
+ 	      	echo '</div>';
+ 	      	echo '<div class="prix">';
  	      	echo number_format($row3[2], 2, ',', ' ');
  	      	echo ' ';
  	      	echo $row3[3];
  	      	echo '<br />';
- 	      	echo '</a>';
+ 	      	echo '</div>';
  	      	if($method > 0) 
  	      	{
 		  		  echo '<label hidden>Quantit&eacute;</label>';

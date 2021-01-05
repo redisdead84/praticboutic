@@ -413,3 +413,16 @@ body#backbody
 	margin: 3% 3% 3% 3%;
 }
 
+div.nom{
+font-size:124%;  
+}
+
+div.prix{
+font-size:100%;  
+}
+
+div.desc{
+font-size:90%;  
+}
+
+
