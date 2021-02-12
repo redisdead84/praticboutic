@@ -49,8 +49,7 @@
     
 		<link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>" />
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
 
     <script src="https://js.stripe.com/v3/"></script>
     <script src="js/mail.js?v=1.25"></script>
@@ -62,16 +61,24 @@
   </head>
 
   <body>
+  	<div id="header">
+		<img id="mainlogo" src="img/logo-pratic-boutic.png">
+		</div>		
+
     <div id="main">
       <?php
         $logo = GetValeurParam("master_logo",$conn, $customid);     
         echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
       ?>
-      <div class="panneau" id="envoieok">Votre commande a été envoyée.</div> 
+      <div class="fsub">
+     		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
+     	</div> 
     </div>
     <div id="footer">
       <?php
-        echo '<input class="inpmove poursuivre" type="button" value="Commander à nouveau" onclick="window.location.href = \'carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer . '\'">';
+      	echo '<div class="solobn">';
+        echo '<input id="recommander" class="soloindic" type="button" value="Passer une autre commande" onclick="window.location.href = \'carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer . '\'">';
+        echo '</div>';
       ?>
     </div>
     <script type="text/javascript" >
@@ -83,9 +90,9 @@
       	sessionStorage.setItem("barre", "close");
     </script>
     <script type="text/javascript">
-      function reachBottom()
+      function reachBottom() 
       {
-        var x = window.innerHeight - document.getElementById("footer").clientHeight;
+        var x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
         x = x + "px";
         document.getElementById("main").style.height = x;
       }

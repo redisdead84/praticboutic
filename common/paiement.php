@@ -36,10 +36,9 @@
     <meta name="description" content="A demo of a card payment on Stripe" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
-    <!--<link rel="stylesheet" href="css/style.css?v=1.22" />-->
     <link rel="stylesheet" href="css/global.css?v=<?php echo $ver_com_css;?>" />
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <!--<link rel="stylesheet" href="css/style.css?v=1.22" />-->
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <script src="https://js.stripe.com/v3/"></script>
     <script src="js/client.js?v=1.25" defer></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -59,7 +58,10 @@
     $reqci->close();
  	    
     $pkey = GetValeurParam("PublicKey", $conn, $customid);
-    
+    echo '<div id="header">';
+		echo '<img id="mainlogo" src="img/logo-pratic-boutic.png">';
+		echo '</div>';		
+
     echo '<div id="main" data-publickey="' . $pkey . '">';
     
     $logo = GetValeurParam("master_logo",$conn, $customid);     
@@ -67,25 +69,26 @@
     
     ?>
    <div id="pan">
-      <br>
 <!--      <a id="methodid"></a><br>-->
-      <a id="tableid"></a>
+      <div id="tableid"></div>
       <div id="commandediv"></div>
-      <a id="sstotalid"></a>
-      <a id="fraislivid"></a>
-			<a id="totalid"></a>
+      <div class="fraistotal" id="sstotalid"></div>
+      <div class="fraistotal" id="fraislivid"></div>
+			<div class="fraistotal mbot" id="totalid"></div>
+			<div class="fpay" id="payid"></div>
       <br>
     </div>
 
     </div>
-    <div class="inpmove" id="footer">
+    
       <!-- Display a payment form -->
       <script type="text/javascript">
       
         if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
-          document.write('<form id="payment-form">');
+        	document.write('<div id="payementfooter">');
+          document.write('<form class="frm" id="payment-form">');
           document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
-          document.write('<button id="submit">');
+          document.write('<button class="btn" id="submit">');
           document.write('<div class="spinner hidden" id="spinner"></div>');
           document.write('<span id="button-text">Payer</span>');
           document.write('</button>');
@@ -97,15 +100,26 @@
           document.write('</p>');
           document.write('</div>');
           document.write('</form>');
+          document.write('<div class="solobn">');
+          document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+        	document.write('Revenir sur les informations');
+        	document.write('</button>');
+        	document.write('</div>');
+          document.write('</div>');
         } else {
-          document.write('<button class="poursuivre" id="validbutton" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
-          document.write('Valider la commande');
+        	document.write('<div id="footer">');
+          document.write('<div class="grpbn">');
+          document.write('<button class="navindic" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+        	document.write('Retour');
+        	document.write('</button>');
+          document.write('<button class="navindic" id="validcarte" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+          document.write('Valider');
           document.write('</button>');
+          document.write('</div>');
+          document.write('</div>');
         }
         
-        document.write('<button class="revenir" id="backbutton" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
-        document.write('Revenir sur la commande');
-        document.write('</button>');
+
         
       </script>      
     </div>
@@ -113,37 +127,50 @@
       var cart = JSON.parse(sessionStorage.getItem("commande"));
       var str = "";
       var somme = 0;
+
+			  
+    		
+    	str = str + "<p class='pres'>Résumé de votre commande</p>";	
+  			      
+      
       str = str + "<table>"; 
-      str = str + "<thead>";
+//      str = str + "<thead>";
+      str = str + "<colgroup>";
+      str = str + "<col class='colart'>";
+      str = str + "<col class='colstd'>";
+      str = str + "<col class='colstd'>";
+      str = str + "<col class='colprx'>";
+      str = str + "</colgroup>";
+      
       str = str + "<tr>";
-      str = str + "<th>Article</th>";
-      str = str + "<th>Prix</th>";
-      str = str + "<th>Qté</th>";
-      str = str + "<th>Total</th>";
+      str = str + "<th class='colart'>Article</th>";
+      str = str + "<th class='colstd'>Prix</th>";
+      str = str + "<th class='colstd'>Qté</th>";
+      str = str + "<th class='colprx'>Total</th>";
       str = str + "</tr>";
-      str = str + "</thead>";
-      str = str + "<tbody>";
+//      str = str + "</thead>";
+//      str = str + "<tbody>";
         for (var art in cart) {
           str = str + "<tr>";
-          str = str + "<td>";
+          str = str + "<td class='colart'>";
           str = str + cart[art].name;
           str = str + "</td>";
-          str = str + "<td>";
+          str = str + "<td class='colstd'>";
           var ton_chiffre = parseFloat(cart[art].prix); // Ta variable de chiffre
           var ton_chiffre2 = ton_chiffre.toFixed(2); 
           str = str + ton_chiffre2 + " € ";
           str = str + "</td>";
-          str = str + "<td>";
+          str = str + "<td class='colstd'>";
           str = str + cart[art].qt;
           str = str + "</td>";
-          str = str + "<td>";
+          str = str + "<td class='colprx'>";
           str = str + (cart[art].qt * cart[art].prix).toFixed(2) + " € ";
           somme = somme + cart[art].qt * cart[art].prix;
           str = str + "</td>";
 
           str = str + "</tr>";
         }
-      str = str + "</tbody>";
+//      str = str + "</tbody>";
       str = str + "</table>"; 
 
       var method = sessionStorage.getItem("method");
@@ -164,23 +191,37 @@
       
 			if (sessionStorage.getItem("choicel") == "LIVRER")
 			{
-	      document.getElementById("sstotalid").innerHTML = "Sous-total : " + somme.toFixed(2) + " € <br>";
+	      document.getElementById("sstotalid").innerHTML = "<p class='fleft'>Sous-total : </p><p class='fright'>" + somme.toFixed(2) + " € </p><br>";
 	      var frliv = parseFloat(sessionStorage.getItem("fraislivr"));
-	 	    document.getElementById("fraislivid").innerHTML = "Frais de livraison : " + frliv.toFixed(2) + " € <br>";
+	 	    document.getElementById("fraislivid").innerHTML = "<p class='fleft'>Frais de livraison : </p><p class='fright'>" + frliv.toFixed(2) + " € </p><br>";
 	      var tota = parseFloat(sessionStorage.getItem("fraislivr")) + somme;
-	      document.getElementById("totalid").innerHTML = "<strong>Prix total de la commande : " + tota.toFixed(2) + " € </strong><br>";
+	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + tota.toFixed(2) + " € </p><br>";
+
 			}
 			else if (sessionStorage.getItem("choicel") == "EMPORTER") 
 			{
-	      document.getElementById("totalid").innerHTML = "<strong>Prix total de la commande : " + somme.toFixed(2) + " € </strong><br>";
+				document.getElementById("sstotalid").style.display = "none";
+				document.getElementById("fraislivid").style.display = "none";
+	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + somme.toFixed(2) + " € </p><br>";
 			}      
+			if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT"))
+				document.getElementById("payid").innerHTML = "<p class='mntpay'>Montant à payer : " + tota.toFixed(2) + " € </p>";
+			else {
+				document.getElementById("payid").style.display = "none";
+			}
+			
       
     </script>
 
     <script type="text/javascript">
-      function reachBottom()
+      function reachBottom() 
       {
-        var x = window.innerHeight - document.getElementById("footer").clientHeight;
+      	var x;
+      	if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT"))
+      	  x = window.innerHeight - document.getElementById("payementfooter").clientHeight - document.getElementById("header").clientHeight;
+      	else
+      	  x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
+
         x = x + "px";
         document.getElementById("main").style.height = x;
       }

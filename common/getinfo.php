@@ -46,9 +46,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
-    <link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">
+    <!--<link rel="stylesheet" href="../<?php echo $customer;?>/css/custom.css?v=<?php echo $ver_cust_css;?>">-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  <script type="text/javascript" src="js/bandeau.js?v=1.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -59,7 +59,12 @@
 
     <?php
       $verifcp = GetValeurParam("VerifCP", $conn, $customid, "0");    
-
+			
+			echo '<div id="header">';
+			echo '<img id="mainlogo" src="img/logo-pratic-boutic.png">';
+			echo '</div>';		
+			
+			
       echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '" data-verifcp="' . $verifcp . '" >';
       
       echo '<form name="mainform" autocomplete="off" method="post" action="paiement.php?method=';
@@ -78,16 +83,20 @@
       if ($method >= 2)
       {
         echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
-        echo '<label class="lcont">Nom : </label>';
+        echo '<div class="underlined">';
+        echo '<label class="lcont">Nom :&nbsp;</label>';
         echo '<input class="cont" type="string" id="lenom" name="nom" required>';
-        echo '<br>';            
-        echo '<label class="lcont">Pr&eacute;nom : </label>';
+        echo '</div>';
+        echo '<div class="underlined">';            
+        echo '<label class="lcont">Pr&eacute;nom :&nbsp;</label>';
         echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
-        echo '<br>';
-        echo '<label class="lcont">T&eacute;l. Portable : </label>';
+        echo '</div>';
+        echo '<div class="underlined">';
+        echo '<label class="lcont">T&eacute;l. Portable :&nbsp;</label>';
         echo '<input class="cont" type="string" id="letel" name="tel" required 
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
+        echo '</div>';
       }
       if ($method >= 2)
       {
@@ -99,31 +108,33 @@
 
         echo '<div class="panneau" id="met">';
         echo '<div id="model" data-permis="' . $chm . '">';
-        echo 'Retrait :<br>';
+        //echo 'Retrait :<br>';
         if ($chm == "TOUS")
         { 
           echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true)">';
-          echo '<label for="lemporter">A EMPORTER : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
+          echo '<div class="spcpandetail"></div>';
+          echo '<label class="pandetail">';
           echo $cmemp; 
           echo '</label><br>';
           echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">';
-          echo '<label for="llivrer">EN LIVRAISON : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
+          echo '<div class="spcpandetail"></div>';
+          echo '<label class="pandetail">';
           echo $cmlivr;
           echo '</label><br>';
         }
         if ($chm == "EMPORTER")
         {
-          echo '<label for="lemporter">A EMPORTER : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
+          echo '<label class="pandetail">';
           echo $cmemp; 
           echo '</label><br>';
         }  
         if ($chm == "LIVRER")
         {
-          echo '<label for="llivrer">EN LIVRAISON : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
+          echo '<label class="pandetail">';
           echo $cmlivr;
           echo '</label><br>';
         }  
@@ -132,13 +143,16 @@
       }
 
       echo '<div id="adrlivr">';
-      echo '<label class="lcont">Adresse 1 : </label>';
+      echo '<div class="underlined">';
+      echo '<label class="lcont">Adresse 1 :&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
-      echo '<br>';
-      echo '<label class="lcont">Adresse 2 : </label>';
+      echo '</div>';
+      echo '<div class="underlined">';
+      echo '<label class="lcont">Adresse 2 :&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
-      echo '<br>';
-      echo '<label class="lcont">Code Postal : </label>';
+      echo '</div>';
+      echo '<div class="underlined">';
+      echo '<label class="lcont">Code Postal :&nbsp;</label>';
       if ($verifcp > 0) {
         echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
           pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
@@ -146,9 +160,11 @@
         echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
           pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
       }
-      echo '<br>';
-      echo '<label class="lcont ">Ville : </label>';
+      echo '</div>';
+      echo '<div class="underlined">';
+      echo '<label class="lcont ">Ville :&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
+      echo '</div>';
       echo '<br>';
       echo '<div class="panneau" id="fraislivrid" >Frais de livraison : 0,00 €</div>';
       echo '</div>';
@@ -166,31 +182,32 @@
 
         echo '<div class="panneau" id="paye">';
         echo '<div id="modep" data-permis="' . $chp . '">';
-        echo 'Paiement :<br>';
         if ($chp == "TOUS")
         { 
           echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
-          echo '<label for="pcomptant">AU COMPTANT : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="pcomptant">Au Comptant </label><br>';
+          echo '<div class="spcpandetail"></div>';
+          echo '<label class="pandetail">';
           echo $cmpt; 
           echo '</label><br>';
           echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
-          echo '<label for="plivraison">A LA LIVRAISON : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="plivraison">A La Livraison </label><br>';
+          echo '<div class="spcpandetail"></div>';
+          echo '<label class="pandetail">';
           echo $livr;
           echo '</label><br>';
         }
         if ($chp == "COMPTANT")
         {
-          echo '<label for="pcomptant">AU COMPTANT : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="pcomptant">Au Comptant </label><br>';
+          echo '<label class="pandetail">';
           echo $cmpt; 
           echo '</label><br>';
         }  
         if ($chp == "LIVRAISON")
         {
-          echo '<label for="plivraison">A LA LIVRAISON : </label><br>';
-          echo '<label>';
+          echo '<label class="lblpaiers" for="plivraison">A La Livraison </label><br>';
+          echo '<label class="pandetail">';
           echo $livr;
           echo '</label><br>';
         }  
@@ -199,7 +216,7 @@
       }
       echo '<div class="panneau" id="cgv">';
       echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()"">';
-      echo '<label for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
+      echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
       echo '</div>';
     ?>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)"></textarea>
@@ -208,15 +225,17 @@
       <?php
         if  ($method > 0)
         {
-            echo '<input class="inpmove poursuivre" type="button" value="Poursuivre la commande" onclick="checkInfo()">';
-            echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="bakInfo();';
-            echo 'window.location.href = \'carte.php?method=';
-            echo $method;
-            echo '&table=';
-            echo $table;
-            echo '&customer=';
-            echo $customer;
-            echo '\'"';
+        	echo '<div class="grpbn">';
+          echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">';
+          echo '<input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();';
+          echo 'window.location.href = \'carte.php?method=';
+          echo $method;
+          echo '&table=';
+          echo $table;
+          echo '&customer=';
+          echo $customer;
+          echo '\'"';
+          echo '</div>';
         }
       ?>
     </div>
@@ -365,7 +384,7 @@
     	// Défini la zone scrollable
       function reachBottom()
       {
-        var x = window.innerHeight - document.getElementById("footer").clientHeight;
+        var x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
         x = x + "px";
         document.getElementById("main").style.height = x;
       }

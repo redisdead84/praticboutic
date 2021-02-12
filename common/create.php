@@ -39,6 +39,7 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
     { 
       // recuperre l'id
       $id = $items[$i]->id;
+
       $type = $items[$i]->type;
       if ($type == "article")
         $req = $conn->prepare('SELECT prix FROM article WHERE customid = ' . $customid . ' AND artid = ?');
@@ -49,8 +50,8 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
    	  $req->execute();
      	$req->bind_result($prix_serveur);
      	$resultat = $req->fetch();
-      $req->close();          
-
+      $req->close(); 
+      
       if ($prix_serveur == $items[$i]->prix)
         $price = $price + $items[$i]->prix * $items[$i]->qt;
       else

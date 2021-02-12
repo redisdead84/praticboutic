@@ -10,16 +10,22 @@ html
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
+  /*font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;*/
   -webkit-font-smoothing: antialiased;
   /*display: flex;*/
   justify-content: center;
   align-content: center;
   /*height: 100vh;
   width: 100vw;*/
-  height: 100%;
-  margin: 0px;
+  /*height: 100%;*/
+  /*margin: 0px;*/
+  font-family: 'Public Sans';
+  font-size: 100%;
+  margin : 0;
+  overflow: hidden;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 @media only screen and (min-width: 640px) {
@@ -71,14 +77,15 @@ body {
   }
 }
 
-form {
+.frm {
   /*width: 30vw;
   min-width: 350px;*/
   align-self: center;
-  box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+  /*box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-  border-radius: 7px;
+  border-radius: 7px;*/
   /*padding: 20px;*/
+  background-color: white;
 }
 
 input {
@@ -116,9 +123,10 @@ input {
 }
 
 #card-element {
-  border-radius: 4px 4px 0 0 ;
+  /*border-radius: 4px 4px 0 0 ;*/
   padding: 12px;
-  border: 1px solid rgba(50, 50, 93, 0.1);
+  /*border: 1px solid rgba(50, 50, 93, 0.1);*/
+  border: 1px solid black;
   height: 44px;
   width: 100%;
   background: white;
@@ -129,11 +137,11 @@ input {
 }
 
 /* Buttons and links */
-button {
-  background: #5469d4;
+.btn {
+  background: black;
   color: #ffffff;
   font-family: Arial, sans-serif;
-  border-radius: 0 0 4px 4px;
+  border-radius: 8px;
   border: 0;
   padding: 12px 16px;
   font-size: 16px;
@@ -142,12 +150,19 @@ button {
   display: block;
   transition: all 0.2s ease;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-  width: 100%;
+  width: 33%;
+  margin-left: 33%;
+  margin-right: 33%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: inline;
 }
-button:hover {
+
+.btn:hover:enabled {
+	background-color: #e2007a;
   filter: contrast(115%);
 }
-button:disabled {
+.btn:disabled {
   opacity: 0.5;
   cursor: default;
 }
@@ -239,10 +254,18 @@ button:disabled {
 #footer
 {
   width: 100%;  
-  height: 100%;  
+  height: 75px;
   margin: 0px;
+  background-color: lightgray;
 }
 
+#payementfooter
+{
+  width: 100%;  
+  height: 225px;
+  margin: 0px;
+  background-color: lightgray;
+}
 
 .socialn {
   margin-left: auto;
@@ -290,5 +313,204 @@ table
 
 .intercalaire
 {
-  height: 50px;
+  height: 38px;
+  /*border: 1px solid black;*/
 }
+
+#header
+{
+  height: 100px;
+  width: 100%;
+  text-align: center;
+}
+
+#mainlogo
+{
+	display: inline-block;
+	height: 40px;
+	width: 92px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 35px;
+	margin-bottom: 25px;
+}
+
+.grpbn
+{
+	box-sizing: content-box;
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 25px;
+  width: 70%;
+  
+}
+
+.solobn
+{
+	box-sizing: content-box;
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 25px;
+  width: 50%;
+  text-align: center;
+}
+
+
+.navindic
+{
+	border: 2px solid black;
+	font-weight: bold;
+	border-radius: 5px;
+  width: 48%;
+  height: 35px;
+  margin-right: 0px;
+  margin-left: 0px;
+  font-size: 80%;
+  outline: none;
+}
+
+.navindicsolo
+{
+	border: 2px solid black;
+	font-weight: bold;
+	border-radius: 5px;
+  width: 100%;
+  height: 35px;
+  margin-right: 0px;
+  margin-left: 0px;
+  font-size: 80%;
+  outline: none;
+}
+
+#retourcarte
+{
+  /*width: 75px;
+  height: auto;
+  font-size: 112%;
+  margin: 0 auto;
+  text-align: right;*/
+	background-color: lightgray;
+	color: black;
+	float: left;
+	outline: none;
+}
+
+#retourcarte:hover
+{
+	background-color: black;;
+	color: lightgray;;
+}
+
+#validcarte
+{
+	background-color: black;
+	color: white;
+	float: right;
+	outline: none;
+}
+
+#validcarte:hover
+{
+	background-color: #e2007a;
+	color: black;
+	float: right;
+}
+
+.pres
+{
+	text-align: center;
+	font-weight: bold;
+}
+
+.colart
+{
+	text-align: left;
+	
+}
+
+.colstd
+{
+	text-align: center;
+}
+
+.colprx
+{
+	text-align: right;
+}
+
+table
+{
+border-collapse: collapse;
+width: 80%;
+margin-left: 10%;
+margin-right: 10%;
+
+}
+
+th
+{
+	border-bottom: 2px solid black;
+	font-weight: bold;
+	font-size: 85%;
+	height: 32px;
+}
+
+td
+{
+	border-top: 1px solid black;
+	font-size: 70%;
+	height: 32px;
+}
+
+.fraistotal
+{
+	display: inline-block;
+	width: 80%;
+	margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 16px;
+  border-top: 2px solid black;
+  font-weight: bold;
+	font-size: 85%;
+	height: 32px;
+}
+
+.fleft
+{
+	float: left;
+}
+
+.fright
+{
+	float: right;
+}
+
+.wbld
+{
+	font-weight: bold;
+}
+
+.mbot
+{
+  margin-bottom: 16px;
+}
+
+.fpay
+{
+	display: flex;
+	justify-content: center;
+}
+
+.mntpay
+{
+	border: 3px solid #e2007a; 
+	text-align: center;
+	color: #e2007a; 
+	font-weight: bold;
+	padding: 6px;
+}
+

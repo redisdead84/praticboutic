@@ -38,12 +38,13 @@ if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")==
   
       var style = {
         base: {
-          color: "#32325d",
+          color: "black",
+          backgroundColor: "white",
           fontFamily: 'Arial, sans-serif',
           fontSmoothing: "antialiased",
           fontSize: "16px",
           "::placeholder": {
-            color: "#32325d"
+            color: "black"
           }
         },
         invalid: {
