@@ -65,7 +65,7 @@
 		<img id="mainlogo" src="img/logo-pratic-boutic.png">
 		</div>		
 
-    <div id="main">
+    <div id="finmain">
       <?php
         $logo = GetValeurParam("master_logo",$conn, $customid);     
         echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
@@ -94,7 +94,7 @@
       {
         var x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
         x = x + "px";
-        document.getElementById("main").style.height = x;
+        document.getElementById("finmain").style.height = x;
       }
     </script>
     <script type="text/javascript">
