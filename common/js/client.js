@@ -34,13 +34,19 @@ if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")==
       return result.json();
     })
     .then(function(data) {
-      var elements = stripe.elements();
+      var elements = stripe.elements({
+				fonts: [
+					{
+						cssSrc: 'https://fonts.googleapis.com/css?family=Public+Sans'
+					}
+				],
+			});
   
       var style = {
         base: {
           color: "black",
           backgroundColor: "white",
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: 'Public Sans',
           fontSmoothing: "antialiased",
           fontSize: "16px",
           "::placeholder": {

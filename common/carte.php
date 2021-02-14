@@ -24,6 +24,7 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
+ 
     <?php
 
     $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
@@ -194,11 +195,12 @@
 	  				    {
     					    while ($row3 = $result3->fetch_row()) 
     					    {
+    					    	echo '<div class="flexsp">';
     					      echo '<label>' . $row3[1] . '</label><br>';
     					      if ($row3[2] == 0)
-    					      	echo '<select id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" >';
+    					      	echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()">';
     					      else if ($row3[2] == 1)
-    					        echo '<select id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" multiple>';
+    					        echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" multiple>';
     					      /*if ($row3[2] == 0)
                       echo '<legend>' . $row3[1] . ' (une seul option possible)</legend>';
                     else if ($row3[2] == 1)
@@ -218,9 +220,9 @@
                           if ($row3[2] == 0)
                           {
                             if ($row4[2]>0) 
-                             	echo '<option data-surcout="' . $row4[2] . '" class="qtopt" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
+                             	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
                             else 
-                              echo '<option data-surcout="' . $row4[2] . '" class="qtopt" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
+                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
                           }
                           else if ($row3[2] == 1)
                           {
@@ -252,7 +254,7 @@
                       }
                     }
                     echo '</select>';
-                    echo '<br>';
+                    echo '</div>';
                   }
                 }
                 
@@ -381,17 +383,21 @@
                 var sefld = opttab[ik].children;
                 for (il=0; il<sefld.length; il++) 
                 {
-                  if (sefld[il].tagName == "SELECT")
-                  {
-	                  var secase = sefld[il].children;
-	                  for (im=0; im<secase.length; im++) 
-	                  {
-	                    if (secase[im].tagName == "OPTION") 
-	                    {
-	                      if (secase[im].selected == true)
-	                      {
-	                        somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));                            
-	                      } 
+          				if (sefld[il].tagName == "DIV")
+          				{ 
+	          				var chsefld = sefld[il].children;
+	            			if (chsefld[2].tagName == "SELECT") 
+	            			{
+		            			var secase = chsefld[2].children;                	
+		                  for (im=0; im<secase.length; im++) 
+		                  {
+	  	                  if (secase[im].tagName == "OPTION") 
+	    	                {
+	      	                if (secase[im].selected == true)
+	        	              {
+	          	              somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));                            
+	            	          }
+	            	        } 
 	                    }
 	                  }
 	                }
@@ -470,44 +476,49 @@
                 var sefld = opttab[k].children;
                 for (l=0; l<sefld.length; l++) 
                 {
-                  var alfa = true;
-                  if (sefld[l].tagName == "SELECT")
-                  {
-	                  var secase = sefld[l].children;
-	                  for (m=0; m<secase.length; m++) 
-	                  {
-	                    if (secase[m].tagName == "OPTION") 
-	                    {
-	                      if (sefld[l].multiple == false)
-	                      {
-	                        if (secase[m].selected == true)
-	                        {
-	                          options = options + " / " + secase[m].value;
-	                          alfa = false;
-	                          sessionStorage.setItem(secase[m].id, 1);
-	                        }
-	                        else
-	                        	sessionStorage.setItem(secase[m].id, 0);
-	                      }
-	                      if (sefld[l].multiple == true)
-	                      {
-	                        alfa = false;
-	                        if (secase[m].selected == true)
-	                        {
-	                          options = options + " + " + secase[m].value;
-	                          sessionStorage.setItem(secase[m].id, 1);
-	                        }
-	                        else
-	                        	sessionStorage.setItem(secase[m].id, 0);
-	                      }
-	                    }
-	                  }
+          				if (sefld[l].tagName == "DIV")
+          				{ 
+	                  var alfa = true;
+	          				var chsefld = sefld[l].children;
+	            			if (chsefld[2].tagName == "SELECT") 
+	            			{
+		            			var secase = chsefld[2].children;                	
+		                  for (m=0; m<secase.length; m++) 
+		                  {
+		                    if (secase[m].tagName == "OPTION") 
+		                    {
+		                      if (chsefld[2].multiple == false)
+		                      {
+		                        if (secase[m].selected == true)
+		                        {
+		                          options = options + " / " + secase[m].value;
+		                          alfa = false;
+		                          sessionStorage.setItem(secase[m].id, 1);
+		                        }
+		                        else
+		                        	sessionStorage.setItem(secase[m].id, 0);
+		                      }
+		                      if (chsefld[2].multiple == true)
+		                      {
+		                        alfa = false;
+		                        if (secase[m].selected == true)
+		                        {
+		                          options = options + " + " + secase[m].value;
+		                          sessionStorage.setItem(secase[m].id, 1);
+		                        }
+		                        else
+		                        	sessionStorage.setItem(secase[m].id, 0);
+		                      }
+		                    }
+		                  }
+	                  
 	
-	                  if ((alfa == true) && (failed == false))
-	                  {
-	                    alert("Il manque un choix sur l article " + artcel[i].getAttribute("data-name") + " numéro " + (k+1) + " dans le groupe d'option " + secase[0].innerHTML );
-	                    failed = true;
-	                  }
+		                  if ((alfa == true) && (failed == false))
+		                  {
+		                    alert("Il manque un choix sur l article " + artcel[i].getAttribute("data-name") + " numéro " + (k+1) + " dans le groupe d'option " + secase[0].innerHTML );
+		                    failed = true;
+		                  }
+		                }
 	                }
                 }              
                 options = options + "<br />";
@@ -545,33 +556,36 @@
                 var sefld = opttab[ik].children;
                 for (il=0; il<sefld.length; il++) 
                 {
-                  var alfa = true;
-                  if (sefld[il].tagName == "SELECT")
-                  {
-                  	var secase = sefld[il].children;
-                  	for (im=0; im<secase.length; im++) 
-                  	{
-                    	if (secase[im].tagName == "OPTION") 
-                    	{
-                      	if (secase[im].selected == true)
-                      	{
-                        	var mystr = secase[im].id;
-                        	var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
-                        	var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
-                        	var alfd = false;                          
-                        	for(io=0;io<opt.length;io++)
-                        	{
-                          	var mystr2 = opt[io].id;
-                          	if (mystr2 == myoption.id )
-                          	{
-                            	alfd = true;
-                            	opt[io].qt = opt[io].qt + 1;                              
-                          	}
-                        	}
-                        	if (alfd == false)
-                        	{
-                          	opt.push(myoption);                          
-                        	}                            
+          				if (sefld[il].tagName == "DIV")
+          				{ 
+	          				var chsefld = sefld[il].children;
+	            			if (chsefld[2].tagName == "SELECT") 
+	            			{
+		            			var secase = chsefld[2].children;                	
+	                  	for (im=0; im<secase.length; im++) 
+  	                	{
+    	                	if (secase[im].tagName == "OPTION") 
+      	              	{
+        	              	if (secase[im].selected == true)
+          	            	{
+	                        	var mystr = secase[im].id;
+	                        	var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
+	                        	var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
+	                        	var alfd = false;                          
+	                        	for(io=0;io<opt.length;io++)
+	                        	{
+	                          	var mystr2 = opt[io].id;
+	                          	if (mystr2 == myoption.id )
+	                          	{
+	                            	alfd = true;
+	                            	opt[io].qt = opt[io].qt + 1;                              
+	                          	}
+	                        	}
+	                        	if (alfd == false)
+	                        	{
+	                          	opt.push(myoption);                          
+	                        	} 
+	                        }                           
                       	} 
                     	}
                   	}
@@ -705,9 +719,9 @@
           for (var i=0; i<etodel.length; i++) 
           {
             if (i == (cur - 1))
-              etodel[cur - 1].hidden = false;
+              etodel[cur - 1].style.display = "flex";
             else
-            	etodel[i].hidden = true;
+            	etodel[i].style.display = "none";
           }       
         }
 
@@ -722,10 +736,10 @@
         {
           var edup = etodup.cloneNode(true);
           
-          edup.hidden = true;
+          edup.style.display = "none";
           
           if ((elemopt.childElementCount - 2) == (cur - 1))
-            edup.hidden = false;
+            edup.style.display = "flex";
 
           edup.setAttribute("class","divopttab");
           edup.setAttribute("data-numero", elemopt.childElementCount - 2);
@@ -734,17 +748,24 @@
           
           for (k=0; k<sefld.length; k++) 
           {
-            if (sefld[k].tagName == "SELECT") 
-            {
-	            var secase = sefld[k].children;
-	            for (l=0; l<secase.length; l++) 
+          	if (sefld[k].tagName == "DIV")
+          	{ 
+	          	var chsefld = sefld[k].children;
+	            if (chsefld[2].tagName == "SELECT") 
 	            {
-	              if (secase[l].tagName == "OPTION") 
-	              {
-	                //secase[l].name = "art" + artid + "num" + k + "case" + l;
-	                secase[l].id = "art" + artid + "num" + (elemopt.childElementCount - 2) + secase[l].id;
-	              }
-							}            
+		            var secase = chsefld[2].children;
+		            var cnt=0;
+		            for (l=0; l<secase.length; l++) 
+		            {
+		              if (secase[l].tagName == "OPTION") 
+		              {
+		                //secase[l].name = "art" + artid + "num" + k + "case" + l;
+		                secase[l].id = "art" + artid + "num" + (elemopt.childElementCount - 2) + secase[l].id;
+		                cnt = cnt + 1;
+		              }
+								}
+								chsefld[2].size = cnt;            
+	            }
             }
           }         
           elemopt.appendChild(edup);
@@ -778,9 +799,9 @@
         for (j=0; j<listtab.length; j++)
         {
           if (j+1 == valdef)
-            listtab[j].hidden = false;
+            listtab[j].style.display = "flex";
           else {
-          	listtab[j].hidden = true;
+          	listtab[j].style.display = "none";
           }
         }
         var padg = elemopt.children[0].children[1];
@@ -885,21 +906,22 @@
                   var sefld = opttab[k].children;
                   for (l=0; l<sefld.length; l++) 
                   {
-                  	if (sefld[l].tagName == "SELECT")
-                  	{
-	                    var secase = sefld[l].children;
-	                    for (m=0; m<secase.length; m++) 
-	                    {
-	                      if (secase[m].tagName == "OPTION") 
-	                      {
-	                        //if ((secase[m].type == "radio") ||(secase[m].type == "checkbox"))
-	                        //{ 
+	          				if (sefld[l].tagName == "DIV")
+	          				{ 
+		          				var chsefld = sefld[l].children;
+		            			if (chsefld[2].tagName == "SELECT") 
+		            			{
+			            			var secase = chsefld[2].children;                	
+		                    for (m=0; m<secase.length; m++) 
+		                    {
+		                      if (secase[m].tagName == "OPTION") 
+		                      {
 	                          if (sessionStorage.getItem(secase[m].id) == 1)
 	                            secase[m].selected = true;
 	                          else 
 	                            secase[m].selected = false;
-	                        //}
-	                      }
+		                      }
+		                    }
 	                    }
                   	}
                   }              
@@ -912,6 +934,8 @@
           }
         }
       }
+ 
+     
       totaliser();
     }  
     </script>

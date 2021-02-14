@@ -2,6 +2,12 @@
 * {
   touch-action: manipulation;
 }
+
+select
+{
+	font-family: 'Public Sans';
+}
+
   
 textarea
 {
@@ -11,6 +17,7 @@ textarea
   margin-right: 3%;
   margin-top: 3px;
   resize:none;
+  font-family: 'Public Sans';
 }
 
 #infosup
@@ -295,8 +302,8 @@ body
 
 .cont:focus
 {
-  outline: none;
-  background-color: white;
+   outline: none;
+   background-color: lightgray;
 }
 
 .cont:-webkit-autofill,
@@ -452,13 +459,14 @@ body#backbody
   height: 50px;
 }
 
-.qtopt
+/* qtopt should be remove*/
+/*.qtopt
 {
   float: left;
   width: 6%;
   height: 11px;
   text-align: right;
-}
+}*/
 
 .divopt
 {
@@ -845,4 +853,14 @@ padding-left: 6px;
 	text-align: center;
 }
 
+.divopttab
+{
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+}
 
+.flexsp
+{
+	/*flex: 0 0 0%;*/
+}
