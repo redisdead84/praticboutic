@@ -176,7 +176,11 @@ try
 		$content = GetValeurParam("TEXT_SMS", $conn, $customid);
 		
 		$content = str_replace("%commercant%", $rcvnom, $content);
-		$content = str_replace("%somme%", number_format($sum, 2, ',', ' '), $content);		
+		
+		if (strcmp($json_obj->vente, "LIVRER") !== 0)
+			$content = str_replace("%somme%", number_format($sum, 2, ',', ' '), $content);
+		else 		
+			$content = str_replace("%somme%", number_format($sum + $json_obj->fraislivr, 2, ',', ' '), $content);				
 		
     $numbers = array($tel_mobile);
     
