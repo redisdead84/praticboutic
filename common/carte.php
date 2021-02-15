@@ -282,10 +282,8 @@
         	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row3[5] . '" alt = "nopic">';
                   echo '<br>';
                 }
-          echo '<table class="invis">';
-          echo '<tr>';
-          echo '<td class="tdart">';
-          echo '<div class="gco">';
+          echo '<div class="rowob">';
+          echo '<div class="colart">';
         	echo '<div class="nom">';
  	      	echo $row3[1];
  	      	echo '<br />';
@@ -298,20 +296,16 @@
  	      	} 
  	      	echo '</div>';
  	      	echo '</div>';
- 	      	echo '</td>';
- 	      	echo '<td class="tdp">';
+ 	      	echo '<div class="colval">';
 					echo '<div class="vert-center">';
- 	      	echo '<label class="prixo">';
+ 	      	echo '<p class="prixo">';
  	      	echo number_format($row3[2], 2, ',', ' ');
  	      	echo ' ';
  	      	echo $row3[3];
- 	      	echo '</label>';
+ 	      	echo '</p>';
  	      	echo '</div>';
- 	      	//echo '</div>';
- 	      	//echo '<br />';
- 	      	echo '</td>';
- 	      	echo '</tr>';
- 	      	echo '</table>';
+ 	      	echo '</div>';
+ 	      	echo '</div>';
  	      	
  	      	if($method > 0) 
  	      	{

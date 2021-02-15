@@ -317,7 +317,6 @@ input
 {
   display:inline-block; 
   font-size: 100%;
-  /*width:40%;*/  
 }
 
 
@@ -420,11 +419,6 @@ body#backbody
 {
   width: 100%;  
   height: auto;
-  /*padding: 15%;
-  color: rgba(0,0,0,0.5);
-  background-image: url('../../eulalie/img/back_eulalie.jpg');
-  background-color: rgba(255,255,255,0.35);
-  background-blend-mode: difference;*/  
 }
 
 #header
@@ -458,15 +452,6 @@ body#backbody
   display: inline-block;
   height: 50px;
 }
-
-/* qtopt should be remove*/
-/*.qtopt
-{
-  float: left;
-  width: 6%;
-  height: 11px;
-  text-align: right;
-}*/
 
 .divopt
 {
@@ -662,11 +647,6 @@ padding-left: 6px;
 
 #totaliseur
 {
-  /*width: 75px;
-  height: auto;
-  font-size: 112%;
-  margin: 0 auto;
-  text-align: right;*/
 	background-color: lightgray;
 	color: black;
 	float: left;
@@ -675,11 +655,6 @@ padding-left: 6px;
 
 #retourcarte
 {
-  /*width: 75px;
-  height: auto;
-  font-size: 112%;
-  margin: 0 auto;
-  text-align: right;*/
 	background-color: lightgray;
 	color: black;
 	float: left;
@@ -738,7 +713,7 @@ padding-left: 6px;
 
 .prixo
 {
-
+	color: #e2007a;
 	margin: 0;
 	text-align: center;
 	font-weight: bold;
@@ -791,9 +766,6 @@ padding-left: 6px;
 
 .vctrqte
 {
-	/*display: table-cell;
-	vertical-align: middle;*/
-	
 	height: 32px;
 	line-height: 32px;
 	white-space: nowrap;
@@ -804,9 +776,6 @@ padding-left: 6px;
 
 .slide
 {
-	/*display: table-cell;
-	vertical-align: middle;*/
-	
 	height: 32px;
 	line-height: 32px;
 	white-space: nowrap;
@@ -846,6 +815,7 @@ padding-left: 6px;
 	height: 75px;
 	width: 75px;
 	border: 3px solid #e2007a;
+	margin: auto;
 }
 
 .vert-center p {
@@ -860,7 +830,31 @@ padding-left: 6px;
 	flex-wrap: wrap;
 }
 
-.flexsp
+.rowob
 {
-	/*flex: 0 0 0%;*/
+	display: flex;
+	flex-flow: row wrap;
 }
+
+.rowob:after
+{
+	content: "";
+  display: table;
+  clear: both;
+}
+
+.colart
+{
+    float: left;
+    width: 70%;
+}
+
+.colval
+{
+    float: left;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
