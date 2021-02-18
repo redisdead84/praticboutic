@@ -87,7 +87,9 @@
 	                {
 	              	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
 	                }
-	              	echo '<div class="nom">';
+	                echo '<div class="rowah">';
+	                echo '<div class="colb1">';
+	    					  echo '<div class="nom">';
 	       	      	echo $row2[1];
 	       	      	echo '<br />';
 	       	      	echo '</div>';
@@ -98,12 +100,12 @@
 	                 echo '<br />'; 
 	       	      	}
 	       	      	echo '</div>';
-									echo '<div class="prix">';
-	       	      	echo number_format($row2[2], 2, ',', ' ');
-	       	      	echo ' ';
-	       	      	echo $row2[3];
-	       	      	echo '<br />';
 	       	      	echo '</div>';
+	       	      	echo '<div class="colb2">';
+	       	      	echo '</div>';
+	       	      	echo '</div>';
+	       	      	echo '<div class="rowah">';
+	       	      	echo '<div class="colb1">';
 	       	      	if($method > 0) 
 	       	      	{
 	       	      		echo '<div class="vctrqte">';
@@ -119,20 +121,24 @@
 	            		  //echo ' </label>';
 	            		  echo '</div>';
 	              	}
-	              	else 
-	              	{
-	                  echo '<br />';
-	                  echo '<br />'; 
-	              	}
+
+	              	echo '</div>';
+	              	echo '<div class="colb2">';
+									echo '<p class="prix">';
+	       	      	echo number_format($row2[2], 2, ',', ' ');
+	       	      	echo ' ';
+	       	      	echo $row2[3];
+	       	      	echo '<br />';
+	       	      	echo '</p>';
+	       	      	echo '</div>';
+	       	      	echo '</div>';
 								}
 
     						else if (strcmp($sizeimg,"smallimg")==0)
     						{
 	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	              	if ($row2[6]>0)
-	                {
-	              	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
-	                }
+	    					  echo '<div class="rowah">';
+	    					  echo '<div class="cola1">';
 	              	echo '<div class="nom">';
 	       	      	echo $row2[1];
 	       	      	echo '<br />';
@@ -159,17 +165,21 @@
 	            		  //echo ' </label>';
 	            		  echo '</div>';
 	              	}
-	              	else 
-	              	{
-	                  echo '<br />';
-	                  echo '<br />'; 
-	              	}
+
 									echo '<div class="prixsm">';
 	       	      	echo number_format($row2[2], 2, ',', ' ');
 	       	      	echo ' ';
 	       	      	echo $row2[3];
 	       	      	echo '<br />';
 	       	      	echo '</div>';
+	       	      	echo '</div>';
+	       	      	echo '<div class="cola2">';
+	       	      	if ($row2[6]>0)
+	                {
+	              	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
+	                }
+	                echo '</div>';
+	                echo '</div>';
 								}
 
                 echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article"  hidden></textarea>';              
@@ -181,12 +191,12 @@
        	      	{
   				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '" hidden>';
   				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" hidden></div>';
-				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '" hidden>';
+				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '" style="display:none">';
 				        }
 				        else 
 				        {
   				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '">';
-  				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '"></div>';
+  				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
 				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '">';
 				        }
 				        
@@ -196,11 +206,16 @@
     					    while ($row3 = $result3->fetch_row()) 
     					    {
     					    	echo '<div class="flexsp">';
-    					      echo '<label>' . $row3[1] . '</label><br>';
-    					      if ($row3[2] == 0)
-    					      	echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()">';
-    					      else if ($row3[2] == 1)
-    					        echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" multiple>';
+  					      	if ($row3[2] == 0)
+  					      	{
+  					      		echo '<label>' . $row3[1] . ' (unique)</label><br>';
+  					      		echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()">';
+  					      	}
+  					      	else if ($row3[2] == 1)
+  					      	{
+  					      		echo '<label>' . $row3[1] . ' (multiple)</label><br>';
+  					        	echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" multiple>';
+ 										}
     					      /*if ($row3[2] == 0)
                       echo '<legend>' . $row3[1] . ' (une seul option possible)</legend>';
                     else if ($row3[2] == 1)
@@ -215,40 +230,21 @@
          					    		$def = 'selected';
          					    	else 
          					    		$def = '';
-         					      if($method > 0)
-         					      {
-                          if ($row3[2] == 0)
-                          {
-                            if ($row4[2]>0) 
-                             	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                            else 
-                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                          }
-                          else if ($row3[2] == 1)
-                          {
-                            if ($row4[2]>0) 
-                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                            else 
-                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                          }
-                        }
-                        else 
+                        if ($row3[2] == 0)
                         {
-                          if ($row3[2] == 0)
-                          {
-                            if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
-                            else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="radio" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
-                          }
-                          else if ($row3[2] == 1)
-                          {
-                            if ($row4[2]>0) 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</input>';
-                            else 
-                              echo '<input data-surcout="' . $row4[2] . '" class="qtopt" type="checkbox" name="art' . $row2[0] . 'op' . $row3[0] . '" id="art' . $row2[0] . 'opt' . $row4[0] . '" value="' . $row4[1] . '" disabled>' . $row4[1] . '</input>';
-                          }
-                        } 
+                          if ($row4[2]>0) 
+                           	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
+                          else 
+                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
+                        }
+                        else if ($row3[2] == 1)
+                        {
+                          if ($row4[2]>0) 
+                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
+                          else 
+                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
+                        }
+
                         echo '<br/>';
                         $init++;
                       }
@@ -288,7 +284,7 @@
  	      	echo $row3[1];
  	      	echo '<br />';
  	      	echo '</div>';
- 	      	echo '<div class="desc">';
+ 	      	echo '<div class="desco">';
  	      	if (!empty($row3[4]))
  	      	{
  	      	 echo $row3[4];
@@ -328,19 +324,19 @@
     ?>
     <div id="footer">
       <?php
-        if  ($method > 0)
-        {
+
         	echo '<div class="grpbn">';
-          /*echo '<div class="tot">';
-          echo '<label class="labtot" for="totaliseur">Total :</label>';
-          echo '<input name="totaliseur" id="totaliseur" type="number" readonly>';
-          echo '<label class="labtot" for="totaliseur"> &euro; </label>';
-          echo '</div>';*/
-          //echo '<input id="validcarte" class="inpmove poursuivre" type="button" value="Poursuivre" onclick="genCartList()">';
-					echo '<input id="totaliseur" class="navindic" type="button" value="Total">';          
-          echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="genCartList()">';
+					if  ($method > 0)
+					{
+						echo '<input id="totaliseur" class="navindic" type="button" value="Total">'; 
+          	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="genCartList()">';
+          }
+          else
+          {
+          	echo '<input id="totaliseur" class="navindic" type="hidden" value="Total" disabled>'; 
+						echo '<input id="validcarte" class="navindic" type="hidden" value="Poursuivre" onclick="genCartList()" disabled>';
+          }
           echo '</div>';
-        }
       ?>
     </div>
     
@@ -627,7 +623,7 @@
     <script type="text/javascript" >
       function showoptions(eleminp) 
       {
-        var fart = eleminp.parentElement.parentElement.getElementsByTagName("TEXTAREA")[0];
+        var fart = eleminp.parentElement.parentElement.parentElement.parentElement.getElementsByTagName("TEXTAREA")[0];
         
         if (parseInt(eleminp.innerText) > 0)
           fart.hidden = false;
@@ -635,7 +631,7 @@
         	fart.hidden = true;
         
         eleminp.blur();
-        var elemopt = eleminp.parentElement.parentElement.getElementsByClassName("divopt")[0];
+        var elemopt = eleminp.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("divopt")[0];
        
         var slide = elemopt.getElementsByClassName("slide")[0]; 
         
@@ -758,16 +754,17 @@
 		                cnt = cnt + 1;
 		              }
 								}
-								chsefld[2].size = cnt;            
+								chsefld[2].size = cnt;   
+								        
 	            }
             }
           }         
           elemopt.appendChild(edup);
         }
 
-        eleminp.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");        
+        eleminp.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");        
         
-      	var panel = eleminp.parentElement.parentElement.parentElement;
+      	var panel = eleminp.parentElement.parentElement.parentElement.parentElement.parentElement;
         if (parseInt(eleminp.innerText) > 0)
         {
           elemopt.style.display = "block";
@@ -864,8 +861,8 @@
         for (i = 0; i < aqt.length; i++) 
         {
           aqt[i].addEventListener("focus", function() {
-      	    this.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
-      	    var panel = this.parentElement.parentElement.parentElement;
+      	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+      	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
             panel.style.maxHeight = panel.scrollHeight + "px";
           });
         }
@@ -922,8 +919,8 @@
                 }         
               }
             }
-       	    artqt[i].parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
-       	    var panel = artqt[i].parentElement.parentElement.parentElement;
+       	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+       	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
             panel.style.maxHeight = panel.scrollHeight + "px";
           }
         }
@@ -935,6 +932,16 @@
     </script>
     <script type="text/javascript" >
       reachBottom();
+      var sle = document.getElementsByTagName("SELECT");
+      for (var i = 0; i<sle.length; i++) 
+      {
+				sle[i].size = sle[i].length;
+				if (document.getElementById("main").getAttribute("data-method") == 0)
+				{
+					sle[i].selectedIndex = "-1";
+					sle[i].disabled = true;
+				}
+      }
     </script>
     <script type="text/javascript">
       window.addEventListener("resize", function() {

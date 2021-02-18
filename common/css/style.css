@@ -50,7 +50,7 @@ html
 {
   height: 32px;
   width: 32px;
-	font-size: 80%;
+	font-size: 100%;
 	font-weight: bold;
 	margin: 0px;
 	float: left;
@@ -297,7 +297,7 @@ body
 
 .underlined
 {
-	border-bottom: 2px solid black;
+	border-bottom: 2px solid lightgrey;
 	display: flex;
 	align-items: center;
 }
@@ -412,9 +412,10 @@ body#backbody
 {
   width: auto;  
   height: auto;
-  max-height: 102px;
-  max-width: 128px;
+  max-height: 100%;
+  max-width: 100%;
   float: right;
+  margin-left: 6px;
 }
 
 #logo
@@ -460,6 +461,13 @@ body#backbody
  font-size: 90%;
  text-align: center;
  margin: 0 auto;
+}
+
+.divopt2
+{
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
 }
 
 .arrow
@@ -590,7 +598,7 @@ font-family: 'Public Sans';
 padding-left: 6px;
 }
 
-div.prix{
+.prix{
 font-size:90%;
 font-family: 'Public Sans';
 font-weight:bold; 
@@ -598,9 +606,10 @@ float:right;
 color:white;
 background-color:#e2007a; 
 padding: 3px;
+margin-top: 0px;
 }
 
-div.prixsm{
+.prixsm{
 font-size:90%;
 font-family: 'Public Sans';
 font-weight:bold; 
@@ -621,6 +630,16 @@ padding-left: 6px;
 padding-right: 6px;  
 text-align: justify;
 }
+
+div.desco{
+font-size:70%;
+font-family: 'Public Sans';
+line-height:18px;
+padding-left: 6px;  
+padding-right: 6px;  
+text-align: justify;
+}
+
 
 .navindic
 {
@@ -723,6 +742,7 @@ text-align: justify;
 	font-weight: bold;
 	display: block;
 	vertical-align: middle;
+	font-size: 80%;
 }
 
 .tdart
@@ -743,7 +763,7 @@ text-align: justify;
 
 .qte, .sli
 {
-	font-size: 80%;
+	font-size: 100%;
 	font-weight: bold;
 	width: auto;
 	margin: 0px;
@@ -773,9 +793,7 @@ text-align: justify;
 	height: 32px;
 	line-height: 32px;
 	white-space: nowrap;
-	padding-left: 6px;
-	padding-bottom: 6px;
-	
+	padding: 6px;
 }
 
 .slide
@@ -816,8 +834,8 @@ text-align: justify;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 75px;
-	width: 75px;
+	height: 56px;
+	width: 56px;
 	border: 3px solid #e2007a;
 	margin: auto;
 }
@@ -862,3 +880,41 @@ text-align: justify;
     align-content: center;
 }
 
+.rowah
+{
+	display: flex;
+	flex-flow: row-wrap;
+}
+
+.rowah:after
+{
+	content: "";
+  display: table;
+  clear: both;
+}
+
+.cola1
+{
+    float: left;
+    width: 60%;
+}
+
+.cola2
+{
+    float: left;
+    width: 40%;
+}
+
+.colb1
+{
+    float: left;
+    width: 60%;
+}
+
+.colb2
+{
+    float: left;
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+}

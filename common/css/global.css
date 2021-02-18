@@ -161,6 +161,7 @@ input {
 .btn:hover:enabled {
 	background-color: #e2007a;
   filter: contrast(115%);
+  outline: none;
 }
 .btn:disabled {
   opacity: 0.5;

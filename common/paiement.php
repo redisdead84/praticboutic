@@ -205,7 +205,7 @@
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + somme.toFixed(2) + " € </p><br>";
 			}      
 			if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT"))
-				document.getElementById("payid").innerHTML = "<p class='mntpay'>Montant à payer : " + tota.toFixed(2) + " € </p>";
+				document.getElementById("payid").innerHTML = "<p class='mntpay'>MONTANT &Agrave; PAYER : " + tota.toFixed(2) + " € </p>";
 			else {
 				document.getElementById("payid").style.display = "none";
 			}
