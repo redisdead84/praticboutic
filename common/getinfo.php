@@ -84,15 +84,15 @@
       {
         echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
         echo '<div class="underlined">';
-        echo '<label class="lcont">Nom :&nbsp;</label>';
+        echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
         echo '<input class="cont" type="string" id="lenom" name="nom" required>';
         echo '</div>';
         echo '<div class="underlined">';            
-        echo '<label class="lcont">Pr&eacute;nom :&nbsp;</label>';
+        echo '<label class="lcont">Pr&eacute;nom&nbsp;:&nbsp;</label>';
         echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
         echo '</div>';
         echo '<div class="underlined">';
-        echo '<label class="lcont">T&eacute;l. Portable :&nbsp;</label>';
+        echo '<label class="lcont">T&eacute;l.&nbsp;Portable&nbsp;:&nbsp;</label>';
         echo '<input class="cont" type="string" id="letel" name="tel" required 
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
@@ -144,15 +144,15 @@
 
       echo '<div id="adrlivr">';
       echo '<div class="underlined">';
-      echo '<label class="lcont">Adresse 1 :&nbsp;</label>';
+      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
       echo '</div>';
       echo '<div class="underlined">';
-      echo '<label class="lcont">Adresse 2 :&nbsp;</label>';
+      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
       echo '</div>';
       echo '<div class="underlined">';
-      echo '<label class="lcont">Code Postal :&nbsp;</label>';
+      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
       if ($verifcp > 0) {
         echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
           pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
@@ -162,11 +162,11 @@
       }
       echo '</div>';
       echo '<div class="underlined">';
-      echo '<label class="lcont ">Ville :&nbsp;</label>';
+      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
       echo '</div>';
       echo '<br>';
-      echo '<div class="panneau" id="fraislivrid" >Frais de livraison : 0,00 €</div>';
+      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
       echo '</div>';
         
       echo '</div>';
@@ -185,13 +185,13 @@
         if ($chp == "TOUS")
         { 
           echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
-          echo '<label class="lblpaiers" for="pcomptant">Au Comptant </label><br>';
+          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
           echo '<div class="spcpandetail"></div>';
           echo '<label class="pandetail">';
           echo $cmpt; 
           echo '</label><br>';
           echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
-          echo '<label class="lblpaiers" for="plivraison">A La Livraison </label><br>';
+          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
           echo '<div class="spcpandetail"></div>';
           echo '<label class="pandetail">';
           echo $livr;
@@ -199,14 +199,14 @@
         }
         if ($chp == "COMPTANT")
         {
-          echo '<label class="lblpaiers" for="pcomptant">Au Comptant </label><br>';
+          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
           echo '<label class="pandetail">';
           echo $cmpt; 
           echo '</label><br>';
         }  
         if ($chp == "LIVRAISON")
         {
-          echo '<label class="lblpaiers" for="plivraison">A La Livraison </label><br>';
+          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
           echo '<label class="pandetail">';
           echo $livr;
           echo '</label><br>';
