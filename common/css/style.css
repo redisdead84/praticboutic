@@ -48,13 +48,13 @@ html
 
 .artqt
 {
-  height: 32px;
-  width: 32px;
+  height: 28px;
+  width: 28px;
 	font-size: 100%;
 	font-weight: bold;
 	margin: 0px;
 	float: left;
-	line-height: 32px;
+	line-height: 28px;
 	text-align: center;
 }
 
@@ -515,7 +515,7 @@ body#backbody
   width: auto;
   font-weight: bold;
   font-size: 112%;
-  height: 32px;
+  height: 28px;
   float: left;
 }
 
@@ -768,7 +768,7 @@ text-align: justify;
 	width: auto;
 	margin: 0px;
 	float: left;
-	line-height: 32px;
+	line-height: 28px;
 }
 
 #chkcgv
@@ -790,16 +790,16 @@ text-align: justify;
 
 .vctrqte
 {
-	height: 32px;
-	line-height: 32px;
+	height: 28px;
+	line-height: 28px;
 	white-space: nowrap;
 	padding: 6px;
 }
 
 .slide
 {
-	height: 32px;
-	line-height: 32px;
+	height: 28px;
+	line-height: 28px;
 	white-space: nowrap;
 	padding-left: 6px;
 	padding-bottom: 6px;
