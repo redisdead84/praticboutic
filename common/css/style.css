@@ -426,20 +426,21 @@ body#backbody
 
 #header
 {
-  height: 100px;
+  height: auto;
   width: 100%;
   text-align: center;
+ 	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 #mainlogo
 {
-	display: inline-block;
-	height: 40px;
-	width: 92px;
+	display: flex;
+	height: auto;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 35px;
-	margin-bottom: 25px;
+
 }
 
 #footer
@@ -917,4 +918,12 @@ text-align: justify;
     width: 40%;
     display: flex;
     justify-content: flex-end;
+}
+
+.separation
+{
+	height: 2px;
+	width: 100%;
+	background-color: lightgrey;
+	border-style: none;
 }

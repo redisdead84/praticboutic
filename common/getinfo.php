@@ -165,12 +165,12 @@
       echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
       echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
       echo '</div>';
-      echo '<br>';
       echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
       echo '</div>';
         
       echo '</div>';
       echo '</form>';
+      echo '<hr class="separation">';
    
       if  ($method >= 2)
       {
