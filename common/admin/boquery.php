@@ -290,8 +290,12 @@ try {
 		for($i=0;$i<count($input->row);$i++) 
 		{
 			$jump = 0;
-	  	if (strcmp($input->row[$i]->type, "pass") == 0) 	
-	  		$query = $query . $input->row[$i]->nom . ' = "' . password_hash($input->row[$i]->valeur, PASSWORD_DEFAULT) . '"'; 
+	  	if (strcmp($input->row[$i]->type, "pass") == 0)
+	  		if (strcmp($input->row[$i]->valeur,"") != 0) 	
+	  			$query = $query . $input->row[$i]->nom . ' = "' . password_hash($input->row[$i]->valeur, PASSWORD_DEFAULT) . '"';
+	  		else 
+					$jump = 1;
+ 
 			else if (strcmp($input->row[$i]->type, "image") == 0)
 			{
 				if (strcmp($input->row[$i]->valeur,"") != 0)

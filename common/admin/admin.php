@@ -496,7 +496,7 @@
 										inp.type = 'password';
 										inp.pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}";
 										inp.title = "Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères";
-										inp.required = true;
+										inp.required = false;
 									}
 									else if (champs[i].typ == "email")
 									{
