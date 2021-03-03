@@ -12,7 +12,7 @@ body {
   width: 320px;
 }
 
-.accordion {
+/*.accordion {
   background-color: #eee;
   color: #444;
   cursor: pointer;
@@ -39,7 +39,7 @@ body {
 
 .active:after {
   content: "\2212";
-}
+}*/
 
 .panel {
   padding: 0 18px;
@@ -101,11 +101,15 @@ div.tabs > div:target > div, :target #tabParam > div {
   position: absolute;		/* All these DIVs overlap */
   z-index: -1}			/* Raise it above the others */
 
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  /*width: auto;*/
+.tbl, .ins{
+margin: 30px;
 }
+
+/*table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+  border-color: rgb(222, 226, 230);
+}*/
 
 td {
   max-width: 400px;

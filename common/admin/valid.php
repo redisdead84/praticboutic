@@ -4,112 +4,122 @@
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="css/back.css?v=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-
-
-    <?php
-
-      $customer = $_GET['customer'];
-
-      session_start();
-    
-      include "../config/common_cfg.php";
-      include "../param.php";
-     	
-      $pseudo = isset($_POST['pseudo']) ? $_POST ['pseudo'] : '';
-      $pass = isset($_POST['pass']) ? $_POST ['pass'] : '';
-      
-      $count2 = 0;
-
-      // Create connection
-      $conn = new mysqli($servername, $username, $password, $bdd);
-
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
-      
-      $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
-   	  $reqci->bind_param("s", $customer);
-   	  $reqci->execute();
-   	  $reqci->bind_result($customid);
-   	  $resultatci = $reqci->fetch();
-   	  $reqci->close();
-      
-		  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
-      $maxretry = GetValeurParam("Max_try", $conn, $customid, "4");
-      
-      $ip = $_SERVER["REMOTE_ADDR"];
-    
-      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
-      if ($r1 = $conn->query($q1)) 
-  		{
-      	if ($r1 === FALSE) 
-      	{
-      		echo "Error: " . $q1 . "<br>" . $conn->error;
-      	}
-  		}
-
-      $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
-      if ($r2 = $conn->query($q2)) 
-  		{
-    	  if ($row2 = $r2->fetch_row()) 
-    	  {
-    		  $count2 = $row2[0];
-       	}
-		  }
-      
-      
-      if($count2 > $maxretry)
-      {
-        echo "<h3>Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br /></h3>";
-        echo '<a href="index.php?customer=' . $customer . '"><button type="button">Retour</button></a>';
-      }      
-      else 
-      { 
-        //  Récupération de l'utilisateur et de son pass hashé
-        $req = $conn->prepare('SELECT adminid, pass FROM administrateur WHERE customid = ' . $customid . ' AND pseudo = ? AND actif=1');
-        $req->bind_param("s", $pseudo);
-        $req->execute();
-        $req->bind_result($id,$pass_hache);
-        $resultat = $req->fetch();
-      
-        // Comparaison du pass envoyé via le formulaire avec la base
-        $isPasswordCorrect = password_verify($pass, $pass_hache);
-              
-        if (!$resultat)
-        {
-  				echo 'Mauvais identifiant ou mot de passe !<br>';
-          echo '<a href="index.php?customer=' . $customer . '"><button type="button">Retour</button></a>';      
-        }
-        else
-        {
-          if ($isPasswordCorrect) 
-          {
-            //session_start();
-            $_SESSION[$customer . '_id'] = $id;
-            $_SESSION[$customer . '_pseudo'] = $pseudo;
-            $_SESSION[$customer . '_auth'] = 'oui';
-            $_SESSION[$customer . '_mode'] = 'basique';
-            //$_SESSION['customer'] = $customer;
-            header("LOCATION: admin.php?customer=" . $customer . "#tabCat");
-          }
-          else 
-          {
-            echo 'Mauvais identifiant ou mot de passe !<br>';
-            echo '<a href="index.php?customer=' . $customer . '"><button type="button">Retour</button></a>';
-          }
-        }
-
-        $req->close();
-     }
-    ?>
-
+		<div class="modal" tabindex="-1" role="dialog" data-backdrop="false">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header">
+			    	<h5 class="modal-title">Erreur</h5>
+			    </div>
+			   	<div class="modal-body">
+				    <?php
+				    
+				    	session_start();
+				
+						  if (empty($_SESSION['boutic']) == TRUE)
+						 	  exit();
+						  else	
+							  $boutic = $_SESSION['boutic'];
+				    
+				      include "../config/common_cfg.php";
+				      include "../param.php";
+				     	
+				      $pseudo = isset($_POST['pseudo']) ? $_POST ['pseudo'] : '';
+				      $pass = isset($_POST['pass']) ? $_POST ['pass'] : '';
+				      
+				      $count2 = 0;
+				
+				      // Create connection
+				      $conn = new mysqli($servername, $username, $password, $bdd);
+				
+				      // Check connection
+				      if ($conn->connect_error)
+				      	die("Connection failed: " . $conn->connect_error);
+				      
+				      $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+				   	  $reqci->bind_param("s", $boutic);
+				   	  $reqci->execute();
+				   	  $reqci->bind_result($customid);
+				   	  $resultatci = $reqci->fetch();
+				   	  $reqci->close();
+				      
+						  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
+				      $maxretry = GetValeurParam("Max_try", $conn, $customid, "3");
+				      
+				      $ip = $_SERVER["REMOTE_ADDR"];
+				    
+				      $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
+				
+				      if ($r2 = $conn->query($q2)) 
+				    	  if ($row2 = $r2->fetch_row()) 
+				    		  $count2 = $row2[0];
+				
+				      $r2->close();
+				      
+				      if($count2 >= $maxretry)
+				      	echo "Vous êtes autorisé à " . $maxretry . " tentatives en " . $interval . "<br />";
+				      else 
+				      { 
+				        //  Récupération de l'utilisateur et de son pass hashé
+				        $req = $conn->prepare('SELECT adminid, pass FROM administrateur WHERE customid = ' . $customid . ' AND pseudo = ? AND actif=1');
+				        $req->bind_param("s", $pseudo);
+				        $req->execute();
+				        $req->bind_result($id,$pass_hache);
+				        $resultat = $req->fetch();
+				      	$req->close();
+				      	
+				        // Comparaison du pass envoyé via le formulaire avec la base
+				        $isPasswordCorrect = password_verify($pass, $pass_hache);
+				              
+				        if (!$resultat)
+				        {
+						      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+						      if ($conn->query($q1)== FALSE) 
+						      	echo "Error: " . $q1 . "<br>" . $conn->error;
+						      else
+				          	echo 'Mauvais identifiant ou mot de passe !<br>';
+				        }
+				        else
+				        {
+				          if ($isPasswordCorrect) 
+				          {
+				            $_SESSION[$boutic . '_id'] = $id;
+				            $_SESSION[$boutic . '_pseudo'] = $pseudo;
+				            $_SESSION[$boutic . '_auth'] = 'oui';
+				            $_SESSION[$boutic . '_mode'] = 'basique';
+				            header("LOCATION: admin.php");
+				          }
+				          else 
+				          {
+							      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+							      if ($conn->query($q1)== FALSE) 
+							      	echo "Error: " . $q1 . "<br>" . $conn->error;
+							      else
+				            	echo 'Mauvais identifiant ou mot de passe !<br>';
+  			          }
+				        }
+				      }
+				      ?>
+    				</div>
+    			  <div class="modal-footer">
+			      	<a href="index.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
+			      </div>
+ 		    </div>
+		  </div>
+		</div>
   </body>
+  <script type="text/javascript" >
+  	$('.modal').modal('show');
+  </script>
 </html>
 
 

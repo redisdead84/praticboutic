@@ -1,5 +1,12 @@
 <?php
-$customer = $_GET['customer'];
+	session_start();
+  
+  if (empty($_SESSION['boutic']) == TRUE)
+ 	  exit();
+  else	
+	  $boutic = $_SESSION['boutic'];
+
+
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -7,8 +14,6 @@ use PHPMailer\PHPMailer\Exception;
 
 //Load composer's autoloader
 require '../../vendor/autoload.php';
-
-session_start();
     
 include "../config/common_cfg.php";
 include "../param.php";
@@ -67,7 +72,7 @@ try {
     }
 
     $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
- 	  $reqci->bind_param("s", $customer);
+ 	  $reqci->bind_param("s", $boutic);
  	  $reqci->execute();
  	  $reqci->bind_result($customid);
  	  $resultatci = $reqci->fetch();
@@ -76,25 +81,18 @@ try {
     $count2 = 0;
     
 	  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
-    $maxretry = GetValeurParam("Max_try", $conn, $customid, "4");
+    $maxretry = GetValeurParam("Max_try", $conn, $customid, "3");
 
     $ip = $_SERVER["REMOTE_ADDR"];
     
-    $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
-    if ($r1 = $conn->query($q1)) 
-		{
-    	if ($r1 === FALSE) 
-     	{
-     		echo "Error: " . $q1 . "<br>" . $conn->error;
-     	}
- 		}
-
     $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
     if ($r2 = $conn->query($q2)) 
  		{
    	  if ($row2 = $r2->fetch_row()) 
    	  {
    		  $count2 = $row2[0];
+   		  error_log($q2);
+   		  error_log($count2);
      	}
 	  }
 
@@ -141,7 +139,7 @@ try {
     $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name*/
 
     //Content
-    $isHTML = GetValeurParam("isHTML_mail", $conn, $customid);
+    $isHTML = GetValeurParam("isHTML_mail", $conn, $customid,"TRUE");
     $mail->isHTML($isHTML);                                  // Set email format to HTML
 
     $subject = "Confidentiel"; //GetValeurParam("Subject_mail", $conn);
@@ -154,6 +152,7 @@ try {
 		// vérifier que l'email est bien dans la base administrateur
  		
  		$idadmin = 0;
+ 		$pseudo ="";
     $query = 'SELECT adminid, pseudo FROM administrateur WHERE customid = ' . $customid . ' AND email = "' . $rcvmail . '"';
     if ($result = $conn->query($query)) 
 		{
@@ -178,10 +177,10 @@ try {
     $mail->Body = $text;
 
 /*    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';*/
-    if($count2 > $maxretry)
+    if($count2 >= $maxretry)
     {
       echo "<h3>Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br /></h3>";
-      echo '<a href="index.php?customer=' . $customer . '<button type="button">Retour</button></a>';
+      echo '<a href="index.php"><button type="button">Retour</button></a>';
     }      
     else 
     { 
@@ -196,16 +195,27 @@ try {
     		    echo "Error: " . $q . "<br>" . $conn->error;
   	      }
   		  }
-        echo "<h3>Un email contenant un mot de passe automatique vous a été envoyé.<br /></h3>";
-        echo '<a href="index.php?customer=' . $customer . '"><button type="button">Retour</button></a>';
-      }
+  		}
+  		else 
+  		{
+		    $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+		    if ($r1 = $conn->query($q1)) 
+				{
+		    	if ($r1 === FALSE) 
+		     	{
+		     		echo "Error: " . $q1 . "<br>" . $conn->error;
+		     	}
+		 		}
+  		}	
+      echo "<h3>Un email contenant un mot de passe automatique vous a été envoyé.<br /></h3>";
+      echo '<a href="index.php"><button type="button">Retour</button></a>';
     }
     $conn->close();
   }
   catch (Exception $e) 
   {
 	  echo 'Mailer Error: ' . $mail->ErrorInfo;    
-	  echo '<script language=\'Javascript\'>alert(\'Erreur Le message n a pu etre envoye\' );location.href = \'index.php?customer=' . $customer . '\';</script>';
+	  echo '<script language=\'Javascript\'>alert(\'Erreur Le message n a pu etre envoye\' );location.href = \'index.php\';</script>';
   }
   
 ?>

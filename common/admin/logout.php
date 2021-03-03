@@ -1,6 +1,6 @@
 <?php
    session_start();
-   $customer = $_GET['customer'];
+   $boutic = $_SESSION['boutic'];
    session_destroy();
-   header("location: ../../" . $customer . "/admin/index.php");
+   header("location: ../../" . $boutic . "/admin/index.php");
 ?>
