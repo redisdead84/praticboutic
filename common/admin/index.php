@@ -1,10 +1,10 @@
 <?php
 	session_start();
   
-  if (empty($_SESSION['boutic']) == TRUE)
+  /*if (empty($_SESSION['boutic']) == TRUE)
  	  exit();
   else	
-	  $boutic = $_SESSION['boutic'];
+	  $boutic = $_SESSION['boutic'];*/
 
 ?>
 <!DOCTYPE html>
