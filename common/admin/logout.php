@@ -2,5 +2,6 @@
    session_start();
    $boutic = $_SESSION['boutic'];
    session_destroy();
-   header("location: ../../" . $boutic . "/admin/index.php");
+ 	 header("LOCATION: index.php");
+ 	 exit();
 ?>

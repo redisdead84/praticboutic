@@ -3,7 +3,7 @@
 session_start();
 
   if (empty($_SESSION['boutic']) == TRUE)
- 	  exit();
+ 	  header("LOCATION: index.php");
   else	
 	  $boutic = $_SESSION['boutic'];
 	
@@ -78,7 +78,22 @@ try {
 		
 	  $query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
 	  $query = $query . ' WHERE T1.customid = ' . $customid; 
-
+	  if (strcmp($input->selcol, "")!=0)
+			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
+			
+		for($i=0; $i<count($input->filtres); $i++)
+		{
+			if (strcmp($input->filtres[$i]->table, $input->tables[$numtable]->nom)==0)
+			{
+				$fchamp =	$input->filtres[$i]->champ;
+				$fop	= $input->filtres[$i]->operateur;
+				$fval = $input->filtres[$i]->valeur;
+				$query = $query . ' AND T1.' . $fchamp . ' ' . $fop . ' ' . '"' . $fval . '"';
+			}
+		}
+		
+		//error_log($query);
+		
 		$arr=array();	
 		
 		if ($result = $conn->query($query)) 
@@ -95,16 +110,29 @@ try {
   {
 	  $colonnes ="";
 	  $liens=array();
+	  $orderby = array();
 	  $pk="";
 
 		for($i=0; $i<count($input->tables[$numtable]->champs); $i++) 
 		{
 			$str = $input->tables[$numtable]->champs[$i]->nom;
 			$typ = $input->tables[$numtable]->champs[$i]->typ;
+			$sens = $input->tables[$numtable]->champs[$i]->sens;
+			$ordre = $input->tables[$numtable]->champs[$i]->ordre;
 			//$posp = strpos($str, ".");
 			if (strcmp($typ,"fk")!=0)
 			{
 				$str = "T1." . $str;
+				if ($ordre>0)
+				{
+					if (strcmp($sens,"A") == 0)
+						$tri = array("field"=> $str, "sens"=>"ASC");
+					else if (strcmp($sens,"D") == 0)
+						$tri = array("field"=> $str, "sens"=>"DESC");
+
+					array_push($orderby, $tri);	
+					//error_log(json_encode($orderby));
+				}
 				if (strcmp($typ,"pk")==0)
 				{
 					$pk = $input->tables[$numtable]->champs[$i]->nom;				
@@ -140,9 +168,18 @@ try {
 					$liens[count($liens)] = $lelien;
 					$tblindex = count($liens);
 				}
-				$str = "T" . strval($tblindex + 1) . "." . $fld; 		
+				$str = "T" . strval($tblindex + 1) . "." . $fld;
+				if ($ordre>0)
+				{
+					if (strcmp($sens,"A") == 0)
+						$tri = array("field"=> $str, "sens"=>"ASC");
+					else if (strcmp($sens,"D") == 0)
+						$tri = array("field"=> $str, "sens"=>"DESC");
+
+					array_push($orderby, $tri);	
+				} 		
 			}
-	  	$colonnes = $colonnes . $str ;
+	  	$colonnes = $colonnes . $str;
 	  	if ($i != count($input->tables[$numtable]->champs)-1)
 	  		$colonnes = $colonnes . ', ';
 		}
@@ -166,9 +203,30 @@ try {
 		} 
 		  
 	  $query = $query . ' WHERE T1.customid = ' . $customid;
+	  if (strcmp($input->selcol, "")!=0)
+	  	$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
+	  	
+		for($i=0; $i<count($input->filtres); $i++)
+		{
+			if (strcmp($input->filtres[$i]->table, $input->tables[$numtable]->nom)==0)
+			{
+				$fchamp =	$input->filtres[$i]->champ;
+				$fop	= $input->filtres[$i]->operateur;
+				$fval = $input->filtres[$i]->valeur;
+				$query = $query . ' AND T1.' . $fchamp . ' ' . $fop . ' ' . '"' . $fval . '"';
+			}
+		}	  	
+	  	
 	  $query = $query . $addwhere;
-	  $query = $query . ' ORDER BY ' . $pk . ' LIMIT ' . $input->limite . ' OFFSET '. $input->offset;
+	  $query = $query . ' ORDER BY ';
+
+	  for ($i=0; $i<count($orderby); $i++)
+	  	$query = $query . $orderby[$i]['field'] . ' ' . $orderby[$i]['sens'] . ', ';
 	  
+	  $query = $query . $pk . ' LIMIT ' . $input->limite . ' OFFSET '. $input->offset;
+	  
+	  //error_log($query);
+		  
 		$arr=array();	
 		
 		if ($result = $conn->query($query)) 
@@ -260,13 +318,15 @@ try {
 		for($i=0; $i<count($input->tables[$numtable]->champs); $i++) 
 		{
 			$str = $input->tables[$numtable]->champs[$i]->nom;
-			$colonnes = $colonnes . $str ;
+			$colonnes = $colonnes . '`' . $str . '`';
 			if ($i != count($input->tables[$numtable]->champs)-1)
 	  		$colonnes = $colonnes . ', ';
 		}
   	
   	$query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
   	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $customid;
+  	
+  	//error_log($query);
   	
 		$arr=array();	
 		
@@ -325,6 +385,9 @@ try {
   $conn->close();
 
 	$output = $arr;
+	
+	//error_log(json_encode($output));	
+	
   echo json_encode($output);
 } catch (Error $e) {
   http_response_code(500);

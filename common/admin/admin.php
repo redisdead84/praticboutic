@@ -2,7 +2,10 @@
 	session_start();
 
   if (empty($_SESSION['boutic']) == TRUE)
+  {
+ 	  header("LOCATION: index.php");
  	  exit();
+ 	}
   else	
 	  $boutic = $_SESSION['boutic'];
 	
@@ -28,7 +31,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.04">
+    <link rel="stylesheet" href="css/back.css?v=1.06">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -38,139 +41,210 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body id="backbody">
-	  <p>Bienvenue <?php echo $_SESSION[$boutic . '_pseudo']; ?> ! <a href="logout.php"><button type="button" class="btn btn-primary">Deconnexion</button></a></p>
-  
-		<ul class="nav nav-tabs" id="myTab" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link active" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="true">CATEGORIE</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="false">ARTICLE</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="relgrpoptart-tab" data-toggle="tab" href="#relgrpoptart" role="tab" aria-controls="relgrpoptart" aria-selected="false">RELGRPOPTART</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">GROUPEOPT</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="option-tab" data-toggle="tab" href="#option" role="tab" aria-controls="option" aria-selected="false">OPTION</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="administrateur-tab" data-toggle="tab" href="#administrateur" role="tab" aria-controls="administrateur" aria-selected="false">ADMINISTRATEUR</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="parametre-tab" data-toggle="tab" href="#parametre" role="tab" aria-controls="parametre" aria-selected="false">PARAMETRE</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">CPZONE</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">BARLIVR</a>
-			</li>
-		</ul>
-		<div class="tab-content" id="myTabContent">
-		<div class="tab-pane active" id="categorie" role="tabpanel" aria-labelledby="categorie-tab">
-	  <div class='tbl' id="table0"></div>
-	  <div class='tbl form-group' id="ins0" hidden></div>
-	  <div class='tbl form-group' id="maj0" hidden></div>
+	  <div class="vertical-nav" id="sidebar">
+	  	<ul class="nav flex-column">
+			  <span class="navbar-text">
+			    Bienvenue <?php echo $_SESSION[$boutic . '_pseudo']; ?> ! 
+			  </span>
+			  <li class="nav-item">
+			    <a class="nav-link active" id="commande-tab" data-toggle="tab" href="#commande" role="tab" aria-controls="commande" aria-selected="false">COMMANDE</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false">PRODUIT</a>
+			  </li>
+ 			  <li class="nav-item">
+			    <a class="nav-link" id="options-tab" data-toggle="tab" href="#options" role="tab" aria-controls="options" aria-selected="false">OPTIONS</a>
+			  </li>
+ 			  <li class="nav-item">
+			    <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false">LIVRAISON</a>
+			  </li>			  
+ 			  <li class="nav-item">
+			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false">ADMINISTRATION</a>
+			  </li>			  
+ 			  <li class="nav-item">
+			    <a class="nav-link" href="logout.php">Deconnexion</a>
+			  </li>
+			</ul>
 		</div>
-		<div class="tab-pane" id="article" role="tabpanel" aria-labelledby="article-tab">
-	  <div class='tbl' id="table1"></div>	
- 	  <div class='tbl form-group' id="ins1" hidden></div>
- 	  <div class='tbl form-group' id="maj1" hidden></div>	
+		<div class="tab-content page-content" id="myMenuContent">
+			<div class="tab-pane active" id="commande" role="tabpanel" aria-labelledby="commande-tab">
+				<p class="title">Commande</p>
+			  <div class='tbl' id="table9"></div>
+			  <div class='tbl form-group' id="det9" hidden></div>
+			</div>
+			<div class="tab-pane" id="produit" role="tabpanel" aria-labelledby="produit-tab">
+				<p class="title">Produit</p>
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="true">CATEGORIE</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="false">ARTICLE</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="myTabProdContent">
+					<div class="tab-pane active" id="categorie" role="tabpanel" aria-labelledby="categorie-tab">
+					  <div class='tbl' id="table0"></div>
+					  <div class='tbl form-group' id="ins0" hidden></div>
+					  <div class='tbl form-group' id="maj0" hidden></div>
+					</div>
+					<div class="tab-pane" id="article" role="tabpanel" aria-labelledby="article-tab">
+				  	<div class='tbl' id="table1"></div>	
+			 	  	<div class='tbl form-group' id="ins1" hidden></div>
+			 	  	<div class='tbl form-group' id="maj1" hidden></div>	
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="options" role="tabpanel" aria-labelledby="options-tab">
+				<p class="title">Options</p>
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="option-tab" data-toggle="tab" href="#option" role="tab" aria-controls="option" aria-selected="false">OPTION</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">GROUPEOPT</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="relgrpoptart-tab" data-toggle="tab" href="#relgrpoptart" role="tab" aria-controls="relgrpoptart" aria-selected="false">RELGRPOPTART</a>
+					</li>
+				</ul>
+				<div class="tab-content" id="myTabOptContent">
+					<div class="tab-pane active" id="option" role="tabpanel" aria-labelledby="option-tab">
+				  	<div class='tbl' id="table4"></div>	
+			 	  	<div class='tbl form-group' id="ins4" hidden></div>
+			 	  <div class='tbl form-group' id="maj4" hidden></div>	
+				</div>
+				<div class="tab-pane" id="groupeopt" role="tabpanel" aria-labelledby="groupeopt-tab">
+				  <div class='tbl' id="table3"></div>	
+			 	  <div class='tbl form-group' id="ins3" hidden></div>
+			 	  <div class='tbl form-group' id="maj3" hidden></div>	
+				</div>
+				<div class="tab-pane" id="relgrpoptart" role="tabpanel" aria-labelledby="relgrpoptart-tab">
+				  <div class='tbl' id="table2"></div>	
+			 	  <div class='tbl form-group' id="ins2" hidden></div>
+			 	  <div class='tbl form-group' id="maj2" hidden></div>	
+				</div>
+			</div>
 		</div>
-		<div class="tab-pane" id="relgrpoptart" role="tabpanel" aria-labelledby="relgrpoptart-tab">
-	  <div class='tbl' id="table2"></div>	
- 	  <div class='tbl form-group' id="ins2" hidden></div>
- 	  <div class='tbl form-group' id="maj2" hidden></div>	
+		<div class="tab-pane" id="livraison" role="tabpanel" aria-labelledby="livraison-tab">
+			<p class="title">Livraison</p>
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">CPZONE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">BARLIVR</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabLivrContent">
+				<div class="tab-pane active" id="cpzone" role="tabpanel" aria-labelledby="cpzone-tab">
+				  <div class='tbl' id="table7"></div>	
+			 	  <div class='tbl form-group' id="ins7" hidden></div>
+			 	  <div class='tbl form-group' id="maj7" hidden></div>	
+				</div>
+				<div class="tab-pane" id="barlivr" role="tabpanel" aria-labelledby="barlivr-tab">
+				  <div class='tbl' id="table8"></div>	
+			 	  <div class='tbl form-group' id="ins8" hidden></div>
+			 	  <div class='tbl form-group' id="maj8" hidden></div>	
+				</div>
+			</div>
 		</div>
-		<div class="tab-pane" id="groupeopt" role="tabpanel" aria-labelledby="groupeopt-tab">
-	  <div class='tbl' id="table3"></div>	
- 	  <div class='tbl form-group' id="ins3" hidden></div>
- 	  <div class='tbl form-group' id="maj3" hidden></div>	
-		</div>
-		<div class="tab-pane" id="option" role="tabpanel" aria-labelledby="option-tab">
-	  <div class='tbl' id="table4"></div>	
- 	  <div class='tbl form-group' id="ins4" hidden></div>
- 	  <div class='tbl form-group' id="maj4" hidden></div>	
-		</div>
-		<div class="tab-pane" id="administrateur" role="tabpanel" aria-labelledby="administrateur-tab">
-	  <div class='tbl' id="table5"></div>	
- 	  <div class='tbl form-group' id="ins5" hidden></div>
- 	  <div class='tbl form-group' id="maj5" hidden></div>	
-		</div>
-		<div class="tab-pane" id="parametre" role="tabpanel" aria-labelledby="parametre-tab">
-	  <div class='tbl' id="table6"></div>	
- 	  <div class='tbl' id="ins6" hidden></div>
- 	  <div class='tbl' id="maj6" hidden></div>	
-		</div>
-		<div class="tab-pane" id="cpzone" role="tabpanel" aria-labelledby="cpzone-tab">
-	  <div class='tbl' id="table7"></div>	
- 	  <div class='tbl form-group' id="ins7" hidden></div>
- 	  <div class='tbl form-group' id="maj7" hidden></div>	
-		</div>
-		<div class="tab-pane" id="barlivr" role="tabpanel" aria-labelledby="barlivr-tab">
-	  <div class='tbl' id="table8"></div>	
- 	  <div class='tbl form-group' id="ins8" hidden></div>
- 	  <div class='tbl form-group' id="maj8" hidden></div>	
-		</div>
-		</div>
+		<div class="tab-pane" id="administration" role="tabpanel" aria-labelledby="administration-tab">
+			<p class="title">Administration</p>
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active" id="administrateur-tab" data-toggle="tab" href="#administrateur" role="tab" aria-controls="administrateur" aria-selected="false">ADMINISTRATEUR</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="parametre-tab" data-toggle="tab" href="#parametre" role="tab" aria-controls="parametre" aria-selected="false">PARAMETRE</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabAdminContent">
+				<div class="tab-pane active" id="administrateur" role="tabpanel" aria-labelledby="administrateur-tab">
+				  <div class='tbl' id="table5"></div>	
+			 	  <div class='tbl form-group' id="ins5" hidden></div>
+			 	  <div class='tbl form-group' id="maj5" hidden></div>	
+				</div>
+					<div class="tab-pane" id="parametre" role="tabpanel" aria-labelledby="parametre-tab">
+				  <div class='tbl' id="table6"></div>	
+			 	  <div class='tbl' id="ins6" hidden></div>
+		 	  	<div class='tbl' id="maj6" hidden></div>	
+				</div>
+			</div>
+		</div>			
+	</div>	
 		
-		<div class="modal" tabindex="-1" role="dialog">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">Erreur</h5>
-		      </div>
-		      <div class="modal-body">
-		        <p>Modal body text goes here.</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">OK</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+	<div class="modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Erreur</h5>
+	      </div>
+	      <div class="modal-body">
+	        <!--<p>Modal body text goes here.</p>-->
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="okbtn">OK</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 		
   <script>
 	var boutic = "<?php echo $boutic;?>" ;
 	
 	var deflimite = 5;
+	var defoffset = 0;
 	var offset = 0;  
   
 	var tables = [
-								{nom:"categorie", cs:"nom", champs:[{nom:"catid", typ:"pk"},{nom:"nom", typ:"ref"}, {nom:"visible", typ:"bool"}]},
-	              {nom:"article", cs:"nom", champs:[{nom:"artid", typ:"pk"},{nom:"nom", typ:"ref"}, {nom:"prix", typ:"prix"}, {nom:"description", typ:"text"}, {nom:"visible", typ:"bool"}, {nom:"catid", typ:"fk"},
-	                {nom:"unite", typ:"text"}, {nom:"image", typ:"image"}, {nom:"imgvisible", typ:"bool"}, {nom:"obligatoire", typ:"bool"}]},
-	              {nom:"relgrpoptart", cs:"", champs:[{nom:"relgrpoartid", typ:"pk"}, {nom:"grpoptid", typ:"fk"}, {nom:"artid", typ:"fk"}, {nom:"visible", typ:"bool"}]},
-	              {nom:"groupeopt", cs:"nom", champs:[{nom:"grpoptid", typ:"pk"}, {nom:"nom", typ:"ref"}, {nom:"visible", typ:"bool"}, {nom:"multiple", typ:"bool"}]},
-	              {nom:"option", cs:"nom", champs:[{nom:"optid", typ:"pk"}, {nom:"nom", typ:"ref"}, {nom:"surcout", typ:"prix"}, {nom:"grpoptid", typ:"fk"}, {nom:"visible", typ:"bool"}]},
-	              {nom:"administrateur", cs:"pseudo", champs:[{nom:"adminid", typ:"pk"},{nom:"pseudo", typ:"text"},{nom:"pass", typ:"pass"},{nom:"email", typ:"email"},{nom:"actif", typ:"bool"}]},
-	              {nom:"parametre", cs:"nom", champs:[{nom:"paramid", typ:"pk"},{nom:"nom", typ:"ref"},{nom:"valeur", typ:"text"},{nom:"commentaire", typ:"text"}]},
-	              {nom:"cpzone", cs:"codepostal", champs:[{nom:"cpzoneid", typ:"pk"},{nom:"codepostal", typ:"codepostal"},{nom:"ville", typ:"text"},{nom:"actif", typ:"bool"}]},
-	              {nom:"barlivr", cs:"", champs:[{nom:"barlivrid", typ:"pk"},{nom:"valminin", typ:"prix"},{nom:"valmaxex", typ:"prix"},{nom:"surcout", typ:"prix"},
-	              	{nom:"limitebasse", typ:"bool"},{nom:"limitehaute", typ:"bool"}]}
+								{nom:"categorie", cs:"nom", champs:[{nom:"catid", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"visible", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"article", cs:"nom", champs:[{nom:"artid", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"prix", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"description", typ:"text", vis:"o", ordre:"0", sens:""}, 
+	              {nom:"visible", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"catid", typ:"fk", vis:"o", ordre:"0", sens:""},
+	                {nom:"unite", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"image", typ:"image", vis:"o", ordre:"0", sens:""}, {nom:"imgvisible", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"obligatoire", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"relgrpoptart", cs:"", champs:[{nom:"relgrpoartid", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"artid", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"groupeopt", cs:"nom", champs:[{nom:"grpoptid", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"visible", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"multiple", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"option", cs:"nom", champs:[{nom:"optid", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"surcout", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"administrateur", cs:"pseudo", champs:[{nom:"adminid", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"pseudo", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"pass", typ:"pass", vis:"o", ordre:"0", sens:""},{nom:"email", typ:"email", vis:"o", ordre:"0", sens:""},{nom:"actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"parametre", cs:"nom", champs:[{nom:"paramid", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", typ:"ref", vis:"o", ordre:"0", sens:""},{nom:"valeur", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"commentaire", typ:"text", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"cpzone", cs:"codepostal", champs:[{nom:"cpzoneid", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"codepostal", typ:"codepostal", vis:"o", ordre:"0", sens:""},{nom:"ville", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"barlivr", cs:"", champs:[{nom:"barlivrid", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"valminin", typ:"prix", vis:"o", ordre:"0", sens:""},{nom:"valmaxex", typ:"prix", vis:"o", ordre:"0", sens:""},{nom:"surcout", typ:"prix", vis:"o", ordre:"0", sens:""},
+	              	{nom:"limitebasse", typ:"bool", vis:"o", ordre:"0", sens:""},{nom:"limitehaute", typ:"bool", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"commande", cs:"numref", champs:[{nom:"cmdid", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"numref", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"nom", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"prenom", typ:"text", vis:"n", ordre:"0", sens:""}, 
+	                {nom:"telephone", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"adresse1", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"adresse2", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"codepostal", typ:"text", vis:"n", ordre:"0", sens:""}, 
+	                {nom:"ville", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"vente", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"paiement", typ:"text", vis:"n", ordre:"0", sens:""},
+								  {nom:"sstotal", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"total", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", typ:"text", vis:"n", ordre:"0", sens:""}, 
+								  {nom:"method", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"table", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"datecreation", typ:"date", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"lignecmd", cs:"", champs:[{nom:"lignecmdid", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"cmdid", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"ordre", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"type", typ:"text", vis:"o", ordre:"0", sens:""}, 
+	                {nom:"nom", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"prix", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"quantite", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", typ:"text", vis:"o", ordre:"0", sens:""}]}
 	              ];  
 
   var liens = [{nom:"categorie", srctbl:"article", srcfld:"catid", dsttbl:"categorie", dstfld:"catid"},
   						 {nom:"groupeopt", srctbl:"relgrpoptart", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid"},
   						 {nom:"article", srctbl:"relgrpoptart", srcfld:"artid", dsttbl:"article", dstfld:"artid"},
-  						 {nom:"groupeopt", srctbl:"option", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid"}
+  						 {nom:"groupeopt", srctbl:"option", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid"},
+  						 {nom:"commande", srctbl:"lignecmd", srcfld:"cmdid", dsttbl:"commande", dstfld:"cmdid"}
   						 ];
   						 
 	var rpp = [5,10,15,20,50,100];  
-  
+
+	var op = ["=",">","<",">=","<=","<>","LIKE"];	
+	
+	var filtres = [];
+	
+	var maxfiltre = 10;
+
   $(function() {
-    gettable( "table0", "categorie", deflimite, offset);
-    gettable( "table1", "article", deflimite, offset);
-    gettable( "table2", "relgrpoptart", deflimite, offset);
-    gettable( "table3", "groupeopt", deflimite, offset);
-    gettable( "table4", "option", deflimite, offset);
-    gettable( "table5", "administrateur", deflimite, offset);
-    gettable( "table6", "parametre", deflimite, offset);
-    gettable( "table7", "cpzone", deflimite, offset);
-    gettable( "table8", "barlivr", deflimite, offset);
+    gettable( "table0", "categorie", deflimite, defoffset);
+    gettable( "table1", "article", deflimite, defoffset);
+    gettable( "table2", "relgrpoptart", deflimite, defoffset);
+    gettable( "table3", "groupeopt", deflimite, defoffset);
+    gettable( "table4", "option", deflimite, defoffset);
+    gettable( "table5", "administrateur", deflimite, defoffset);
+    gettable( "table6", "parametre", deflimite, defoffset);
+    gettable( "table7", "cpzone", deflimite, defoffset);
+    gettable( "table8", "barlivr", deflimite, defoffset);
+    gettable( "table9", "commande", deflimite, defoffset);
   });
  
   </script>
@@ -333,7 +407,8 @@
 			         	if (typeof (data.error) !== "undefined")
 			         	{
 			         		var modal = $('.modal');
-			            modal.find('.modal-body p').text(data.error);
+			         		$('.modal-title').html('Erreur');
+			            modal.find('.modal-body').text(data.error);
 			            $('.modal').modal('show');
 			         	}
 			        })
@@ -433,7 +508,8 @@
      			if (typeof (data.error) !== "undefined")
 					{
 	          var modal = $('.modal');
-            modal.find('.modal-body p').text(data.error);
+	          $('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
             $('.modal').modal('show');
 					}
 	       	else 
@@ -590,7 +666,8 @@
 						         	if (typeof (data.error) !== "undefined")
 						         	{
 						         		var modal = $('.modal');
-						            modal.find('.modal-body p').text(data.error);
+						         		$('.modal-title').html('Erreur');
+						            modal.find('.modal-body').text(data.error);
 						            $('.modal').modal('show');
 						         	}
 						        })
@@ -654,70 +731,93 @@
       	})
 			}
 			
-			function changeFunc(place, tablestr, $i) 
+			function changeFunc(place, tablestr, $i, selcol="", selid=0) 
 			{
 				limite = $i;				
-				gettable( place, tablestr, limite, 0);
+				gettable( place, tablestr, limite, 0, selcol, selid);
    		}
    		
- 			function vartotable(place, tablestr, donnees, total, limite, offset)
+ 			function vartotable(place, tablestr, donnees, total, limite, offset, selcol="", selid=0)
  			{
-       	var tab;
-       	var pkval;
-       	nummtable = getnumtable(tablestr);
-       	table = tables[numtable];
-       	tab = '<table class="table table-bordered table-striped"><theader><tr>';
+			 	var tab = '';
+			 	var pkval;
+			 	nummtable = getnumtable(tablestr);
+			 	table = tables[numtable];
+				/*if (tablestr == "commande")
+				{
+					tab = tab + '<button onclick="editcol(\'commande\',' + limite + ',' + offset + ')">Colonnes</button>&nbsp;';
+					tab = tab + '<button onclick="editfil(\'commande\',' + limite + ',' + offset + ')">Filtres</button><br><br>';
+				}*/
+			 	tab = tab + '<div class=""><table class="table table-bordered table-striped"><thead><tr class="">';
 				for (var i=0; i<table.champs.length; i++)          	
-       	{
-       		if (table.champs[i].typ != "pk")
-       		{
-	       		tab = tab + '<th>';
-	       		if (table.champs[i].typ != "fk")
-	       			tab = tab + table.champs[i].nom;
-	       		else
-	       		{
+			 	{
+			 		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
+			 		{
+			   		tab = tab + '<th class="">';
+			   		if (table.champs[i].typ != "fk")
+			   			tab = tab + table.champs[i].nom;
+			   		else
+			   		{
 							for (var j=0; j<liens.length; j++)          	
-       				{
-       					if ((liens[j].srctbl == table.nom) && (liens[j].srcfld == table.champs[i].nom))
-       						tab = tab + liens[j].nom; 
+			 				{
+			 					if ((liens[j].srctbl == table.nom) && (liens[j].srcfld == table.champs[i].nom))
+			 						tab = tab + liens[j].nom; 
 							}
-	       		}	
-	       		tab = tab + '</th>';
-       		}
-       	}
-     		tab = tab + '<th></th>';
-       	tab = tab + '</tr></theader><tbody>';
-       	for (var j=0; j<donnees.length; j++)
-       	{
-       		tab = tab + '<tr>';
+			   		}	
+			   		tab = tab + '</th>';
+			 		}
+			 	}
+			 	if ((tablestr !== "commande") && (tablestr !== "lignecmd"))
+			 		tab = tab + '<th class=""></th>';
+			 	tab = tab + '</tr></thead><tbody>';
+			 	for (var j=0; j<donnees.length; j++)
+			 	{
+			 		tab = tab + '<tr class="">';
 					for (var i=0; i<donnees[j].length; i++)          	
-	       	{
-	       		if (table.champs[i].typ != "pk")
-       			{
-		       		tab = tab + '<td>';
-		       		if (table.champs[i].typ != "bool")
-		       			tab = tab + donnees[j][i];
-		       		else {
-		       			if (donnees[j][i] > 0)
-		       				tab = tab + '<input type="checkbox" checked disabled>';
-		       			else {
-		       				tab = tab + '<input type="checkbox" disabled>';
-		       			}
-		       		}
-		       		tab = tab + '</td>';
-	       		}
-	       		else {
-	       			pkval = donnees[j][i];
-	       		}
-	       	}
-	       	tab = tab + '<td width="1%"><button class="btn btn-primary" onclick="update(' + numtable + ',' + pkval + ',' + limite + ',' + offset + ')">Modifier</button></td></tr>';
-       	}
-       	
-       	tab = tab + '</tbody></table>';
-       	tab = tab + '<button class="btn btn-primary" onclick="insert(' + numtable + ',' + limite + ',' + offset + ')">Insérer</button>';
-       	tab = tab + '<br>';
-       	tab = tab + '<label for="rpp '+ numtable + '">Nombre de résultat par page</label>';
-       	tab = tab + '<select onchange="changeFunc(\'' + place +'\',\'' + tablestr + '\',value);" name="rpp' + numtable + '" id="rppid' + numtable + '">';
+			   	{
+			   		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
+			 			{
+			     		tab = tab + '<td class="">';
+			     		if (table.champs[i].typ != "bool")
+			     		{
+			     			var val = donnees[j][i];
+			     			if (table.champs[i].typ == "prix")
+			     				tab = tab + parseFloat(val).toFixed(2);
+			     			else if (table.champs[i].typ == "date")
+								{
+										const event = new Date(Date.parse(val));
+										tab = tab + event.toLocaleString('fr-FR');
+								}
+			     			else
+			     				tab = tab + val;	 
+			     		}
+			     		else {
+			     			if (donnees[j][i] > 0)
+			     				tab = tab + '<input type="checkbox" checked disabled>';
+			     			else {
+			     				tab = tab + '<input type="checkbox" disabled>';
+			     			}
+			     		}
+			     		tab = tab + '</td>';
+			   		}
+			   		else if (table.champs[i].typ == "pk")
+			   			pkval = donnees[j][i];
+			   	}
+					if (tablestr == "commande")
+						tab = tab + '<td width="1%"><button class="btn btn-primary" onclick="detail(' + numtable + ',' + pkval + ',' + limite + ',' + offset + ')">Détails</button></td></tr>';
+					else if (tablestr == "lignecmd")
+						tab = tab + '</tr>';
+					else
+				    tab = tab + '<td width="1%"><button class="btn btn-primary" onclick="update(' + numtable + ',' + pkval + ',' + limite + ',' + offset + ')">Modifier</button></td></tr>';
+							       	
+				}
+			 	
+			 	tab = tab + '</tbody></table></div>';
+				if ((tablestr !== "commande") &&  (tablestr !== "lignecmd"))
+			   	tab = tab + '<button class="btn btn-primary" onclick="insert(' + numtable + ',' + limite + ',' + offset + ')">Insérer</button>';
+			 	tab = tab + '<br>';
+			 	tab = tab + '<label for="rpp '+ numtable + '">Nombre de résultat par page</label>';
+			 	tab = tab + '<select onchange="changeFunc(\'' + place +'\',\'' + tablestr + '\',value,\'' + selcol  + '\',' + selid + ');" name="rpp' + numtable + '" id="rppid' + numtable + '">';
 				for (var k=0; k<rpp.length; k++)
 				{
 					if (limite == rpp[k])
@@ -725,8 +825,7 @@
 					else
 						tab = tab + '<option value="' + rpp[k] + '">' + rpp[k] + '</option>';       	
 				}				
-      	vallimite = parseInt(limite);
-       	//<option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="' + total + '">TOUT</option></select>';
+				vallimite = parseInt(limite);
 				tab = tab + '</select>';				
 				tab = tab + '<nav aria-label="Page navigation">';
 				  tab = tab + '<ul class="pagination">';
@@ -734,7 +833,7 @@
 					    tab = tab + '<li class="page-item disabled">';
 					  else
 					    tab = tab + '<li class="page-item">';
-				      tab = tab + '<a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (offset - vallimite) + ')" aria-label="Previous">';
+				      tab = tab + '<a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (offset - vallimite) + ',\'' + selcol  + '\',' + selid + ')" aria-label="Previous">';
 				        tab = tab + '<span aria-hidden="true">&laquo;</span>';
 				        tab = tab + '<span class="sr-only">Previous</span>';
 				      tab = tab + '</a>';
@@ -743,30 +842,443 @@
 				    for (var k=0; k<totalpage;k++)
 				    {
 				    	if ((offset/ vallimite) == k)
-				    		tab = tab + '<li class="page-item active"><a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (k*limite) + ')">' + k + '</a></li>';
+				    		tab = tab + '<li class="page-item active"><a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (k*limite) + ',\'' + selcol  + '\',' + selid + ')">' + k + '</a></li>';
 				    	else
-				    		tab = tab + '<li class="page-item"><a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (k*limite) + ')">' + k + '</a></li>';
+				    		tab = tab + '<li class="page-item"><a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (k*limite) + ',\'' + selcol  + '\',' + selid + ')">' + k + '</a></li>';
 				    }
 				    if ((offset + vallimite) >= total)
 				    	tab = tab + '<li class="page-item disabled">';
 				    else
 				    	tab = tab + '<li class="page-item">';
-				      tab = tab + '<a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (offset + vallimite) + ')" aria-label="Next">';
+				      tab = tab + '<a class="page-link" href="javascript:gettable(\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (offset + vallimite) + ',\'' + selcol  + '\',' + selid + ')" aria-label="Next">';
 				        tab = tab + '<span aria-hidden="true">&raquo;</span>';
 				        tab = tab + '<span class="sr-only">Next</span>';
 				      tab = tab + '</a>';
 				    tab = tab + '</li>';
 				  tab = tab + '</ul>';
 				tab = tab + '</nav>' ;   	
-       	
-       	
-       	return tab; 			
- 			}  
+			 	
+			 	
+			 	return tab; 			
+			}  
  			
-      function gettable(place, table, limite, offset)      
+			function editcol(tablestr, limite , offset) 
+			{
+				$('.modal-title').html('Configuration des colonnes');
+				$('.modal-dialog').removeClass("modal-lg");
+				document.getElementsByClassName('modal-body')[0].innerHTML = '';
+				var tbl = document.createElement("TABLE");
+				tbl.id = 'modtbl';
+				document.getElementsByClassName('modal-body')[0].appendChild(tbl);
+				var trh = document.createElement("TR");
+				//tr.id = 'modtr';
+				tbl.appendChild(trh);
+				var th1 = document.createElement("TH");
+				//th.id = 'modtr';
+				th1.innerHTML = "Champs";
+				trh.appendChild(th1);
+				var th2 = document.createElement("TH");
+				th2.innerHTML = "Visible";
+				trh.appendChild(th2);
+				var th3 = document.createElement("TH");
+				th3.innerHTML = "Ordre";
+				trh.appendChild(th3);
+				
+				
+				for (var i=0;i<tables.length; i++)
+				{
+					if (tables[i].nom == tablestr)
+					{
+						for (var j=0;j<tables[i].champs.length; j++)
+						{
+							if (tables[i].champs[j].typ != "pk")
+							{
+								var trd = document.createElement("TR");
+								var td1 = document.createElement("TD");
+								td1.innerHTML = tables[i].champs[j].nom;
+								trd.appendChild(td1);
+								var td2 = document.createElement("TD");
+								td2.classList.add("center")
+								var chkb = document.createElement("INPUT");
+								chkb.type = "checkbox";
+								chkb.setAttribute("data-numtbl", i);
+								chkb.setAttribute("data-numfld", j);
+								chkb.onchange = function () {
+									if (this.checked == true)
+									{
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].vis ="o";									
+									}
+									else {
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].vis ="n";
+									}
+								}
+								
+								if (tables[i].champs[j].vis == "o")
+									chkb.checked = true;
+								else {
+									chkb.checked = false;
+								}
+								td2.appendChild(chkb);
+								trd.appendChild(td2);
+								var td3 = document.createElement("TD");
+								td3.setAttribute("data-numtbl", i);
+								td3.setAttribute("data-numfld", j);
+								//td3.setAttribute("data-numordre", 0);
+								//td3.setAttribute("data-sens", "");
+								td3.classList.add("tdtri");
+								td3.onclick = function () {
+									//numtri = getmaxvalue();
+									var listtdtri = document.getElementsByClassName("tdtri");
+									var tempval = 0;
+									var maxval = 0;
+									for (var k=0; k<listtdtri.length; k++)
+									{
+										tempval = parseInt(tables[listtdtri[k].getAttribute("data-numtbl")].champs[listtdtri[k].getAttribute("data-numfld")].ordre);
+										if (tempval >= maxval)
+											maxval = tempval + 1;								
+									}
+									if (tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens =="")
+									{
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens = "A";
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre = maxval;
+										this.innerHTML = "&#9650;" + maxval;	
+									}
+									else if (tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens =="A")
+									{
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens = "D";
+										this.innerHTML = "&#9660;" + tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre;	
+									}
+									else if (tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens =="D")
+									{
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens = "";
+										var removedval = parseInt(tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre);
+										for (var l=0; l<listtdtri.length; l++)
+										{
+											tempval = parseInt(tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre);
+											if (tempval > removedval)
+											{
+												tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre = tempval - 1;
+												if (tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].sens =="A")
+													listtdtri[l].innerHTML = "&#9650;" + tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre;
+												else if (tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].sens =="D")
+													listtdtri[l].innerHTML = "&#9660;" + tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre;
+											}								
+										}
+										
+										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre = 0;
+										this.innerHTML = "&#9650;/&#9660;";
+									}
+								}
+								if ((tables[i].champs[j].sens == "A") && (parseInt(tables[i].champs[j].ordre) > 0))
+									td3.innerHTML = "&#9650;" + tables[i].champs[j].ordre;
+								else if ((tables[i].champs[j].sens == "D") && (parseInt(tables[i].champs[j].ordre) > 0))
+									td3.innerHTML = "&#9660;" + tables[i].champs[j].ordre;
+								else {
+									td3.innerHTML = "&#9650;/&#9660;";
+								}
+								trd.appendChild(td3);
+								tbl.appendChild(trd);
+							}
+						}	
+					}
+				}							
+				
+				var okbtn = document.getElementById('okbtn');
+				okbtn.onclick = function () 
+				{
+					gettable( "table9", "commande", limite, offset);
+				}
+
+				$('.modal').modal('show');
+			}
+			
+			function editfil(tablestr, limite , offset) 
+			{
+				$('.modal-title').html('Configuration des filtres');
+				$('.modal-dialog').addClass("modal-lg");
+				//$('.modal-body').addClass("bodyflex");
+				document.getElementsByClassName('modal-body')[0].innerHTML = '';
+				
+				for (var k=0;k<maxfiltre;k++) 
+				{
+					var divpan = document.createElement("DIV");
+					divpan.id = 'divpan' + k;
+					//divpan.classList.add("filpan");
+									
+					document.getElementsByClassName('modal-body')[0].appendChild(divpan);
+					var lblfld = document.createElement("LABEL");
+					lblfld.id ='lblfld' + k;
+					lblfld.for = 'fld' + k;
+					lblfld.innerHTML= 'Champs';
+					document.getElementById('divpan' + k).appendChild(lblfld);
+					var fld = document.createElement("SELECT");
+					fld.id = 'fld' + k;
+					document.getElementById('divpan' + k).appendChild(fld);
+					
+					var opt = document.createElement("OPTION");
+					opt.innerHTML = "";
+					document.getElementById('fld' + k).appendChild(opt);					
+					
+					for (var i=0;i<tables.length; i++)
+					{
+						if (tables[i].nom == tablestr)
+						{
+							for (var j=0;j<tables[i].champs.length; j++)
+							{
+								if (tables[i].champs[j].typ != "pk")
+								{
+									var opt = document.createElement("OPTION");
+									opt.innerHTML = tables[i].champs[j].nom;
+									document.getElementById('fld' + k).appendChild(opt);
+								}
+							}
+						}
+					}
+					
+					var lblop = document.createElement("LABEL");
+					lblop.id ='lblopd' + k;
+					lblop.for = 'op' + k;
+					lblop.innerHTML= '&nbsp;Operators';
+					document.getElementById('divpan' + k).appendChild(lblop);
+	
+					var ope = document.createElement("SELECT");
+					ope.id = 'op' + k;
+					document.getElementById('divpan' + k).appendChild(ope);
+
+					for (var i=0;i<op.length; i++)
+					{
+						var opo = document.createElement("OPTION");
+						opo.innerHTML = op[i];
+						document.getElementById('op' + k).appendChild(opo);
+					}
+					
+					var lblval = document.createElement("LABEL");
+					lblval.id ='lblvald' + k;
+					lblval.for = 'val' + k;
+					lblval.innerHTML= '&nbsp;Valeur';
+					document.getElementById('divpan' + k).appendChild(lblval);
+	
+					var inpval = document.createElement("INPUT");
+					inpval.id ='inpval' + k;
+					document.getElementById('divpan' + k).appendChild(inpval);
+					
+					/*var chpm = document.createElement("DIV");
+					chpm.id ='chpm' + k;
+					chpm.innerHTML= '+';
+					chpm.style.cursor ="default";
+					chpm.setAttribute("data-num", k);
+					chpm.onclick = function () 
+					{
+						var preve = document.getElementById('divpan' + this.getAttribute("data-num"));
+						if (chpm.innerHTML == '+') 					
+						{	
+							preve.style.display = "contents";
+							chpm.innerHTML= '-';
+						}
+						else if (chpm.innerHTML == '-')
+						{
+							preve.style.display = "none";
+							chpm.innerHTML= '+';
+						}
+					}
+					document.getElementsByClassName('modal-body')[0].appendChild(chpm);*/
+					/*var br1 = document.createElement("BR");
+					document.getElementsByClassName('modal-body')[0].appendChild(br1);
+					var br2 = document.createElement("BR");
+					document.getElementsByClassName('modal-body')[0].appendChild(br2);*/
+				}				
+
+								
+				var okbtn = document.getElementById('okbtn');
+				okbtn.onclick = function () 
+				{
+					filtres = [];
+					for (var l=0;l<maxfiltre;l++) 
+					{
+						var table = tablestr;
+						var champ = document.getElementById('fld' + l).value;
+						var operateur = document.getElementById('op' + l).value;
+						var valeur = document.getElementById('inpval' + l).value;
+
+						var filtre= {table:table, champ:champ, operateur:operateur, valeur:valeur};
+
+						if (champ!="")
+							filtres.push(filtre);
+
+					}					
+					
+					gettable( "table9", "commande", limite, offset);
+					$('.modal-dialog').removeClass("modal-lg");
+					$('.modal-body').removeClass("bodyflex");
+				}
+
+				$('.modal').modal('show');
+			}
+			
+			function detail(numtable, idtoup, limite, offset ) 
+			{
+				var champs = tables[numtable].champs;
+				var cmdid = 0;
+				document.getElementById('table' + numtable).hidden = true;
+				document.getElementById('det' + numtable).hidden = false;
+				
+				var titre = document.createElement('H5');
+				titre.id = 'itable'+ numtable +'titre';
+				titre.innerHTML = 'Détails ' + tables[numtable].nom;
+				document.getElementById('det' + numtable).appendChild(titre);
+				var br = document.createElement('br');
+				document.getElementById('det' + numtable).appendChild(br);				
+				
+				var obj = { customer: boutic, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
+
+        fetch("boquery.php", {
+          method: "POST",
+          headers: {
+        		'Content-Type': 'application/json',
+        		'Accept': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+        .then(function(result) {
+          return result.json();
+        })
+        .then(function(data) {
+     			if (typeof (data.error) !== "undefined")
+					{
+	          var modal = $('.modal');
+	          $('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
+            $('.modal').modal('show');
+					}
+	       	else 
+        	{
+            //document.getElementById(place).innerHTML = vartotable(tables[numtable].champs, data, numtable);
+						var labels = [];
+						var input = [];
+						var cmdhead = document.createElement("DIV");
+						cmdhead.classList.add('twocol');
+						document.getElementById('det' + numtable).appendChild(cmdhead);
+						for(i=0; i<champs.length; i++)				
+						{
+							if (champs[i].typ != "pk")
+							{
+								var dat = document.createElement('p');
+								dat.id = 'utable'+ numtable +'dat' + i;
+								//dat.htmlFor = 'utable'+ numtable + 'inp' + i;
+								if (champs[i].typ != "fk")
+								{
+									dat.innerHTML = champs[i].nom + '&nbsp;:&nbsp;';
+									//document.getElementById('det' + numtable).appendChild(lbl);
+									//var inp = document.createElement('p');
+									if (champs[i].typ == "text")
+									{
+										dat.innerHTML = dat.innerHTML + data[i];
+									}
+									if (champs[i].typ == "date")
+									{
+										const event = new Date(Date.parse(data[i]));
+										dat.innerHTML = dat.innerHTML + event.toLocaleString('fr-FR');
+									}
+									if (champs[i].typ == "ref")
+									{
+										dat.innerHTML = dat.innerHTML + data[i];
+									}
+									else if (champs[i].typ == "bool")
+									{
+										if (data[i] == "1")
+											dat.innerHTML = dat.innerHTML + 'oui';
+										else {
+											dat.innerHTML = dat.innerHTML + 'non';
+										}
+									}
+									else if (champs[i].typ == "prix")
+									{
+										dat.innerHTML = dat.innerHTML + parseFloat(data[i]).toFixed(2);
+									}
+									else if (champs[i].typ == "image")
+									{
+										dat.innerHTML = dat.innerHTML + data[i];
+									}
+									else if (champs[i].typ == "pass")
+									{
+										dat.innerHTML = dat.innerHTML + data[i];
+									}
+									else if (champs[i].typ == "email")
+									{
+										dat.innerHTML = dat.innerHTML + data[i];
+									}
+									else if (champs[i].typ == "codepostal")
+									{
+										dat.innerHTML = dat.innerHTML + data[i];
+									}
+									
+									//inp.name = 'utable' + numtable + '_' + champs[i].nom;
+									//inp.id = 'utable' + numtable + '_' + 'inp' + i;
+									
+									dat.setAttribute("data-table",tables[numtable].nom);
+									dat.setAttribute("data-champ",champs[i].nom);
+									cmdhead.appendChild(dat);
+								}
+								else 
+								{
+
+									for (j=0; j<liens.length; j++)
+									{
+										if ((liens[j].srctbl == tables[numtable].nom) && (liens[j].srcfld == champs[i].nom ))
+										{	
+											lbl.innerHTML = liens[j].nom + '&nbsp;:&nbsp;' + data[i];
+											
+											
+											/*for (k=0; k<tables.length; k++)
+												if (tables[k].nom == liens[j].dsttbl)
+													getoptions('utable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i]) ;*/
+											
+											
+											lbl.classList.add('form-control');
+											lbl.name = 'utable' + numtable + '_' + champs[numtable].nom;
+											lbl.id = 'utable' + numtable + '_' + 'lien' + i;
+											lbl.setAttribute("data-table", tables[numtable].nom);
+											lbl.setAttribute("data-champ", champs[i].nom);
+											cmdhead.appendChild(lbl);
+											
+											//document.getElementById('utable' + numtable + '_' + 'lien' + i).selectedIndex = parseInt(data[i]);
+										}
+									}
+								}
+							}
+							else {
+								cmdid = parseInt(data[i]);
+							}
+						}
+						var lignecmd = document.createElement('DIV');
+						lignecmd.classList.add("tbl");
+						lignecmd.classList.add("form-group");
+						lignecmd.id = "table10";
+						lignecmd.hidden = false;
+						document.getElementById('det' + numtable).appendChild(lignecmd);
+						gettable( "table10", "lignecmd", deflimite, defoffset, "cmdid", cmdid);
+						
+						var clbtn = document.createElement('button');
+						clbtn.id = "clbtn" + numtable;
+						clbtn.type = "button";
+						clbtn.innerHTML = "Close";
+						clbtn.classList.add("btn");
+						clbtn.classList.add("btn-primary");
+						clbtn.classList.add("btn-block");
+						clbtn.onclick = function(){
+							document.getElementById('table' + numtable).hidden = false;
+							document.getElementById('det' + numtable).hidden = true;
+							document.getElementById('det' + numtable).innerHTML = "";
+						}; 
+						document.getElementById('det' + numtable).appendChild(clbtn);
+					}
+      	})
+			}
+			
+      function gettable(place, table, limite, offset, selcol="", selid=0)      
       {
       	
-      	var obj = { customer: boutic, action:"elemtable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"" };
+      	var obj = { customer: boutic, action:"elemtable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:selcol, selid:selid, filtres:filtres };
   	
         fetch("boquery.php", {
           method: "POST",
@@ -783,13 +1295,14 @@
         	if (typeof (data.error) !== "undefined")
         	{
         		var modal = $('.modal');
-			      modal.find('.modal-body p').text(data.error);
+        		$('.modal-title').html('Erreur');
+			      modal.find('.modal-body').text(data.error);
 			      $('.modal').modal('show');
 			    }
 			    else 
 			    {
 			    	var total = data[0];	
-		      	var obj2 = { customer: boutic, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset };
+		      	var obj2 = { customer: boutic, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
 		  	
 		        fetch("boquery.php", {
 		          method: "POST",
@@ -806,11 +1319,12 @@
 		          	if (typeof (data.error) !== "undefined")
 		          	{
 			        		var modal = $('.modal');
-						      modal.find('.modal-body p').text(data.error);
+			        		$('.modal-title').html('Erreur');
+						      modal.find('.modal-body').text(data.error);
 						      $('.modal').modal('show');
 		          	}
-		         		else 
-			            document.getElementById(place).innerHTML = vartotable(place, table, data, total, limite, offset) ;
+		         		else
+	         				document.getElementById(place).innerHTML = vartotable(place, table, data, total, limite, offset, selcol, selid) ;
 		        })
         	}
         })
@@ -853,7 +1367,8 @@
           	if (typeof (data.error) !== "undefined")
           	{
 	         		var modal = $('.modal');
-	            modal.find('.modal-body p').text(data.error);
+	         		$('.modal-title').html('Erreur');
+	            modal.find('.modal-body').text(data.error);
 	            $('.modal').modal('show');
           	}
          		else 
@@ -883,7 +1398,8 @@
          	if (typeof (data.error) !== "undefined")
          	{
          		var modal = $('.modal');
-            modal.find('.modal-body p').text(data.error);
+         		$('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
             $('.modal').modal('show');
          	}
          	else 
@@ -919,7 +1435,8 @@
          	if (typeof (data.error) !== "undefined")
          	{
          		var modal = $('.modal');
-            modal.find('.modal-body p').text(data.error);
+         		$('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
             $('.modal').modal('show');
          	}
          	else 

@@ -163,6 +163,7 @@ input {
   filter: contrast(115%);
   outline: none;
 }
+
 .btn:disabled {
   opacity: 0.5;
   cursor: default;

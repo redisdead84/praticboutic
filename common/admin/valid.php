@@ -25,14 +25,11 @@
 				    
 				    	session_start();
 				
-						  if (empty($_SESSION['boutic']) == TRUE)
-						 	  exit();
-						  else	
-							  $boutic = $_SESSION['boutic'];
-				    
+ 
 				      include "../config/common_cfg.php";
 				      include "../param.php";
 				     	
+				     	$boutic = isset($_POST['boutic']) ? $_POST ['boutic'] : '';
 				      $pseudo = isset($_POST['pseudo']) ? $_POST ['pseudo'] : '';
 				      $pass = isset($_POST['pass']) ? $_POST ['pass'] : '';
 				      
@@ -51,63 +48,68 @@
 				   	  $reqci->bind_result($customid);
 				   	  $resultatci = $reqci->fetch();
 				   	  $reqci->close();
-				      
-						  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
-				      $maxretry = GetValeurParam("Max_try", $conn, $customid, "3");
-				      
-				      $ip = $_SERVER["REMOTE_ADDR"];
-				    
-				      $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
-				
-				      if ($r2 = $conn->query($q2)) 
-				    	  if ($row2 = $r2->fetch_row()) 
-				    		  $count2 = $row2[0];
-				
-				      $r2->close();
-				      
-				      if($count2 >= $maxretry)
-				      	echo "Vous êtes autorisé à " . $maxretry . " tentatives en " . $interval . "<br />";
-				      else 
-				      { 
-				        //  Récupération de l'utilisateur et de son pass hashé
-				        $req = $conn->prepare('SELECT adminid, pass FROM administrateur WHERE customid = ' . $customid . ' AND pseudo = ? AND actif=1');
-				        $req->bind_param("s", $pseudo);
-				        $req->execute();
-				        $req->bind_result($id,$pass_hache);
-				        $resultat = $req->fetch();
-				      	$req->close();
-				      	
-				        // Comparaison du pass envoyé via le formulaire avec la base
-				        $isPasswordCorrect = password_verify($pass, $pass_hache);
-				              
-				        if (!$resultat)
-				        {
-						      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
-						      if ($conn->query($q1)== FALSE) 
-						      	echo "Error: " . $q1 . "<br>" . $conn->error;
-						      else
-				          	echo 'Mauvais identifiant ou mot de passe !<br>';
-				        }
-				        else
-				        {
-				          if ($isPasswordCorrect) 
-				          {
-				            $_SESSION[$boutic . '_id'] = $id;
-				            $_SESSION[$boutic . '_pseudo'] = $pseudo;
-				            $_SESSION[$boutic . '_auth'] = 'oui';
-				            $_SESSION[$boutic . '_mode'] = 'basique';
-				            header("LOCATION: admin.php");
-				          }
-				          else 
-				          {
+
+						  if (empty($customid) == TRUE)
+						 	  echo "Boutic " . $boutic . " inconnue <br />";
+				      else {
+							  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
+					      $maxretry = GetValeurParam("Max_try", $conn, $customid, "3");
+					      
+					      $ip = $_SERVER["REMOTE_ADDR"];
+					    
+					      $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
+					
+					      if ($r2 = $conn->query($q2)) 
+					    	  if ($row2 = $r2->fetch_row()) 
+					    		  $count2 = $row2[0];
+					
+					      $r2->close();
+					      
+					      if($count2 >= $maxretry)
+					      	echo "Vous êtes autorisé à " . $maxretry . " tentatives en " . $interval . "<br />";
+					      else 
+					      { 
+					        //  Récupération de l'utilisateur et de son pass hashé
+					        $req = $conn->prepare('SELECT adminid, pass FROM administrateur WHERE customid = ' . $customid . ' AND pseudo = ? AND actif=1');
+					        $req->bind_param("s", $pseudo);
+					        $req->execute();
+					        $req->bind_result($id,$pass_hache);
+					        $resultat = $req->fetch();
+					      	$req->close();
+					      	
+					        // Comparaison du pass envoyé via le formulaire avec la base
+					        $isPasswordCorrect = password_verify($pass, $pass_hache);
+					              
+					        if (!$resultat)
+					        {
 							      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
 							      if ($conn->query($q1)== FALSE) 
 							      	echo "Error: " . $q1 . "<br>" . $conn->error;
 							      else
-				            	echo 'Mauvais identifiant ou mot de passe !<br>';
-  			          }
-				        }
-				      }
+					          	echo 'Mauvais identifiant ou mot de passe !<br>';
+					        }
+					        else
+					        {
+					          if ($isPasswordCorrect) 
+					          {
+					          	$_SESSION['boutic'] = $boutic;
+					            $_SESSION[$boutic . '_id'] = $id;
+					            $_SESSION[$boutic . '_pseudo'] = $pseudo;
+					            $_SESSION[$boutic . '_auth'] = 'oui';
+					            $_SESSION[$boutic . '_mode'] = 'basique';
+					            header("LOCATION: admin.php");
+					          }
+					          else 
+					          {
+								      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+								      if ($conn->query($q1)== FALSE) 
+								      	echo "Error: " . $q1 . "<br>" . $conn->error;
+								      else
+					            	echo 'Mauvais identifiant ou mot de passe !<br>';
+	  			          }
+					        }
+					      }
+					    }
 				      ?>
     				</div>
     			  <div class="modal-footer">

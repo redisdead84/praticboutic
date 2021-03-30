@@ -112,11 +112,63 @@ margin: 30px;
 }*/
 
 td {
-  max-width: 400px;
+	/*width: 800px;*/
+  max-width: 1200px;
   overflow-wrap: break-word;
 }
 
 .sheet {
   height:auto;
   margin 0px;  
+}
+
+.vertical-nav {
+  min-width: 17rem;
+  width: 17rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  background-color: white;
+  z-index: 10;
+}
+
+.page-content {
+  width: calc(100% - 17rem);
+  margin-left: 17rem;
+  transition: all 0.4s;
+}
+
+.twocol {
+	column-count: 2;
+}
+
+.center {
+	text-align: center;
+}
+
+.tdtri:hover
+{
+	cursor: default;
+}
+
+.filpan
+{
+	display: none;
+  transition: all 1s;
+  width: 0px;
+}
+
+.bodyflex
+{
+	display: flex;
+}
+
+.title
+{
+	font-size: 120%;
+	font-weight: bold;
+	margin: 30px;
 }

@@ -829,6 +829,7 @@ text-align: justify;
 	align-items: center;
   justify-content: center;
   flex: 0 0 50%;
+  flex-flow: column wrap;
 }
 
 .vert-center {
@@ -927,3 +928,32 @@ text-align: justify;
 	background-color: lightgrey;
 	border-style: none;
 }
+
+.btnhcmd {
+  background: black;
+  color: #ffffff;
+  font-family: 'Public Sans';
+  border-radius: 8px;
+  border: 0;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: block;
+  transition: all 0.2s ease;
+  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+  display: inline;
+}
+
+.btnhcmd:hover:enabled {
+	background-color: #e2007a;
+  filter: contrast(115%);
+  outline: none;
+}
+
+.btnhcmd:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+

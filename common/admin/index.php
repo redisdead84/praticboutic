@@ -33,7 +33,7 @@
 			      <div class="modal-body">
  			      	<div class="form-group">
 			        	<label>Boutic</label>
-			        	<input class="form-control" type="text" id="bouricid" name="boutic" value="<?php echo $boutic;?>" readonly>
+			        	<input class="form-control" type="text" id="bouricid" name="boutic">
 							</div>
 			      	<div class="form-group">
 			        	<label>Pseudo</label>

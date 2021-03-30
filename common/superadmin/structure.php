@@ -97,7 +97,7 @@
 					
 			chdir("admin");		
 			$idx2 = fopen("index.php", "w");
-			fwrite($idx2, "<?php\n\n  include \"../config/custom_cfg.php\";\n\n  header('LOCATION: ../../common/admin/index.php?customer=' . \$customer);\n\n?>");
+			fwrite($idx2, "<?php\n\n  session_start();\n  include \"../config/custom_cfg.php\";\n  \$_SESSION['boutic'] = \$customer;\n  header('LOCATION: ../../common/admin/index.php?customer=' . \$customer);\n\n?>");
 			fclose($idx2);
 			echo "fichier index.php créé<br>";
 			chdir("..");

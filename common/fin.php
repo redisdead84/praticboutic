@@ -72,6 +72,8 @@
       ?>
       <div class="fsub">
      		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
+     		<!--<br>
+     		<button class="btnhcmd" id="submit">Voir mes commandes</button>-->
      	</div> 
     </div>
     <div id="footer">

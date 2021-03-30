@@ -168,7 +168,72 @@ try
   $mail->Body = $text;
   
   $mail->send();
+  
+	$compt = 0;
+	// todo insertion 
+	$qcpt = 'SELECT valeur FROM parametre WHERE customid = "' . $customid . '" AND nom = "CMPT_CMD" FOR UPDATE';
+	if ($result = $conn->query($qcpt)) 
+	{
+		$row = $result->fetch_row();
+  	if ($row != NULL) 
+  		$compt = $row[0] + 1;
+ 	  else
+			throw new Exception("Problème compteur commande");
+	}
 
+	$qcptu = "UPDATE parametre SET valeur = '$compt' WHERE customid = '$customid' AND nom = 'CMPT_CMD'";
+	if ($conn->query($qcptu) == FALSE) 
+		throw new Exception("Problème maj compteur commande");
+
+	// Remplir avec des zeros
+	$compt = str_pad($compt, 10, "0", STR_PAD_LEFT);
+	
+  $qcmdi = "INSERT INTO commande (customid, numref, nom, prenom, telephone, adresse1, adresse2, codepostal, ville, vente, paiement, sstotal, fraislivraison, total, commentaire, method, `table`, datecreation ) VALUES ('$customid','$compt','$json_obj->nom',";
+  $qcmdi = $qcmdi . "'$json_obj->prenom','$json_obj->telephone','$json_obj->adresse1','$json_obj->adresse2','$json_obj->codepostal','$json_obj->ville','$json_obj->vente','$json_obj->paiement','" . strval($sum) . "','" . strval($json_obj->fraislivr) . "',";
+  $qcmdi = $qcmdi . "'" . strval(floatval($sum) + floatval($json_obj->fraislivr)) . "','" . nl2br(stripslashes(strip_tags($json_obj->infosup))) . "','$json_obj->method','$json_obj->table', NOW())";
+  
+  //error_log($qcmdi);			
+  
+  if ($conn->query($qcmdi)== FALSE) 
+  {
+		error_log("Error: " . $qcmdi . "<br>" . $conn->error);
+  	throw new Exception("Error: " . $qcmdi . "<br>" . $conn->error);
+  }
+  	
+  // todo insertion 
+	$qcpt = "SELECT cmdid FROM commande WHERE customid = '$customid' AND numref = '$compt'";
+	if ($result = $conn->query($qcpt)) 
+	{
+		$row = $result->fetch_row();
+  	if ($row != NULL) 
+  		$cmdid = $row[0];
+ 	  else
+			throw new Exception("Erreur recuperation id commande");
+	}
+    
+  $ordre = 0;
+  foreach( $json_obj->items as $value) 
+	{
+		$ordre++;
+		$artid = 0;
+		$optid = 0;
+		
+		
+		
+		if (strcmp($value->type, "article") == 0 )
+			$artid = $value->id;
+		else if (strcmp($value->type, "option") == 0)
+			$optid = $value->id;
+		
+		$qlncmdi = "INSERT INTO lignecmd (customid, cmdid, ordre, type, nom, prix, quantite, commentaire, artid, optid ) VALUES ('$customid', '$cmdid','" . $ordre . "','$value->type',";
+		$qlncmdi = $qlncmdi . "'$value->name', '$value->prix', '$value->qt', '" . nl2br(stripslashes(strip_tags($value->txta))) . "', '$artid', '$optid')"; 
+		
+		//error_log($qlncmdi);		
+		
+		if ($conn->query($qlncmdi)== FALSE) 
+  		throw new Exception("Error: " . $qlncmdi . "<br>" . $conn->error);
+
+	}
 	
 	if (strcmp($validsms,"1") == 0)
 	{
