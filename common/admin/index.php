@@ -1,11 +1,6 @@
 <?php
 	session_start();
   
-  /*if (empty($_SESSION['boutic']) == TRUE)
- 	  exit();
-  else	
-	  $boutic = $_SESSION['boutic'];*/
-
 ?>
 <!DOCTYPE html>
 <html>
