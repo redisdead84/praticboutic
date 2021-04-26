@@ -34,7 +34,7 @@ try {
 	$resultatci = $reqci->fetch();
 	$reqci->close();  
   
-  $query = 'SELECT surcout FROM barlivr WHERE customid = ' . $customid . ' AND (valminin <= ' . $val . ' OR limitebasse = 0) AND (valmaxex > ' . $val . ' OR limitehaute = 0)';
+  $query = 'SELECT surcout FROM barlivr WHERE customid = ' . $customid . ' AND valminin <= ' . $val . ' AND (valmaxex > ' . $val . ' OR valminin >= valmaxex) AND actif = 1';
 
 	if ($result = $conn->query($query)) 
 	{

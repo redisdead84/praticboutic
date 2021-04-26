@@ -195,18 +195,30 @@ try {
 				{
 					if(strcmp($input->liens[$j]->srctbl, $liens[$i]->srctbl)==0)
 					{
-						$query = $query . ',`' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2);
-						$addwhere = $addwhere . ' AND T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
+						//$query = $query . ',`' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2);
+						if (strcmp($input->liens[$j]->join, "ij") == 0)
+							$addwhere = $addwhere . ' INNER JOIN `' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
+						else if (strcmp($input->liens[$j]->join, "rj") == 0)
+							$addwhere = $addwhere . ' RIGHT JOIN `' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
+						else if (strcmp($input->liens[$j]->join, "lj") == 0)
+							$addwhere = $addwhere . ' LEFT JOIN `' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
+						
 					}
 				}
 			}
 		} 
 		  
-	  $query = $query . ' WHERE T1.customid = ' . $customid;
+	  $query = $query . $addwhere;
+	  
+	  if (strcmp($addwhere, "")==0)
+	    $query = $query . ' WHERE T1.customid = ' . $customid;
+	  else
+	    $query = $query . ' AND T1.customid = ' . $customid;
+	    
 	  if (strcmp($input->selcol, "")!=0)
 	  	$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 	  	
-		for($i=0; $i<count($input->filtres); $i++)
+		/*for($i=0; $i<count($input->filtres); $i++)
 		{
 			if (strcmp($input->filtres[$i]->table, $input->tables[$numtable]->nom)==0)
 			{
@@ -215,9 +227,9 @@ try {
 				$fval = $input->filtres[$i]->valeur;
 				$query = $query . ' AND T1.' . $fchamp . ' ' . $fop . ' ' . '"' . $fval . '"';
 			}
-		}	  	
+		}*/	  	
 	  	
-	  $query = $query . $addwhere;
+	  //$query = $query . $addwhere;
 	  $query = $query . ' ORDER BY ';
 
 	  for ($i=0; $i<count($orderby); $i++)
@@ -373,6 +385,8 @@ try {
   	
   	$query = $query . ' WHERE ' . $input->colonne . '=' . $input->idtoup . ' AND customid=' . $customid;
   	
+		//error_log($query);	  	
+  	
 		$arr=array();
 		// remove following comments to enable writing in db
 		if ($conn->query($query) === FALSE)
@@ -380,6 +394,80 @@ try {
 			throw new Error($conn->error);
 		}
 		
+  }
+
+  if (strcmp($input->action,"getcs") == 0)
+  {
+ 		for ($i=0;$i<count($input->tables[$numtable]->champs);$i++)
+			if (strcmp($input->tables[$numtable]->champs[$i]->typ, "pk")== 0)
+				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
+
+  	$cs = $input->tables[$numtable]->cs;
+
+	  $liens=array();
+  	
+  	$query = 'SELECT ' . $cs . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
+  	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $customid;
+  	
+  	//error_log($query);
+  	
+		$arr=array();	
+		
+		if ($result = $conn->query($query)) 
+		{
+			if ($row = $result->fetch_row()) 
+		  {	
+		  	$arr = $row[0];
+	    }						
+		  $result->close();
+	  }   
+
+  }
+
+	if (strcmp($input->action,"colorrow") == 0)
+  {
+  	$query = 'SELECT statutcmd.couleur FROM commande ';
+  	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
+  	$query = $query . 'WHERE commande.customid = ' . $customid;
+  	$query = $query . ' ORDER BY commande.cmdid';
+  	$query = $query . ' LIMIT ' . $input->limite . ' OFFSET '. $input->offset;
+  	
+  	//error_log($query);
+  	
+		$arr=array();	
+		
+		if ($result = $conn->query($query)) 
+		{
+			while ($row = $result->fetch_row()) 
+		  {	
+		  	$arm = array();
+				array_push($arm, $row[0]);
+		  	array_push($arr, $arm);
+	    }						
+		  $result->close();
+	  }   
+
+  }
+	
+	if (strcmp($input->action,"getcomdata") == 0)
+  {
+  	$query = 'SELECT commande.telephone, statutcmd.message FROM commande ';
+  	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
+  	$query = $query . 'WHERE commande.cmdid = ' . $input->cmdid . ' AND commande.customid = ' . $customid;
+  	$query = $query . ' ORDER BY commande.cmdid';
+  	
+  	error_log($query);
+  	
+		$arr=array();	
+		
+		if ($result = $conn->query($query)) 
+		{
+			if ($row = $result->fetch_row()) 
+		  {	
+				array_push($arr, $row[0], $row[1]);
+	    }						
+		  $result->close();
+	  }   
   }
 
   $conn->close();

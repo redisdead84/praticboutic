@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.0">
+    <link rel="stylesheet" href="css/back.css?v=1.07">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -78,157 +78,103 @@
 						
 						$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 						try {
-								$boutic = isset($_POST['boutic']) ? $_POST ['boutic'] : '';
-						
-						    // Create connection
+								$email = isset($_POST['email']) ? $_POST['email'] : '';
 						    $conn = new mysqli($servername, $username, $password, $bdd);
-						    // Check connection
 							  if ($conn->connect_error) 
 							  {
 						   		die("Connection failed: " . $conn->connect_error);
 						    }
-						
-						    $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
-						 	  $reqci->bind_param("s", $boutic);
-						 	  $reqci->execute();
-						 	  $reqci->bind_result($customid);
-						 	  $resultatci = $reqci->fetch();
-						 	  $reqci->close();
-						 	  
-  						  if (empty($customid) == TRUE)
-						    	echo "Boutic " . $boutic . " inconnue <br />";
-								else 
+
+						 		$idadmin = 0;
+						 		$customid = 0;
+						 		$query = 'SELECT adminid, customid FROM administrateur WHERE email = "' . $email . '" AND actif = 1';
+						    if ($result = $conn->query($query)) 
 								{
-									
-							    $count2 = 0;
-							    
-								  $interval = GetValeurParam("Interval_try", $conn, $customid, "15 MINUTE");
-							    $maxretry = GetValeurParam("Max_try", $conn, $customid, "3");
-							
-							    $ip = $_SERVER["REMOTE_ADDR"];
-							    
-							    $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
-							    if ($r2 = $conn->query($q2)) 
-							 		{
-							   	  if ($row2 = $r2->fetch_row()) 
-							   	  {
-							   		  $count2 = $row2[0];
-							     	}
-								  }
-							
-							    //Server settings
-							    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-							    $mail->isSMTP();                                      // Set mailer to use SMTP
-									
-									//$host = GetValeurParam("Host_mail", $conn, $customid);
-							    $mail->Host = $host;  // Specify main and backup SMTP servers
-							    
-							    //$smtpa = GetValeurParam("SMTPAuth_mail", $conn, $customid);
-							    $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
-							    
-							    //$user = GetValeurParam("Username_mail", $conn, $customid);
-							    $mail->Username = $user;                 // SMTP username
-							    
-							    //$pwd = GetValeurParam("Password_mail", $conn, $customid);
-							    $mail->Password = $pwd;                               // SMTP password
-							    
-							    //$ssec = GetValeurParam("SMTPSecure_mail", $conn, $customid);
-							    $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
-							
-							    //$port = GetValeurParam("Port_mail", $conn, $customid);
-							    $mail->Port = $port;                                    // TCP port to connect to
-							    
-							    //$chars = GetValeurParam("CharSet_mail", $conn, $customid);
-							    $mail->CharSet = $chars;
-							
-							    //Recipients
-							    //$sendmail = GetValeurParam("Sendermail_mail", $conn, $customid);
-							    //$sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
-							    $mail->setFrom($sendmail, $sendnom);
-							
-							    $rcvmail = $_POST['email']; //GetValeurParam("Receivermail_mail", $conn);
-							    $rcvnom = ""; //GetValeurParam("Receivernom_mail", $conn);
-							    $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
-							/*    $mail->addAddress('ellen@example.com');               // Name is optional
-							    $mail->addReplyTo('info@example.com', 'Information');
-							    $mail->addCC('cc@example.com');
-							    $mail->addBCC('bcc@example.com');*/
-							
-							    //Attachments
-							/*    $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-							    $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name*/
-							
-							    //Content
-							    $isHTML = GetValeurParam("isHTML_mail", $conn, $customid,"TRUE");
-							    $mail->isHTML($isHTML);                                  // Set email format to HTML
-							
-							    $subject = "Confidentiel"; //GetValeurParam("Subject_mail", $conn);
-							    $mail->Subject = $subject;
-							
-							    $text = '<!DOCTYPE html>';
-							    $text = $text . '<html>';
-							    $text = $text . '<body>';
-							    
-									// vérifier que l'email est bien dans la base administrateur
-							 		
-							 		$idadmin = 0;
-							 		$pseudo ="";
-							    $query = 'SELECT adminid, pseudo FROM administrateur WHERE customid = ' . $customid . ' AND email = "' . $rcvmail . '"';
-							    if ($result = $conn->query($query)) 
-									{
-							    	if ($row = $result->fetch_row()) 
-							    	{
-							    		$idadmin = $row[0];
-							    		$password = generateStrongPassword();
-							    		$pseudo = $row[1];
-							    	}
-									}
-									
-							    $text = $text . '<h3>Bonjour ';
-							    $text = $text . $pseudo . '<br /><br />';    		
-							    $text = $text . '  Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement <br />';    		
-							    $text = $text . 'Voici votre nouveau mot de mot de passe administrateur praticboutic : ';
-							    $text = $text . $password . '<br />';
-							    $text = $text . 'Vous pourrez en personnaliser un nouveau à partir de l\'écran d\'administration.<br />';
-							    $text = $text . 'Cordialement<br />L\'équipe praticboutic<br /></h3>';
-							    $text = $text . '</body>';
-							    $text = $text . '</html>';
-							
-							    $mail->Body = $text;
-							
-							/*    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';*/
-							    if($count2 >= $maxretry)
-							    {
-							      echo "Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br />";
-							    }      
-							    else 
-							    { 
-							      if ( $idadmin > 0 ) 
-							      {
-							        $mail->send();
-							        $query2 = 'UPDATE administrateur SET pass = "' . password_hash($password, PASSWORD_DEFAULT) . '" WHERE customid = ' . $customid . ' AND adminid = "' . $idadmin . '"';
-							        if ($result2 = $conn->query($query2)) 
-							  		  {
-							          if ($result2 === FALSE) 
-							          {
-							    		    echo "Error: " . $q . "<br>" . $conn->error;
-							  	      }
-							  		  }
-							  		}
-							  		else 
-							  		{
-									    $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
-									    if ($r1 = $conn->query($q1)) 
-											{
-									    	if ($r1 === FALSE) 
-									     	{
-									     		echo "Error: " . $q1 . "<br>" . $conn->error;
-									     	}
-									 		}
-							  		}	
-							      echo "Un email contenant un mot de passe automatique vous a été envoyé.<br />";
+						    	if ($row = $result->fetch_row()) 
+						    	{
+						    		$idadmin = $row[0];
+						    		$password = generateStrongPassword();
+						    		$customid = $row[1];
 						    	}
-						    }
+								}
+									
+						    $count2 = 0;
+						    $ip = $_SERVER["REMOTE_ADDR"];
+						    $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
+						    if ($r2 = $conn->query($q2)) 
+						 		{
+						   	  if ($row2 = $r2->fetch_row()) 
+						   	  {
+						   		  $count2 = $row2[0];
+						     	}
+							  }
+						
+						    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
+						    $mail->isSMTP();                                      // Set mailer to use SMTP
+								
+						    $mail->Host = $host;  // Specify main and backup SMTP servers
+						    $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
+						    $mail->Username = $user;                 // SMTP username
+						    $mail->Password = $pwd;                               // SMTP password
+						    $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
+						    $mail->Port = $port;                                    // TCP port to connect to
+						    $mail->CharSet = $chars;
+						    $mail->setFrom($sendmail, $sendnom);
+						    $rcvmail = $email; //GetValeurParam("Receivermail_mail", $conn);
+						    $rcvnom = ""; //GetValeurParam("Receivernom_mail", $conn);
+						    $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
+						    $isHTML = GetValeurParam("isHTML_mail", $conn, $customid,"TRUE");
+						    $mail->isHTML($isHTML);                                  // Set email format to HTML
+						
+						    $subject = "Confidentiel"; //GetValeurParam("Subject_mail", $conn);
+						    $mail->Subject = $subject;
+						
+						    $text = '<!DOCTYPE html>';
+						    $text = $text . '<html>';
+						    $text = $text . '<body>';
+						    $text = $text . '<h3>Bonjour ';
+						    $text = $text . $email . '<br /><br />';    		
+						    $text = $text . '  Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement <br />';    		
+						    $text = $text . 'Voici votre nouveau mot de mot de passe administrateur praticboutic : ';
+						    $text = $text . $password . '<br />';
+						    $text = $text . 'Vous pourrez en personnaliser un nouveau à partir de l\'écran d\'administration.<br />';
+						    $text = $text . 'Cordialement<br />L\'équipe praticboutic<br /></h3>';
+						    $text = $text . '</body>';
+						    $text = $text . '</html>';
+						
+						    $mail->Body = $text;
+						
+						    if($count2 >= $maxretry)
+						    {
+						      echo "Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br />";
+						    }      
+						    else 
+						    { 
+						      if ( $idadmin > 0 ) 
+						      {
+						        $mail->send();
+						        $query2 = 'UPDATE administrateur SET pass = "' . password_hash($password, PASSWORD_DEFAULT) . '" WHERE customid = ' . $customid . ' AND adminid = "' . $idadmin . '"';
+						        if ($result2 = $conn->query($query2)) 
+						  		  {
+						          if ($result2 === FALSE) 
+						          {
+						    		    echo "Error: " . $q . "<br>" . $conn->error;
+						  	      }
+						  		  }
+						  		}
+						  		else 
+						  		{
+								    $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+								    if ($r1 = $conn->query($q1)) 
+										{
+								    	if ($r1 === FALSE) 
+								     	{
+								     		echo "Error: " . $q1 . "<br>" . $conn->error;
+								     	}
+								 		}
+						  		}	
+						      echo "Un email contenant un mot de passe automatique vous a été envoyé.<br />";
+					    	}
 						    $conn->close();
 						  }
 						  catch (Exception $e) 

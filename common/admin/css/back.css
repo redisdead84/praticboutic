@@ -123,8 +123,8 @@ td {
 }
 
 .vertical-nav {
-  min-width: 17rem;
-  width: 17rem;
+  min-width: 12rem;
+  width: 12rem;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -136,8 +136,8 @@ td {
 }
 
 .page-content {
-  width: calc(100% - 17rem);
-  margin-left: 17rem;
+  width: calc(100% - 12rem);
+  margin-left: 12rem;
   transition: all 0.4s;
 }
 
@@ -172,3 +172,14 @@ td {
 	font-weight: bold;
 	margin: 30px;
 }
+
+table.table-hover tbody tr:hover {
+    background-color: yellow !important;
+    color: black !important;
+}
+
+table.table-hover.notr-hover:hover {
+    background-color: yellow !important;
+    color: black !important;
+}
+
