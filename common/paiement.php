@@ -96,7 +96,7 @@
         if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
       		if (mnysys == "STRIPE")
       		{
-      			document.write('<div id="payementfooter" style="heigt;225px">');
+      			document.write('<div id="payementfooter" style="height:225px">');
 	          document.write('<form class="frm" id="payment-form">');
 	          document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
 	          document.write('<button class="btn" id="submit">');
@@ -114,7 +114,7 @@
        		}
        		else if (mnysys == "PAYPAL")
        		{
-       			document.write('<div id="payementfooter" style="heigt;250px">');
+       			document.write('<div id="payementfooter" style="height:140px">');
         		document.write('<div id="paypal-button-container"></div>');
         	}
           document.write('<div class="solobn">');
@@ -140,10 +140,19 @@
 	    	if (mnysys == "PAYPAL")
 	    	{
 		      paypal.Buttons({
-		        createOrder: function(data, actions) {
+		      	enableStandardCardFields: false,
+ 			      funding:
+    				{
+		    			disallowed: [ paypal.FUNDING.CREDIT ]
+						},
+						style: {
+							layout: 'horizontal',
+ 							tagline: 'false'
+						},		      	
+		      	createOrder: function(data, actions) {
 					    return actions.order.create({
 					    	enableStandardCardFields: false,
-					      //intent: 'CAPTURE',
+					      intent: 'CAPTURE',
 					      payer: {
 					        name: {
 					          given_name: sessionStorage.getItem("nom"),

@@ -112,7 +112,9 @@
 	  <div class="vertical-nav" id="sidebar">
 	  	<ul class="nav flex-column">
 			  <span class="navbar-text">
-			    Bienvenue <?php echo $_SESSION[$boutic . '_email']; ?> ! 
+			    Bienvenue sur l'admin 
+			    de la boutic <?php echo $boutic;?>, 
+			    <?php echo $_SESSION[$boutic . '_email']; ?> ! 
 			  </span>
 			  <li class="nav-item">
 			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false">Commandes</a>
