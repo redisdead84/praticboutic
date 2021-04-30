@@ -26,10 +26,20 @@
     header('LOCATION: carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer);
     exit();
   }
+
+  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+  $reqci->bind_param("s", $customer);
+  $reqci->execute();
+  $reqci->bind_result($customid);
+  $resultatci = $reqci->fetch();
+  $reqci->close();
+  
+  $mnysys = GetValeurParam("MONEY_SYSTEM", $conn, $customid, "STRIPE");
+  $idcpp = GetValeurParam("ID_CLT_PAYPAL", $conn, $customid);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <title>Validation de la commande</title>
@@ -39,8 +49,13 @@
     <link rel="stylesheet" href="css/global.css?v=<?php echo $ver_com_css;?>" />
     <!--<link rel="stylesheet" href="css/style.css?v=1.22" />-->
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="js/client.js?v=1.26" defer></script>
+		<?php    
+    	if (strcmp($mnysys, "STRIPE") == 0)
+    	{
+    		echo '<script src="https://js.stripe.com/v3/"></script>';
+				echo '<script src="js/client.js?v=1.26" defer></script>';
+			}    		 
+    ?>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  <script type="text/javascript" src="js/bandeau.js?v=1.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -49,13 +64,6 @@
   </head>
   <body>
     <?php
-    
-    $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
-    $reqci->bind_param("s", $customer);
-    $reqci->execute();
-    $reqci->bind_result($customid);
-    $resultatci = $reqci->fetch();
-    $reqci->close();
  	    
     $pkey = GetValeurParam("PublicKey", $conn, $customid);
     echo '<div id="header">';
@@ -80,33 +88,42 @@
     </div>
 
     </div>
-    
+			<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $idcpp;?>&currency=EUR"> // Replace YOUR_CLIENT_ID with your sandbox client ID
+    	</script>
       <!-- Display a payment form -->
       <script type="text/javascript">
-      
+      	var mnysys = "<?php echo $mnysys;?>";
         if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
-        	document.write('<div id="payementfooter">');
-          document.write('<form class="frm" id="payment-form">');
-          document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
-          document.write('<button class="btn" id="submit">');
-          document.write('<div class="spinner hidden" id="spinner"></div>');
-          document.write('<span id="button-text">Payer</span>');
-          document.write('</button>');
-          document.write('<div class="intercalaire">');
-          document.write('<p id="card-error" role="alert"></p>');
-          document.write('<p class="result-message hidden">');
-          document.write('Paiement effectué<!--, Voyez le résultat dans votre');
-          document.write('<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.');
-          document.write('</p>');
-          document.write('</div>');
-          document.write('</form>');
+      		if (mnysys == "STRIPE")
+      		{
+      			document.write('<div id="payementfooter" style="heigt;225px">');
+	          document.write('<form class="frm" id="payment-form">');
+	          document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
+	          document.write('<button class="btn" id="submit">');
+	          document.write('<div class="spinner hidden" id="spinner"></div>');
+	          document.write('<span id="button-text">Payer</span>');
+	          document.write('</button>');
+	          document.write('<div class="intercalaire">');
+	          document.write('<p id="card-error" role="alert"></p>');
+	          document.write('<p class="result-message hidden">');
+	          document.write('Paiement effectué<!--, Voyez le résultat dans votre');
+	          document.write('<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.');
+	          document.write('</p>');
+	          document.write('</div>');
+	          document.write('</form>');
+       		}
+       		else if (mnysys == "PAYPAL")
+       		{
+       			document.write('<div id="payementfooter" style="heigt;250px">');
+        		document.write('<div id="paypal-button-container"></div>');
+        	}
           document.write('<div class="solobn">');
           document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
-        	document.write('Revenir sur les informations');
+					document.write('Revenir sur les informations');
         	document.write('</button>');
         	document.write('</div>');
-          document.write('</div>');
-        } else {
+       		document.write('</div>');
+      	} else {
         	document.write('<div id="footer">');
           document.write('<div class="grpbn">');
           document.write('<button class="navindic" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
@@ -118,23 +135,82 @@
           document.write('</div>');
           document.write('</div>');
         }
-        
-
-        
-      </script>      
+      </script>
+	    <script>
+	    	if (mnysys == "PAYPAL")
+	    	{
+		      paypal.Buttons({
+		        createOrder: function(data, actions) {
+					    return actions.order.create({
+					    	enableStandardCardFields: false,
+					      //intent: 'CAPTURE',
+					      payer: {
+					        name: {
+					          given_name: sessionStorage.getItem("nom"),
+					          surname: sessionStorage.getItem("prenom")
+					        },
+					        address: {
+					          address_line_1: sessionStorage.getItem("adresse1"),
+					          address_line_2: sessionStorage.getItem("adresse2"),
+					          admin_area_2: sessionStorage.getItem("ville"),
+					          admin_area_1: '',
+					          postal_code: sessionStorage.getItem("codepostal"),
+					          country_code: 'FR'
+					        },
+					        //email_address: "",
+					        phone: {
+					          phone_type: "MOBILE",
+					          phone_number: {
+					            national_number: sessionStorage.getItem("telephone")
+					          }
+					        }
+					      },
+				      	purchase_units: [
+					        {
+					          amount: {
+					            value: (parseFloat(sessionStorage.getItem("sstotal")) + parseFloat(sessionStorage.getItem("fraislivr"))).toString(),
+					            currency_code: 'EUR'
+					          },
+					          shipping: {
+					            address: {
+						          address_line_1: sessionStorage.getItem("adresse1"),
+					  	        address_line_2: sessionStorage.getItem("adresse2"),
+					    	      admin_area_2: sessionStorage.getItem("ville"),
+					      	    admin_area_1: '',
+					        	  postal_code: sessionStorage.getItem("codepostal"),
+					          	country_code: 'FR'
+					            }
+					          },
+					          experience: {
+							        input_fields: {
+					    		      no_shipping: 1
+					        		}
+					      		}
+					        }
+				      	],
+				    	});
+				  	},
+				  	onApprove: function(data, actions) {
+		      	// This function captures the funds from the transaction.
+			 	    	return actions.order.capture().then(function(details) {
+	    	    		// This function shows a transaction success message to your buyer.
+	        			document.location.href = 'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer");
+			      	});
+			    	}
+					}).render('#paypal-button-container'); // Display payment options on your web page
+				}
+	    </script>
+      
+      
     </div>
     <script type="text/javascript">
       var cart = JSON.parse(sessionStorage.getItem("commande"));
       var str = "";
       var somme = 0;
-
-			  
     		
     	str = str + "<p class='pres'>Résumé de votre commande</p>";	
-  			      
-      
       str = str + "<table>"; 
-//      str = str + "<thead>";
+      //str = str + "<theader>";
       str = str + "<colgroup>";
       str = str + "<col class='colart'>";
       str = str + "<col class='colstd'>";
@@ -148,8 +224,8 @@
       str = str + "<th class='colstd'>Qté</th>";
       str = str + "<th class='colprx'>Total</th>";
       str = str + "</tr>";
-//      str = str + "</thead>";
-//      str = str + "<tbody>";
+      //str = str + "</theader>";
+      //str = str + "<tbody>";
         for (var art in cart) {
           str = str + "<tr>";
           str = str + "<td class='colart'>";
@@ -167,10 +243,9 @@
           str = str + (cart[art].qt * cart[art].prix).toFixed(2) + " € ";
           somme = somme + cart[art].qt * cart[art].prix;
           str = str + "</td>";
-
           str = str + "</tr>";
         }
-//      str = str + "</tbody>";
+      //str = str + "</tbody>";
       str = str + "</table>"; 
 
       var method = sessionStorage.getItem("method");
@@ -189,12 +264,13 @@
       }      
       document.getElementById("commandediv").innerHTML = str;
       
+			var frliv = parseFloat(sessionStorage.getItem("fraislivr"));
+			var tota = parseFloat(sessionStorage.getItem("fraislivr")) + somme;      
+      
 			if (sessionStorage.getItem("choicel") == "LIVRER")
 			{
 	      document.getElementById("sstotalid").innerHTML = "<p class='fleft'>Sous-total : </p><p class='fright'>" + somme.toFixed(2) + " € </p><br>";
-	      var frliv = parseFloat(sessionStorage.getItem("fraislivr"));
 	 	    document.getElementById("fraislivid").innerHTML = "<p class='fleft'>Frais de livraison : </p><p class='fright'>" + frliv.toFixed(2) + " € </p><br>";
-	      var tota = parseFloat(sessionStorage.getItem("fraislivr")) + somme;
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + tota.toFixed(2) + " € </p><br>";
 
 			}
@@ -209,8 +285,6 @@
 			else {
 				document.getElementById("payid").style.display = "none";
 			}
-			
-      
     </script>
 
     <script type="text/javascript">

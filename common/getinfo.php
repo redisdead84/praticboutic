@@ -111,7 +111,7 @@
         //echo 'Retrait :<br>';
         if ($chm == "TOUS")
         { 
-          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true)">';
+          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">';
           echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
           echo '<div class="spcpandetail"></div>';
           echo '<label class="pandetail">';
@@ -294,6 +294,16 @@
         })
       }          
     </script>
+    <script type="text/javascript">
+   		// Appel asynchrone pour connaitre le cout de la livraison
+      function removeFraisLivraison()      
+      {
+	      document.getElementById("fraislivrid").innerHTML = '';
+        sessionStorage.setItem("fraislivr", 0);
+      }          
+    </script>
+    
+    
     <script type="text/javascript" >
     	// Désactive la partie de formulaire utilisé pour la livraison
       function eraseAdrLivr(etat) 
@@ -338,6 +348,7 @@
           {
             document.getElementById("lemporter").checked = true;
             document.getElementById("llivrer").checked = false;
+            removeFraisLivraison();
             eraseAdrLivr(true);
           }
           else if (sessionStorage.getItem("choicel") == "LIVRER")
@@ -357,6 +368,7 @@
           {
             document.getElementById("lemporter").checked = false;
             document.getElementById("llivrer").checked = false;
+            removeFraisLivraison();
             eraseAdrLivr(true);
           } 
         }
@@ -373,7 +385,8 @@
         }
         if (document.getElementById("model").getAttribute("data-permis") == "EMPORTER")
         {
-            eraseAdrLivr(true);
+        	removeFraisLivraison();
+          eraseAdrLivr(true);
         }
 
       }
@@ -410,7 +423,6 @@
           sessionStorage.setItem("adresse2", document.getElementById("ladresse2").value);
           sessionStorage.setItem("codepostal", document.getElementById("lecp").value);
           sessionStorage.setItem("ville", document.getElementById("laville").value);
-          getFraisLivraison(sessionStorage.getItem("sstotal"));
           if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
           {
             if (document.getElementById("pcomptant").checked == true)
@@ -435,6 +447,10 @@
             sessionStorage.setItem("choicel", document.getElementById("model").getAttribute("data-permis"));
         }
         sessionStorage.setItem("infosup", document.getElementById("infosup").value);
+        if (sessionStorage.getItem("choicel") == "LIVRER")
+          getFraisLivraison(sessionStorage.getItem("sstotal"));
+        else
+        	removeFraisLivraison();
       }
     </script>
     <script type="text/javascript" >

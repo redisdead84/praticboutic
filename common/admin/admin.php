@@ -69,7 +69,8 @@
 								  {nom:"statid", desc:"Statut", typ:"fk", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"lignecmd", desc:"Lignes des commandes", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"nom", desc:"Intitulé", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"quantite", desc:"Quantité", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", vis:"o", ordre:"0", sens:""}]},
- 	              {nom:"statutcmd", desc:"Statuts des commandes", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"message", desc:"SMS à Envoyer", typ:"text", vis:"o", ordre:"0", sens:""}]}
+ 	              {nom:"statutcmd", desc:"Statuts des commandes", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", vis:"o", ordre:"0", sens:""},
+ 	                {nom:"message", desc:"SMS à Envoyer", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"defaut", desc:"Defaut", typ:"bool", vis:"o", ordre:"0", sens:""}]}
 	              ];  
 
   var liens = [{nom:"categorie", desc:"Catégorie de l'article", srctbl:"article", srcfld:"catid", dsttbl:"categorie", dstfld:"catid", join:"ij"},
@@ -1296,7 +1297,7 @@
  				if (tablestr == "commande")
  				{
 					var j=0;
-					var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
+					var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
 
 	        fetch("boquery.php", {
 	          method: "POST",

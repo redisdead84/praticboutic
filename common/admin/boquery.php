@@ -55,6 +55,8 @@ try {
 	$reqci->bind_result($customid);
 	$resultatci = $reqci->fetch();
 	$reqci->close();
+
+	//error_log($input->action);
 	
 	for($i=0; $i<count($input->tables); $i++)
 	{
@@ -456,7 +458,7 @@ try {
   	$query = $query . 'WHERE commande.cmdid = ' . $input->cmdid . ' AND commande.customid = ' . $customid;
   	$query = $query . ' ORDER BY commande.cmdid';
   	
-  	error_log($query);
+  	//error_log($query);
   	
 		$arr=array();	
 		
