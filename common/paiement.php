@@ -141,10 +141,10 @@
 	    	{
 		      paypal.Buttons({
 		      	enableStandardCardFields: false,
- 			      funding:
+ 			      /*funding:
     				{
 		    			disallowed: [ paypal.FUNDING.CREDIT ]
-						},
+						},*/
 						style: {
 							layout: 'horizontal',
  							tagline: 'false'
