@@ -35,7 +35,6 @@
       $ishtml = isset($_POST['ishtml']) ? $_POST ['ishtml'] : '';
       $subject = isset($_POST['subject']) ? $_POST ['subject'] : '';
 			$validsms = isset($_POST['validsms']) ? $_POST ['validsms'] : '';
-			$textsms = isset($_POST['textsms']) ? $_POST ['textsms'] : '';
 			$adr = isset($_POST['adr']) ? $_POST ['adr'] : '';
 			$verifcp = isset($_POST['verifcp']) ? $_POST ['verifcp'] : '';
 			$paiement = isset($_POST['paiement']) ? $_POST ['paiement'] : '';
@@ -47,8 +46,11 @@
 			$minicmd = isset($_POST['minicmd']) ? $_POST ['minicmd'] : '';      
 			$minilivr = isset($_POST['minilivr']) ? $_POST ['minilivr'] : '';
 			$sizeimg = isset($_POST['sizeimg']) ? $_POST ['sizeimg'] : '';
+			$syspaie = isset($_POST['syspaie']) ? $_POST ['syspaie'] : '';
 			$pkey = isset($_POST['pkey']) ? $_POST ['pkey'] : '';
 			$skey = isset($_POST['skey']) ? $_POST ['skey'] : '';
+			$clientpp = isset($_POST['clientpp']) ? $_POST ['clientpp'] : '';
+			
 
       if (empty($id)==TRUE ) {
         die("Identifiant vide");
@@ -60,7 +62,6 @@
   			array("isHTML_mail", $ishtml, "HTML activé pour l'envoi de mail"),
   			array("Subject_mail",$subject,"Sujet du courriel pour l'envoi de mail"),
   			array("VALIDATION_SMS", $validsms, "Commande validée par sms ?"),
-  			array("TEXT_SMS", $textsms, "c'est le texto"),
   			array("ADRESSE", $adr, "Adresse de la pratic boutic"),
   			array("VerifCP", $verifcp, "Activation de la verification des codes postaux"),
   			array("master_logo", "" ,"Le logo principal"),
@@ -73,8 +74,11 @@
   			array("MntCmdMini", $minicmd, "Montant commande minimal"),
   			array("MntLivraisonMini", $minilivr, "Montant Minimum pour accepter la livraison"),
   			array("SIZE_IMG", $sizeimg, "bigimg ou smallimg"),
+  			array("CMPT_CMD", "0", "Compteur des références des commandes"),
+  			array("MONEY_SYSTEM", $syspaie, "STRIPE ou PAYPAL"),
   			array("PublicKey", $pkey, ""),
-  			array("SecretKey", $skey, "")
+  			array("SecretKey", $skey, ""),
+  			array("ID_CLT_PAYPAL", $clientpp, "ID Client PayPal"),
 			);
 
       $conn = new mysqli($servername, $username, $password, $bdd);

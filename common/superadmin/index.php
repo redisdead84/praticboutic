@@ -12,8 +12,8 @@
     <form method="post" action="valid.php">
     <div class="main">
     <p>
-     <label>pseudo</label>
-     <input type="string" id="pseudoid" name="pseudo"><br>
+     <label>Courriel</label>
+     <input type="string" id="emailid" name="pseudo"><br>
      <br />
      <label>mot de passe</label>
      <input type="password" id="passid" name="pass"><br>

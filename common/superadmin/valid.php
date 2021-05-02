@@ -18,7 +18,7 @@
       include "../config/common_cfg.php";
       include "../param.php";
      	
-      $pseudo = isset($_POST['pseudo']) ? $_POST ['pseudo'] : '';
+      $email = isset($_POST['email']) ? $_POST ['email'] : '';
       $pass = isset($_POST['pass']) ? $_POST ['pass'] : '';
       
       $count2 = 0;
@@ -30,21 +30,20 @@
       if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
       }
+
+        //  Récupération de l'utilisateur et de son pass hashé
+        
+      $id = -1;
+			$pass_hache = "\$1\$j4UqeoQx\$qn7Nq4gkf/VQQRw5jl9lu1";      
+        
+      if (strcmp($pseudo, "praticboutic") == 0)  
+      	$resultat = -1;
             
 		  $interval = "15 MINUTE";
       $maxretry = "4";
       
       $ip = $_SERVER["REMOTE_ADDR"];
     
-      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
-      if ($r1 = $conn->query($q1)) 
-  		{
-      	if ($r1 === FALSE) 
-      	{
-      		echo "Error: " . $q1 . "<br>" . $conn->error;
-      	}
-  		}
-
       $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
       if ($r2 = $conn->query($q2)) 
   		{
@@ -62,19 +61,20 @@
       }      
       else 
       { 
-        //  Récupération de l'utilisateur et de son pass hashé
-        
-        $id = -1;
-				$pass_hache = "\$1\$j4UqeoQx\$qn7Nq4gkf/VQQRw5jl9lu1";      
-        
-        if (strcmp($pseudo, "praticboutic") == 0)  
-        	$resultat = -1;
-        	
-        // Comparaison du pass envoyé via le formulaire avec la base
-        $isPasswordCorrect = password_verify($pass, $pass_hache);
+	      // Comparaison du pass envoyé via le formulaire avec la base
+	      $isPasswordCorrect = password_verify($pass, $pass_hache);
               
         if (!$resultat)
         {
+        	$q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+		      if ($r1 = $conn->query($q1)) 
+		  		{
+		      	if ($r1 === FALSE) 
+		      	{
+		      		echo "Error: " . $q1 . "<br>" . $conn->error;
+		      	}
+		  		}
+
   				echo 'Mauvais identifiant ou mot de passe !<br>';
           echo '<a href="index.php"><button type="button">Retour</button></a>';      
         }
@@ -83,13 +83,20 @@
           if ($isPasswordCorrect) 
           {
             $_SESSION['superadmin_id'] = $id;
-            $_SESSION['superadmin_pseudo'] = $pseudo;
+            $_SESSION['superadmin_email'] = $email;
             $_SESSION['superadmin_auth'] = 'superadmin';
-            $_SESSION['superadmin_mode'] = 'superadmin';
             header("LOCATION: superadmin.php");
           }
           else 
           {
+			      $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+			      if ($r1 = $conn->query($q1)) 
+			  		{
+			      	if ($r1 === FALSE) 
+			      	{
+			      		echo "Error: " . $q1 . "<br>" . $conn->error;
+			      	}
+			  		}
             echo 'Mauvais identifiant ou mot de passe !<br>';
             echo '<a href="index.php"><button type="button">Retour</button></a>';
           }

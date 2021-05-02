@@ -28,19 +28,16 @@
     <form autocomplete="off" method="post" action="users.php?identif=<?php echo $_GET['identif']; ?>">
     <div class="main">
     <p>
-     <label>pseudo</label>
-     <input type="string" id="pseudoid" name="pseudo" required><br>
+     <label>courriel</label>
+     <input type="email" id="emailid" name="email" required 
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+  	  	  title="Une adresse de courriel valide"><br>
      <br />
      <label>mot de passe</label>
      <input type="password" id="passid" name="pass" required 
   	    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" 
   	    title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? 
   	     et être de au moins 8 caractères"><br>
-     <br />
-     <label>courriel</label>
-     <input type="email" id="emailid" name="email" required 
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-  	  	  title="Une adresse de courriel valide"><br>
      <br />
     </p>
    <input class="inpmove" type="submit" value="Valider">

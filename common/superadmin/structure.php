@@ -84,7 +84,7 @@
 			fclose($idx);
 			echo "fichier index.php créé<br>";
 							
-			if (!file_exists("admin"))
+			/*if (!file_exists("admin"))
 				if (!mkdir("admin"))
 				{
 					$error = error_get_last();
@@ -100,7 +100,7 @@
 			fwrite($idx2, "<?php\n\n  session_start();\n  include \"../config/custom_cfg.php\";\n  \$_SESSION['boutic'] = \$customer;\n  header('LOCATION: ../../common/admin/index.php?customer=' . \$customer);\n\n?>");
 			fclose($idx2);
 			echo "fichier index.php créé<br>";
-			chdir("..");
+			chdir("..");*/
 			
 			if (!file_exists("config"))
 				if (!mkdir("config"))

@@ -41,11 +41,9 @@
       <input type="string" id="subjectid" name="subject"><br><br>
       <label for="validsms">Validation par sms : </label>
 		  <select name="validsms" id="validsmsid">
-    		<option value="1">Oui</option>
+    		<option value="1" selected>Oui</option>
 		    <option value="0">Non</option>
 		  </select><br><br>
-		  <label>Texte SMS : </label>
-      <input type="string" id="textsmsid" name="textsms" value="Vote commande chez %commercant% d'un montant de %somme% € a été transmise."><br><br>
 		  <label>Adresse : </label>
       <input type="string" id="adrid" name="adr" value=""><br><br>
       <label for="verifcp">Verification code postal : </label>
@@ -82,10 +80,17 @@
     		<option value="smallimg" selected>PETITE</option>
 		    <option value="bigimg">GRANDE</option>
 		  </select><br><br>
+      <label for="syspaie">Système de paiement</label>
+		  <select name="syspaie" id="syspaieid">
+    		<option value="STRIPE" selected>STRIPE</option>
+		    <option value="PAYPAL">PAYPAL</option>
+		  </select><br><br>
 		  <label>Clé public Stripe : </label>
       <input type="string" id="pkeyid" name="pkey" value=""><br><br>
 		  <label>Clé secrète Stripe : </label>
       <input type="string" id="skeyid" name="skey" value=""><br><br>
+		  <label>Identifiant Client Paypal: </label>
+      <input type="string" id="clientppid" name="clientpp" value=""><br><br>      
     </p>
    <input class="inpmove" type="submit" value="Valider"><br><br>
    </div>

@@ -30,15 +30,11 @@
       include "../param.php";
      	
       $id = isset($_GET['identif']) ? $_GET['identif'] : '';
-      $pseudo = isset($_POST['pseudo']) ? $_POST ['pseudo'] : '';
       $pass = isset($_POST['pass']) ? $_POST ['pass'] : '';
       $email = isset($_POST['email']) ? $_POST ['email'] : '';
       
       if (empty($id)==TRUE ) {
         die("Identifiant vide");
-      }
-      if (empty($pseudo)==TRUE ) {
-        die("Pseudo vide");
       }
       if (empty($pass)==TRUE ) {
         die("Mot de passe vide");
@@ -72,8 +68,8 @@
 		 	else
 		 		die("Erreur lors de la sélection de la boutic");
 			
-      $q = ' INSERT INTO administrateur (customid, pseudo, pass, email, actif) ';
-  	  $q = $q . 'VALUES ("' . $customid . '","' . $pseudo . '","' . password_hash($pass, PASSWORD_DEFAULT) . '",
+      $q = ' INSERT INTO administrateur (customid, pass, email, actif) ';
+  	  $q = $q . 'VALUES ("' . $customid . '","' . password_hash($pass, PASSWORD_DEFAULT) . '",
   	  "' . $email . '","' . 1 . '")';
       if ($conn->query($q) === FALSE) 
       {
