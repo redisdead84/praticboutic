@@ -14,7 +14,8 @@ if ($conn->connect_error)
   die("Connection failed: " . $conn->connect_error); 
 
 try {
-
+	$output = "";
+	
   $customer = $_POST['boutic'];
 	$reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
 	$reqci->bind_param("s", $customer);
@@ -52,13 +53,15 @@ try {
       {
       	throw new Error('Echec de l\'upload !');
       }
-    }
-  }	
-
+      else {
+      	$output = $fichier;	
+    	}
+  	}	
+	}
 
   $conn->close();
 
-	$output = "";
+	
 
   echo json_encode($output);
 } catch (Error $e) {

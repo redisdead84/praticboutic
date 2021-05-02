@@ -43,6 +43,8 @@
   <body id="backbody">
     <script>
 	var boutic = "<?php echo $boutic;?>" ;
+	var pathimg = '../../' + boutic + '/upload/';
+
 	
 	var deflimite = 5;
 	var defoffset = 0;
@@ -52,7 +54,7 @@
 								{nom:"categorie", desc:"Catégories", cs:"nom", champs:[{nom:"catid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"article", desc:"Articles", cs:"nom", champs:[{nom:"artid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"description", desc:"Description", typ:"text", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", vis:"n", ordre:"0", sens:""},
-	                {nom:"unite", desc:"Unité", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", vis:"n", ordre:"0", sens:""}, {nom:"imgvisible", desc:"Visibilité de l'image", typ:"bool", vis:"n", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", vis:"n", ordre:"0", sens:""}]},
+	                {nom:"unite", desc:"Unité", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", vis:"o", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", vis:"n", ordre:"0", sens:""}]},
 	              {nom:"relgrpoptart", desc:"Relations groupes d'option-articles", cs:"", champs:[{nom:"relgrpoartid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"artid", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"groupeopt", desc:"Groupes d'option", cs:"nom", champs:[{nom:"grpoptid",  desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"multiple", desc:"Choix Multiple", typ:"bool", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"option", desc:"Options", cs:"nom", champs:[{nom:"optid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"surcout", desc:"Surcoût", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", desc:"Groupe d'option", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
@@ -320,7 +322,7 @@
 									inp.classList.add('form-control');
 									inp.type = 'number';
 									inp.step = '0.01';
-									inp.value = '0';
+									inp.value = '0.00';
 									inp.min = '0';
 								}
 								else if (champs[i].typ == "image")
@@ -328,6 +330,63 @@
 									inp.classList.add('form-control-file');
 									inp.type = 'file';
 									inp.accept="image/png, image/jpeg";
+									inp.setAttribute("data-artimg", 'itable' + numtable + '_' + 'artimg' + i );									
+									inp.onchange = function () {
+										const fileInput = this;
+										const formdata = new FormData();
+										formdata.append('boutic', boutic);
+										formdata.append('file', fileInput.files[0]);
+										
+						        fetch("upload.php", {
+						          method: "POST",
+						          body: formdata
+						        })
+					          .then(function(result) {
+					            return result.json();
+					          })
+					          .then(function(data) {
+						         	if (typeof (data.error) !== "undefined")
+						         	{
+						         		var modal = $('.modal');
+						         		$('.modal-title').html('Erreur');
+						            modal.find('.modal-body').text(data.error);
+						            $('.modal').modal('show');
+						         	}
+											else {
+												document.getElementById(fileInput.getAttribute("data-artimg")).src = pathimg + data;
+				        				fileInput.setAttribute("data-truefilename", data);
+				        				fileInput.filename = data;
+				        				imgclose.style.display = 'block';
+											}						         	
+						        })
+									}
+									var divp = document.createElement("DIV");
+									divp.classList.add("frameimg");
+									var image = document.createElement("IMG");
+									image.id = 'itable' + numtable + '_' + 'artimg' + i;
+									image.alt = "";
+									image.classList.add("imgart");
+									divp.appendChild(image);
+										
+									var imgclose = document.createElement("IMG");
+									imgclose.src = '../img/fermer.png';
+									imgclose.alt = "";
+									imgclose.classList.add("imgclose");
+									if (inp.filename == "")
+										imgclose.style.display = 'none';
+									if (image.src == "")
+										imgclose.style.display = 'none';
+									imgclose.setAttribute("data-artimgfile", 'itable' + numtable + '_' + 'inp' + i );
+									imgclose.setAttribute("data-artimg", 'itable' + numtable + '_' + 'artimg' + i );
+									imgclose.addEventListener("click", function() {
+										document.getElementById(this.getAttribute("data-artimgfile")).setAttribute("data-truefilename",'');
+										document.getElementById(this.getAttribute("data-artimgfile")).value = '';
+										document.getElementById(this.getAttribute("data-artimg")).src = '';
+										this.style.display = 'none';
+									});
+									divp.appendChild(imgclose); 
+									vue.appendChild(divp);
+									vue.appendChild(document.createElement("BR"));
 								}
 								else if (champs[i].typ == "pass")
 								{
@@ -409,32 +468,7 @@
 
 						if (champs[i].typ == 'image')
 						{
-							const fileInput = document.querySelector('#' + 'itable' + numtable + '_' + 'inp' + i) ;
-							const formdata = new FormData();
-							formdata.append('boutic', boutic);
-							formdata.append('file', fileInput.files[0]);
-							
-			        fetch("upload.php", {
-			          method: "POST",
-			          body: formdata
-			        })
-		          .then(function(result) {
-		            return result.json();
-		          })
-		          .then(function(data) {
-			         	if (typeof (data.error) !== "undefined")
-			         	{
-			         		var modal = $('.modal');
-			         		$('.modal-title').html('Erreur');
-			            modal.find('.modal-body').text(data.error);
-			            $('.modal').modal('show');
-			         	}
-			        })
-			        if (typeof(fileInput.files[0]) != "undefined")
-			        	val = fileInput.files[0].name;
-			        else {
-			        	val ="";
-			        }
+			        val = document.getElementById('itable' + numtable + '_' + 'inp' + i).getAttribute("data-truefilename");
 						}
 						else if (champs[i].typ =='bool')
 						{
@@ -593,7 +627,7 @@
 											inp.classList.add('form-control');			
 											inp.type = 'number';
 											inp.step = '0.01';
-											inp.value = data[i];
+											inp.value = parseFloat(data[i]).toFixed(2);
 											inp.min = '0';
 										}
 										else if (champs[i].typ == "image")
@@ -602,6 +636,65 @@
 											inp.type = 'file';
 											inp.accept="image/png, image/jpeg";
 											inp.filename = data[i];
+											inp.setAttribute("data-truefilename", data[i]);
+											inp.setAttribute("data-artimg", 'utable' + numtable + '_' + 'artimg' + i );
+											inp.onchange = function () {
+												const fileInput = this;
+												const formdata = new FormData();
+												formdata.append('boutic', boutic);
+												formdata.append('file', fileInput.files[0]);
+												
+								        fetch("upload.php", {
+								          method: "POST",
+								          body: formdata
+								        })
+							          .then(function(result) {
+							            return result.json();
+							          })
+							          .then(function(data) {
+								         	if (typeof (data.error) !== "undefined")
+								         	{
+								         		var modal = $('.modal');
+								         		$('.modal-title').html('Erreur');
+								            modal.find('.modal-body').text(data.error);
+								            $('.modal').modal('show');
+								         	}
+													else {
+						        				document.getElementById(fileInput.getAttribute("data-artimg")).src = pathimg + data;
+						        				fileInput.setAttribute("data-truefilename", data);
+						        				fileInput.filename = data;
+						        				imgclose.style.display = 'block';
+													}						         	
+								        })
+											}
+											var divp = document.createElement("DIV");
+											divp.classList.add("frameimg");
+											var image = document.createElement("IMG");
+											image.id = 'utable' + numtable + '_' + 'artimg' + i;;
+											image.src = pathimg + data[i];
+											image.alt = "";
+											image.classList.add("imgart");
+											divp.appendChild(image);
+												
+											var imgclose = document.createElement("IMG");
+											imgclose.src = '../img/fermer.png';
+											imgclose.alt = "";
+											imgclose.classList.add("imgclose");
+											if (inp.filename == "")
+												imgclose.style.display = 'none';
+											if (image.src == '')
+												imgclose.style.display = 'none';
+  										imgclose.setAttribute("data-artimgfile", 'utable' + numtable + '_' + 'inp' + i );
+  										imgclose.setAttribute("data-artimg", 'utable' + numtable + '_' + 'artimg' + i );
+											imgclose.addEventListener("click", function() {
+												document.getElementById(this.getAttribute("data-artimgfile")).setAttribute("data-truefilename",'');
+												document.getElementById(this.getAttribute("data-artimgfile")).value = '';
+												document.getElementById(this.getAttribute("data-artimg")).src = '';
+												this.style.display = 'none';
+											});
+											divp.appendChild(imgclose); 
+											vue.appendChild(divp);
+											vue.appendChild(document.createElement("BR"));
 										}
 										else if (champs[i].typ == "pass")
 										{
@@ -719,32 +812,7 @@
 								{
 									if (champs[i].typ == 'image')
 									{
-										const fileInput = document.querySelector('#' + 'utable' + numtable + '_' + 'inp' + i) ;
-										const formdata = new FormData();
-										formdata.append('boutic', boutic);
-										formdata.append('file', fileInput.files[0]);
-										
-						        fetch("upload.php", {
-						          method: "POST",
-						          body: formdata
-						        })
-					          .then(function(result) {
-					            return result.json();
-					          })
-					          .then(function(data) {
-						         	if (typeof (data.error) !== "undefined")
-						         	{
-						         		var modal = $('.modal');
-						         		$('.modal-title').html('Erreur');
-						            modal.find('.modal-body').text(data.error);
-						            $('.modal').modal('show');
-						         	}
-						        })
-						        if (typeof(fileInput.files[0]) != "undefined")
-						        	val = fileInput.files[0].name;
-						        else {
-						        	val ="";
-						        }
+						        val = document.getElementById('utable' + numtable + '_' + 'inp' + i).getAttribute("data-truefilename");
 									}
 									else if (champs[i].typ =='bool')
 									{
@@ -774,7 +842,7 @@
 						  			}						  
 									}
 									var col = {nom:champs[i].nom, valeur:val, type:champs[i].typ};
-									row.push(col);					
+									row.push(col);
 								}
 								else {
 									pknom = champs[i].nom;

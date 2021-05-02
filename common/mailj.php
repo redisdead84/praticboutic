@@ -154,13 +154,13 @@ try
   	$text = $text . '<h2>Total Commande : ' . number_format($sum + $json_obj->fraislivr, 2, ',', ' ') . '€ <br><h2>';
   }
   
-	if (strcmp($validsms,"1") == 0)
+	/*if (strcmp($validsms,"1") == 0)
 	{
 	  $text = $text . '<br>';
 		$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été validée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Accepter la commande</a>';
 		$text = $text . '<br>';
 		$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été rejetée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Rejeter la commande</a>';
-	}
+	}*/
 	
   $text = $text . '</body>';
   $text = $text . '</html>';
@@ -218,8 +218,6 @@ try
 		$artid = 0;
 		$optid = 0;
 		
-		
-		
 		if (strcmp($value->type, "article") == 0 )
 			$artid = $value->id;
 		else if (strcmp($value->type, "option") == 0)
@@ -237,15 +235,41 @@ try
 	
 	if (strcmp($validsms,"1") == 0)
 	{
+		//$content = GetValeurParam("TEXT_SMS", $conn, $customid);
 		
-		$content = GetValeurParam("TEXT_SMS", $conn, $customid);
+		$query = 'SELECT commande.telephone, statutcmd.message, commande.numref, commande.nom, commande.prenom, commande.adresse1, commande.adresse2, commande.codepostal, commande.ville,
+  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat  FROM commande ';
+  	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
+  	$query = $query . 'WHERE statutcmd.defaut = 1 AND commande.cmdid = ' . $cmdid . ' AND commande.customid = ' . $customid . ' AND statutcmd.customid = ' . $customid;
+  	$query = $query . ' ORDER BY commande.cmdid LIMIT 1';
+
+  	//error_log($query);
 		
-		$content = str_replace("%commercant%", $rcvnom, $content);
-		
-		if (strcmp($json_obj->vente, "LIVRER") !== 0)
-			$content = str_replace("%somme%", number_format($sum, 2, ',', ' '), $content);
-		else 		
-			$content = str_replace("%somme%", number_format($sum + $json_obj->fraislivr, 2, ',', ' '), $content);				
+		if ($result = $conn->query($query)) 
+		{
+			if ($row = $result->fetch_row()) 
+		  {	
+	  		$content = $row[1];  	
+				$content = str_replace("%boutic%", $rcvnom, $content);
+				$content = str_replace("%telephone%", $row[0], $content);		
+				$content = str_replace("%numref%", $row[2], $content);  
+				$content = str_replace("%nom%", $row[3], $content);  
+				$content = str_replace("%prenom%", $row[4], $content);
+				$content = str_replace("%adresse1%", $row[5], $content);		
+				$content = str_replace("%adresse2%", $row[6], $content);
+				$content = str_replace("%codepostal%", $row[7], $content);
+				$content = str_replace("%ville%", $row[8], $content);
+				$content = str_replace("%vente%", $row[9], $content);
+				$content = str_replace("%paiement%", $row[10], $content);
+				$content = str_replace("%sstotal%", number_format($row[11], 2, ',', ' '), $content);
+				$content = str_replace("%fraislivraison%", number_format($row[12], 2, ',', ' '), $content);
+				$content = str_replace("%total%", number_format($row[13], 2, ',', ' '), $content);
+				$content = str_replace("%commentaire%", $row[14], $content);
+				$content = str_replace("%etat%", $row[15], $content);
+		  	$message = $content;
+	    }						
+		  $result->close();
+	  }   
 		
     $numbers = array($tel_mobile);
     
@@ -257,7 +281,7 @@ try
     $postdata = array(
       'sms' => array(
        'message' => array(
-        'text' => $content,
+        'text' => $message,
         'sender' => $sendersms
        ),
        'recipients' => array('gsm' => $recipients)

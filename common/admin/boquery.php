@@ -55,6 +55,8 @@ try {
 	$reqci->bind_result($customid);
 	$resultatci = $reqci->fetch();
 	$reqci->close();
+	
+	$rcvnom = GetValeurParam("Receivernom_mail", $conn, $customid, $input->customer);
 
 	//error_log($input->action);
 	
@@ -365,18 +367,12 @@ try {
 		{
 			$jump = 0;
 	  	if (strcmp($input->row[$i]->type, "pass") == 0)
+	  	{
 	  		if (strcmp($input->row[$i]->valeur,"") != 0) 	
 	  			$query = $query . $input->row[$i]->nom . ' = "' . password_hash($input->row[$i]->valeur, PASSWORD_DEFAULT) . '"';
 	  		else 
 					$jump = 1;
- 
-			else if (strcmp($input->row[$i]->type, "image") == 0)
-			{
-				if (strcmp($input->row[$i]->valeur,"") != 0)
-					$query = $query . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
-				else 
-					$jump = 1;
-			}
+ 			}
 			else 
 				$query = $query . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
 				
@@ -453,9 +449,10 @@ try {
 	
 	if (strcmp($input->action,"getcomdata") == 0)
   {
-  	$query = 'SELECT commande.telephone, statutcmd.message FROM commande ';
+  	$query = 'SELECT commande.telephone, statutcmd.message, commande.numref, commande.nom, commande.prenom, commande.adresse1, commande.adresse2, commande.codepostal, commande.ville,
+  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat  FROM commande ';
   	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
-  	$query = $query . 'WHERE commande.cmdid = ' . $input->cmdid . ' AND commande.customid = ' . $customid;
+  	$query = $query . 'WHERE commande.cmdid = ' . $input->cmdid . ' AND commande.customid = ' . $customid . ' AND statutcmd.customid = ' . $customid;
   	$query = $query . ' ORDER BY commande.cmdid';
   	
   	//error_log($query);
@@ -466,7 +463,28 @@ try {
 		{
 			if ($row = $result->fetch_row()) 
 		  {	
-				array_push($arr, $row[0], $row[1]);
+	  		$content = $row[1];  	
+				$content = str_replace("%boutic%", $rcvnom, $content);
+				$content = str_replace("%telephone%", $row[0], $content);		
+				$content = str_replace("%numref%", $row[2], $content);  
+				$content = str_replace("%nom%", $row[3], $content);  
+				$content = str_replace("%prenom%", $row[4], $content);
+				$content = str_replace("%adresse1%", $row[5], $content);		
+				$content = str_replace("%adresse2%", $row[6], $content);
+				$content = str_replace("%codepostal%", $row[7], $content);
+				$content = str_replace("%ville%", $row[8], $content);
+				$content = str_replace("%vente%", $row[9], $content);
+				$content = str_replace("%paiement%", $row[10], $content);
+				$content = str_replace("%sstotal%", number_format($row[11], 2, ',', ' '), $content);
+				$content = str_replace("%fraislivraison%", number_format($row[12], 2, ',', ' '), $content);
+				$content = str_replace("%total%", number_format($row[13], 2, ',', ' '), $content);
+				$content = str_replace("%commentaire%", $row[14], $content);
+				$content = str_replace("%etat%", $row[15], $content);
+		  	$message = $content;
+		  	
+		  	//error_log($message);
+
+				array_push($arr, $row[0], $message);
 	    }						
 		  $result->close();
 	  }   

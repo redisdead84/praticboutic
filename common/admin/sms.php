@@ -56,6 +56,8 @@ try {
 	if (strcmp($validsms,"1") == 0)
 	{
 		$content = $json_obj->message;
+		
+		//error_log($content);
 
     $numbers = array($json_obj->telephone);
     

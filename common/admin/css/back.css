@@ -183,3 +183,27 @@ table.table-hover.notr-hover:hover {
     color: black !important;
 }
 
+.frameimg 
+{
+	position: relative;
+	height: 225px;
+	width: 400px;
+	border: 1px solid black;
+}
+
+.imgart
+{
+	z-index: 1;
+	width: 100%;
+	height: auto;
+	max-width: 400px;
+	max-height: 225px;
+}
+
+.imgclose
+{
+	z-index: 2;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}

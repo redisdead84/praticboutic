@@ -137,7 +137,8 @@
         }
       </script>
 	    <script>
-	    	if (mnysys == "PAYPAL")
+	    if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
+	    	if (mnysys == "PAYPAL") 
 	    	{
 		      paypal.Buttons({
 		      	enableStandardCardFields: false,
@@ -208,6 +209,7 @@
 			    	}
 					}).render('#paypal-button-container'); // Display payment options on your web page
 				}
+			}
 	    </script>
       
       

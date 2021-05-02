@@ -75,7 +75,7 @@
     				echo html_entity_decode($row[1]);
     				echo '</button>';
     				echo '<div class="panel">';
-		      	$query2 = 'SELECT artid, nom, prix, unite, description, image, imgvisible FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] ;
+		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] ;
 		      	if ($result2 = $conn->query($query2)) 
 	  				{
 	  				  while ($row2 = $result2->fetch_row()) 
@@ -83,10 +83,8 @@
     						if (strcmp($sizeimg,"bigimg")==0)
     						{
 	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	              	if ($row2[6]>0)
-	                {
-	              	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
-	                }
+	    					  if (strcmp($row2[5], "") != 0)
+              	  	echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
 	                echo '<div class="rowah">';
 	                echo '<div class="colb1">';
 	    					  echo '<div class="nom">';
@@ -174,10 +172,8 @@
 	       	      	echo '</div>';
 	       	      	echo '</div>';
 	       	      	echo '<div class="cola2">';
-	       	      	if ($row2[6]>0)
-	                {
-	              	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
-	                }
+	       	      	if (strcmp($row2[5], "") != 0)
+              	  	echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
 	                echo '</div>';
 	                echo '</div>';
 								}
@@ -267,17 +263,17 @@
 	   		$result->close();
 			}
 			// Affichage des Frais Fixe
-    	$query3 = 'SELECT artid, nom, prix, unite, description, image, imgvisible FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 1';
+    	$query3 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 1';
 			if ($result3 = $conn->query($query3)) 
 			{
 				while ($row3 = $result3->fetch_row()) 
 				{
       		echo '<div class="artcel" id="artid' . $row3[0] . '" data-name="' . $row3[1] . '" data-prix="' . $row3[2] . '" data-unite="' . $row3[3] . '">';
-        	if ($row3[6]>0)
-                {
-        	  echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row3[5] . '" alt = "nopic">';
-                  echo '<br>';
-                }
+      		if (strcmp($row2[5], "") != 0)
+      		{
+       	  	echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row3[5] . '" alt = "nopic">';
+          	echo '<br>';
+          }
           echo '<div class="rowob">';
           echo '<div class="colart">';
         	echo '<div class="nom">';
