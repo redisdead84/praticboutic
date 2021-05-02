@@ -150,6 +150,7 @@
 					<div class="tab-pane active" id="commande" role="tabpanel" aria-labelledby="commande-tab">
 					  <div class='tbl' id="table9"></div>
 					  <div class='tbl form-group' id="det9" data-vuep="table9" hidden></div>
+					  <div class='tbl form-group' id="det10" data-vuep="det9" hidden></div>
 					</div>
 					<div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
 				  	<div class='tbl' id="table11"></div>	
@@ -869,7 +870,7 @@
 						clbtn.classList.add("btn-secondary");
 						clbtn.classList.add("btn-block");
 						clbtn.setAttribute("data-vuep", vueparent);
-						clbtn.setAttribute("data-vue", 'maj' + numtable)
+						clbtn.setAttribute("data-vue", 'maj' + numtable);
 
 						clbtn.onclick = function(){
 							vuep = document.getElementById(this.getAttribute("data-vuep"));
@@ -1154,8 +1155,7 @@
 				maintable.classList.add("table");
 				maintable.classList.add("table-bordered");
 				maintable.classList.add("table-striped");
-				if (tablestr != "lignecmd")
-					maintable.classList.add("table-hover");
+				maintable.classList.add("table-hover");
 				mainthead = document.createElement("THEAD");		 	
 				tr = document.createElement("TR");
 				for (var i=0; i<table.champs.length; i++)          	
@@ -1238,23 +1238,29 @@
 			   		{
 			   			tr.setAttribute("data-pknom", table.champs[i].nom);
 			   			tr.setAttribute("data-pkval", donnees[j][i]);
-							if (tablestr == "commande")
+							if ((tablestr == "commande") || (tablestr == "lignecmd")) 
 							{
-								tr.classList.add("colored");
+								if (tablestr == "commande")
+									tr.classList.add("colored");
 								tr.onclick = function () {
 									pkval = this.getAttribute("data-pkval");
 									nummtable = getnumtable(tablestr);
-									detail(numtable, pkval, limite, offset);
+								if (tablestr == "commande")
+									detail(numtable, pkval, limite, offset, vue, place, selcol, selid);
+								if (tablestr == "lignecmd")
+									detail(numtable, pkval, limite, offset, "det9", "det9", selcol, selid);
+									
 								}
-								tr.classList.add("clickable-row");
 							}
-							else if (tablestr != "lignecmd")
+							else
+							{
 								tr.onclick = function () {
 									pkval = this.getAttribute("data-pkval");
 									nummtable = getnumtable(tablestr);
 									update(numtable, pkval, limite, offset, vue, place, selcol, selid);
 								}
-								tr.classList.add("clickable-row");
+							}
+							tr.classList.add("clickable-row");
 					  }
 			   	}
 			   	maintbody.appendChild(tr);    	
@@ -1834,19 +1840,23 @@
 				$('.modal').modal('show');
 			}
 			
-			function detail(numtable, idtoup, limite, offset ) 
+			function detail(numtable, idtoup, limite, offset, vueparent, placeparent, selcol, selid)
 			{
 				var champs = tables[numtable].champs;
-				var cmdid = 0;
-				document.getElementById('table' + numtable).hidden = true;
-				document.getElementById('det' + numtable).hidden = false;
+				var objectid = 0;
+
+				vuep = document.getElementById(vueparent);
+				vuep.hidden = true;	
+
+				vue = document.getElementById('det' + numtable);
+				vue.hidden = false;		
 				
 				var titre = document.createElement('H5');
-				titre.id = 'itable'+ numtable +'titre';
+				titre.id = 'dtable'+ numtable +'titre';
 				titre.innerHTML = 'Détails ' + tables[numtable].desc;
-				document.getElementById('det' + numtable).appendChild(titre);
+				vue.appendChild(titre);
 				var br = document.createElement('br');
-				document.getElementById('det' + numtable).appendChild(br);				
+				vue.appendChild(br);				
 				
 				var obj = { customer: boutic, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
 
@@ -1875,14 +1885,14 @@
 						var input = [];
 						var cmdhead = document.createElement("DIV");
 						cmdhead.classList.add('twocol');
-						document.getElementById('det' + numtable).appendChild(cmdhead);
+						vue.appendChild(cmdhead);
 						var message, telephone;
 						for(i=0; i<champs.length; i++)				
 						{
 							if (champs[i].typ != "pk")
 							{
 								var dat = document.createElement('p');
-								dat.id = 'utable'+ numtable +'dat' + i;
+								dat.id = 'dtable'+ numtable +'dat' + i;
 								if (champs[i].typ != "fk")
 								{
 									dat.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
@@ -1909,7 +1919,7 @@
 									}
 									else if (champs[i].typ == "prix")
 									{
-										dat.innerHTML = dat.innerHTML + parseFloat(data[i]).toFixed(2);
+										dat.innerHTML = dat.innerHTML + parseFloat(data[i]).toFixed(2) + " €";
 									}
 									else if (champs[i].typ == "image")
 									{
@@ -1940,15 +1950,15 @@
 											if (liens[j].nom == "statut" )
 											{
 												var lbl = document.createElement('P')
-												lbl.name = 'ulbltable' + numtable + '_' + champs[numtable].nom;
-												lbl.id = 'ulbltable' + numtable + '_' + 'lien' + i;
+												lbl.name = 'dlbltable' + numtable + '_' + champs[numtable].nom;
+												lbl.id = 'dlbltable' + numtable + '_' + 'lien' + i;
 												lbl.innerHTML = liens[j].desc + '&nbsp;:&nbsp;';
 												cmdhead.appendChild(lbl);
 												
 												var lien = document.createElement('SELECT');
 												lien.classList.add('form-control');
-												lien.name = 'utable' + numtable + '_' + champs[numtable].nom;
-												lien.id = 'utable' + numtable + '_' + 'lien' + i;
+												lien.name = 'dtable' + numtable + '_' + champs[numtable].nom;
+												lien.id = 'dtable' + numtable + '_' + 'lien' + i;
 												lien.setAttribute("data-table", tables[numtable].nom);
 												lien.setAttribute("data-champ", champs[i].nom);
 												lien.onchange = function()
@@ -1956,14 +1966,14 @@
 													var row = [];
 													var col = {nom:"statid", valeur:lien.value, type:champs[i].typ};
 													row.push(col);	
-													updaterow( 'table' + numtable, 'table' + numtable, tables[numtable].nom, row, "cmdid", cmdid, limite, offset, "", 0);
-													sendStatutSMS(cmdid);
+													updaterow( 'table' + numtable, 'table' + numtable, tables[numtable].nom, row, "cmdid", objectid, limite, offset, "", 0);
+													sendStatutSMS(objectid);
 												};
 												cmdhead.appendChild(lien);
 												
 												for (k=0; k<tables.length; k++)
 													if (tables[k].nom == liens[j].dsttbl)
-														getoptions('utable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i]);
+														getoptions('dtable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i]);
 											}											
 											else {
 												dat.innerHTML = liens[j].desc + '&nbsp;:&nbsp;' + data[i];	
@@ -1976,17 +1986,19 @@
 								}
 							}
 							else {
-								cmdid = parseInt(data[i]);
+								objectid = parseInt(data[i]);
 							}
 						}
-						var lignecmd = document.createElement('DIV');
-						lignecmd.classList.add("tbl");
-						lignecmd.classList.add("form-group");
-						lignecmd.id = "table10";
-						lignecmd.hidden = false;
-						document.getElementById('det' + numtable).appendChild(lignecmd);
-						gettable( "table10", "table10", "lignecmd", deflimite, defoffset, "cmdid", cmdid);
-						
+						if (tables[numtable].nom == "commande")
+						{
+							var lignecmd = document.createElement('DIV');
+							lignecmd.classList.add("tbl");
+							lignecmd.classList.add("form-group");
+							lignecmd.id = "table10";
+							lignecmd.hidden = false;
+							document.getElementById('det' + numtable).appendChild(lignecmd);
+							gettable( "table10", "table10", "lignecmd", deflimite, defoffset, "cmdid", objectid);
+						}
 						var clbtn = document.createElement('button');
 						clbtn.id = "clbtn" + numtable;
 						clbtn.type = "button";
@@ -1994,12 +2006,18 @@
 						clbtn.classList.add("btn");
 						clbtn.classList.add("btn-primary");
 						clbtn.classList.add("btn-block");
+						clbtn.setAttribute("data-vuep", vueparent);
+						clbtn.setAttribute("data-vue", 'det' + numtable);
+
 						clbtn.onclick = function(){
-							document.getElementById('table' + numtable).hidden = false;
-							document.getElementById('det' + numtable).hidden = true;
-							document.getElementById('det' + numtable).innerHTML = "";
+							vuep = document.getElementById(this.getAttribute("data-vuep"));
+							vue = document.getElementById(this.getAttribute("data-vue"));
+				
+  						vuep.hidden = false
+	  					vue.hidden = true;
+							vue.innerHTML = '';
 						}; 
-						document.getElementById('det' + numtable).appendChild(clbtn);
+						vue.appendChild(clbtn);
 					}
       	})
 			}
@@ -2055,10 +2073,7 @@
 		         		else
 		         		{
 		         			document.getElementById(place).innerHTML = "";
-		         			//if (table != "barlivr")
-	         					displaytable( vue, place, table, data, total, limite, offset, selcol, selid);
-	         				/*else
-	         					displaytablebarlivr( vue, place, table, data, total, limite, offset, selcol, selid);*/
+         					displaytable( vue, place, table, data, total, limite, offset, selcol, selid);
 								}
          			}) 
 		        }
