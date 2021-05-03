@@ -83,24 +83,6 @@
 			fwrite($idx, "<?php\n\n  include \"config/custom_cfg.php\";\n\n  header('LOCATION: ../common/carte.php?method=' . \$metdef . '&customer=' . \$customer);\n\n?>");
 			fclose($idx);
 			echo "fichier index.php créé<br>";
-							
-			/*if (!file_exists("admin"))
-				if (!mkdir("admin"))
-				{
-					$error = error_get_last();
-    			echo $error['message'];
-    			echo "<br>";
-    			die("Impossible de crér le répertoire : " . $id . "/admin");				
-				}
-				else
-					echo "Repertoire admin créé<br>";
-					
-			chdir("admin");		
-			$idx2 = fopen("index.php", "w");
-			fwrite($idx2, "<?php\n\n  session_start();\n  include \"../config/custom_cfg.php\";\n  \$_SESSION['boutic'] = \$customer;\n  header('LOCATION: ../../common/admin/index.php?customer=' . \$customer);\n\n?>");
-			fclose($idx2);
-			echo "fichier index.php créé<br>";
-			chdir("..");*/
 			
 			if (!file_exists("config"))
 				if (!mkdir("config"))
@@ -117,23 +99,6 @@
 			fwrite($config, "<?php\n    \$customer = \"" . $id . "\";\n    \$metdef = \"" . $mdef . "\";\n    \$ver_cust_css = \"1.00\";\n?>");
 			fclose($config);
 			echo "fichier custom_cfg.php créé<br>";
-			chdir("..");
-			
-			if (!file_exists("css"))
-				if (!mkdir("css"))
-				{
-					$error = error_get_last();
-    			echo $error['message'];
-    			echo "<br>";
-    			die("Impossible de crér le répertoire : " . $id . "/css");				
-				}
-				else
-				  echo "Repertoire css créé<br>";
-			chdir("css");
-			$ccss = fopen("custom.css", "w");
-			fwrite($ccss, "\n");
-			fclose($ccss);
-			echo "fichier custom.css créé<br>";
 			chdir("..");
 			
 			if (!file_exists("img"))
