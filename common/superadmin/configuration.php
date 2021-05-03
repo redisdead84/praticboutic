@@ -50,7 +50,6 @@
 			$pkey = isset($_POST['pkey']) ? $_POST ['pkey'] : '';
 			$skey = isset($_POST['skey']) ? $_POST ['skey'] : '';
 			$clientpp = isset($_POST['clientpp']) ? $_POST ['clientpp'] : '';
-			
 
       if (empty($id)==TRUE ) {
         die("Identifiant vide");
