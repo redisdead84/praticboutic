@@ -23,6 +23,8 @@
       
       $count2 = 0;
 
+      $resultat = 0;
+
       // Create connection
       $conn = new mysqli($servername, $username, $password, $bdd);
 
@@ -39,9 +41,6 @@
       if (strcmp($email, "flegrand.info@gmail.com") == 0)  
       	$resultat = -1;
             
-		  $interval = "15 MINUTE";
-      $maxretry = "4";
-      
       $ip = $_SERVER["REMOTE_ADDR"];
     
       $q2 = "SELECT COUNT(*) FROM `connexion` WHERE `ip` LIKE '$ip' AND `ts` > (now() - interval $interval)";
@@ -54,7 +53,7 @@
 		  }
       
       
-      if($count2 > $maxretry)
+      if($count2 >= $maxretry)
       {
         echo "<h3>Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br /></h3>";
         echo '<a href="index.php"><button type="button">Retour</button></a>';
@@ -64,7 +63,7 @@
 	      // Comparaison du pass envoyé via le formulaire avec la base
 	      $isPasswordCorrect = password_verify($pass, $pass_hache);
               
-        if (!$resultat)
+        if ($resultat == 0)
         {
         	$q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
 		      if ($r1 = $conn->query($q1)) 
