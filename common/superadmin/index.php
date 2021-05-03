@@ -13,7 +13,7 @@
     <div class="main">
     <p>
      <label>Courriel</label>
-     <input type="string" id="emailid" name="pseudo"><br>
+     <input type="string" id="emailid" name="email"><br>
      <br />
      <label>mot de passe</label>
      <input type="password" id="passid" name="pass"><br>
