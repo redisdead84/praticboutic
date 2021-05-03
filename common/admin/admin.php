@@ -693,7 +693,7 @@
 												document.getElementById(this.getAttribute("data-artimg")).src = '';
 												this.style.display = 'none';
 											});
-											divp.appendChild(imgclose); 
+											divp.appendChild(imgclose);
 											vue.appendChild(divp);
 											vue.appendChild(document.createElement("BR"));
 										}

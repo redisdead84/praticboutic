@@ -120,9 +120,31 @@
 	      	echo ("Parametre " . $parametres[$i][0] . " inséré <br>");
 	    }
 	    
-	    echo("<br>");	  
-			echo("<button onclick=\"window.location.href = 'logo.php?identif=" . $id . "';\">Cliquez ici pour insérer le logo</button>");
+
+		$statuts = array (
+  			array("Commande à faire", "#FFC0CB", "Vote commande chez %boutic% d'un montant de %total% € a été transmise.", 1),
+  			array("En cours de préparation", "#FFA500","En cours de préparation chez %boutic% pour un montant de %total% €", 0),
+  			array("En cours de livraison", "#0000FF", "Commande référence %numref% à l'état %etat%", 0),
+			);
+
+		for($i=0; $i<count($statuts); $i++)
+		{			
+	    $q = ' INSERT INTO statutcmd (customid, etat, couleur, message, defaut) ';
+	    $q = $q . 'VALUES ("' . $customid . '","' . $statuts[$i][0] . '","' . $statuts[$i][1] . '","' . $statuts[$i][2] . '","' . $statuts[$i][3] . '")';
+	  	  
+	    if ($conn->query($q) === FALSE) 
+	    {
+		    die("Erreur lors de l'insertion d'un statut de commande : " . $conn->error);
+	    }
+	    else
+	    	echo ("Statut de commande " . $statuts[$i][0] . " inséré <br>");
+	  }
+
+	  echo("<br>");	  
+		echo("<button onclick=\"window.location.href = 'logo.php?identif=" . $id . "';\">Cliquez ici pour insérer le logo</button>");
+
     ?>
+
 
   </body>
 </html>

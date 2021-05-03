@@ -153,7 +153,7 @@
 					$error = error_get_last();
     			echo $error['message'];
     			echo "<br>";
-    			die("Impossible de crér le répertoire : " . $id . "/upload");				
+    			die("Impossible de créer le répertoire : " . $id . "/upload");				
 				}
 				else
 				  echo "Repertoire upload créé<br>";
