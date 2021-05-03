@@ -36,7 +36,7 @@
       $id = -1;
 			$pass_hache = "\$1\$j4UqeoQx\$qn7Nq4gkf/VQQRw5jl9lu1";      
         
-      if (strcmp($pseudo, "praticboutic") == 0)  
+      if (strcmp($email, "flegrand.info@gmail.com") == 0)  
       	$resultat = -1;
             
 		  $interval = "15 MINUTE";
