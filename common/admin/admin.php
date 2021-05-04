@@ -66,7 +66,7 @@
 	              {nom:"commande", desc:"Commandes Clients", cs:"numref", champs:[{nom:"cmdid", desc:"identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"numref", desc:"Référence", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"prenom", desc:"Prénom", typ:"text", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"telephone", desc:"Téléphone", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"adresse1", desc:"Ligne d'adresse n°1", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"adresse2", desc:"Ligne d'adresse n°2", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"codepostal", desc:"Code Postal", typ:"text", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"ville", desc:"Ville", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"vente", desc:"Type de Vente", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"paiement", desc:"Mode de Paiement", typ:"text", vis:"n", ordre:"0", sens:""},
-								  {nom:"sstotal", desc:"Sous-total", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", desc:"Frais de Livraison", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"total", desc:"Total", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", vis:"n", ordre:"0", sens:""}, 
+								  {nom:"sstotal", desc:"Sous-total", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", desc:"Frais de Livraison", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"total", desc:"Total", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"method", desc:"Méthode de vente", typ:"text", vis:"n", ordre:"0", sens:""}, 
 								  {nom:"table", desc:"N° de la Table", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"datecreation", desc:"Date de Création", typ:"date", vis:"o", ordre:"0", sens:""},
 								  {nom:"statid", desc:"Statut", typ:"fk", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"lignecmd", desc:"Lignes des commandes", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", vis:"n", ordre:"0", sens:""}, 
@@ -113,10 +113,8 @@
   
 	  <div class="vertical-nav" id="sidebar">
 	  	<ul class="nav flex-column">
-			  <span class="navbar-text">
-			    Bienvenue sur l'admin 
-			    de la boutic <?php echo $boutic;?>, 
-			    <?php echo $_SESSION[$boutic . '_email']; ?> ! 
+			  <span class="navbar-text breakword">
+			    Bienvenue sur le backoffice de la boutic <?php echo $boutic;?>, <?php echo $_SESSION[$boutic . '_email']; ?> ! 
 			  </span>
 			  <li class="nav-item">
 			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false">Commandes</a>
@@ -1998,6 +1996,9 @@
 							lignecmd.hidden = false;
 							document.getElementById('det' + numtable).appendChild(lignecmd);
 							gettable( "table10", "table10", "lignecmd", deflimite, defoffset, "cmdid", objectid);
+						}
+						else {
+							vue.appendChild(document.createElement("BR"));
 						}
 						var clbtn = document.createElement('button');
 						clbtn.id = "clbtn" + numtable;

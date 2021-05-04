@@ -210,3 +210,8 @@ table.table-hover.notr-hover:hover {
 	top: 10px;
 	left: 10px;
 }
+
+.breakword
+{
+	word-break: break-word;
+}

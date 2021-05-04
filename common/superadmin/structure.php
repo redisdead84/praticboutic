@@ -96,7 +96,7 @@
 				echo "Repertoire config créé<br>";
 		  chdir("config");		
 			$config = fopen("custom_cfg.php", "w");
-			fwrite($config, "<?php\n    \$customer = \"" . $id . "\";\n    \$metdef = \"" . $mdef . "\";\n    \$ver_cust_css = \"1.00\";\n?>");
+			fwrite($config, "<?php\n    \$customer = \"" . $id . "\";\n    \$metdef = \"" . $mdef . "\";\n?>");
 			fclose($config);
 			echo "fichier custom_cfg.php créé<br>";
 			chdir("..");

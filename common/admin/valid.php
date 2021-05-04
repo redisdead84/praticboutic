@@ -22,9 +22,7 @@
 			    </div>
 			   	<div class="modal-body">
 				    <?php
-				    
 				    	session_start();
-				
  
 				      include "../config/common_cfg.php";
 				      include "../param.php";

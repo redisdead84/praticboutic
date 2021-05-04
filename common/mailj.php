@@ -188,9 +188,16 @@ try
 	// Remplir avec des zeros
 	$compt = str_pad($compt, 10, "0", STR_PAD_LEFT);
 	
+	$methodstr = "INCONNU";	
+	
+	if ($json_obj->method == 1)
+		$methodstr = "ATABLE";
+	if ($json_obj->method >= 2)
+		$methodstr = "CLICKNCOLLECT";
+	
   $qcmdi = "INSERT INTO commande (customid, numref, nom, prenom, telephone, adresse1, adresse2, codepostal, ville, vente, paiement, sstotal, fraislivraison, total, commentaire, method, `table`, datecreation, statid ) VALUES ('$customid','$compt','$json_obj->nom',";
   $qcmdi = $qcmdi . "'$json_obj->prenom','$json_obj->telephone','$json_obj->adresse1','$json_obj->adresse2','$json_obj->codepostal','$json_obj->ville','$json_obj->vente','$json_obj->paiement','" . strval($sum) . "','" . strval($json_obj->fraislivr) . "',";
-  $qcmdi = $qcmdi . "'" . strval(floatval($sum) + floatval($json_obj->fraislivr)) . "','" . nl2br(stripslashes(strip_tags($json_obj->infosup))) . "','$json_obj->method','$json_obj->table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
+  $qcmdi = $qcmdi . "'" . strval(floatval($sum) + floatval($json_obj->fraislivr)) . "','" . nl2br(stripslashes(strip_tags($json_obj->infosup))) . "','$methodstr','$json_obj->table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
   
   //error_log($qcmdi);			
   

@@ -76,144 +76,189 @@
     echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
     
     ?>
-   <div id="pan">
-<!--      <a id="methodid"></a><br>-->
-      <div id="tableid"></div>
-      <div id="commandediv"></div>
-      <div class="fraistotal" id="sstotalid"></div>
-      <div class="fraistotal" id="fraislivid"></div>
-			<div class="fraistotal mbot" id="totalid"></div>
-			<div class="fpay" id="payid"></div>
-      <br>
+	   	<div id="pan">
+	     	<div id="methodid"></div>
+	      <div id="tableid"></div>
+	      <div id="commandediv"></div>
+	      <div class="fraistotal" id="sstotalid"></div>
+	      <div class="fraistotal" id="fraislivid"></div>
+				<div class="fraistotal mbot" id="totalid"></div>
+				<div class="fpay" id="payid"></div>
+	      <br>
+	    </div>
     </div>
 
-    </div>
-			<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $idcpp;?>&currency=EUR"> // Replace YOUR_CLIENT_ID with your sandbox client ID
-    	</script>
-      <!-- Display a payment form -->
-      <script type="text/javascript">
-      	var mnysys = "<?php echo $mnysys;?>";
-        if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
-      		if (mnysys == "STRIPE")
-      		{
-      			document.write('<div id="payementfooter" style="height:225px">');
-	          document.write('<form class="frm" id="payment-form">');
-	          document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
-	          document.write('<button class="btn" id="submit">');
-	          document.write('<div class="spinner hidden" id="spinner"></div>');
-	          document.write('<span id="button-text">Payer</span>');
-	          document.write('</button>');
-	          document.write('<div class="intercalaire">');
-	          document.write('<p id="card-error" role="alert"></p>');
-	          document.write('<p class="result-message hidden">');
-	          document.write('Paiement effectué<!--, Voyez le résultat dans votre');
-	          document.write('<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.');
-	          document.write('</p>');
-	          document.write('</div>');
-	          document.write('</form>');
-       		}
-       		else if (mnysys == "PAYPAL")
-       		{
-       			document.write('<div id="payementfooter" style="height:140px">');
-        		document.write('<div id="paypal-button-container"></div>');
-        	}
-          document.write('<div class="solobn">');
-          document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
-					document.write('Revenir sur les informations');
-        	document.write('</button>');
-        	document.write('</div>');
-       		document.write('</div>');
-      	} else {
-        	document.write('<div id="footer">');
-          document.write('<div class="grpbn">');
-          document.write('<button class="navindic" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
-        	document.write('Retour');
-        	document.write('</button>');
-          document.write('<button class="navindic" id="validcarte" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
-          document.write('Valider');
+		<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $idcpp;?>&currency=EUR"> // Replace YOUR_CLIENT_ID with your sandbox client ID
+   	</script>
+    <!-- Display a payment form -->
+    <script type="text/javascript">
+    	var mnysys = "<?php echo $mnysys;?>";
+      if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
+    		if (mnysys == "STRIPE")
+    		{
+    			document.write('<div id="payementfooter" style="height:225px">');
+          document.write('<form class="frm" id="payment-form">');
+          document.write('<div id="card-element"><!--Stripe.js injects the Card Element--></div>');
+          document.write('<button class="btn" id="submit">');
+          document.write('<div class="spinner hidden" id="spinner"></div>');
+          document.write('<span id="button-text">Payer</span>');
           document.write('</button>');
+          document.write('<div class="intercalaire">');
+          document.write('<p id="card-error" role="alert"></p>');
+          document.write('<p class="result-message hidden">');
+          document.write('Paiement effectué<!--, Voyez le résultat dans votre');
+          document.write('<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.');
+          document.write('</p>');
           document.write('</div>');
-          document.write('</div>');
-        }
-      </script>
-	    <script>
+          document.write('</form>');
+     		}
+     		else if (mnysys == "PAYPAL")
+     		{
+     			document.write('<div id="payementfooter" style="height:140px">');
+      		document.write('<div id="paypal-button-container"></div>');
+      	}
+        document.write('<div class="solobn">');
+        document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+				document.write('Revenir sur les informations');
+      	document.write('</button>');
+      	document.write('</div>');
+     		document.write('</div>');
+    	} else {
+      	document.write('<div id="footer">');
+        document.write('<div class="grpbn">');
+        document.write('<button class="navindic" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+      	document.write('Retour');
+      	document.write('</button>');
+        document.write('<button class="navindic" id="validcarte" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+        document.write('Valider');
+        document.write('</button>');
+        document.write('</div>');
+        document.write('</div>');
+      }
+    </script>
+	  <script>
 	    if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
 	    	if (mnysys == "PAYPAL") 
 	    	{
-		      paypal.Buttons({
-		      	enableStandardCardFields: false,
- 			      /*funding:
-    				{
-		    			disallowed: [ paypal.FUNDING.CREDIT ]
-						},*/
-						style: {
-							layout: 'horizontal',
- 							tagline: 'false'
-						},		      	
-		      	createOrder: function(data, actions) {
-					    return actions.order.create({
-					    	enableStandardCardFields: false,
-					      intent: 'CAPTURE',
-					      payer: {
-					        name: {
-					          given_name: sessionStorage.getItem("nom"),
-					          surname: sessionStorage.getItem("prenom")
-					        },
-					        address: {
-					          address_line_1: sessionStorage.getItem("adresse1"),
-					          address_line_2: sessionStorage.getItem("adresse2"),
-					          admin_area_2: sessionStorage.getItem("ville"),
-					          admin_area_1: '',
-					          postal_code: sessionStorage.getItem("codepostal"),
-					          country_code: 'FR'
-					        },
-					        //email_address: "",
-					        phone: {
-					          phone_type: "MOBILE",
-					          phone_number: {
-					            national_number: sessionStorage.getItem("telephone")
-					          }
-					        }
-					      },
-				      	purchase_units: [
-					        {
-					          amount: {
-					            value: (parseFloat(sessionStorage.getItem("sstotal")) + parseFloat(sessionStorage.getItem("fraislivr"))).toString(),
-					            currency_code: 'EUR'
-					          },
-					          shipping: {
-					            address: {
+	    		if (sessionStorage.getItem("choicel")=="LIVRER")
+	    		{
+			      paypal.Buttons({
+			      	enableStandardCardFields: false,
+							style: {
+								layout: 'horizontal',
+	 							tagline: 'false'
+							},		      	
+			      	createOrder: function(data, actions) {
+						    return actions.order.create({
+						    	enableStandardCardFields: false,
+						      intent: 'CAPTURE',
+						      payer: {
+						        name: {
+						          given_name: sessionStorage.getItem("nom"),
+						          surname: sessionStorage.getItem("prenom")
+						        },
+						        address: {
 						          address_line_1: sessionStorage.getItem("adresse1"),
-					  	        address_line_2: sessionStorage.getItem("adresse2"),
-					    	      admin_area_2: sessionStorage.getItem("ville"),
-					      	    admin_area_1: '',
-					        	  postal_code: sessionStorage.getItem("codepostal"),
-					          	country_code: 'FR'
-					            }
-					          },
-					          experience: {
-							        input_fields: {
-					    		      no_shipping: 1
-					        		}
-					      		}
-					        }
-				      	],
-				    	});
-				  	},
-				  	onApprove: function(data, actions) {
-		      	// This function captures the funds from the transaction.
-			 	    	return actions.order.capture().then(function(details) {
-	    	    		// This function shows a transaction success message to your buyer.
-	        			document.location.href = 'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer");
-			      	});
-			    	}
-					}).render('#paypal-button-container'); // Display payment options on your web page
+						          address_line_2: sessionStorage.getItem("adresse2"),
+						          admin_area_2: sessionStorage.getItem("ville"),
+						          admin_area_1: '',
+						          postal_code: sessionStorage.getItem("codepostal"),
+						          country_code: 'FR'
+						        },
+						        //email_address: "",
+						        phone: {
+						          phone_type: "MOBILE",
+						          phone_number: {
+						            national_number: sessionStorage.getItem("telephone")
+						          }
+						        }
+						      },
+					      	purchase_units: [
+						        {
+						          amount: {
+						            value: (parseFloat(sessionStorage.getItem("sstotal")) + parseFloat(sessionStorage.getItem("fraislivr"))).toString(),
+						            currency_code: 'EUR'
+						          },
+						          shipping: {
+						            address: {
+							          address_line_1: sessionStorage.getItem("adresse1"),
+						  	        address_line_2: sessionStorage.getItem("adresse2"),
+						    	      admin_area_2: sessionStorage.getItem("ville"),
+						      	    admin_area_1: '',
+						        	  postal_code: sessionStorage.getItem("codepostal"),
+						          	country_code: 'FR'
+						            }
+						          },
+						          experience: {
+								        input_fields: {
+						    		      no_shipping: 1
+						        		}
+						      		}
+						        }
+					      	],
+					    	});
+					  	},
+					  	onApprove: function(data, actions) {
+			      	// This function captures the funds from the transaction.
+				 	    	return actions.order.capture().then(function(details) {
+		    	    		// This function shows a transaction success message to your buyer.
+		        			document.location.href = 'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer");
+				      	});
+				    	}
+						}).render('#paypal-button-container'); // Display payment options on your web page
+					}
+					else if (sessionStorage.getItem("choicel")=="EMPORTER")
+					{
+			      paypal.Buttons({
+			      	enableStandardCardFields: false,
+							style: {
+								layout: 'horizontal',
+	 							tagline: 'false'
+							},		      	
+			      	createOrder: function(data, actions) {
+						    return actions.order.create({
+						    	enableStandardCardFields: false,
+						      intent: 'CAPTURE',
+						      payer: {
+						        name: {
+						          given_name: sessionStorage.getItem("nom"),
+						          surname: sessionStorage.getItem("prenom")
+						        },
+						        //email_address: "",
+						        phone: {
+						          phone_type: "MOBILE",
+						          phone_number: {
+						            national_number: sessionStorage.getItem("telephone")
+						          }
+						        }
+						      },
+					      	purchase_units: [
+						        {
+						          amount: {
+						            value: sessionStorage.getItem("sstotal"),
+						            currency_code: 'EUR'
+						          },
+						          experience: {
+								        input_fields: {
+						    		      no_shipping: 1
+						        		}
+						      		}
+						        }
+					      	],
+					    	});
+					  	},
+					  	onApprove: function(data, actions) {
+			      	// This function captures the funds from the transaction.
+				 	    	return actions.order.capture().then(function(details) {
+		    	    		// This function shows a transaction success message to your buyer.
+		        			document.location.href = 'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer");
+				      	});
+				    	}
+						}).render('#paypal-button-container'); // Display payment options on your web page
+					}
 				}
 			}
-	    </script>
-      
-      
-    </div>
+	  </script>
     <script type="text/javascript">
       var cart = JSON.parse(sessionStorage.getItem("commande"));
       var str = "";
@@ -264,34 +309,35 @@
       if (method == 1)
       {
         method_txt = "Consomation sur place";
-        document.getElementById("methodid").innerHTML = method_txt + '<br>';
+        document.getElementById("methodid").innerHTML = "<p class='pres'>" + method_txt + "</p>";
       } 
 /*      if (method >= 2) 
         method_txt = "Vente à emporter ou à livrer";*/
 
       if (method == 1) 
       {
-        document.getElementById("tableid").innerHTML = "Table numéro " + sessionStorage.getItem("table") + "<br>";
+        document.getElementById("tableid").innerHTML = "<p class='pres'>Table numéro " + sessionStorage.getItem("table") + "</p>";
       }      
       document.getElementById("commandediv").innerHTML = str;
+      var frliv = 0;
+      if (method >= 2) 
+				frliv = parseFloat(sessionStorage.getItem("fraislivr"));
+			var tota = frliv + somme;      
       
-			var frliv = parseFloat(sessionStorage.getItem("fraislivr"));
-			var tota = parseFloat(sessionStorage.getItem("fraislivr")) + somme;      
-      
-			if (sessionStorage.getItem("choicel") == "LIVRER")
+			if ((sessionStorage.getItem("choicel") == "LIVRER") && (method >= 2))
 			{
 	      document.getElementById("sstotalid").innerHTML = "<p class='fleft'>Sous-total : </p><p class='fright'>" + somme.toFixed(2) + " € </p><br>";
 	 	    document.getElementById("fraislivid").innerHTML = "<p class='fleft'>Frais de livraison : </p><p class='fright'>" + frliv.toFixed(2) + " € </p><br>";
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + tota.toFixed(2) + " € </p><br>";
 
 			}
-			else if (sessionStorage.getItem("choicel") == "EMPORTER") 
+			else if ((sessionStorage.getItem("choicel") == "EMPORTER") || (method == 1))
 			{
 				document.getElementById("sstotalid").style.display = "none";
 				document.getElementById("fraislivid").style.display = "none";
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + somme.toFixed(2) + " € </p><br>";
 			}      
-			if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT"))
+			if ((sessionStorage.getItem("method")>=2) && (sessionStorage.getItem("choice")=="COMPTANT"))
 				document.getElementById("payid").innerHTML = "<p class='mntpay'>MONTANT &Agrave; PAYER : " + tota.toFixed(2) + " € </p>";
 			else {
 				document.getElementById("payid").style.display = "none";

@@ -77,10 +77,9 @@
       $logo = GetValeurParam("master_logo", $conn, $customid);     
       echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
       
-      echo '<div id="grpinfo">';
-      
       if ($method >= 2)
-      {
+      {      
+      	echo '<div id="grpinfo">';
         echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
         echo '<div class="underlined">';
         echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
@@ -96,9 +95,7 @@
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
         echo '</div>';
-      }
-      if ($method >= 2)
-      {
+
         $chm = GetValeurParam("Choix_Method", $conn, $customid, "TOUS");         
        
         $cmemp = GetValeurParam("CM_Emporter", $conn, $customid, "Retrait Standard"); 
@@ -139,40 +136,37 @@
         }  
         echo '</div>';
         echo '</div>';
-      }
 
-      echo '<div id="adrlivr">';
-      echo '<div class="underlined">';
-      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
-      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
-      echo '</div>';
-      echo '<div class="underlined">';
-      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
-      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
-      echo '</div>';
-      echo '<div class="underlined">';
-      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
-      if ($verifcp > 0) {
-        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
-          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
-      } else {
-        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
-          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
-      }
-      echo '</div>';
-      echo '<div class="underlined">';
-      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
-      echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
-      echo '</div>';
-      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
-      echo '</div>';
-        
-      echo '</div>';
-      echo '</form>';
-      echo '<hr class="separation">';
+	      echo '<div id="adrlivr">';
+	      echo '<div class="underlined">';
+	      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
+	      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
+	      echo '</div>';
+	      echo '<div class="underlined">';
+	      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
+	      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
+	      echo '</div>';
+	      echo '<div class="underlined">';
+	      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
+	      if ($verifcp > 0) {
+	        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+	          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
+	      } else {
+	        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+	          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
+	      }
+	      echo '</div>';
+	      echo '<div class="underlined">';
+	      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
+	      echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
+	      echo '</div>';
+	      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
+	      echo '</div>';
+	        
+	      echo '</div>';
+	      echo '</form>';
+	      echo '<hr class="separation">';
    
-      if  ($method >= 2)
-      {
         $chp = GetValeurParam("Choix_Paiement", $conn, $customid, "TOUS");         
        
         $cmpt = GetValeurParam("MP_Comptant", $conn, $customid, "Prochain écran par CB"); 
@@ -225,15 +219,15 @@
         if  ($method > 0)
         {
         	echo '<div class="grpbn">';
-          echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">';
-          echo '<input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();';
-          echo 'window.location.href = \'carte.php?method=';
-          echo $method;
-          echo '&table=';
-          echo $table;
-          echo '&customer=';
-          echo $customer;
-          echo '\'"';
+         	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">';
+         	echo '<input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();';
+         	echo 'window.location.href = \'carte.php?method=';
+         	echo $method;
+         	echo '&table=';
+         	echo $table;
+         	echo '&customer=';
+         	echo $customer;
+         	echo '\'">';
           echo '</div>';
         }
       ?>
@@ -317,6 +311,7 @@
     </script>
     <script type="text/javascript" >
       // Affiche la page avec les contrôles par defaut  
+      sessionStorage.setItem("fraislivr", 0);
       var verifcp = document.getElementById("main").getAttribute("data-verifcp");
       if (sessionStorage.getItem("method")>=2)
       {
@@ -444,12 +439,13 @@
           }
           else
             sessionStorage.setItem("choicel", document.getElementById("model").getAttribute("data-permis"));
-        }
-        sessionStorage.setItem("infosup", document.getElementById("infosup").value);
-        if (sessionStorage.getItem("choicel") == "LIVRER")
-          getFraisLivraison(sessionStorage.getItem("sstotal"));
-        else
-        	removeFraisLivraison();
+
+	        sessionStorage.setItem("infosup", document.getElementById("infosup").value);
+	        if (sessionStorage.getItem("choicel") == "LIVRER")
+	          getFraisLivraison(sessionStorage.getItem("sstotal"));
+	        else
+  	      	removeFraisLivraison();
+  	    }
       }
     </script>
     <script type="text/javascript" >
@@ -459,21 +455,23 @@
         var failed = false;
         
         bakInfo();        
-        
-        if (sessionStorage.getItem("choicel") == "LIVRER") {
-          if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + document.getElementById("main").getAttribute("data-adresse"));
-          }
-        }
-        if ((sessionStorage.getItem("choice") == "NONE") && (failed == false)) {
-            alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
-            failed = true;
-        }
-        if ((sessionStorage.getItem("choicel") == "NONE") && (failed == false)) {
-            alert("Vous n\'avez pas choisi comment la vente aller se dérouler, impossible de continuer");
-            failed = true;
-        }
-        
+        if (sessionStorage.getItem("method")>=2)
+        {
+	        if (sessionStorage.getItem("choicel") == "LIVRER") {
+	          if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
+	            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + document.getElementById("main").getAttribute("data-adresse"));
+	          }
+	        }
+	        if ((sessionStorage.getItem("choice") == "NONE") && (failed == false)) {
+	            alert("Vous n\'avez pas choisi comment régler la transaction, impossible de continuer");
+	            failed = true;
+	        }
+	        if ((sessionStorage.getItem("choicel") == "NONE") && (failed == false)) {
+	            alert("Vous n\'avez pas choisi comment la vente aller se dérouler, impossible de continuer");
+	            failed = true;
+	        }
+	      }
+	      
         for (var j=0; j < document.forms["mainform"].length; j++)
         {
           if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false))
@@ -498,7 +496,7 @@
       function memcgv() 
       {
         var valcgv = document.getElementById("chkcgv").checked;
-        sessionStorage.setItem("cgv", valcgv);      	
+        sessionStorage.setItem("cgv", valcgv);
       }
     </script>
   </body>
