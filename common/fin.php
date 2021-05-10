@@ -62,7 +62,7 @@
 
   <body>
   	<div id="header">
-		<img id="mainlogo" src="img/logo-pratic-boutic.png">
+			<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
 		</div>		
 
     <div id="finmain">
@@ -100,7 +100,10 @@
       }
     </script>
     <script type="text/javascript">
-      reachBottom();
+	    window.onload=function()
+	   	{
+	      reachBottom();
+	    }
     </script>
     <script type="text/javascript">
       window.addEventListener("resize", function() {

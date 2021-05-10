@@ -77,138 +77,148 @@
       $logo = GetValeurParam("master_logo", $conn, $customid);     
       echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
       
-      if ($method >= 2)
+      if ($method > 0)
       {      
       	echo '<div id="grpinfo">';
         echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
-        echo '<div class="underlined">';
-        echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
-        echo '<input class="cont" type="string" id="lenom" name="nom" required>';
-        echo '</div>';
-        echo '<div class="underlined">';            
-        echo '<label class="lcont">Pr&eacute;nom&nbsp;:&nbsp;</label>';
-        echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
-        echo '</div>';
+        if ($method >= 2)
+	      {      
+	        echo '<div class="underlined">';
+	        echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
+	        echo '<input class="cont" type="string" id="lenom" name="nom" required>';
+	        echo '</div>';
+	        echo '<div class="underlined">';            
+	        echo '<label class="lcont">Pr&eacute;nom&nbsp;:&nbsp;</label>';
+	        echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
+        	echo '</div>';
+      	}
         echo '<div class="underlined">';
         echo '<label class="lcont">T&eacute;l.&nbsp;Portable&nbsp;:&nbsp;</label>';
         echo '<input class="cont" type="string" id="letel" name="tel" required 
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
         echo '</div>';
+        if ($method >= 2)
+	      {      
+	        $chm = GetValeurParam("Choix_Method", $conn, $customid, "TOUS");         
+	       
+	        $cmemp = GetValeurParam("CM_Emporter", $conn, $customid, "Retrait Standard"); 
+	    
+	        $cmlivr = GetValeurParam("CM_Livrer", $conn, $customid, "Livraison Standard");
+	
+	        echo '<div class="panneau" id="met">';
+	        echo '<div id="model" data-permis="' . $chm . '">';
+	        //echo 'Retrait :<br>';
+	        if ($chm == "TOUS")
+	        { 
+	          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">';
+	          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
+	          echo '<div class="spcpandetail"></div>';
+	          echo '<label class="pandetail">';
+	          echo $cmemp; 
+	          echo '</label><br>';
+	          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">';
+	          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
+	          echo '<div class="spcpandetail"></div>';
+	          echo '<label class="pandetail">';
+	          echo $cmlivr;
+	          echo '</label><br>';
+	        }
+	        if ($chm == "EMPORTER")
+	        {
+	          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
+	          echo '<label class="pandetail">';
+	          echo $cmemp; 
+	          echo '</label><br>';
+	        }  
+	        if ($chm == "LIVRER")
+	        {
+	          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
+	          echo '<label class="pandetail">';
+	          echo $cmlivr;
+	          echo '</label><br>';
+	        }  
+	        echo '</div>';
+	        echo '</div>';
+	
+		      echo '<div id="adrlivr">';
+		      echo '<div class="underlined">';
+		      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
+		      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
+		      echo '</div>';
+		      echo '<div class="underlined">';
+		      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
+		      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
+		      echo '</div>';
+		      echo '<div class="underlined">';
+		      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
+		      if ($verifcp > 0) {
+		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+		          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
+		      } else {
+		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+		          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
+		      }
+		      echo '</div>';
+		      echo '<div class="underlined">';
+		      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
+		      echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
+		      echo '</div>';
+		      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
+		      echo '</div>';
+		    }
+		        
+		    echo '</div>';
 
-        $chm = GetValeurParam("Choix_Method", $conn, $customid, "TOUS");         
-       
-        $cmemp = GetValeurParam("CM_Emporter", $conn, $customid, "Retrait Standard"); 
-    
-        $cmlivr = GetValeurParam("CM_Livrer", $conn, $customid, "Livraison Standard");
-
-        echo '<div class="panneau" id="met">';
-        echo '<div id="model" data-permis="' . $chm . '">';
-        //echo 'Retrait :<br>';
-        if ($chm == "TOUS")
-        { 
-          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">';
-          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
-          echo '<div class="spcpandetail"></div>';
-          echo '<label class="pandetail">';
-          echo $cmemp; 
-          echo '</label><br>';
-          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">';
-          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
-          echo '<div class="spcpandetail"></div>';
-          echo '<label class="pandetail">';
-          echo $cmlivr;
-          echo '</label><br>';
-        }
-        if ($chm == "EMPORTER")
-        {
-          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
-          echo '<label class="pandetail">';
-          echo $cmemp; 
-          echo '</label><br>';
-        }  
-        if ($chm == "LIVRER")
-        {
-          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
-          echo '<label class="pandetail">';
-          echo $cmlivr;
-          echo '</label><br>';
-        }  
-        echo '</div>';
-        echo '</div>';
-
-	      echo '<div id="adrlivr">';
-	      echo '<div class="underlined">';
-	      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
-	      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
-	      echo '</div>';
-	      echo '<div class="underlined">';
-	      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
-	      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
-	      echo '</div>';
-	      echo '<div class="underlined">';
-	      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
-	      if ($verifcp > 0) {
-	        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
-	          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
-	      } else {
-	        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
-	          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
-	      }
-	      echo '</div>';
-	      echo '<div class="underlined">';
-	      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
-	      echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
-	      echo '</div>';
-	      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
-	      echo '</div>';
-	        
-	      echo '</div>';
-	      echo '</form>';
-	      echo '<hr class="separation">';
-   
-        $chp = GetValeurParam("Choix_Paiement", $conn, $customid, "TOUS");         
-       
-        $cmpt = GetValeurParam("MP_Comptant", $conn, $customid, "Prochain écran par CB"); 
-    
-        $livr = GetValeurParam("MP_Livraison", $conn, $customid, "Paiement à la livraison");
-
-        echo '<div class="panneau" id="paye">';
-        echo '<div id="modep" data-permis="' . $chp . '">';
-        if ($chp == "TOUS")
-        { 
-          echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
-          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
-          echo '<div class="spcpandetail"></div>';
-          echo '<label class="pandetail">';
-          echo $cmpt; 
-          echo '</label><br>';
-          echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
-          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
-          echo '<div class="spcpandetail"></div>';
-          echo '<label class="pandetail">';
-          echo $livr;
-          echo '</label><br>';
-        }
-        if ($chp == "COMPTANT")
-        {
-          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
-          echo '<label class="pandetail">';
-          echo $cmpt; 
-          echo '</label><br>';
-        }  
-        if ($chp == "LIVRAISON")
-        {
-          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
-          echo '<label class="pandetail">';
-          echo $livr;
-          echo '</label><br>';
-        }  
-        echo '</div>';
-        echo '</div>';
+		    echo '</form>';
+		    
+		    if ($method >= 2)
+		    {
+		      echo '<hr class="separation">';
+	   
+	        $chp = GetValeurParam("Choix_Paiement", $conn, $customid, "TOUS");         
+	       
+	        $cmpt = GetValeurParam("MP_Comptant", $conn, $customid, "Prochain écran par CB"); 
+	    
+	        $livr = GetValeurParam("MP_Livraison", $conn, $customid, "Paiement à la livraison");
+	
+	        echo '<div class="panneau" id="paye">';
+	        echo '<div id="modep" data-permis="' . $chp . '">';
+	        if ($chp == "TOUS")
+	        { 
+	          echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
+	          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
+	          echo '<div class="spcpandetail"></div>';
+	          echo '<label class="pandetail">';
+	          echo $cmpt; 
+	          echo '</label><br>';
+	          echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
+	          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
+	          echo '<div class="spcpandetail"></div>';
+	          echo '<label class="pandetail">';
+	          echo $livr;
+	          echo '</label><br>';
+	        }
+	        if ($chp == "COMPTANT")
+	        {
+	          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
+	          echo '<label class="pandetail">';
+	          echo $cmpt; 
+	          echo '</label><br>';
+	        }  
+	        if ($chp == "LIVRAISON")
+	        {
+	          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
+	          echo '<label class="pandetail">';
+	          echo $livr;
+	          echo '</label><br>';
+	        }
+		    	echo '</div>';
+		    	echo '</div>';
+	      }  
       }
       echo '<div class="panneau" id="cgv">';
-      echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()"">';
+      echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()">';
       echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
       echo '</div>';
     ?>
@@ -313,11 +323,11 @@
       // Affiche la page avec les contrôles par defaut  
       sessionStorage.setItem("fraislivr", 0);
       var verifcp = document.getElementById("main").getAttribute("data-verifcp");
+      document.getElementById("letel").value = sessionStorage.getItem("telephone");
       if (sessionStorage.getItem("method")>=2)
       {
         document.getElementById("lenom").value = sessionStorage.getItem("nom");    
         document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
-        document.getElementById("letel").value = sessionStorage.getItem("telephone");
         if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
         {
           if (sessionStorage.getItem("choice") == "COMPTANT")
@@ -397,7 +407,10 @@
       }
     </script>
     <script type="text/javascript">
-      reachBottom();
+	    window.onload=function()
+    	{
+      	reachBottom();
+      }
     </script>
     <script type="text/javascript">
       window.addEventListener("resize", function() {
@@ -408,11 +421,11 @@
     	// Sauvegarde les valeurs de la pages
       function bakInfo()
       {
+      	sessionStorage.setItem("telephone", document.getElementById("letel").value);
         if (sessionStorage.getItem("method")>=2)
         {
           sessionStorage.setItem("nom", document.getElementById("lenom").value);
           sessionStorage.setItem("prenom", document.getElementById("leprenom").value);
-          sessionStorage.setItem("telephone", document.getElementById("letel").value);
           sessionStorage.setItem("adresse1", document.getElementById("ladresse1").value);
           sessionStorage.setItem("adresse2", document.getElementById("ladresse2").value);
           sessionStorage.setItem("codepostal", document.getElementById("lecp").value);
@@ -440,12 +453,12 @@
           else
             sessionStorage.setItem("choicel", document.getElementById("model").getAttribute("data-permis"));
 
-	        sessionStorage.setItem("infosup", document.getElementById("infosup").value);
 	        if (sessionStorage.getItem("choicel") == "LIVRER")
 	          getFraisLivraison(sessionStorage.getItem("sstotal"));
 	        else
   	      	removeFraisLivraison();
   	    }
+        sessionStorage.setItem("infosup", document.getElementById("infosup").value);
       }
     </script>
     <script type="text/javascript" >

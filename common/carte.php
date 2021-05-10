@@ -49,7 +49,7 @@
     $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
 		
 		echo '<div id="header">';
-		echo '<img id="mainlogo" src="img/logo-pratic-boutic.png">';
+		echo '<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>';
 		echo '</div>';		
 		
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'" data-customer="' . $customer .'">';
@@ -64,7 +64,7 @@
     echo '">';
     
     //echo "Connected successfully";
-    $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid;
+    $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' ORDER BY catid';
 
 		if ($result = $conn->query($query)) {
     		while ($row = $result->fetch_row()) {
@@ -74,7 +74,7 @@
     				echo html_entity_decode($row[1]);
     				echo '</button>';
     				echo '<div class="panel">';
-		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] ;
+		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] . ' ORDER BY artid';
 		      	if ($result2 = $conn->query($query2)) 
 	  				{
 	  				  while ($row2 = $result2->fetch_row()) 
@@ -195,7 +195,7 @@
 				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '">';
 				        }
 				        
-                $query3 = 'SELECT groupeopt.grpoptid, groupeopt.nom, groupeopt.multiple FROM relgrpoptart, groupeopt WHERE relgrpoptart.customid = ' . $customid . ' AND groupeopt.customid = ' . $customid . ' AND relgrpoptart.visible = 1 AND groupeopt.visible = 1 AND artid = ' . $row2[0] . ' AND relgrpoptart.grpoptid = groupeopt.grpoptid';
+                $query3 = 'SELECT groupeopt.grpoptid, groupeopt.nom, groupeopt.multiple FROM relgrpoptart, groupeopt WHERE relgrpoptart.customid = ' . $customid . ' AND groupeopt.customid = ' . $customid . ' AND relgrpoptart.visible = 1 AND groupeopt.visible = 1 AND artid = ' . $row2[0] . ' AND relgrpoptart.grpoptid = groupeopt.grpoptid ORDER BY groupeopt.grpoptid';
   					    if ($result3 = $conn->query($query3)) 
 	  				    {
     					    while ($row3 = $result3->fetch_row()) 
@@ -215,7 +215,7 @@
                       echo '<legend>' . $row3[1] . ' (une seul option possible)</legend>';
                     else if ($row3[2] == 1)
                       echo '<legend>' . $row3[1] . ' (plusieurs choix possible)</legend>';*/
-     					      $query4 = 'SELECT optid, nom, surcout FROM `option` WHERE customid = ' . $customid . ' AND visible = 1 AND grpoptid = ' . $row3[0];
+     					      $query4 = 'SELECT optid, nom, surcout FROM `option` WHERE customid = ' . $customid . ' AND visible = 1 AND grpoptid = ' . $row3[0] . ' ORDER BY optid';
        					    if ($result4 = $conn->query($query4)) 
          				    {
          				    	$init = 0;
@@ -262,7 +262,7 @@
 	   		$result->close();
 			}
 			// Affichage des Frais Fixe
-    	$query3 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 1';
+    	$query3 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 1 ORDER BY artid LIMIT 1';
 			if ($result3 = $conn->query($query3)) 
 			{
 				while ($row3 = $result3->fetch_row()) 
@@ -865,6 +865,8 @@
     <script type="text/javascript" >
     window.onload=function()
     {
+			reachBottom();    	
+    	
       var artcel = document.getElementsByClassName("artcel");
       var artqt = document.getElementsByClassName("artqt");
 

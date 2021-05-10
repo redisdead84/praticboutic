@@ -358,7 +358,10 @@
       }
     </script>
     <script type="text/javascript">
-      reachBottom();
+	    window.onload=function()
+    	{
+		    reachBottom();
+		  }
     </script>
     <script type="text/javascript">
       window.addEventListener("resize", function() {

@@ -106,6 +106,9 @@ try
   {
     $text = $text . '<h2>Consomation sur place<br><h2>';
     $text = $text . '<h3>Commande table numéro ' . $json_obj->table . '<br></h3>';
+    $text = $text . '<h3>Téléphone: <br></h3>';
+    $text = $text . '<h3>' . $json_obj->telephone . '<br></h3>';
+    
   }
   /*if ($json_obj->method == '2') 
   {
