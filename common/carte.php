@@ -1,9 +1,8 @@
 <?php
   session_start();
-  $customer = $_GET['customer'];
+  $customer = htmlspecialchars($_GET['customer']);
   $_SESSION[$customer . '_mail'] = "non";
   
-  include "../" . $customer . "/config/custom_cfg.php";
   include "config/common_cfg.php";
   include "param.php";
 ?>
@@ -26,8 +25,8 @@
  
     <?php
 
-    $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
-    $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
+    $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
+    $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
 
     $conn = new mysqli($servername, $username, $password, $bdd);
     if ($conn->connect_error) 

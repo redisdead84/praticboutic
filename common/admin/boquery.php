@@ -279,8 +279,9 @@ try {
 			while ($row = $result->fetch_row()) 
 		  {	
 		  	$arm = array();
-				array_push($arm, $row[0]);
-		  	array_push($arm, $row[1]);
+		  	for($j=0;$j<count($row);$j++)
+					array_push($arm, $row[$j]);
+		  	//array_push($arm, $row[1]);
 		  	array_push($arr, $arm);
 
 	    }						

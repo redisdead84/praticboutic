@@ -11,9 +11,8 @@ try {
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
   
-  $customer = $json_obj->customer;
+  $customer = htmlspecialchars($json_obj->customer);
 
-	include "../" . $customer . "/config/custom_cfg.php";
 	include "config/common_cfg.php";
 	include "param.php";
 	

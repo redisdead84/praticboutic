@@ -1,9 +1,8 @@
 <?php
 
   session_start();
-  $customer = $_GET['customer'];
+  $customer = htmlspecialchars($_GET['customer']);
   
-  include "../" . $customer . "/config/custom_cfg.php";
   include "config/common_cfg.php";
   include "param.php";
 
@@ -23,8 +22,8 @@
    
   $adr = GetValeurParam("ADRESSE",$conn, $customid);
 
-  $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
-  $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
+  $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
+  $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
 
   
   if (empty($_SESSION[$customer . '_mail']) == TRUE)
@@ -66,7 +65,7 @@
 			
       echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '" data-verifcp="' . $verifcp . '" >';
       
-      echo '<form name="mainform" autocomplete="off" method="post" action="paiement.php?method=';
+      echo '<form name="mainform" autocomplete="on" method="post" action="paiement.php?method=';
       echo $method ;
       echo '&table=';
       echo $table ;
@@ -94,7 +93,7 @@
       	}
         echo '<div class="underlined">';
         echo '<label class="lcont">T&eacute;l.&nbsp;Portable&nbsp;:&nbsp;</label>';
-        echo '<input class="cont" type="string" id="letel" name="tel" required 
+        echo '<input class="cont" type="string" id="letel" name="tel" autocomplete="tel" off" required 
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
         echo '</div>';
@@ -473,6 +472,7 @@
 	        if (sessionStorage.getItem("choicel") == "LIVRER") {
 	          if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
 	            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + document.getElementById("main").getAttribute("data-adresse"));
+	            failed = true;
 	          }
 	        }
 	        if ((sessionStorage.getItem("choice") == "NONE") && (failed == false)) {

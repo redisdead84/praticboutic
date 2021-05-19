@@ -20,14 +20,13 @@ try
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
 
-	$customer = $json_obj->customer;
+	$customer = htmlspecialchars($json_obj->customer);
 	
-	include "../" . $customer . "/config/custom_cfg.php";
 	include "config/common_cfg.php";
 	include "param.php";
 		
-	$method = isset($_GET ['method']) ? $_GET ['method'] : '0';
-	$table = isset($_GET ['table']) ? $_GET ['table'] : '0';
+	$method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
+	$table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
 	
 	if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
 	{
@@ -126,11 +125,11 @@ try
     if (strcmp($json_obj->paiement, "LIVRAISON") == 0)
       $text = $text . '<h3>Paiement à la livraison<br></h3>';
     $text = $text . '<h3>Client: <br></h3>';
-    $text = $text . '<h3>' . $json_obj->nom . '<br>' . $json_obj->prenom . '<br>' . $json_obj->telephone . '<br></h3>';
+    $text = $text . '<h3>' . htmlspecialchars($json_obj->nom) . '<br>' . htmlspecialchars($json_obj->prenom) . '<br>' . $json_obj->telephone . '<br></h3>';
     if (strcmp($json_obj->vente, "LIVRER") == 0)
     {   
       $text = $text . '<h3>Adresse de livraison: <br></h3>';
-      $text = $text . '<h3>' . $json_obj->adresse1 . '<br>' . $json_obj->adresse2 . '<br>' . $json_obj->codepostal . '<br>' . $json_obj->ville . '<br></h3>';
+      $text = $text . '<h3>' . htmlspecialchars($json_obj->adresse1) . '<br>' . htmlspecialchars($json_obj->adresse2) . '<br>' . $json_obj->codepostal . '<br>' . htmlspecialchars($json_obj->ville) . '<br></h3>';
     }
   }
   
@@ -143,8 +142,8 @@ try
   $text = $text . '<h3>Commande: <br></h3>';
   foreach( $json_obj->items as $value) 
 	{
-			$text = $text . '<h3>' . $value->name . ' : ' . $value->qt . ' x ' . number_format($value->prix, 2, ',', ' ') . $value->unite . '<br>' . $value->opts . '</h3>';
-			$text = $text . '<a><i>' . nl2br(stripslashes(strip_tags($value->txta))) . '</i></a>';
+			$text = $text . '<h3>' . htmlspecialchars($value->name) . ' : ' . $value->qt . ' x ' . number_format($value->prix, 2, ',', ' ') . htmlspecialchars($value->unite) . '<br>' . $value->opts . '</h3>';
+			$text = $text . '<a><i>' . nl2br(stripslashes(strip_tags(htmlspecialchars($value->txta)))) . '</i></a>';
 			$val = $val + $value->qt;
 			$sum = $sum + $value->prix * $value->qt;
 	}
@@ -198,9 +197,9 @@ try
 	if ($json_obj->method >= 2)
 		$methodstr = "CLICKNCOLLECT";
 	
-  $qcmdi = "INSERT INTO commande (customid, numref, nom, prenom, telephone, adresse1, adresse2, codepostal, ville, vente, paiement, sstotal, fraislivraison, total, commentaire, method, `table`, datecreation, statid ) VALUES ('$customid','$compt','$json_obj->nom',";
-  $qcmdi = $qcmdi . "'$json_obj->prenom','$json_obj->telephone','$json_obj->adresse1','$json_obj->adresse2','$json_obj->codepostal','$json_obj->ville','$json_obj->vente','$json_obj->paiement','" . strval($sum) . "','" . strval($json_obj->fraislivr) . "',";
-  $qcmdi = $qcmdi . "'" . strval(floatval($sum) + floatval($json_obj->fraislivr)) . "','" . nl2br(stripslashes(strip_tags($json_obj->infosup))) . "','$methodstr','$json_obj->table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
+  $qcmdi = "INSERT INTO commande (customid, numref, nom, prenom, telephone, adresse1, adresse2, codepostal, ville, vente, paiement, sstotal, fraislivraison, total, commentaire, method, `table`, datecreation, statid ) VALUES ('$customid','$compt','" . htmlspecialchars(addslashes($json_obj->nom)) . "',";
+  $qcmdi = $qcmdi . "'" . htmlspecialchars(addslashes($json_obj->prenom)) . "','$json_obj->telephone','" . htmlspecialchars(addslashes($json_obj->adresse1)) . "','" . htmlspecialchars(addslashes($json_obj->adresse2)) . "','$json_obj->codepostal','" . htmlspecialchars(addslashes($json_obj->ville)) . "','$json_obj->vente','$json_obj->paiement','" . strval($sum) . "','" . strval($json_obj->fraislivr) . "',";
+  $qcmdi = $qcmdi . "'" . strval(floatval($sum) + floatval($json_obj->fraislivr)) . "','" . nl2br(stripslashes(strip_tags(htmlspecialchars(addslashes($json_obj->infosup))))) . "','$methodstr','$json_obj->table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
   
   //error_log($qcmdi);			
   
@@ -234,7 +233,7 @@ try
 			$optid = $value->id;
 		
 		$qlncmdi = "INSERT INTO lignecmd (customid, cmdid, ordre, type, nom, prix, quantite, commentaire, artid, optid ) VALUES ('$customid', '$cmdid','" . $ordre . "','$value->type',";
-		$qlncmdi = $qlncmdi . "'$value->name', '$value->prix', '$value->qt', '" . nl2br(stripslashes(strip_tags($value->txta))) . "', '$artid', '$optid')"; 
+		$qlncmdi = $qlncmdi . "'" . htmlspecialchars($value->name) . "', '$value->prix', '$value->qt', '" . nl2br(stripslashes(strip_tags(htmlspecialchars($value->txta)))) . "', '$artid', '$optid')"; 
 		
 		//error_log($qlncmdi);		
 		

@@ -1,9 +1,8 @@
 <?php
 
   session_start();
-  $customer = $_GET['customer'];
+  $customer = htmlspecialchars($_GET['customer']);
   
-  include "../" . $customer . "/config/custom_cfg.php";  
   include "config/common_cfg.php";
   include "param.php";
 
@@ -13,8 +12,8 @@
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);    
 
-  $method = isset($_GET ['method']) ? $_GET ['method'] : '0';
-  $table = isset($_GET ['table']) ? $_GET ['table'] : '0';
+  $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
+  $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
   
   if (strcmp($_SESSION[$customer .'_mail'],'oui') == 0)
   {

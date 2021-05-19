@@ -61,7 +61,7 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
     // Calcul du cout de livraison
 		if(strcmp($model, "LIVRER") == 0) 
 		{
-    	$query = 'SELECT surcout FROM barlivr WHERE customid = ' . $customid . ' AND (valminin <= ' . $price . ' OR limitebasse = 0) AND (valmaxex > ' . $price . ' OR limitehaute = 0)';
+    	$query = 'SELECT surcout FROM barlivr WHERE customid = ' . $customid . ' AND valminin <= ' . $price . ' AND (valmaxex > ' . $price . ' OR valminin >= valmaxex) AND actif = 1';
 		
 			if ($result = $conn->query($query)) 
 			{
@@ -93,9 +93,8 @@ try {
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
 
-  $customer = $json_obj->boutic;	
+  $customer = htmlspecialchars($json_obj->boutic);	
   
-  include "../" . $customer . "/config/custom_cfg.php";
 	include "config/common_cfg.php";
   include "param.php";
 
@@ -118,9 +117,6 @@ try {
 	// This is your real test secret API key.
 	\Stripe\Stripe::setApiKey($skey);
 	
-	//\Stripe\Stripe::setApiKey('sk_test_51H8fNKHGzhgYgqhxXKxXLCKqGMGaHXXfQ3AedURHAd2BTaNjr07L7wLHVZP41UMNWnxRHt4R7XTdeydg0GWcUXL400QA2swxxl');
-
-
   $paymentIntent = \Stripe\PaymentIntent::create([
     'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr),
     'currency' => 'eur',

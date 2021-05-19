@@ -51,35 +51,35 @@
 	var offset = 0;  
   
 	var tables = [
-								{nom:"categorie", desc:"Catégories", cs:"nom", champs:[{nom:"catid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"article", desc:"Articles", cs:"nom", champs:[{nom:"artid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"description", desc:"Description", typ:"text", vis:"n", ordre:"0", sens:""}, 
-	                {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", vis:"n", ordre:"0", sens:""},
-	                {nom:"unite", desc:"Unité", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", vis:"o", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", vis:"n", ordre:"0", sens:""}]},
-	              {nom:"relgrpoptart", desc:"Relations groupes d'option-articles", cs:"", champs:[{nom:"relgrpoartid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"artid", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"groupeopt", desc:"Groupes d'option", cs:"nom", champs:[{nom:"grpoptid",  desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}, {nom:"multiple", desc:"Choix Multiple", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"option", desc:"Options", cs:"nom", champs:[{nom:"optid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"surcout", desc:"Surcoût", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", desc:"Groupe d'option", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"administrateur", desc:"Utilisateurs" , cs:"email", champs:[{nom:"adminid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"email", desc:"Courriel", typ:"email", vis:"o", ordre:"0", sens:""},{nom:"pass", desc:"Mot de Passe", typ:"pass", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"parametre", desc:"Paramètres", cs:"nom", champs:[{nom:"paramid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", vis:"o", ordre:"0", sens:""},{nom:"valeur", desc:"Valeur", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"commentaire", desc:"Commentaire", typ:"text", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"cpzone", desc:"Zones des livraisons", cs:"codepostal", champs:[{nom:"cpzoneid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"codepostal", desc:"Code Postal", typ:"codepostal", vis:"o", ordre:"0", sens:""},{nom:"ville", desc:"Ville", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"barlivr", desc:"Barêmes des livraisons", cs:"", champs:[{nom:"barlivrid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""},{nom:"valminin", desc:"Fourchette Basse (Incl.)", typ:"prix", vis:"o", ordre:"0", sens:""},{nom:"valmaxex", desc:"Fourchette Haute (Excl.)", typ:"prix", vis:"o", ordre:"0", sens:""},{nom:"surcout", desc:"Surcoût", typ:"prix", vis:"o", ordre:"0", sens:""},
-	              	{nom:"actif", desc:"Active", typ:"bool", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"commande", desc:"Commandes Clients", cs:"numref", champs:[{nom:"cmdid", desc:"identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"numref", desc:"Référence", typ:"ref", vis:"o", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"prenom", desc:"Prénom", typ:"text", vis:"n", ordre:"0", sens:""}, 
-	                {nom:"telephone", desc:"Téléphone", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"adresse1", desc:"Ligne d'adresse n°1", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"adresse2", desc:"Ligne d'adresse n°2", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"codepostal", desc:"Code Postal", typ:"text", vis:"n", ordre:"0", sens:""}, 
-	                {nom:"ville", desc:"Ville", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"vente", desc:"Type de Vente", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"paiement", desc:"Mode de Paiement", typ:"text", vis:"n", ordre:"0", sens:""},
-								  {nom:"sstotal", desc:"Sous-total", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", desc:"Frais de Livraison", typ:"prix", vis:"n", ordre:"0", sens:""}, {nom:"total", desc:"Total", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"method", desc:"Méthode de vente", typ:"text", vis:"n", ordre:"0", sens:""}, 
-								  {nom:"table", desc:"N° de la Table", typ:"text", vis:"n", ordre:"0", sens:""}, {nom:"datecreation", desc:"Date de Création", typ:"date", vis:"o", ordre:"0", sens:""},
-								  {nom:"statid", desc:"Statut", typ:"fk", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"lignecmd", desc:"Lignes des commandes", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", vis:"n", ordre:"0", sens:""}, 
-	                {nom:"nom", desc:"Intitulé", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", vis:"o", ordre:"0", sens:""}, {nom:"quantite", desc:"Quantité", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", vis:"o", ordre:"0", sens:""}]},
- 	              {nom:"statutcmd", desc:"Statuts des commandes", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", vis:"o", ordre:"0", sens:""},
- 	                {nom:"message", desc:"SMS à Envoyer", typ:"text", vis:"o", ordre:"0", sens:""}, {nom:"defaut", desc:"Defaut", typ:"bool", vis:"o", ordre:"0", sens:""}]}
+								{nom:"categorie", desc:"Catégories", cs:"nom", champs:[{nom:"catid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"article", desc:"Articles", cs:"nom", champs:[{nom:"artid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"description", desc:"Description", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
+	                {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", defval:"", vis:"n", ordre:"0", sens:""},
+	                {nom:"unite", desc:"Unité", typ:"text", defval:"€", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", defval:"0", vis:"n", ordre:"0", sens:""}]},
+	              {nom:"relgrpoptart", desc:"Relations groupes d'option-articles", cs:"", champs:[{nom:"relgrpoartid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", desc:"", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"artid", defval:"", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"groupeopt", desc:"Groupes d'option", cs:"nom", champs:[{nom:"grpoptid",  desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"multiple", desc:"Choix Multiple", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"option", desc:"Options", cs:"nom", champs:[{nom:"optid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", desc:"Groupe d'option", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"administrateur", desc:"Utilisateurs" , cs:"email", champs:[{nom:"adminid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"email", desc:"Courriel", typ:"email", defval:"", vis:"o", ordre:"0", sens:""},{nom:"pass", desc:"Mot de Passe", typ:"pass", defval:"", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"parametre", desc:"Paramètres", cs:"nom", champs:[{nom:"paramid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""},{nom:"valeur", desc:"Valeur", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},{nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"cpzone", desc:"Zones des livraisons", cs:"codepostal", champs:[{nom:"cpzoneid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"codepostal", desc:"Code Postal", defval:"", typ:"codepostal", vis:"o", ordre:"0", sens:""},{nom:"ville", desc:"Ville", defval:"", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"barlivr", desc:"Barêmes des livraisons", cs:"", champs:[{nom:"barlivrid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"valminin", desc:"Fourchette Basse (Incl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"valmaxex", desc:"Fourchette Haute (Excl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},
+	              	{nom:"actif", desc:"Active", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"commande", desc:"Commandes Clients", cs:"numref", champs:[{nom:"cmdid", desc:"identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"numref", desc:"Référence", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"prenom", desc:"Prénom", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
+	                {nom:"telephone", desc:"Téléphone", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"adresse1", desc:"Ligne d'adresse n°1", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"adresse2", desc:"Ligne d'adresse n°2", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"codepostal", desc:"Code Postal", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
+	                {nom:"ville", desc:"Ville", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"vente", desc:"Type de Vente", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"paiement", desc:"Mode de Paiement", typ:"text", defval:"", vis:"n", ordre:"0", sens:""},
+								  {nom:"sstotal", desc:"Sous-total", typ:"prix", defval:"0.00", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", desc:"Frais de Livraison", typ:"prix", defval:"0.00", vis:"n", ordre:"0", sens:""}, {nom:"total", desc:"Total", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"method", desc:"Méthode de vente", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
+								  {nom:"table", desc:"N° de la Table", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"datecreation", desc:"Date de Création", typ:"date", defval:"", vis:"o", ordre:"0", sens:""},
+								  {nom:"statid", desc:"Statut", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"lignecmd", desc:"Lignes des commandes", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", defval:"", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
+	                {nom:"nom", desc:"Intitulé", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"quantite", desc:"Quantité", typ:"text", defval:"0", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}]},
+ 	              {nom:"statutcmd", desc:"Statuts des commandes", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},
+ 	                {nom:"message", desc:"SMS à Envoyer", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"defaut", desc:"Defaut", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}]}
 	              ];  
 
   var liens = [{nom:"categorie", desc:"Catégorie de l'article", srctbl:"article", srcfld:"catid", dsttbl:"categorie", dstfld:"catid", join:"ij"},
   						 {nom:"groupeopt", desc:"Groupe d'option rélié", srctbl:"relgrpoptart", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
   						 {nom:"article", desc:"Article relié", srctbl:"relgrpoptart", srcfld:"artid", dsttbl:"article", dstfld:"artid", join:"ij"},
   						 {nom:"groupeopt", desc:"Groupe de l'option", srctbl:"option", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
-  						 {nom:"commande", desc:"Commande de la ligne", srctbl:"lignecmd", srcfld:"cmdid", dsttbl:"commande", dstfld:"cmdid", join:"ij"},
+  						 {nom:"commande", desc:"Commande reliée", srctbl:"lignecmd", srcfld:"cmdid", dsttbl:"commande", dstfld:"cmdid", join:"ij"},
   						 {nom:"statut", desc:"Statut de la commande", srctbl:"commande", srcfld:"statid", dsttbl:"statutcmd", dstfld:"statid", join:"ij"}
   						 ];
   						 
@@ -301,27 +301,34 @@
 								lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
 								
 								var inp = document.createElement('input');
+								inp.autocomplete = "off";
 								if (champs[i].typ == "text")
 								{
 									inp.classList.add('form-control');								
 									inp.type = 'text';
+									inp.value = champs[i].defval;
 								}
 								else if (champs[i].typ == "ref")
 								{
 									inp.classList.add('form-control');								
 									inp.type = 'text';
 									inp.required = true;
+									inp.value = champs[i].defval;
 								}
 								else if (champs[i].typ == "bool")
 								{
 									inp.type = 'checkbox';
+									if (champs[i].defval == "1")
+										inp.checked = true;
+									else 
+										inp.checked = false;
 								}
 								else if (champs[i].typ == "prix")
 								{
 									inp.classList.add('form-control');
 									inp.type = 'number';
 									inp.step = '0.01';
-									inp.value = '0.00';
+									inp.value = champs[i].defval;
 									inp.min = '0';
 								}
 								else if (champs[i].typ == "image")
@@ -394,6 +401,7 @@
 									inp.pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}";
 									inp.title = "Le mot de passe doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères";
 									inp.required = true;
+									inp.autocomplete = "new-password";
 								}
 								else if (champs[i].typ == "email")
 								{
@@ -410,7 +418,7 @@
 									inp.pattern = "[0-9]{5}";
 									inp.minlength = "5";
 									inp.maxlength = "5";
-									inp.title = "Le code postal doit être valoide";
+									inp.title = "Le code postal doit être valide";
 									inp.required = true;
 								}
 								
@@ -702,6 +710,7 @@
 											inp.pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}";
 											inp.title = "Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères";
 											inp.required = false;
+											inp.autocomplete = "new-password";
 										}
 										else if (champs[i].typ == "email")
 										{
@@ -1139,6 +1148,31 @@
 			 	
 			 	return tab; 			
 			}*/
+			
+			function luminosite(couleur)
+			{
+	      var maxi, mini, lumi;
+   			var r = parseInt(couleur.slice(1, 3), 16);
+   			var g = parseInt(couleur.slice(3, 5), 16);
+   			var b = parseInt(couleur.slice(5, 7), 16);
+   			
+   			if ((r>=g) && (r>=b)) 
+					maxi = r; 	         			
+   			if ((g>=r) && (g>=b)) 
+					maxi = g; 	         			
+   			if ((b>=r) && (b>=g)) 
+					maxi = b; 	        
+   			if ((r<g) && (r<b)) 
+					mini = r; 	         			
+   			if ((g<r) && (g<b)) 
+					mini = g; 	         			
+   			if ((b<r) && (b<g)) 
+					mini = b; 	        
+				
+				lumi = (maxi + mini) / 2;
+
+				return lumi			
+			}			
 			  
  			function displaytable(vue, place, tablestr, donnees, total, limite, offset, selcol="", selid=0)
  			{
@@ -1148,6 +1182,21 @@
 		 		
 			 	var firstdiv, maintable, mainthead, maintbody, tr, th, td, input, buttonins, lblrpp, selres, optres, nav, ul, li, apl, spanlq, spanprev, spanrq, spannext;
 			 	
+				if ((tablestr !== "commande") &&  (tablestr !== "lignecmd"))
+				{
+			    buttonins = document.createElement("BUTTON");
+			  	buttonins.classList.add("btn");
+			  	buttonins.classList.add("btn-primary");
+			  	buttonins.classList.add("btn-insert");
+			  	buttonins.onclick = function () {
+			  		nummtable = getnumtable(tablestr);
+			  		insert(numtable,limite,offset,vue,place,selcol,selid);
+			  	}
+			  	buttonins.innerHTML = "Insérer";
+			  	document.getElementById(place).appendChild(buttonins);
+			  	//document.getElementById(place).appendChild(document.createElement("BR"));
+				}
+			 	//document.getElementById(place).appendChild(document.createElement("BR"));
 			 	firstdiv = document.createElement("DIV");
 				maintable = document.createElement("TABLE");
 				maintable.classList.add("table");
@@ -1267,19 +1316,7 @@
 			 	firstdiv.appendChild(maintable);
 			 	document.getElementById(place).appendChild(firstdiv);
 
-				if ((tablestr !== "commande") &&  (tablestr !== "lignecmd"))
-				{
-			    buttonins = document.createElement("BUTTON");
-			  	buttonins.classList.add("btn");
-			  	buttonins.classList.add("btn-primary");
-			  	buttonins.onclick = function () {
-			  		nummtable = getnumtable(tablestr);
-			  		insert(numtable,limite,offset,vue,place,selcol,selid);
-			  	}
-			  	buttonins.innerHTML = "Insérer";
-			  	document.getElementById(place).appendChild(buttonins);
-				}
-			 	document.getElementById(place).appendChild(document.createElement("BR"));
+			 	//document.getElementById(place).appendChild(document.createElement("BR"));
 			 	lblrpp = document.createElement("LABEL");
 			 	lblrpp.for = "rpp" + numtable ;
 			 	lblrpp.innerHTML = "Nombre de résultat par page";
@@ -1398,12 +1435,8 @@
 	         		for (var i=0; i< data.length; i++)
 	         		{
 	         			var couleur = data[i][0];
-	         			
-	         			var r = parseInt(couleur.slice(1, 3), 16);
-	         			var g = parseInt(couleur.slice(3, 5), 16);
-	         			var b = parseInt(couleur.slice(5, 7), 16);
-	         			
-								if ((r+g+b)/3>127)						         			
+
+	         			if (luminosite(couleur)>128)	         			
 	         				rowtocolor[i].style.color = 'black';
 	         			else 
 	         				rowtocolor[i].style.color = 'white';
@@ -1893,47 +1926,47 @@
 								dat.id = 'dtable'+ numtable +'dat' + i;
 								if (champs[i].typ != "fk")
 								{
-									dat.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
+									dat.innerText = champs[i].desc + ' : ';
 									if (champs[i].typ == "text")
 									{
-										dat.innerHTML = dat.innerHTML + data[i];
+										dat.innerText = dat.innerText + data[i];
 									}
 									if (champs[i].typ == "date")
 									{
 										const event = new Date(Date.parse(data[i]));
-										dat.innerHTML = dat.innerHTML + event.toLocaleString('fr-FR');
+										dat.innerText = dat.innerText + event.toLocaleString('fr-FR');
 									}
 									if (champs[i].typ == "ref")
 									{
-										dat.innerHTML = dat.innerHTML + data[i];
+										dat.innerText = dat.innerText + data[i];
 									}
 									else if (champs[i].typ == "bool")
 									{
 										if (data[0][i] == "1")
-											dat.innerHTML = dat.innerHTML + 'oui';
+											dat.innerText = dat.innerText + 'oui';
 										else {
-											dat.innerHTML = dat.innerHTML + 'non';
+											dat.innerText = dat.innerText + 'non';
 										}
 									}
 									else if (champs[i].typ == "prix")
 									{
-										dat.innerHTML = dat.innerHTML + parseFloat(data[i]).toFixed(2) + " €";
+										dat.innerText = dat.innerText + parseFloat(data[i]).toFixed(2) + " €";
 									}
 									else if (champs[i].typ == "image")
 									{
-										dat.innerHTML = dat.innerHTML + data[i];
+										dat.innerText = dat.innerText + data[i];
 									}
 									else if (champs[i].typ == "pass")
 									{
-										dat.innerHTML = dat.innerHTML + data[i];
+										dat.innerText = dat.innerText + data[i];
 									}
 									else if (champs[i].typ == "email")
 									{
-										dat.innerHTML = dat.innerHTML + data[i];
+										dat.innerText = dat.innerText + data[i];
 									}
 									else if (champs[i].typ == "codepostal")
 									{
-										dat.innerHTML = dat.innerHTML + data[i];
+										dat.innerText = dat.innerText + data[i];
 									}
 									dat.setAttribute("data-table",tables[numtable].nom);
 									dat.setAttribute("data-champ",champs[i].nom);
@@ -1947,15 +1980,16 @@
 										{	
 											if (liens[j].nom == "statut" )
 											{
-												var lbl = document.createElement('P')
-												lbl.name = 'dlbltable' + numtable + '_' + champs[numtable].nom;
+												var lbl = document.createElement('LABEL');
+												lbl.name = 'dlbltable' + numtable + '_' + champs[i].nom;
 												lbl.id = 'dlbltable' + numtable + '_' + 'lien' + i;
-												lbl.innerHTML = liens[j].desc + '&nbsp;:&nbsp;';
+												lbl.innerText = liens[j].desc + ' : ';
+												lbl.htmlFor = 'dtable' + numtable + '_' + champs[i].nom;
 												cmdhead.appendChild(lbl);
 												
 												var lien = document.createElement('SELECT');
 												lien.classList.add('form-control');
-												lien.name = 'dtable' + numtable + '_' + champs[numtable].nom;
+												lien.name = 'dtable' + numtable + '_' + champs[i].nom;
 												lien.id = 'dtable' + numtable + '_' + 'lien' + i;
 												lien.setAttribute("data-table", tables[numtable].nom);
 												lien.setAttribute("data-champ", champs[i].nom);
@@ -1963,21 +1997,35 @@
 												{
 													var row = [];
 													var col = {nom:"statid", valeur:lien.value, type:champs[i].typ};
-													row.push(col);	
-													updaterow( 'table' + numtable, 'table' + numtable, tables[numtable].nom, row, "cmdid", objectid, limite, offset, "", 0);
+													row.push(col);
+													updaterow('table' + numtable, 'table' + numtable, tables[numtable].nom, row, "cmdid", objectid, limite, offset, "", 0);
 													sendStatutSMS(objectid);
+										  		var couleur = this.options[this.selectedIndex].style.backgroundColor;
+										  		this.style.backgroundColor = couleur;
+         									if (luminosite(couleur)>128)
+	         									this.style.color = 'black';
+	         								else 
+	         									this.style.color = 'white';
 												};
 												cmdhead.appendChild(lien);
 												
 												for (k=0; k<tables.length; k++)
 													if (tables[k].nom == liens[j].dsttbl)
-														getoptions('dtable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i]);
+														getoptions('dtable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs + ", couleur ", data[i], true);
 											}											
-											else {
-												dat.innerHTML = liens[j].desc + '&nbsp;:&nbsp;' + data[i];	
-												dat.setAttribute("data-table", tables[numtable].nom);
-												dat.setAttribute("data-champ", champs[i].nom);
-												cmdhead.appendChild(dat);
+											else 
+											{
+												var lien = document.createElement('P');
+												lien.name = 'dtable' + numtable + '_' + champs[i].nom;
+												lien.id = 'dtable' + numtable + '_' + 'lien' + i;
+												lien.innerText = liens[j].desc + ' : ';
+												lien.setAttribute("data-table", tables[numtable].nom);
+												lien.setAttribute("data-champ", champs[i].nom);
+												cmdhead.appendChild(lien);
+												
+												for (k=0; k<tables.length; k++)
+													if (tables[k].nom == liens[j].dsttbl)
+														getoptions('dtable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i], false);
 											}
 										}
 									}
@@ -2081,23 +2129,52 @@
         	})
         }
       
-			function datatooption(donnees, selidx)
+			function datatooption(place, donnees, selidx, tosel)
 			{
 				var options="";
-				for (i=0; i<donnees.length; i++)
+				if (tosel == true)
 				{
-					if (donnees[i][0] == selidx)
-						options = options + '<option value=' + donnees[i][0] + ' selected>';
-					else {
-						options = options + '<option value=' + donnees[i][0] + '>';
+					for (i=0; i<donnees.length; i++)
+					{
+						var opt = document.createElement("OPTION");
+						opt.value = donnees[i][0];
+						if (donnees[i][0] == selidx)
+							opt.selected = true;												
+						//var txt = document.createTextNode(donnees[i][1]);
+					  opt.innerHTML = donnees[i][1];
+					  document.getElementById(place).appendChild(opt);
+					  if (donnees[i].length > 2)
+					  {
+         			var couleur = donnees[i][2];
+							opt.style.backgroundColor = couleur;
+         			if (luminosite(couleur)>128)
+	         			opt.style.color = 'black';
+	         		else 
+	         			opt.style.color = 'white';
+
+	         		if (donnees[i][0] == selidx)
+					  	{
+					  		opt.parentElement.style.backgroundColor = couleur;
+         				if (luminosite(couleur)>128)
+	         				opt.parentElement.style.color = 'black';
+	         			else 
+	         				opt.parentElement.style.color = 'white';
+					  	}
+					  }
 					}
-					options = options + donnees[i][1];
-			    options = options + '</option>';
 				}
-				return options;			
+				else 
+				{
+					for (i=0; i<donnees.length; i++)
+					{
+						if (donnees[i][0] == selidx)
+							options = donnees[i][1];
+					}
+					document.getElementById(place).innerHTML = document.getElementById(place).innerHTML + options; 
+				}
 			}      
       
-			function getoptions( place, table, colonne, selidx)      
+			function getoptions( place, table, colonne, selidx, tosel=true)      
       {
         var retour;      
         
@@ -2123,7 +2200,7 @@
 	            $('.modal').modal('show');
           	}
          		else 
-            	document.getElementById(place).innerHTML = datatooption(data, selidx);
+            	datatooption(place, data, selidx, tosel);
         })
           
       } 

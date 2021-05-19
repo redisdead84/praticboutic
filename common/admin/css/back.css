@@ -176,11 +176,7 @@ td {
 table.table-hover tbody tr:hover {
     background-color: yellow !important;
     color: black !important;
-}
-
-table.table-hover.notr-hover:hover {
-    background-color: yellow !important;
-    color: black !important;
+    cursor: pointer;
 }
 
 .frameimg 
@@ -215,3 +211,9 @@ table.table-hover.notr-hover:hover {
 {
 	word-break: break-word;
 }
+
+.btn-insert
+{
+	margin-bottom: 30px;
+}
+
