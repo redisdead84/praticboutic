@@ -84,16 +84,16 @@
 	      {      
 	        echo '<div class="underlined">';
 	        echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
-	        echo '<input class="cont" type="string" id="lenom" name="nom" required>';
+	        echo '<input class="cont" type="string" id="lenom" name="nom" maxlength="60" required>';
 	        echo '</div>';
 	        echo '<div class="underlined">';            
 	        echo '<label class="lcont">Pr&eacute;nom&nbsp;:&nbsp;</label>';
-	        echo '<input class="cont" type="string" id="leprenom" name="prenom" required>';
+	        echo '<input class="cont" type="string" id="leprenom" name="prenom" maxlength="60" required>';
         	echo '</div>';
       	}
         echo '<div class="underlined">';
         echo '<label class="lcont">T&eacute;l.&nbsp;Portable&nbsp;:&nbsp;</label>';
-        echo '<input class="cont" type="string" id="letel" name="tel" autocomplete="tel" off" required 
+        echo '<input class="cont" type="string" id="letel" name="tel" autocomplete="tel" maxlength="60" required 
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
         echo '</div>';
@@ -143,25 +143,25 @@
 		      echo '<div id="adrlivr">';
 		      echo '<div class="underlined">';
 		      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
-		      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" required>';
+		      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" maxlength="150" required>';
 		      echo '</div>';
 		      echo '<div class="underlined">';
 		      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
-		      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2">';
+		      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2" maxlength="150">';
 		      echo '</div>';
 		      echo '<div class="underlined">';
 		      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
 		      if ($verifcp > 0) {
-		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" maxlength="5" required 
 		          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
 		      } else {
-		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" required 
+		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" maxlength="5" required 
 		          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
 		      }
 		      echo '</div>';
 		      echo '<div class="underlined">';
 		      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
-		      echo '<input class="cont adrliv" type="string" id="laville" name="ville" required>';
+		      echo '<input class="cont adrliv" type="string" id="laville" name="ville" maxlength="50" required>';
 		      echo '</div>';
 		      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
 		      echo '</div>';
@@ -221,7 +221,7 @@
       echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
       echo '</div>';
     ?>
-    <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)"></textarea>
+    <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)" maxlength="300"></textarea>
     </div>    
     <div id="footer">
       <?php

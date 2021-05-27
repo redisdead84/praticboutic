@@ -176,7 +176,7 @@
 	                echo '</div>';
 								}
 
-                echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article"  hidden></textarea>';              
+                echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article" maxlength="300" hidden></textarea>';              
                 
  				  		  $id = 'opt' . $row2[0];
  				  		  $name = 'opty' . $row2[0];    

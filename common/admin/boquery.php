@@ -272,6 +272,9 @@ try {
   	$query = 'SELECT ' . $clep . ', ' . $input->colonne . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
   	$query = $query . ' WHERE customid = ' . $customid;
   	
+		if (strcmp($input->tables[$numtable]->nom, "statutcmd") == 0 ) 
+	  	$query = $query . ' AND actif = 1';
+  	
 		$arr=array();	
 		
 		if ($result = $conn->query($query)) 
@@ -297,6 +300,41 @@ try {
   	$query = $query . 'customid, ';
 		for($i=0;$i<count($input->row);$i++) 
 		{  	
+			if (strcmp($input->row[$i]->type,"ref")==0)
+			{
+				$colonnes = "count(*)"; 						
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
+			  $subquery = $subquery . ' WHERE T1.customid = ' . $customid; 
+				$subquery = $subquery . ' AND T1.' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
+				//error_log($subquery);
+				if ($result = $conn->query($subquery)) 
+				{
+					if ($row = $result->fetch_row()) 
+				  {
+						if (intval($row[0])>0)
+							throw new Error("Impossible d'avoir plusieurs fois la valeur '" . $input->row[$i]->valeur . "' dans la colonne '" . $input->row[$i]->desc . "'");
+			    }
+				  $result->close();
+			  }   
+			}	  	
+			if (strcmp($input->row[$i]->type,"email")==0)
+			{
+				$colonnes = "count(*)"; 						
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
+				$subquery = $subquery . ' WHERE T1.' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
+				//error_log($subquery);
+				if ($result = $conn->query($subquery)) 
+				{
+					if ($row = $result->fetch_row()) 
+				  {
+						if (intval($row[0])>0)
+							throw new Error("Le courriel '" . $input->row[$i]->valeur . "' existe déjà dans la base de donnée");
+			    }
+				  $result->close();
+			  }   
+			}
+			
+			
 	  	$query = $query . $input->row[$i]->nom;
 	  	if ($i != count($input->row)-1)
 	  		$query = $query . ', ';
@@ -366,6 +404,41 @@ try {
   	$query = 'UPDATE `' . $input->tables[$numtable]->nom . '` SET ';
 		for($i=0;$i<count($input->row);$i++) 
 		{
+			if (strcmp($input->row[$i]->type,"ref")==0)
+			{
+				$colonnes = "count(*)"; 						
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`';
+			  $subquery = $subquery . ' WHERE customid = ' . $customid;
+			  $subquery = $subquery . ' AND ' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"'; 
+		  	$subquery = $subquery . ' AND ' . $input->colonne . '!=' . $input->idtoup;
+				//error_log($subquery);
+				if ($result = $conn->query($subquery)) 
+				{
+					if ($row = $result->fetch_row()) 
+				  {
+						if (intval($row[0])>0)
+							throw new Error("Impossible d'avoir plusieurs fois la valeur '" . $input->row[$i]->valeur . "' dans la colonne '" . $input->row[$i]->desc . "'");
+			    }
+				  $result->close();
+			  }   
+			}	  	
+			if (strcmp($input->row[$i]->type,"email")==0)
+			{
+				$colonnes = "count(*)"; 						
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`';
+			  $subquery = $subquery . ' WHERE ' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
+		  	$subquery = $subquery . ' AND ' . $input->colonne . '!=' . $input->idtoup;
+				//error_log($subquery);
+				if ($result = $conn->query($subquery)) 
+				{
+					if ($row = $result->fetch_row()) 
+				  {
+						if (intval($row[0])>0)
+							throw new Error("Le courriel '" . $input->row[$i]->valeur . "' existe déjà dans la base de donnée");
+			    }
+				  $result->close();
+			  }   
+			}  	
 			$jump = 0;
 	  	if (strcmp($input->row[$i]->type, "pass") == 0)
 	  	{

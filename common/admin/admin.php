@@ -24,14 +24,15 @@
   include "../config/common_cfg.php";
   include "../param.php";
     
+  
 ?>
 
 <!DOCTYPE html>
 <html id="backhtml">
   <head>
     <meta name="viewport" content="initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.08">
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="css/back.css?v=1.10">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -53,15 +54,15 @@
 	var tables = [
 								{nom:"categorie", desc:"Catégories", cs:"nom", champs:[{nom:"catid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"article", desc:"Articles", cs:"nom", champs:[{nom:"artid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"description", desc:"Description", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
-	                {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", defval:"", vis:"n", ordre:"0", sens:""},
-	                {nom:"unite", desc:"Unité", typ:"text", defval:"€", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", defval:"0", vis:"n", ordre:"0", sens:""}]},
+	                {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""},
+	                {nom:"unite", desc:"Unité", typ:"text", defval:"€", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", defval:"0", vis:"n", ordre:"0", sens:""}]},
 	              {nom:"relgrpoptart", desc:"Relations groupes d'option-articles", cs:"", champs:[{nom:"relgrpoartid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", desc:"", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"artid", defval:"", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"groupeopt", desc:"Groupes d'option", cs:"nom", champs:[{nom:"grpoptid",  desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"multiple", desc:"Choix Multiple", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"option", desc:"Options", cs:"nom", champs:[{nom:"optid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", desc:"Groupe d'option", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"administrateur", desc:"Utilisateurs" , cs:"email", champs:[{nom:"adminid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"email", desc:"Courriel", typ:"email", defval:"", vis:"o", ordre:"0", sens:""},{nom:"pass", desc:"Mot de Passe", typ:"pass", defval:"", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"parametre", desc:"Paramètres", cs:"nom", champs:[{nom:"paramid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""},{nom:"valeur", desc:"Valeur", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},{nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"cpzone", desc:"Zones des livraisons", cs:"codepostal", champs:[{nom:"cpzoneid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"codepostal", desc:"Code Postal", defval:"", typ:"codepostal", vis:"o", ordre:"0", sens:""},{nom:"ville", desc:"Ville", defval:"", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"barlivr", desc:"Barêmes des livraisons", cs:"", champs:[{nom:"barlivrid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"valminin", desc:"Fourchette Basse (Incl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"valmaxex", desc:"Fourchette Haute (Excl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},
+	              {nom:"cpzone", desc:"Zones de livraison", cs:"codepostal", champs:[{nom:"cpzoneid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"codepostal", desc:"Code Postal", defval:"", typ:"codepostal", vis:"o", ordre:"0", sens:""},{nom:"ville", desc:"Ville", defval:"", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
+	              {nom:"barlivr", desc:"Barêmes de livraison", cs:"", champs:[{nom:"barlivrid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"valminin", desc:"Fourchette Basse (Incl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"valmaxex", desc:"Fourchette Haute (Excl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},
 	              	{nom:"actif", desc:"Active", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"commande", desc:"Commandes Clients", cs:"numref", champs:[{nom:"cmdid", desc:"identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"numref", desc:"Référence", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"prenom", desc:"Prénom", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"telephone", desc:"Téléphone", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"adresse1", desc:"Ligne d'adresse n°1", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"adresse2", desc:"Ligne d'adresse n°2", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"codepostal", desc:"Code Postal", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
@@ -69,10 +70,10 @@
 								  {nom:"sstotal", desc:"Sous-total", typ:"prix", defval:"0.00", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", desc:"Frais de Livraison", typ:"prix", defval:"0.00", vis:"n", ordre:"0", sens:""}, {nom:"total", desc:"Total", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"method", desc:"Méthode de vente", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
 								  {nom:"table", desc:"N° de la Table", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"datecreation", desc:"Date de Création", typ:"date", defval:"", vis:"o", ordre:"0", sens:""},
 								  {nom:"statid", desc:"Statut", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}]},
-	              {nom:"lignecmd", desc:"Lignes des commandes", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", defval:"", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
+	              {nom:"lignecmd", desc:"Lignes de commande", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", defval:"", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"nom", desc:"Intitulé", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"quantite", desc:"Quantité", typ:"text", defval:"0", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}]},
- 	              {nom:"statutcmd", desc:"Statuts des commandes", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},
- 	                {nom:"message", desc:"SMS à Envoyer", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"defaut", desc:"Defaut", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}]}
+ 	              {nom:"statutcmd", desc:"Statuts de commande", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},
+ 	                {nom:"message", desc:"SMS à Envoyer", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"defaut", desc:"Defaut", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}, {nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]}
 	              ];  
 
   var liens = [{nom:"categorie", desc:"Catégorie de l'article", srctbl:"article", srcfld:"catid", dsttbl:"categorie", dstfld:"catid", join:"ij"},
@@ -112,24 +113,25 @@
   </script>
   
 	  <div class="vertical-nav" id="sidebar">
-	  	<ul class="nav flex-column">
+	  	<ul class="nav nav-menu flex-column">
+	  		<img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' />
 			  <span class="navbar-text breakword">
 			    Bienvenue sur le backoffice de la boutic <?php echo $boutic;?>, <?php echo $_SESSION[$boutic . '_email']; ?> ! 
 			  </span>
 			  <li class="nav-item">
-			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false">Commandes</a>
+			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false">Produits</a>
+			    <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
 			  </li>
  			  <li class="nav-item">
-			    <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false">Livraison</a>
+			    <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
 			  </li>			  
  			  <li class="nav-item">
-			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false">Administration</a>
+			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false"><img class='picto' src='img/picto_mon_compte.png' />Administration</a>
 			  </li>			  
  			  <li class="nav-item">
-			    <a class="nav-link" href="logout.php">Deconnexion</a>
+			    <a class="nav-link" href="logout.php"><p class="nopicto">Deconnexion</p></a>
 			  </li>
 			</ul>
 		</div>
@@ -138,11 +140,13 @@
 				<p class="title">Commandes</p>
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" id="commande-tab" data-toggle="tab" href="#commande" role="tab" aria-controls="commande" aria-selected="true">Commandes Clients</a>
+							<a class="nav-link active" id="commande-tab" data-toggle="tab" href="#commande" role="tab" aria-controls="commande" aria-selected="true">COMMANDES CLIENTS</a>
 						</li>
+						<?php if (strcmp($statutcmd, "n")==0) echo "<!--" ?>
 						<li class="nav-item">
-							<a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">Statuts des Commandes</a>
+							<a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
 						</li>
+						<?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
 					</ul>
 				<div class="tab-content" id="myTabCmdContent">
 					<div class="tab-pane active" id="commande" role="tabpanel" aria-labelledby="commande-tab">
@@ -161,13 +165,13 @@
 				<p class="title">Produits</p>
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="true">Catégories</a>
+						<a class="nav-link active" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="true">CATEGORIES</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="false">Produits</a>
+						<a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="false">PRODUITS</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">Groupes d'option</a>
+						<a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">GROUPES D'OPTION</a>
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabProdContent">
@@ -196,10 +200,10 @@
 			<p class="title">Livraison</p>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">Zones de livraison</a>
+					<a class="nav-link active" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">ZONES DE LIVRAISON</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">Barêmes de livraison</a>
+					<a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">BAREME DE LIVRAISON</a>
 				</li>
 			</ul>
 			<div class="tab-content" id="myTabLivrContent">
@@ -219,10 +223,10 @@
 			<p class="title">Administration</p>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" id="administrateur-tab" data-toggle="tab" href="#administrateur" role="tab" aria-controls="administrateur" aria-selected="false">Utilisateurs</a>
+					<a class="nav-link active" id="administrateur-tab" data-toggle="tab" href="#administrateur" role="tab" aria-controls="administrateur" aria-selected="false">UTILISATEURS</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" id="parametre-tab" data-toggle="tab" href="#parametre" role="tab" aria-controls="parametre" aria-selected="false">Paramètres</a>
+					<a class="nav-link" id="parametre-tab" data-toggle="tab" href="#parametre" role="tab" aria-controls="parametre" aria-selected="false">PARAMETRES</a>
 				</li>
 			</ul>
 			<div class="tab-content" id="myTabAdminContent">
@@ -240,8 +244,9 @@
 		</div>			
 	</div>	
 		
-	<div class="modal" tabindex="-1" role="dialog">
-	  <div class="modal-dialog" role="document">
+	<!--<div class="modal" tabindex="-1" role="dialog">-->
+	<div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <h5 class="modal-title">Erreur</h5>
@@ -318,6 +323,7 @@
 								else if (champs[i].typ == "bool")
 								{
 									inp.type = 'checkbox';
+									inp.classList.add('mbchk');
 									if (champs[i].defval == "1")
 										inp.checked = true;
 									else 
@@ -469,6 +475,7 @@
 				okbtn.onclick = function(){
 					var row = [];
 					var error = false;
+					var errmsg ="";
 					for (var i=0; i<champs.length; i++)
 					{
 						var val;
@@ -492,7 +499,7 @@
 								val = selid;
 							else
 								val = document.getElementById('itable' + numtable + '_' + 'lien' + i).value;
-						} 
+						} 						
 						else if (champs[i].typ !='pk'){
 							fld = document.getElementById('itable' + numtable + '_' + 'inp' + i);
 						  val = fld.value;
@@ -500,31 +507,36 @@
 						  {
 						  	if (val == "")
 						  	{
-									alert("Le champ " + champs[i].desc + " ne peut pas être vide");	
-									error = true;					  	
+						  		error = true;
+						  		errmsg = 	"Le champ " + champs[i].desc + " ne peut pas être vide";
+						  		break;
 						  	}
 						  }
 						  if (!fld.checkValidity())
 						  {
-								alert(fld.title);
-								error = true;					  	
+								error = true;
+					  		errmsg = fld.title;
+								break;  	
 						  }						  
 						}
 						if (champs[i].typ !='pk')
 						{
-							var col = {nom:champs[i].nom, valeur:val, type:champs[i].typ};
+							var col = {nom:champs[i].nom, valeur:val, type:champs[i].typ, desc:champs[i].desc};
 							row.push(col);
 						}					
 					}
 					if (error == false)
 					{
-						vuep = document.getElementById(this.getAttribute("data-vuep"));
-						vue = document.getElementById(this.getAttribute("data-vue"));
-
-						vuep.hidden = false
-						vue.hidden = true;
-						vue.innerHTML = '';
-						insertrow(vueparent, placeparent, tables[numtable].nom, row, limite, offset, selcol, selid);
+						var vu = document.getElementById(this.getAttribute("data-vue"));
+						insertrow(vu, vueparent, placeparent, tables[numtable].nom, row, limite, offset, selcol, selid);
+					}
+					else 
+					{
+         		var modal = $('.modal');
+	       		$('.modal-title').html('Erreur');
+   			    modal.find('.modal-body').text(errmsg);
+   			    //alert(fld.title);
+       			$('.modal').modal('show');
 					}
 				}; 
 
@@ -623,6 +635,7 @@
 										else if (champs[i].typ == "bool")
 										{
 											inp.type = 'checkbox';
+											inp.classList.add('mbchk');
 											if (data[i] == "1")
 												inp.checked = true;
 											else {
@@ -813,6 +826,7 @@
 							var row = [];
 							var pknom;
 							var error = false;
+							var errmsg = "";
 							for (var i=0; i<champs.length; i++)
 							{
 								var val;
@@ -844,12 +858,12 @@
 									  val = fld.value;
  									  if (!fld.checkValidity())
 									  {
-											//alert(fld.validationMessage);	
-											alert(fld.getAttribute("data-champ")  + " : " + fld.validationMessage);
-											error = true;					  	
+											error = true;	
+											errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
+											break;				  	
 						  			}						  
 									}
-									var col = {nom:champs[i].nom, valeur:val, type:champs[i].typ};
+									var col = {nom:champs[i].nom, valeur:val, type:champs[i].typ, desc:champs[i].desc};
 									row.push(col);
 								}
 								else {
@@ -858,13 +872,15 @@
 							}
 							if (error == false)
 							{
-								vuep = document.getElementById(this.getAttribute("data-vuep"));
-								vue = document.getElementById(this.getAttribute("data-vue"));
-
-								vuep.hidden = false
-								vue.hidden = true;
-								vue.innerHTML = '';
-								updaterow(vueparent, placeparent, tables[numtable].nom, row, pknom, idtoup, limite, offset, selcol, selid);
+								var vu = document.getElementById(this.getAttribute("data-vue"));
+								updaterow(vu, vueparent, placeparent, tables[numtable].nom, row, pknom, idtoup, limite, offset, selcol, selid);
+							}
+							else 
+							{
+ 		         		var modal = $('.modal');
+			       		$('.modal-title').html('Erreur');
+						    modal.find('.modal-body').text(errmsg);
+    						$('.modal').modal('show');
 							}
 						};
 						vue.appendChild(okbtn);
@@ -1156,7 +1172,7 @@
    			var g = parseInt(couleur.slice(3, 5), 16);
    			var b = parseInt(couleur.slice(5, 7), 16);
    			
-   			if ((r>=g) && (r>=b)) 
+   			/*if ((r>=g) && (r>=b)) 
 					maxi = r; 	         			
    			if ((g>=r) && (g>=b)) 
 					maxi = g; 	         			
@@ -1167,14 +1183,14 @@
    			if ((g<r) && (g<b)) 
 					mini = g; 	         			
    			if ((b<r) && (b<g)) 
-					mini = b; 	        
+					mini = b; */	        
 				
-				lumi = (maxi + mini) / 2;
+				lumi = (r + g + b) / 3;
 
 				return lumi			
 			}			
 			  
- 			function displaytable(vue, place, tablestr, donnees, total, limite, offset, selcol="", selid=0)
+ 			function displaytable(vue, place, tablestr, donnees, total, pagination, limite, offset, selcol="", selid=0)
  			{
 			 	var pkval;
 			 	nummtable = getnumtable(tablestr);
@@ -1196,427 +1212,272 @@
 			  	document.getElementById(place).appendChild(buttonins);
 			  	//document.getElementById(place).appendChild(document.createElement("BR"));
 				}
-			 	//document.getElementById(place).appendChild(document.createElement("BR"));
-			 	firstdiv = document.createElement("DIV");
-				maintable = document.createElement("TABLE");
-				maintable.classList.add("table");
-				maintable.classList.add("table-bordered");
-				maintable.classList.add("table-striped");
-				maintable.classList.add("table-hover");
-				mainthead = document.createElement("THEAD");		 	
-				tr = document.createElement("TR");
-				for (var i=0; i<table.champs.length; i++)          	
-			 	{
-			 		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
-			 		{
-						th = document.createElement("TH");
-			   		
-			   		if (table.champs[i].typ != "fk")
-			   			th.innerHTML = table.champs[i].desc;
-			   		else
-			   		{
-							for (var j=0; j<liens.length; j++)          	
-			 				{
-			 					if ((liens[j].srctbl == table.nom) && (liens[j].srcfld == table.champs[i].nom))
-			 						th.innerHTML = liens[j].desc; 
-							}
-			   		}	
-			   		tr.appendChild(th);
-			 		}
-			 	}
-			 	mainthead.appendChild(tr);
-			 	maintable.appendChild(mainthead);
-			 	maintbody = document.createElement("TBODY");
-			 	for (var j=0; j<donnees.length; j++)
-			 	{
-			 		tr = document.createElement("TR");
-					for (var i=0; i<donnees[j].length; i++)          	
-			   	{
-			   		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
-			 			{
-			     		td = document.createElement("TD");
-			     		if (table.champs[i].typ != "bool")
-			     		{
-			     			var val = donnees[j][i];
-			     			if (table.champs[i].typ == "prix")
-			     				td.innerHTML = parseFloat(val).toFixed(2);
-			     			else if (table.champs[i].typ == "date")
-								{
-										const event = new Date(Date.parse(val));
-										td.innerHTML = event.toLocaleString('fr-FR');
+				if (total > 0)
+				{
+				 	//document.getElementById(place).appendChild(document.createElement("BR"));
+				 	firstdiv = document.createElement("DIV");
+					maintable = document.createElement("TABLE");
+					maintable.classList.add("table");
+					maintable.classList.add("table-hover");
+					mainthead = document.createElement("THEAD");		 	
+					tr = document.createElement("TR");
+					for (var i=0; i<table.champs.length; i++)          	
+				 	{
+				 		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
+				 		{
+							th = document.createElement("TH");
+				   		
+				   		if (table.champs[i].typ != "fk")
+				   			th.innerHTML = table.champs[i].desc;
+				   		else
+				   		{
+								for (var j=0; j<liens.length; j++)          	
+				 				{
+				 					if ((liens[j].srctbl == table.nom) && (liens[j].srcfld == table.champs[i].nom))
+				 						th.innerHTML = liens[j].desc; 
 								}
-			     			else
-			     				td.innerHTML = val;
-			     		}
-			     		else {
-		     				input = document.createElement("INPUT");
-		     				input.type = 'checkbox';
-		     				if ((tablestr == "commande") || (tablestr == "lignecmd")) 
-		     					input.disabled = true;
-		     				else
-		     					input.disabled = false;
-								
-			     			if (donnees[j][i] > 0)
-			     				input.checked = true;
-			     			else
-			     				input.checked = false;
-
-			     			input.setAttribute("data-table", tablestr);
-			     			input.setAttribute("data-field", table.champs[i].nom);
-			     			input.onclick = function (e) {
-			     				var row = [];
-			     				var val;
-			     				if (this.checked == true)
-										val = 1;			     				
-			     				else 
-			     					val = 0;
-			     				
-									var col = {nom:this.getAttribute("data-field"), valeur:val, type:'checkbox'};
-									row.push(col);					
-			     				updaterow("", "", this.getAttribute("data-table"), row, this.parentElement.parentElement.getAttribute("data-pknom"), this.parentElement.parentElement.getAttribute("data-pkval"), limite, offset, "", 0);
-			     				e.stopPropagation();
-			     			}
-											     			
-			     			td.appendChild(input);
-			     		}
-			     		tr.appendChild(td);
-			   		}
-			   		else if (table.champs[i].typ == "pk")
-			   		{
-			   			tr.setAttribute("data-pknom", table.champs[i].nom);
-			   			tr.setAttribute("data-pkval", donnees[j][i]);
-							if ((tablestr == "commande") || (tablestr == "lignecmd")) 
-							{
-								if (tablestr == "commande")
-									tr.classList.add("colored");
-								tr.onclick = function () {
-									pkval = this.getAttribute("data-pkval");
-									nummtable = getnumtable(tablestr);
-								if (tablestr == "commande")
-									detail(numtable, pkval, limite, offset, vue, place, selcol, selid);
-								if (tablestr == "lignecmd")
-									detail(numtable, pkval, limite, offset, "det9", "det9", selcol, selid);
+				   		}	
+				   		tr.appendChild(th);
+				 		}
+				 	}
+				 	mainthead.appendChild(tr);
+				 	maintable.appendChild(mainthead);
+				 	maintbody = document.createElement("TBODY");
+				 	for (var j=0; j<donnees.length; j++)
+				 	{
+				 		tr = document.createElement("TR");
+						for (var i=0; i<donnees[j].length; i++)          	
+				   	{
+				   		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
+				 			{
+				     		td = document.createElement("TD");
+				     		if (table.champs[i].typ != "bool")
+				     		{
+				     			var val = donnees[j][i];
+				     			if (table.champs[i].typ == "prix")
+				     				td.innerHTML = parseFloat(val).toFixed(2);
+				     			else if (table.champs[i].typ == "date")
+									{
+											const event = new Date(Date.parse(val));
+											td.innerHTML = event.toLocaleString('fr-FR');
+									}
+				     			else
+				     				td.innerHTML = val;
+				     		}
+				     		else {
+			     				input = document.createElement("INPUT");
+			     				input.type = 'checkbox';
+			     				if ((tablestr == "commande") || (tablestr == "lignecmd")) 
+			     					input.disabled = true;
+			     				else
+			     					input.disabled = false;
 									
+				     			if (donnees[j][i] > 0)
+				     				input.checked = true;
+				     			else
+				     				input.checked = false;
+	
+				     			input.setAttribute("data-table", tablestr);
+				     			input.setAttribute("data-field", table.champs[i].nom);
+				     			input.onclick = function (e) {
+				     				var row = [];
+				     				var val;
+				     				if (this.checked == true)
+											val = 1;			     				
+				     				else 
+				     					val = 0;
+				     				
+										var col = {nom:this.getAttribute("data-field"), valeur:val, type:'checkbox'};
+										row.push(col);				
+				     				updaterow("", "", "", this.getAttribute("data-table"), row, this.parentElement.parentElement.getAttribute("data-pknom"), this.parentElement.parentElement.getAttribute("data-pkval"), limite, offset, "", 0);
+				     				e.stopPropagation();
+				     			}
+												     			
+				     			td.appendChild(input);
+				     		}
+				     		tr.appendChild(td);
+				   		}
+				   		else if (table.champs[i].typ == "pk")
+				   		{
+				   			tr.setAttribute("data-pknom", table.champs[i].nom);
+				   			tr.setAttribute("data-pkval", donnees[j][i]);
+								if ((tablestr == "commande") || (tablestr == "lignecmd")) 
+								{
+									if (tablestr == "commande")
+										tr.classList.add("colored");
+									tr.onclick = function () {
+										pkval = this.getAttribute("data-pkval");
+										nummtable = getnumtable(tablestr);
+									if (tablestr == "commande")
+										detail(numtable, pkval, limite, offset, vue, place, selcol, selid);
+									if (tablestr == "lignecmd")
+										detail(numtable, pkval, limite, offset, "det9", "det9", selcol, selid);
+										
+									}
 								}
-							}
-							else
-							{
-								tr.onclick = function () {
-									pkval = this.getAttribute("data-pkval");
-									nummtable = getnumtable(tablestr);
-									update(numtable, pkval, limite, offset, vue, place, selcol, selid);
+								else
+								{
+									tr.onclick = function () {
+										pkval = this.getAttribute("data-pkval");
+										nummtable = getnumtable(tablestr);
+										update(numtable, pkval, limite, offset, vue, place, selcol, selid);
+									}
 								}
-							}
-							tr.classList.add("clickable-row");
-					  }
-			   	}
-			   	maintbody.appendChild(tr);    	
-				}
-			 	maintable.appendChild(maintbody);
-			 	firstdiv.appendChild(maintable);
-			 	document.getElementById(place).appendChild(firstdiv);
-
-			 	//document.getElementById(place).appendChild(document.createElement("BR"));
-			 	lblrpp = document.createElement("LABEL");
-			 	lblrpp.for = "rpp" + numtable ;
-			 	lblrpp.innerHTML = "Nombre de résultat par page";
-			 	document.getElementById(place).appendChild(lblrpp);
-			 	selres = document.createElement("SELECT");
-			 	selres.onchange = function () {
-			 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
-			 	}
-			 	selres.id = "rppid" + numtable; 
-				for (var k=0; k<rpp.length; k++)
-				{
-					optres = document.createElement("OPTION");
-					optres.value = rpp[k];
-					optres.innerHTML = rpp[k];
-					if (limite == rpp[k])
-						optres.selected = true;						        	
-					selres.appendChild(optres);       	
-				}				
-				vallimite = parseInt(limite);
-				document.getElementById(place).appendChild(selres);				
-				nav  = document.createElement("NAV");
-				nav.setAttribute("aria-label", "Page navigation");
-				ul = document.createElement("UL");
-				ul.classList.add("pagination");
-		    li = document.createElement("LI");
-		    li.classList.add("page-item");
-
-		    if ((offset - vallimite) < 0)
-			    li.classList.add("disabled");
-				apl = document.createElement("A");
-				apl.classList.add("page-link");
-				apl.onclick = function () {
-					gettable(vue,place,tablestr,limite,(offset - vallimite),selcol,selid);
-				}
-				apl.setAttribute("aria-label", "Previous");
-				spanlq = document.createElement("SPAN");
-				spanlq.setAttribute("aria-hidden", "true");
-				spanlq.innerHTML = "&laquo;";
-				apl.appendChild(spanlq);
-				spanprev = document.createElement("SPAN");
-				spanprev.classList.add("sr-only");
-				spanprev.innerHTML = "Previous";
-				apl.appendChild(spanprev);
-				li.appendChild(apl);
-				ul.appendChild(li);
-
-		    var totalpage = Math.ceil(total / vallimite);
-		    for (var k=0; k<totalpage;k++)
-		    {
-			    li = document.createElement("LI");
-			    li.classList.add("page-item");
- 		    	if ((offset/ vallimite) == k)
-				    li.classList.add("active");
-					apl = document.createElement("A");
-					apl.classList.add("page-link");
-					apl.setAttribute("data-num", k);
-					apl.onclick = function () {
-						num = this.getAttribute("data-num");
-						gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
+								tr.classList.add("clickable-row");
+						  }
+				   	}
+				   	maintbody.appendChild(tr);    	
 					}
-					apl.innerHTML = k;
-					li.appendChild(apl);
-					ul.appendChild(li);
-		    }
-		    li = document.createElement("LI");
-		    li.classList.add("page-item");
-		    
-		    if ((offset + vallimite) >= total)
-					li.classList.add("disabled");		    	
-		    
-				apl = document.createElement("A");
-				apl.classList.add("page-link");
-				apl.onclick = function () {
-					gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
-				}
-				apl.setAttribute("aria-label", "Next");
-				spanrq = document.createElement("SPAN");
-				spanrq.setAttribute("aria-hidden", "true");
-				spanrq.innerHTML = "&raquo;";
-				apl.appendChild(spanrq);
-				spannext = document.createElement("SPAN");
-				spannext.classList.add("sr-only");
-				spannext.innerHTML = "Next";
-				apl.appendChild(spannext);
-				li.appendChild(apl);
-				ul.appendChild(li);
-				nav.appendChild(ul);
-		    document.getElementById(place).appendChild(nav);
- 				if (tablestr == "commande")
- 				{
-					var j=0;
-					var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
-
-	        fetch("boquery.php", {
-	          method: "POST",
-	          headers: {
-	        		'Content-Type': 'application/json',
-	        		'Accept': 'application/json'
-	          },
-	          body: JSON.stringify(obj3)
-	        })
-	        .then(function(result) {
-	          return result.json();
-	        })
-	        .then(function(data) {
-	        	if (typeof (data.error) !== "undefined")
-	          {
-		        	var modal = $('.modal');
-		        	$('.modal-title').html('Erreur');
-					    modal.find('.modal-body').text(data.error);
-					    $('.modal').modal('show');
-	          }
-	         	else
-	         	{
-	         		var rowtocolor = document.getElementsByClassName("colored");
-	         		for (var i=0; i< data.length; i++)
-	         		{
-	         			var couleur = data[i][0];
-
-	         			if (luminosite(couleur)>128)	         			
-	         				rowtocolor[i].style.color = 'black';
-	         			else 
-	         				rowtocolor[i].style.color = 'white';
-	         			
-		         		rowtocolor[i].style.backgroundColor = couleur;
-	         		}
-	         	}
-	        })
-				}
-			}
-
- 			function displaytablebarlivr(vue, place, tablestr, donnees, total, limite, offset, selcol="", selid=0)
- 			{
-			 	var pkval;
-			 	nummtable = getnumtable(tablestr);
-			 	table = tables[numtable];
-		 		
-			 	var firstdiv, maintable, mainthead, maintbody, tr, th, td, input, buttonins, lblrpp, selres, optres, nav, ul, li, apl, spanlq, spanprev, spanrq, spannext;
-			 	
-			 	firstdiv = document.createElement("DIV");
-				maintable = document.createElement("TABLE");
-				maintable.classList.add("table");
-				maintable.classList.add("table-bordered");
-				maintable.classList.add("table-striped");
-				maintable.classList.add("table-hover");
-				maintable.classList.add("notr-hover");
-				
-				//if (tablestr != "lignecmd")
-				//	maintable.classList.add("table-hover");
-				var barlivr = [{nom:"fbas",desc:"Fourchette Basse"},{nom:"fhaut",desc:"Fourchette Haute"},{nom:"prix",desc:"Prix"}];
-				mainthead = document.createElement("THEAD");		 	
-				tr = document.createElement("TR");
-				for (var i=0; i<barlivr.length; i++)          	
-			 	{
-						th = document.createElement("TH");
-		   			th.innerHTML = barlivr[i].desc;
-			   		tr.appendChild(th);
-			 	}
-			 	mainthead.appendChild(tr);
-			 	maintable.appendChild(mainthead);
-			 	maintbody = document.createElement("TBODY");
-			 	for (var j=0; j<donnees.length; j++)
-			 	{
-			 		tr = document.createElement("TR");
-					for (var i=0; i<barlivr.length; i++)          	
-			   	{
-			   		var blid = donnees[j][0];
-						var fbas = donnees[j][1];
-						var fhaut = donnees[j][2];
-						var scout = donnees[j][3];
-						var plancher = donnees[j][4];
-						var plafond = donnees[j][5];
-						var actif = donnees[j][6];
-						 			   			   		
-		     		td = document.createElement("TD");
-						
-						if (i == 0)
+				 	maintable.appendChild(maintbody);
+				 	firstdiv.appendChild(maintable);
+				 	document.getElementById(place).appendChild(firstdiv);
+	
+				 	//document.getElementById(place).appendChild(document.createElement("BR"));
+				 	if (pagination == true)
+				 	{
+				 		var divrpp = document.createElement("DIV");
+				 		divrpp.classList.add("divrpp");
+					 	lblrpp = document.createElement("LABEL");
+					 	lblrpp.for = "rpp" + numtable ;
+					 	lblrpp.innerHTML = "Nombre de résultat par page";
+					 	divrpp.appendChild(lblrpp);
+					 	selres = document.createElement("SELECT");
+					 	selres.onchange = function () {
+					 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
+					 	}
+					 	selres.id = "rppid" + numtable; 
+						for (var k=0; k<rpp.length; k++)
 						{
-							if (plancher == 0)
-							{
-								td.innerHTML = "zéro";
-							}							
-							else {
-								td.innerHTML = fbas;
+							optres = document.createElement("OPTION");
+							optres.value = rpp[k];
+							optres.innerHTML = rpp[k];
+							if (limite == rpp[k])
+								optres.selected = true;						        	
+							selres.appendChild(optres);       	
+						}				
+						vallimite = parseInt(limite);
+						divrpp.appendChild(selres);
+						document.getElementById(place).appendChild(divrpp);					
+						nav  = document.createElement("NAV");
+						nav.setAttribute("aria-label", "Page navigation");
+						ul = document.createElement("UL");
+						ul.classList.add("pagination");
+				    li = document.createElement("LI");
+				    li.classList.add("page-item");
+		
+				    if ((offset - vallimite) < 0)
+					    li.classList.add("disabled");
+						apl = document.createElement("A");
+						apl.classList.add("page-link");
+						apl.onclick = function () {
+							gettable(vue,place,tablestr, limite,(offset - vallimite),selcol,selid);
+						}
+						apl.setAttribute("aria-label", "Previous");
+						spanlq = document.createElement("SPAN");
+						spanlq.setAttribute("aria-hidden", "true");
+						spanlq.innerHTML = "&laquo;";
+						apl.appendChild(spanlq);
+						spanprev = document.createElement("SPAN");
+						spanprev.classList.add("sr-only");
+						spanprev.innerHTML = "Previous";
+						apl.appendChild(spanprev);
+						li.appendChild(apl);
+						ul.appendChild(li);
+		
+				    var totalpage = Math.ceil(total / vallimite);
+				    for (var k=0; k<totalpage;k++)
+				    {
+					    li = document.createElement("LI");
+					    li.classList.add("page-item");
+		 		    	if ((offset/ vallimite) == k)
+						    li.classList.add("active");
+							apl = document.createElement("A");
+							apl.classList.add("page-link");
+							apl.setAttribute("data-num", k);
+							apl.onclick = function () {
+								num = this.getAttribute("data-num");
+								gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
 							}
-						}						
-
-						if (i == 1)
-						{
-							if (plafond == 0)
-							{
-								td.innerHTML = " et + ";
-							}							
-							else {
-								td.innerHTML = fhaut;
-							}
-						}						
-
-						if (i == 2)
-							td.innerHTML = parseFloat(scout).toFixed(2);
-
-			     	tr.appendChild(td);
-			   	}
-			   	maintbody.appendChild(tr);    	
-				}
-			 	maintable.appendChild(maintbody);
-			 	firstdiv.appendChild(maintable);
-			 	document.getElementById(place).appendChild(firstdiv);
-
-			 	document.getElementById(place).appendChild(document.createElement("BR"));
-			 	lblrpp = document.createElement("LABEL");
-			 	lblrpp.for = "rpp" + numtable ;
-			 	lblrpp.innerHTML = "Nombre de résultat par page";
-			 	document.getElementById(place).appendChild(lblrpp);
-			 	selres = document.createElement("SELECT");
-			 	selres.onchange = function () {
-			 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
-			 	}
-			 	selres.id = "rppid" + numtable; 
-				for (var k=0; k<rpp.length; k++)
-				{
-					optres = document.createElement("OPTION");
-					optres.value = rpp[k];
-					optres.innerHTML = rpp[k];
-					if (limite == rpp[k])
-						optres.selected = true;						        	
-					selres.appendChild(optres);       	
-				}				
-				vallimite = parseInt(limite);
-				document.getElementById(place).appendChild(selres);				
-				nav  = document.createElement("NAV");
-				nav.setAttribute("aria-label", "Page navigation");
-				ul = document.createElement("UL");
-				ul.classList.add("pagination");
-		    li = document.createElement("LI");
-		    li.classList.add("page-item");
-
-		    if ((offset - vallimite) < 0)
-			    li.classList.add("disabled");
-				apl = document.createElement("A");
-				apl.classList.add("page-link");
-				apl.onclick = function () {
-					gettable(vue,place,tablestr,limite,(offset - vallimite),selcol,selid);
-				}
-				apl.setAttribute("aria-label", "Previous");
-				spanlq = document.createElement("SPAN");
-				spanlq.setAttribute("aria-hidden", "true");
-				spanlq.innerHTML = "&laquo;";
-				apl.appendChild(spanlq);
-				spanprev = document.createElement("SPAN");
-				spanprev.classList.add("sr-only");
-				spanprev.innerHTML = "Previous";
-				apl.appendChild(spanprev);
-				li.appendChild(apl);
-				ul.appendChild(li);
-
-		    var totalpage = Math.ceil(total / vallimite);
-		    for (var k=0; k<totalpage;k++)
-		    {
-			    li = document.createElement("LI");
-			    li.classList.add("page-item");
- 		    	if ((offset/ vallimite) == k)
-				    li.classList.add("active");
-					apl = document.createElement("A");
-					apl.classList.add("page-link");
-					apl.setAttribute("data-num", k);
-					apl.onclick = function () {
-						num = this.getAttribute("data-num");
-						gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
+							apl.innerHTML = k;
+							li.appendChild(apl);
+							ul.appendChild(li);
+				    }
+				    li = document.createElement("LI");
+				    li.classList.add("page-item");
+				    
+				    if ((offset + vallimite) >= total)
+							li.classList.add("disabled");		    	
+				    
+						apl = document.createElement("A");
+						apl.classList.add("page-link");
+						apl.onclick = function () {
+							gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
+						}
+						apl.setAttribute("aria-label", "Next");
+						spanrq = document.createElement("SPAN");
+						spanrq.setAttribute("aria-hidden", "true");
+						spanrq.innerHTML = "&raquo;";
+						apl.appendChild(spanrq);
+						spannext = document.createElement("SPAN");
+						spannext.classList.add("sr-only");
+						spannext.innerHTML = "Next";
+						apl.appendChild(spannext);
+						li.appendChild(apl);
+						ul.appendChild(li);
+						nav.appendChild(ul);
+				    document.getElementById(place).appendChild(nav);
+			    }
+	 				if (tablestr == "commande")
+	 				{
+						var j=0;
+						var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
+	
+		        fetch("boquery.php", {
+		          method: "POST",
+		          headers: {
+		        		'Content-Type': 'application/json',
+		        		'Accept': 'application/json'
+		          },
+		          body: JSON.stringify(obj3)
+		        })
+		        .then(function(result) {
+		          return result.json();
+		        })
+		        .then(function(data) {
+		        	if (typeof (data.error) !== "undefined")
+		          {
+			        	var modal = $('.modal');
+			        	$('.modal-title').html('Erreur');
+						    modal.find('.modal-body').text(data.error);
+						    $('.modal').modal('show');
+		          }
+		         	else
+		         	{
+		         		var rowtocolor = document.getElementsByClassName("colored");
+		         		for (var i=0; i< data.length; i++)
+		         		{
+		         			var couleur = data[i][0];
+	
+		         			if (luminosite(couleur)>128)	         			
+		         				rowtocolor[i].style.color = 'black';
+		         			else 
+		         				rowtocolor[i].style.color = 'white';
+		         			
+			         		rowtocolor[i].style.backgroundColor = couleur;
+		         		}
+		         	}
+		        })
 					}
-					apl.innerHTML = k;
-					li.appendChild(apl);
-					ul.appendChild(li);
-		    }
-		    li = document.createElement("LI");
-		    li.classList.add("page-item");
-		    
-		    if ((offset + vallimite) >= total)
-					li.classList.add("disabled");		    	
-		    
-				apl = document.createElement("A");
-				apl.classList.add("page-link");
-				apl.onclick = function () {
-					gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
 				}
-				apl.setAttribute("aria-label", "Next");
-				spanrq = document.createElement("SPAN");
-				spanrq.setAttribute("aria-hidden", "true");
-				spanrq.innerHTML = "&raquo;";
-				apl.appendChild(spanrq);
-				spannext = document.createElement("SPAN");
-				spannext.classList.add("sr-only");
-				spannext.innerHTML = "Next";
-				apl.appendChild(spannext);
-				li.appendChild(apl);
-				ul.appendChild(li);
-				nav.appendChild(ul);
-		    document.getElementById(place).appendChild(nav);
+				else 
+				{
+				  var nodatap = document.createElement("P");
+				  var ita = document.createElement("I");
+				  ita.innerText = 'Il n\'y a pas de ' + tables[getnumtable(table)].desc + ' à afficher';
+				  nodatap.appendChild(ita);
+			  	document.getElementById(place).appendChild(nodatap);				
+			  }
 			}
-
 			   			
 			function editcol(tablestr, limite , offset) 
 			{
@@ -2051,7 +1912,7 @@
 						var clbtn = document.createElement('button');
 						clbtn.id = "clbtn" + numtable;
 						clbtn.type = "button";
-						clbtn.innerHTML = "Close";
+						clbtn.innerHTML = "Retour";
 						clbtn.classList.add("btn");
 						clbtn.classList.add("btn-primary");
 						clbtn.classList.add("btn-block");
@@ -2065,7 +1926,7 @@
   						vuep.hidden = false
 	  					vue.hidden = true;
 							vue.innerHTML = '';
-						}; 
+						};
 						vue.appendChild(clbtn);
 					}
       	})
@@ -2097,37 +1958,47 @@
 			    }
 			    else 
 			    {
-			    	var total = data[0];	
-		      	var obj2 = { customer: boutic, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
-		  	
-		        fetch("boquery.php", {
-		          method: "POST",
-		          headers: {
-		        		'Content-Type': 'application/json',
-		        		'Accept': 'application/json'
-		          },
-		          body: JSON.stringify(obj2)
-		        })
-		          .then(function(result) {
-		            return result.json();
-		          })
-		          .then(function(data) {
-		          	if (typeof (data.error) !== "undefined")
-		          	{
-			        		var modal = $('.modal');
-			        		$('.modal-title').html('Erreur');
-						      modal.find('.modal-body').text(data.error);
-						      $('.modal').modal('show');
-		          	}
-		         		else
-		         		{
-		         			document.getElementById(place).innerHTML = "";
-         					displaytable( vue, place, table, data, total, limite, offset, selcol, selid);
-								}
-         			}) 
+			    	var total = parseInt(data[0]);
+			    	var pagination = true;
+       			if (total <= deflimite)
+		        {
+							limite = total;
+							offset = 0;
+							pagination = false;		         			
+		        }	
+		        else {
+		        	pagination = true;
 		        }
-        	})
-        }
+			      var obj2 = { customer: boutic, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
+			  	
+			      fetch("boquery.php", {
+			        method: "POST",
+			        headers: {
+			      		'Content-Type': 'application/json',
+			       		'Accept': 'application/json'
+			        },
+			        body: JSON.stringify(obj2)
+			      })
+		        .then(function(result) {
+		          return result.json();
+		        })
+		        .then(function(data) {
+		         	if (typeof (data.error) !== "undefined")
+		         	{
+			       		var modal = $('.modal');
+			       		$('.modal-title').html('Erreur');
+						     modal.find('.modal-body').text(data.error);
+						     $('.modal').modal('show');
+		         	}
+		        	else
+		        	{
+		        		document.getElementById(place).innerHTML = "";
+         				displaytable( vue, place, table, data, total, pagination, limite, offset, selcol, selid);
+							}
+					  })
+					}
+				})
+      }
       
 			function datatooption(place, donnees, selidx, tosel)
 			{
@@ -2205,7 +2076,7 @@
           
       } 
       
-			function insertrow( vue, place, table, row, limite, offset, selcol, selid)      
+			function insertrow( vue, vueparent, place, table, row, limite, offset, selcol, selid)      
       {
         var retour;      
         
@@ -2232,12 +2103,16 @@
          	}
          	else 
          	{
-	          gettable(vue, place, table, limite, offset, selcol, selid);
+						document.getElementById(vueparent).hidden = false
+						vue.hidden = true;
+						vue.innerHTML = '';
+         		
+	          gettable(vueparent, place, table, limite, offset, selcol, selid);
          	}
       	})
       } 
 
-			function updaterow( vue, place, table, row, pknom, idtoup, limite, offset, selcol, selid)      
+			function updaterow( vue, vueparent, place, table, row, pknom, idtoup, limite, offset, selcol, selid)      
       {
         var retour;      
         
@@ -2264,8 +2139,13 @@
          	}
          	else 
          	{
-         		if (vue != "")
-         			gettable(vue, place, table, limite, offset, selcol, selid);
+         		if (vueparent != "")
+         		{
+							document.getElementById(vueparent).hidden = false;
+							vue.hidden = true;
+							vue.innerHTML = '';
+							gettable(vueparent, place, table, limite, offset, selcol, selid);
+         		}
          	}
       	})
       }

@@ -66,7 +66,7 @@
   			array("master_logo", "" ,"Le logo principal"),
   			array("Choix_Paiement", $paiement, "COMPTANT ou LIVRAISON ou TOUS"),
   			array("MP_Comptant", $compt, "Texte du paiement comptant"),
-  			array("MP_Livraison", $livr, "texte du paiement à la livraison"),
+  			array("MP_Livraison", $livr, "Texte du paiement à la livraison"),
   			array("Choix_Method", $vente, "TOUS ou EMPORTER ou LIVRER"),
   			array("CM_Livrer", $livrer, "Texte de la vente à la livraison"),
   			array("CM_Emporter", $emporter, "Texte de la vente à emporter"),
@@ -121,9 +121,12 @@
 	    
 
 		$statuts = array (
-  			array("Commande à faire", "#FFC0CB", "Vote commande chez %boutic% d'un montant de %total% € a été transmise.", 1),
-  			array("En cours de préparation", "#FFA500","En cours de préparation chez %boutic% pour un montant de %total% €", 0),
-  			array("En cours de livraison", "#0000FF", "Commande référence %numref% à l'état %etat%", 0),
+  			array("Commande à faire", "#E2001A", "Vote commande chez %boutic% d'un montant de %total% € a été transmise.", 1),
+  			array("En cours de préparation", "#EB690B","En cours de préparation chez %boutic% pour un montant de %total% €", 0),
+  			array("En cours de livraison", "#E2007A", "Commande référence %numref% à l'état %etat%", 0),
+  			array("Commande à disposition", "#009EE0", "Commande référence %numref% à l'état %etat%", 0),
+  			array("Commande terminée", "#009036", "Commande référence %numref% à l'état %etat%", 0),
+  			array("Commande anulée", "#1A171B", "Commande référence %numref% à l'état %etat%", 0),
 			);
 
 		for($i=0; $i<count($statuts); $i++)

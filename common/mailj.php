@@ -93,21 +93,24 @@ try
   $isHTML = GetValeurParam("isHTML_mail", $conn, $customid, "TRUE");
   $mail->isHTML($isHTML);                                  // Set email format to HTML
 
-  $subject = GetValeurParam("Subject_mail", $conn, $customid, "Une commande PraticBoutic");
+  $subject = GetValeurParam("Subject_mail", $conn, $customid, "Nouvelle commande via PraticBoutic");
   $mail->Subject = $subject;
   
   $tel_mobile = $json_obj->telephone;
   $text = '<!DOCTYPE html>';
   $text = $text . '<html>';
+  $text = $text . '<head>';
+  $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+  $text = $text . '</head>';
   $text = $text . '<body>';
-
   if ($json_obj->method == '1') 
   {
-    $text = $text . '<h2>Consomation sur place<br><h2>';
-    $text = $text . '<h3>Commande table numéro ' . $json_obj->table . '<br></h3>';
-    $text = $text . '<h3>Téléphone: <br></h3>';
-    $text = $text . '<h3>' . $json_obj->telephone . '<br></h3>';
-    
+    $text = $text . '<p style="font-family: \'Sans\'"><b>Vente : </b>Consomation sur place<br></p>';
+    $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    $text = $text . '<p style="font-family: \'Sans\'"><b>Commande table numéro : </b> ' . $json_obj->table . '<br></p>';
+    $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    $text = $text . '<p style="font-family: \'Sans\'"><b>Téléphone : </b>' . $json_obj->telephone . '<br></p>';
+    $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
   }
   /*if ($json_obj->method == '2') 
   {
@@ -117,53 +120,79 @@ try
   if ($json_obj->method == '3') 
   {
     if (strcmp($json_obj->vente, "EMPORTER") == 0)
-      $text = $text . '<h3>Vente à emporter<br></h3>';
+    {
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Vente : </b> A emporter<br></p>';
+      $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    }
     if (strcmp($json_obj->vente, "LIVRER") == 0)
-      $text = $text . '<h3>Vente à livrer<br></h3>';
+    {
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Vente : </b> A livrer<br></p>';
+    	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    }
     if (strcmp($json_obj->paiement, "COMPTANT") == 0)
-      $text = $text . '<h3>Paiement au comptant<br></h3>';
+    {
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Paiement : </b> Au comptant<br></p>';
+    	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    }
     if (strcmp($json_obj->paiement, "LIVRAISON") == 0)
-      $text = $text . '<h3>Paiement à la livraison<br></h3>';
-    $text = $text . '<h3>Client: <br></h3>';
-    $text = $text . '<h3>' . htmlspecialchars($json_obj->nom) . '<br>' . htmlspecialchars($json_obj->prenom) . '<br>' . $json_obj->telephone . '<br></h3>';
+    {
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Paiement : </b> A la livraison<br></p>';
+      $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    }
+    $text = $text . '<p style="font-family: \'Sans\'"><b>Nom du client : </b>' . htmlspecialchars($json_obj->nom) . ' ' . htmlspecialchars($json_obj->prenom) . '<br></p>';
+    $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">'; 
+    $text = $text . '<p style="font-family: \'Sans\'"><b>Téléphone : </b>' . $json_obj->telephone . '<br></p>';
+    $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+    
     if (strcmp($json_obj->vente, "LIVRER") == 0)
-    {   
-      $text = $text . '<h3>Adresse de livraison: <br></h3>';
-      $text = $text . '<h3>' . htmlspecialchars($json_obj->adresse1) . '<br>' . htmlspecialchars($json_obj->adresse2) . '<br>' . $json_obj->codepostal . '<br>' . htmlspecialchars($json_obj->ville) . '<br></h3>';
+    {
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Adresse (ligne1) : </b>' . htmlspecialchars($json_obj->adresse1) . '</p><hr style="width:50%;text-align:left;margin-left:0">';
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Adresse (ligne2) : </b>' . htmlspecialchars($json_obj->adresse2) . '</p><hr style="width:50%;text-align:left;margin-left:0">';
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Code Postal : </b>' . $json_obj->codepostal . '<br><hr style="width:50%;text-align:left;margin-left:0"></p>';
+      $text = $text . '<p style="font-family: \'Sans\'"><b>Ville : </b>' . htmlspecialchars($json_obj->ville) . '<br><hr style="width:50%;text-align:left;margin-left:0"></p>';
     }
   }
   
-  $text = $text . '<h3>Information suplémentaire: <br></h3>';
-  $text = $text . '<h3>' . nl2br(stripslashes(strip_tags($json_obj->infosup))) . '</h3>';
+  $text = $text . '<p style="font-family: \'Sans\'"><b>Information complémentaire : </b>';
+  $text = $text . nl2br(stripslashes(strip_tags($json_obj->infosup))) . '</p>';
+  $text = $text . '<hr style="border: 3px solid black;margin-top:15px;margin-bottom:25px;width:50%;text-align:left;margin-left:0">';
   
   $val=0;
   $sum = 0;
    
-  $text = $text . '<h3>Commande: <br></h3>';
+  $text = $text . '<p style="font-size:130%;margin-bottom:25px;font-family: \'Sans\'"><b>Détail de la commande : </b><br></p>';
+  $numitems = count($json_obj->items);
+  $i = 0;
   foreach( $json_obj->items as $value) 
 	{
-			$text = $text . '<h3>' . htmlspecialchars($value->name) . ' : ' . $value->qt . ' x ' . number_format($value->prix, 2, ',', ' ') . htmlspecialchars($value->unite) . '<br>' . $value->opts . '</h3>';
-			$text = $text . '<a><i>' . nl2br(stripslashes(strip_tags(htmlspecialchars($value->txta)))) . '</i></a>';
-			$val = $val + $value->qt;
-			$sum = $sum + $value->prix * $value->qt;
+		$i++;
+		$text = $text . '<p style="font-family: \'Sans\'">';
+		$text = $text . 'Ligne ' . $i . '<br>';
+		$text = $text . '<b>' . htmlspecialchars($value->name) . '</b><br>';
+		$text = $text . $value->qt . ' x ' . number_format($value->prix, 2, ',', ' ') . htmlspecialchars($value->unite) . '<br>';
+		$text = $text . $value->opts;
+		$text = $text . '<i>' . nl2br(stripslashes(strip_tags(htmlspecialchars($value->txta)))) . '</i>';
+		$text = $text . '</p>';
+		if($i !== $numitems) 
+	    $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+		
+		$val = $val + $value->qt;
+		$sum = $sum + $value->prix * $value->qt;
 	}
+	$text = $text . '<hr style="border: 3px solid black;margin-top:15px;margin-bottom:25px;width:50%;text-align:left;margin-left:0">';
 	if (strcmp($json_obj->vente, "LIVRER") !== 0)
-  	$text = $text . '<h2>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
+	{
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'"><b>Total Commande : ' . number_format($sum, 2, ',', ' ') . '€ </b><br></p>';
+  }
   else 
   {
-  	$text = $text . '<h2>Sous-total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br><h2>';
-  	$text = $text . '<h2>Frais de Livraison : ' . number_format($json_obj->fraislivr, 2, ',', ' ') . '€ <br><h2>';
-  	$text = $text . '<h2>Total Commande : ' . number_format($sum + $json_obj->fraislivr, 2, ',', ' ') . '€ <br><h2>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Sous-total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br></p>';
+  	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Frais de Livraison : ' . number_format($json_obj->fraislivr, 2, ',', ' ') . '€ <br></p>';
+  	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'"><b>Total Commande : ' . number_format($sum + $json_obj->fraislivr, 2, ',', ' ') . '€ </b><br></p>';
   }
   
-	/*if (strcmp($validsms,"1") == 0)
-	{
-	  $text = $text . '<br>';
-		$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été validée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Accepter la commande</a>';
-		$text = $text . '<br>';
-		$text = $text . '<a href="https://api.smsfactor.com/send?text=Votre commande a été rejetée.&to=' . $tel_mobile . '&token=' . $tokensms . '&sender=' . $sendersms . '">Rejeter la commande</a>';
-	}*/
-	
   $text = $text . '</body>';
   $text = $text . '</html>';
 

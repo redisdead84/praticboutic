@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.07">
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="css/back.css?v=1.10">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -15,10 +15,10 @@
   </head>
   <body>
 		<div class="modal" tabindex="-1" role="dialog" data-backdrop="false">
-		  <div class="modal-dialog" role="document">
+		  <div class="modal-dialog modal-dialog-centered" role="document">
 		    <div class="modal-content">
 		    	<div class="modal-header">
-			    	<h5 class="modal-title">Information</h5>
+			    	<h5 class="modal-title">INFORMATION</h5>
 			    </div>
 			   	<div class="modal-body">
 						<?php
@@ -131,14 +131,17 @@
 						
 						    $text = '<!DOCTYPE html>';
 						    $text = $text . '<html>';
+  							$text = $text . '<head>';
+  							$text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+  							$text = $text . '</head>';						    
 						    $text = $text . '<body>';
-						    $text = $text . '<h3>Bonjour ';
-						    $text = $text . $email . '<br /><br />';    		
-						    $text = $text . '  Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement <br />';    		
+						    $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
+						    $text = $text . $email . '<br><br>';    		
+						    $text = $text . '&nbsp;&nbsp;Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement. <br>';    		
 						    $text = $text . 'Voici votre nouveau mot de mot de passe administrateur praticboutic : ';
-						    $text = $text . $password . '<br />';
-						    $text = $text . 'Vous pourrez en personnaliser un nouveau à partir de l\'écran d\'administration.<br />';
-						    $text = $text . 'Cordialement<br />L\'équipe praticboutic<br /></h3>';
+						    $text = $text . '<b>' . $password . '</b><br>';
+						    $text = $text . 'Vous pourrez en personnaliser un nouveau à partir de l\'écran d\'administration.<br><br>';
+						    $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
 						    $text = $text . '</body>';
 						    $text = $text . '</html>';
 						
