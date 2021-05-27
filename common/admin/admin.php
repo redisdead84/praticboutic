@@ -1289,7 +1289,7 @@
 				     				
 										var col = {nom:this.getAttribute("data-field"), valeur:val, type:'checkbox'};
 										row.push(col);				
-				     				updaterow("", "", "", this.getAttribute("data-table"), row, this.parentElement.parentElement.getAttribute("data-pknom"), this.parentElement.parentElement.getAttribute("data-pkval"), limite, offset, "", 0);
+				     				updaterow(null, "", "", this.getAttribute("data-table"), row, this.parentElement.parentElement.getAttribute("data-pknom"), this.parentElement.parentElement.getAttribute("data-pkval"), limite, offset, "", 0);
 				     				e.stopPropagation();
 				     			}
 												     			
@@ -1859,7 +1859,8 @@
 													var row = [];
 													var col = {nom:"statid", valeur:lien.value, type:champs[i].typ};
 													row.push(col);
-													updaterow('table' + numtable, 'table' + numtable, tables[numtable].nom, row, "cmdid", objectid, limite, offset, "", 0);
+													updaterow(null, "", "", tables[numtable].nom, row, "cmdid", objectid, limite, offset, "", 0);
+													
 													sendStatutSMS(objectid);
 										  		var couleur = this.options[this.selectedIndex].style.backgroundColor;
 										  		this.style.backgroundColor = couleur;
