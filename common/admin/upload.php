@@ -29,14 +29,20 @@ try {
  	if(empty($fichier) == FALSE)
  	{  
     $dossier = '../../' . $customer . '/upload/';
-    $taille_maxi = intval(GetValeurParam("Max_file_size", $conn, $customid, "5000000"));
+    $taille_maxi = intval($maxfilesize);
+    $mimetype = mime_content_type($_FILES['file']['tmp_name']);
     $taille = filesize($_FILES['file']['tmp_name']);
     $extensions = array('.png', '.gif', '.jpg', '.jpeg');
-    $extension = strtolower(strrchr($_FILES['file']['name'], '.')); 
+    $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
+    $mimes = array('image/gif','image/png','image/jpeg'); 
     //Début des vérifications de sécurité...
     if(!in_array($extension, $extensions)) //Si l'extension n'est pas dans le tableau
     {
       throw new Error('Vous devez uploader un fichier de type png, gif, jpg, jpeg...');
+    }
+    if(!in_array($mimetype, $mimes))
+    {
+    	throw new Error('type mime non reconnu');
     }
     if($taille>$taille_maxi)
     {

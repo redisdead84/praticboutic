@@ -18,4 +18,14 @@
     return $valeur;
   }
   
+  function SetValeurParam($nom, $valeur, $conn, $customid)
+  {
+  	$error = 0;
+    $query = 'UPDATE parametre SET valeur = "' . $valeur .'" WHERE nom = "' . $nom . '" AND customid = "' . $customid . '"';
+		if ($conn->query($query) === FALSE)
+		{
+			$error = -1;
+		}
+    return $error;
+  }
 ?>

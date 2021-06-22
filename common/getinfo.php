@@ -12,19 +12,17 @@
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);  
     
-  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+  $reqci = $conn->prepare('SELECT customid, nom, adresse1, adresse2, codepostal, ville, logo FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
-  $reqci->bind_result($customid);
+  $reqci->bind_result($customid, $nom, $adresse1, $adresse2, $codepostal, $ville,  $logo);
   $resultatci = $reqci->fetch();
   $reqci->close();
-
    
-  $adr = GetValeurParam("ADRESSE",$conn, $customid);
+  $adr = $nom . ' ' . $adresse1 . ' ' . $adresse2 . ' ' . $codepostal . ' ' . $ville;
 
   $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
   $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
-
   
   if (empty($_SESSION[$customer . '_mail']) == TRUE)
   {
@@ -62,7 +60,6 @@
 			echo '<img id="mainlogo" src="img/logo-pratic-boutic.png">';
 			echo '</div>';		
 			
-			
       echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '" data-verifcp="' . $verifcp . '" >';
       
       echo '<form name="mainform" autocomplete="on" method="post" action="paiement.php?method=';
@@ -73,8 +70,7 @@
       echo $customer ;
       echo '">';
 
-      $logo = GetValeurParam("master_logo", $conn, $customid);     
-      echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
+      echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
       
       if ($method > 0)
       {      

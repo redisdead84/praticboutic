@@ -11,15 +11,16 @@
   <body>
     <form method="post" action="valid.php">
     <div class="main">
-    <p>
-     <label>Courriel</label>
-     <input type="string" id="emailid" name="email"><br>
-     <br />
-     <label>mot de passe</label>
-     <input type="password" id="passid" name="pass"><br>
-     <br />
-   </p>
-   <input class="inpmove" type="submit" value="Valider">
+     <label>Courriel : </label>
+     <br>
+     <input type="string" id="emailid" name="email">
+     <br>
+     <label>mot de passe : </label>
+     <br>
+     <input type="password" id="passid" name="pass">
+     <br><br>
+	   <input class="inpmove" type="submit" value="Valider">
+	   <br>
    </div>
    </form>
    <br />

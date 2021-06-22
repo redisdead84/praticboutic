@@ -60,10 +60,13 @@ try {
 
 	//error_log($input->action);
 	
-	for($i=0; $i<count($input->tables); $i++)
+	if (strcmp($input->table,"")!=0)
 	{
-		if (strcmp($input->tables[$i]->nom, $input->table)==0)
-			$numtable = $i;		
+		for($i=0; $i<count($input->tables); $i++)
+		{
+			if (strcmp($input->tables[$i]->nom, $input->table)==0)
+				$numtable = $i;		
+		}
 	}	  
 	
 	if (strcmp($input->action,"elemtable") == 0)
@@ -85,7 +88,7 @@ try {
 	  if (strcmp($input->selcol, "")!=0)
 			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 			
-		for($i=0; $i<count($input->filtres); $i++)
+		/*for($i=0; $i<count($input->filtres); $i++)
 		{
 			if (strcmp($input->filtres[$i]->table, $input->tables[$numtable]->nom)==0)
 			{
@@ -94,7 +97,7 @@ try {
 				$fval = $input->filtres[$i]->valeur;
 				$query = $query . ' AND T1.' . $fchamp . ' ' . $fop . ' ' . '"' . $fval . '"';
 			}
-		}
+		}*/
 		
 		//error_log($query);
 		
@@ -563,6 +566,64 @@ try {
 		  $result->close();
 	  }   
   }
+
+	if (strcmp($input->action,"getparam") == 0)
+  {
+		$value = stripcslashes(GetValeurParam($input->param, $conn, $customid, ""));
+					
+		//error_log($value);
+		
+		$arr=array();	
+		
+		array_push($arr, $value);
+
+  }		
+
+	if (strcmp($input->action,"setparam") == 0)
+  {
+		$error = SetValeurParam($input->param, addslashes($input->valeur), $conn, $customid, "");
+			
+		//error_log($error);
+		
+  	$arr=array();	
+		
+		array_push($arr, $error);
+		
+  }	
+
+	if (strcmp($input->action,"getCustomProp") == 0)
+  {
+  	$query = "SELECT " . stripcslashes($input->prop) . " FROM customer WHERE customid = " . $customid . " LIMIT 1";			
+		
+		//error_log($query);
+		
+		$arr=array();	
+		
+		if ($result = $conn->query($query)) 
+		{
+			if ($row = $result->fetch_row()) 
+		  {	
+				array_push($arr, $row[0]);
+	    }						
+		  $result->close();
+	  }   
+
+  }		
+
+	if (strcmp($input->action,"setCustomProp") == 0)
+  {
+  	$query = "UPDATE customer SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE customid = " . $customid;			
+		
+		//error_log($query);
+
+		$arr=array();
+		// remove following comments to enable writing in db
+		if ($conn->query($query) === FALSE)
+		{
+			throw new Error($conn->error);
+		}
+  }	
+
 
   $conn->close();
 

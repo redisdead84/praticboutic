@@ -32,14 +32,14 @@
     if ($conn->connect_error) 
  	    die("Connection failed: " . $conn->connect_error);
  	    
-    $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+    $reqci = $conn->prepare('SELECT customid, logo FROM customer WHERE customer = ?');
  	  $reqci->bind_param("s", $customer);
  	  $reqci->execute();
- 	  $reqci->bind_result($customid);
+ 	  $reqci->bind_result($customid, $logo);
  	  $resultatci = $reqci->fetch();
  	  $reqci->close();
 
-    $logo = GetValeurParam("master_logo",$conn, $customid); 
+    //$logo = GetValeurParam("master_logo",$conn, $customid); 
 
     $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
     
@@ -52,7 +52,7 @@
 		echo '</div>';		
 		
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'" data-customer="' . $customer .'">';
-    echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
+    echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
 
     echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php?method=';
     echo $method ;

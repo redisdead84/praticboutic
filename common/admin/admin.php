@@ -24,7 +24,6 @@
   include "../config/common_cfg.php";
   include "../param.php";
     
-  
 ?>
 
 <!DOCTYPE html>
@@ -95,41 +94,77 @@
 	var arrrgoa = [];
 	
 	var stackvue = [];
+	
+	var w;
+	
+	var memnbcommande = 0;
 
   $(function() {
     gettable( "table0", "table0", "categorie", deflimite, defoffset);
     gettable( "table1", "table1", "article", deflimite, defoffset);
-    //gettable( "table2", "table2", "relgrpoptart", deflimite, defoffset);
     gettable( "table3", "table3", "groupeopt", deflimite, defoffset);
-    //gettable( "table4", "table4", "option", deflimite, defoffset);
     gettable( "table5", "table5", "administrateur", deflimite, defoffset);
-    gettable( "table6", "table6", "parametre", deflimite, defoffset);
+    fldCustomProp("pbnomid", "nom", "text");
+    fldCustomProp("pbadr1id", "adresse1", "text");
+    fldCustomProp("pbadr2id", "adresse2", "text");
+    fldCustomProp("pbcpid", "codepostal", "text");
+    fldCustomProp("pbvilleid", "ville", "text");
+    fldCustomProp("artlogofile", "logo", "image");
+    fldCustomProp("pbemailid", "courriel", "email");
+    fldParam( "ishtmlid", "isHTML_mail", "bool");
+    fldParam( "subjectmailid", "Subject_mail", "text");
+    fldParam( "validationsmsid", "VALIDATION_SMS", "bool");
+    fldParam( "verifcpid", "VerifCP", "bool");
+    fldParam( "choixpaiementid", "Choix_Paiement", "select");
+    fldParam( "mpcomptantid", "MP_Comptant", "text");
+    fldParam( "mplivraisonid", "MP_Livraison", "text");
+    fldParam( "choixmethodid", "Choix_Method", "select");
+    fldParam( "cmlivrerid", "CM_Livrer", "text");
+    fldParam( "cmemporterid", "CM_Emporter", "text");
+    fldParam( "mntmincmdid", "MntCmdMini", "prix");
+		fldParam( "mntlivraisonminiid", "MntLivraisonMini", "prix");
+    fldParam( "sizeimgid", "SIZE_IMG", "select");
+		fldParam( "moneysystemid", "MONEY_SYSTEM", "select");
+    fldParam( "publickeyid", "PublicKey", "text");
+		fldParam( "secretkeyid", "SecretKey", "text");
+		fldParam( "idcltpaypalid", "ID_CLT_PAYPAL", "text");
     gettable( "table7", "table7", "cpzone", deflimite, defoffset);
     gettable( "table8", "table8", "barlivr", deflimite, defoffset);
-    gettable( "table9", "table9", "commande", deflimite, defoffset);
+    gettable( "ihm9", "table9", "commande", deflimite, defoffset);
+    startWorkerCommande();
     gettable( "table11", "table11", "statutcmd", deflimite, defoffset);
   });
+
+
+
  
   </script>
   
 	  <div class="vertical-nav" id="sidebar">
 	  	<ul class="nav nav-menu flex-column">
 	  		<img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' />
-			  <span class="navbar-text breakword">
+			  <!--<span class="navbar-text breakword">
 			    Bienvenue sur le backoffice de la boutic <?php echo $boutic;?>, <?php echo $_SESSION[$boutic . '_email']; ?> ! 
-			  </span>
+			  </span>-->
 			  <li class="nav-item">
-			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
+			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
+			    <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
 			  </li>
  			  <li class="nav-item">
-			    <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
+			    <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
+			  </li>	
+			  <div class="demiinter"></div>		  
+ 			  <li class="nav-item">
+			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' /><?php echo $boutic;?></a>
 			  </li>			  
  			  <li class="nav-item">
-			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false"><img class='picto' src='img/picto_mon_compte.png' />Administration</a>
-			  </li>			  
+			    <a class="nav-link" href="https://pratic-boutic.fr/#faq"><p class="nopicto">Aide</p></a>
+			  </li>
+ 			  <li class="nav-item">
+			    <a class="nav-link" href="https://pratic-boutic.fr/praticboutic"><p class="nopicto">Marketing</p></a>
+			  </li>
  			  <li class="nav-item">
 			    <a class="nav-link" href="logout.php"><p class="nopicto">Deconnexion</p></a>
 			  </li>
@@ -150,7 +185,9 @@
 					</ul>
 				<div class="tab-content" id="myTabCmdContent">
 					<div class="tab-pane active" id="commande" role="tabpanel" aria-labelledby="commande-tab">
-					  <div class='tbl' id="table9"></div>
+					  <div class='tbl' id='ihm9'>
+						  <div id="table9"></div>
+					  </div>
 					  <div class='tbl form-group' id="det9" data-vuep="table9" hidden></div>
 					  <div class='tbl form-group' id="det10" data-vuep="det9" hidden></div>
 					</div>
@@ -171,7 +208,7 @@
 						<a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="false">PRODUITS</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">GROUPES D'OPTION</a>
+						<a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">OPTIONS</a>
 					</li>
 				</ul>
 				<div class="tab-content" id="myTabProdContent">
@@ -181,11 +218,13 @@
 					  <div class='tbl form-group' id="maj0" data-vuep="table0" hidden></div>
 					</div>
 					<div class="tab-pane" id="article" role="tabpanel" aria-labelledby="article-tab">
-				  	<div class='tbl' id="table1"></div>	
-			 	  	<div class='tbl form-group' id="ins1" data-vuep="table1" hidden></div>
-			 	  	<div class='tbl form-group' id="maj1" data-vuep="table1" data-lnkchild="article" hidden></div>
-			 	  	<div class='tbl form-group' id="ins2" data-vuep="maj1" hidden></div>
-			 	  	<div class='tbl form-group' id="maj2" data-vuep="maj1" hidden></div>
+						<div class='tbl' id='ihm1'>
+					  	<div id="table1"></div>
+					  </div>	
+				 	  <div class='tbl form-group' id="ins1" data-vuep="table1" hidden></div>
+				 	  <div class='tbl form-group' id="maj1" data-vuep="table1" data-lnkchild="article" hidden></div>
+				 	  <div class='tbl form-group' id="ins2" data-vuep="maj1" hidden></div>
+				 	  <div class='tbl form-group' id="maj2" data-vuep="maj1" hidden></div>
 					</div>
 					<div class="tab-pane" id="groupeopt" role="tabpanel" aria-labelledby="groupeopt-tab">
 					  <div class='tbl' id="table3"></div>	
@@ -226,19 +265,169 @@
 					<a class="nav-link active" id="administrateur-tab" data-toggle="tab" href="#administrateur" role="tab" aria-controls="administrateur" aria-selected="false">UTILISATEURS</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" id="parametre-tab" data-toggle="tab" href="#parametre" role="tab" aria-controls="parametre" aria-selected="false">PARAMETRES</a>
+					<a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false">REGLAGES</a>
 				</li>
 			</ul>
 			<div class="tab-content" id="myTabAdminContent">
 				<div class="tab-pane active" id="administrateur" role="tabpanel" aria-labelledby="administrateur-tab">
-				  <div class='tbl' id="table5"></div>	
-			 	  <div class='tbl form-group' id="ins5" data-vuep="table5" hidden></div>
-			 	  <div class='tbl form-group' id="maj5" data-vuep="table5" hidden></div>	
+					<div class='tbl' id="ihm5">	
+					  <div id="table5"></div>
+					</div>
+				 	<div class='tbl form-group' id="ins5" data-vuep="table5" hidden></div>
+				 	<div class='tbl form-group' id="maj5" data-vuep="table5" hidden></div>	
 				</div>
-					<div class="tab-pane" id="parametre" role="tabpanel" aria-labelledby="parametre-tab">
-				  <div class='tbl' id="table6"></div>	
+				<div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
+<!--				  <div class='tbl' id="table6"></div>	
 			 	  <div class='tbl' id="ins6" data-vuep="table6" hidden></div>
-		 	  	<div class='tbl' id="maj6" data-vuep="table6" hidden></div>	
+		 	  	<div class='tbl' id="maj6" data-vuep="table6" hidden></div>	-->
+		 	  	<div class='tbl'>
+		 	  		<div class='twocol'>
+					  	<div class="param">
+					  	  <label>Nom de l'entreprise : </label>
+					  	  <input class="paramfield" id="pbnomid" type='text' maxlength="100" oninput="enblbtnvc(this)" />
+					  	</div>
+					  	<br>
+					  	<div class="param">
+					  	  <label>Adresse (ligne1) : </label>
+					  	  <input class="paramfield" id="pbadr1id" type='text' maxlength="150" oninput="enblbtnvc(this)" />
+					  	</div>
+					  	<br>
+					  	<div class="param">
+					  	  <label>Adresse (ligne2) : </label>
+					  	  <input class="paramfield" id="pbadr2id" type='text' maxlength="150" onchange="enblbtnvc(this)" />
+					  	</div>
+					  	<br>
+					  	<div class="param">
+					  	  <label>Code Postal : </label>
+					  	  <input class="paramfield" id="pbcpid" type='text' maxlength="5" oninput="enblbtnvc(this)" />
+					  	</div>
+					  	<br>
+					  	<div class="param">
+					  	  <label>Ville : </label>
+					  	  <input class="paramfield" id="pbvilleid" type='text' maxlength="50" oninput="enblbtnvc(this)" />
+					  	</div>
+					  	<br>
+						  <div class="" id="bloclogoid">
+						  	<label for="artlogofile">Logo : </label>
+								<input class="paramfield" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="enblbtnvc(this)" />
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="pbemailid">Courriel : </label>
+						    <input class="paramfield" id="pbemailid" type='email' maxlength="255" oninput="enblbtnvc(this)" />
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="ishtmlid">Courriel au format HTML : </label>
+						    <div>
+						    	<input class="paramfield" id="ishtmlid" type='checkbox' onclick="enblbtnvc(this)" />
+						    </div>
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="subjectmailid">Sujet du courriel : </label>
+						    <input class="paramfield" id="subjectmailid" type='text' maxlength="255" oninput="enblbtnvc(this)" />
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="validationsmsid">Validation SMS : </label>
+						    <div>
+						    	<input class="paramfield" id="validationsmsid" type='checkbox' onclick="enblbtnvc(this)" />
+						    </div>
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="verifcpid">Vérification des codes postaux : </label>
+						    <div>
+						      <input class="paramfield" id="verifcpid" type='checkbox' onclick="enblbtnvc(this)" />
+						    </div>
+						  </div>
+						  <br>
+					  	<div class="param">
+						  	<label for="choixpaiementid">Choix de paiement : </label>
+						  	<select class="paramfield" id="choixpaiementid" oninput="enblbtnvc(this)"  >
+						  		<option value='COMPTANT'>Comptant</option>
+						  		<option value='LIVRAISON'>Livraison</option>
+						  		<option value='TOUS'>Comptant & Livraison</option>
+						  	</select>
+					  	</div>
+						  <br>
+						  <div class="param">
+						    <label for="mpcomptantid">Texte du paiement comptant : </label>
+						    <input class="paramfield" id="mpcomptantid" type='text' maxlength="255" oninput="enblbtnvc(this)"  />
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="mplivraisonid">Texte du paiement à la livraison : </label>
+						    <input class="paramfield" id="mplivraisonid" type='text' maxlength="255" oninput="enblbtnvc(this)"  />
+						  </div>
+						  <br>
+					  	<div class="param">
+						  	<label for="choixmethodid">Choix de la méthode : </label>
+						  	<select class="paramfield" id="choixmethodid" onchange="enblbtnvc(this)"  >
+						  		<option value='EMPORTER'>Emporter</option>
+						  		<option value='LIVRER'>Livrer</option>
+						  		<option value='TOUS'>Emporter & Livrer</option>
+						  	</select>
+					  	</div>
+						  <br>
+						  <div class="param">
+						    <label for="cmlivrerid">Texte de la vente à la livraison : </label>
+						    <input class="paramfield" id="cmlivrerid" type='text' maxlength="255" oninput="enblbtnvc(this)"  />
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="cmemporterid">Texte de la vente à emporter : </label>
+						    <input class="paramfield" id="cmemporterid" type='text' maxlength="255" oninput="enblbtnvc(this)" />
+						  </div>
+						  <br>
+						  <div class="param">
+						    <label for="mntmincmdid">Montant minimum de commande : </label>
+						    <input class="inpprix paramfield" id="mntmincmdid" type='number' step='0.01' min='0' oninput="enblbtnvc(this)"  />
+						  </div>
+					  	<br>
+						  <div class="param">
+						    <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
+						    <input class="inpprix paramfield" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="enblbtnvc(this)"  />
+						  </div>
+					  	<br>
+					  	<div class="param">
+						  	<label for="sizeimgid">Taille des images : </label>
+						  	<select class="paramfield" id="sizeimgid" oninput="enblbtnvc(this)"  >
+						  		<option value='smallimg'>Petites</option>
+						  		<option value='bigimg'>Grandes</option>
+						  	</select>
+					  	</div>
+					  	<br>
+							<div class="param">
+						  	<label for="moneysystemid">Système de paiement : </label>
+						  	<select class="paramfield" id="moneysystemid" oninput="enblbtnvc(this)" >
+						  		<option value='STRIPE'>STRIPE</option>
+						  		<option value='PAYPAL'>PAYPAL</option>
+						  	</select>
+							</div>
+							<br>
+						  <div class="param">
+						    <label for="publickeyid">Clé Public Stripe : </label>
+						    <input class="paramfield" id="publickeyid" type='text' maxlength="255" oninput="enblbtnvc(this)" autocomplete="off" />
+						  </div>
+					  	<br>
+						  <div class="param">
+						    <label for="secretkeyid">Clé Privé Stripe : </label>
+						    <input class="paramfield" id="secretkeyid" type='password' maxlength="255" oninput="enblbtnvc(this)" autocomplete="one-time-code" />
+						  </div>
+					  	<br>
+						  <div class="param">
+						    <label for="idcltpaypalid">ID Client Paypal : </label>
+						    <input class="paramfield" id="idcltpaypalid" type='text' maxlength="255" oninput="enblbtnvc(this)" autocomplete="off" />
+						  </div>
+					  	<br>
+			  		</div>
+			  		<div class="center">
+							<input type='button' class="btn btn-primary btn-block" id='validparamid' disabled='true' value='Valid' onclick="validparamupdate()" />
+			  			<input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
+						</div>
+			  	</div>
 				</div>
 			</div>
 		</div>			
@@ -535,7 +724,6 @@
          		var modal = $('.modal');
 	       		$('.modal-title').html('Erreur');
    			    modal.find('.modal-body').text(errmsg);
-   			    //alert(fld.title);
        			$('.modal').modal('show');
 					}
 				}; 
@@ -549,13 +737,14 @@
 				clbtn.classList.add("btn");
 				clbtn.classList.add("btn-secondary");
 				clbtn.classList.add("btn-block");
+				clbtn.classList.add("btn-cancel");
 				clbtn.setAttribute("data-vuep", vueparent);
 				clbtn.setAttribute("data-vue", 'ins' + numtable);
 				clbtn.onclick = function(){
 					vuep = document.getElementById(this.getAttribute("data-vuep"));
 					vue = document.getElementById(this.getAttribute("data-vue"));
 
-					vuep.hidden = false
+					vuep.hidden = false;
 					vue.hidden = true;
 					vue.innerHTML = '';
 				}; 
@@ -619,6 +808,7 @@
 										lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
 										vue.appendChild(lbl);
 										var inp = document.createElement('input');
+										inp.autocomplete = "off";
 										if (champs[i].typ == "text")
 										{
 											inp.classList.add('form-control');			
@@ -892,6 +1082,7 @@
 						clbtn.classList.add("btn");
 						clbtn.classList.add("btn-secondary");
 						clbtn.classList.add("btn-block");
+						clbtn.classList.add("btn-cancel");
 						clbtn.setAttribute("data-vuep", vueparent);
 						clbtn.setAttribute("data-vue", 'maj' + numtable);
 
@@ -1917,6 +2108,7 @@
 						clbtn.classList.add("btn");
 						clbtn.classList.add("btn-primary");
 						clbtn.classList.add("btn-block");
+						clbtn.classList.add("btn-cancel");
 						clbtn.setAttribute("data-vuep", vueparent);
 						clbtn.setAttribute("data-vue", 'det' + numtable);
 
@@ -1960,6 +2152,8 @@
 			    else 
 			    {
 			    	var total = parseInt(data[0]);
+			    	if (table == "commande")
+			    		memnbcommande = total;
 			    	var pagination = true;
        			if (total <= deflimite)
 		        {
@@ -2217,11 +2411,492 @@
          	}
          	else 
          	{
-         		sendSMS( data[0], data[1]) 
+         		sendSMS( data[0], data[1]); 
          	}
       	})
-      }      
+      }
       
+			function startWorkerCommande()
+			{
+			  if(typeof(Worker) !== "undefined")
+			  {
+			    if(typeof(w) == "undefined")
+			    {
+			      w = new Worker("js/pb_worker.js");
+			    }
+			    w.onmessage = function(event) {
+			      //document.getElementById("result").innerHTML = event.data;
+		      	var obj = { customer: boutic, action:"elemtable", tables:tables, table:"commande", liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:"", selid:0, filtres:filtres };
+
+		        fetch("boquery.php", {
+		          method: "POST",
+		          headers: {
+		        		'Content-Type': 'application/json',
+		        		'Accept': 'application/json'
+		          },
+		          body: JSON.stringify(obj)
+		        })
+		        .then(function(result) {
+		          return result.json();
+		        })
+		        .then(function(data) {
+		        	if (typeof (data.error) !== "undefined")
+		        	{
+		        		var modal = $('.modal');
+		        		$('.modal-title').html('Erreur');
+					      modal.find('.modal-body').text(data.error);
+					      $('.modal').modal('show');
+					    }
+					    else
+					    {
+					    	var total = parseInt(data[0]);
+					    	if (total > memnbcommande)
+					    	{
+					    		memnbcommande = total;
+					    		var limitcmd = document.querySelectorAll("#rppid9")[0];
+					    		var vallimcmd = parseInt(limitcmd.value);
+					    		var offsetcmd = document.querySelectorAll("#table9 > nav > ul.pagination > li.active")[0];
+					    		var off2 = parseInt(offsetcmd.childNodes[0].textContent);
+					    		var valoffcmd = off2 * vallimcmd;
+									gettable( "table9", "table9", "commande", vallimcmd, valoffcmd);
+								}
+					    }
+				    })
+			    }
+				}
+				else 
+				{
+			  	document.getElementById("table9").innerHTML = "Sorry, your browser does not support Web Workers...";
+				}
+			}
+
+			function stopWorkerCommande()
+			{
+			  w.terminate();
+			  w = undefined;
+			}
+
+			window.addEventListener("beforeunload", function(event) {
+				stopWorkerCommande();
+			});
+			
+			function cancel(caller)
+			{
+				if (caller.classList.contains('active'))
+				{
+					var cancel = document.getElementsByClassName("btn-cancel");
+					for (var i=0; i<cancel.length; i++) 
+					{
+						if ((cancel[i].parentElement.hidden == false) && (cancel[i].parentElement.parentElement.classList.contains('active')))
+						{
+							cancel[i].click();
+							break;
+						}
+					}
+				}
+			}
+
+			function fldParam( elem, param, typ)
+      {
+        var retour;
+ 
+      	var obj = { customer: boutic, action:"getparam", tables:tables, table:"parametre", param:param };
+
+        fetch("boquery.php", {
+          method: "POST",
+          headers: {
+        		'Content-Type': 'application/json',
+        		'Accept': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+        .then(function(result) {
+          return result.json();
+        }) 
+        .then(function(data) {
+         	if (typeof (data.error) !== "undefined")
+         	{
+         		var modal = $('.modal');
+         		$('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
+            $('.modal').modal('show');
+         	}
+         	else 
+         	{
+         		var btnvalid, btncancel;
+         		document.getElementById(elem).setAttribute("data-param", param);
+         		document.getElementById(elem).setAttribute("data-typ", typ);
+         		document.getElementById(elem).setAttribute("data-modified", 'false');
+         		document.getElementById(elem).setAttribute("data-paramtype", 'norm');
+         		
+         		var savdata = data;
+         		if (typ == "prix")
+         		{
+         	 		document.getElementById(elem).value = parseFloat(data).toFixed(2);
+         		}
+         		else if (typ == "bool")
+         		{
+         			if (data == "1")
+         				document.getElementById(elem).checked = true;
+         			else
+         				document.getElementById(elem).checked = false;
+         		}
+         		else if (typ == "image")
+         		{
+         			var inp = document.createElement("INPUT");
+							inp.id = "artlogofile";
+							inp.classList.add('form-control-file');
+							inp.type = 'file';
+							inp.accept="image/png, image/jpeg";
+							inp.setAttribute("data-artlogo", "artlogo" );
+							inp.filename = data[0];
+							inp.setAttribute("data-logotruefilename", data[0]);
+							inp.setAttribute("data-artlogo", 'artlogo' );
+
+							document.getElementById(elem).appendChild(inp);									
+							inp.onchange = function () {
+								const fileInput = this;
+								const formdata = new FormData();
+								formdata.append('boutic', boutic);
+								formdata.append('file', fileInput.files[0]);
+								
+				        fetch("upload.php", {
+				          method: "POST",
+				          body: formdata
+				        })
+			          .then(function(result) {
+			            return result.json();
+			          })
+			          .then(function(data) {
+				         	if (typeof (data.error) !== "undefined")
+				         	{
+				         		var modal = $('.modal');
+				         		$('.modal-title').html('Erreur');
+				            modal.find('.modal-body').text(data.error);
+				            $('.modal').modal('show');
+				         	}
+									else {
+										document.getElementById(fileInput.getAttribute("data-artlogo")).src = pathimg + data;
+		        				fileInput.setAttribute("data-logotruefilename", data);
+		        				fileInput.filename = data;
+		        				imgclose.style.display = 'block';
+									}						         	
+				        })
+							}
+							var divp = document.createElement("DIV");
+							divp.classList.add("frameimg");
+							var image = document.createElement("IMG");
+							image.id = "artlogo";
+							image.alt = "";
+							image.classList.add("imgart");
+							image.src = pathimg + data[0];
+							divp.appendChild(image);
+								
+							var imgclose = document.createElement("IMG");
+							imgclose.id = 'logofermer';
+							imgclose.src = '../img/fermer.png';
+							imgclose.alt = "";
+							imgclose.classList.add("imgclose");
+							if (inp.filename == "")
+								imgclose.style.display = 'none';
+							if (image.src == "")
+								imgclose.style.display = 'none';
+							imgclose.setAttribute("data-artlogofile", "artlogofile" );
+							imgclose.setAttribute("data-artlogo", "artlogo" );
+							imgclose.addEventListener("click", function() {
+								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-logotruefilename",'');
+								document.getElementById(this.getAttribute("data-artlogofile")).value = '';
+								document.getElementById(this.getAttribute("data-artlogo")).src = '';
+								this.style.display = 'none';
+							});
+							divp.appendChild(imgclose); 
+							document.getElementById(elem).appendChild(divp);
+							document.getElementById(elem).appendChild(document.createElement("BR"));
+         		}
+         		else
+         			document.getElementById(elem).value = data;
+        	}
+      	})
+      }
+
+			function fldCustomProp( elem, prop, typ)      
+      {
+        var retour;      
+        
+      	var obj = { customer: boutic, action:"getCustomProp", tables:tables, table:"", prop:prop };
+     	
+        fetch("boquery.php", {
+          method: "POST",
+          headers: {
+        		'Content-Type': 'application/json',
+        		'Accept': 'application/json'
+          },
+          body: JSON.stringify(obj)
+        })
+        .then(function(result) {
+          return result.json();
+        }) 
+        .then(function(data) {
+         	if (typeof (data.error) !== "undefined")
+         	{
+         		var modal = $('.modal');
+         		$('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
+            $('.modal').modal('show');
+         	}
+         	else 
+         	{
+         		var btnvalid, btncancel;
+         		var savdata = data;
+         		document.getElementById(elem).setAttribute("data-prop", prop);
+         		document.getElementById(elem).setAttribute("data-typ", typ);
+         		document.getElementById(elem).setAttribute("data-modified", 'false');
+         		document.getElementById(elem).setAttribute("data-paramtype", 'csp');
+         		if (typ == "prix")
+         		{
+         	 		document.getElementById(elem).value = parseFloat(data).toFixed(2);
+         		}
+         		else if (typ == "bool")
+         		{
+         			if (data == "1")
+         				document.getElementById(elem).checked = true;
+         			else
+         				document.getElementById(elem).checked = false;
+         		}
+         		else if (typ == "image")
+         		{
+         			//var inp = document.createElement("INPUT");
+         			var inp = document.getElementById("artlogofile"); 
+
+							inp.setAttribute("data-artlogo", "artlogo" );
+							inp.filename = data[0];
+							inp.setAttribute("data-logotruefilename", data[0]);
+							inp.setAttribute("data-artlogo", 'artlogo' );
+
+							//document.getElementById(elem).appendChild(inp);									
+							inp.onchange = function () {
+								const fileInput = this;
+								const formdata = new FormData();
+								formdata.append('boutic', boutic);
+								formdata.append('file', fileInput.files[0]);
+								
+				        fetch("upload.php", {
+				          method: "POST",
+				          body: formdata
+				        })
+			          .then(function(result) {
+			            return result.json();
+			          })
+			          .then(function(data) {
+				         	if (typeof (data.error) !== "undefined")
+				         	{
+				         		var modal = $('.modal');
+				         		$('.modal-title').html('Erreur');
+				            modal.find('.modal-body').text(data.error);
+				            $('.modal').modal('show');
+				         	}
+									else {
+										fileInput.setAttribute("data-modified", 'true');
+										document.getElementById(fileInput.getAttribute("data-artlogo")).src = pathimg + data;
+		        				fileInput.setAttribute("data-logotruefilename", data);
+		        				fileInput.filename = data;
+		        				imgclose.style.display = 'block';
+									}						         	
+				        })
+							}
+							var divp = document.createElement("DIV");
+							divp.classList.add("frameimg");
+							var image = document.createElement("IMG");
+							image.id = "artlogo";
+							image.alt = "";
+							image.classList.add("imgart");
+							image.src = pathimg + data[0];
+							divp.appendChild(image);
+								
+							var imgclose = document.createElement("IMG");
+							imgclose.id = 'logofermer';
+							imgclose.src = '../img/fermer.png';
+							imgclose.alt = "";
+							imgclose.classList.add("imgclose");
+							if (inp.filename == "")
+								imgclose.style.display = 'none';
+							if (image.src == "")
+								imgclose.style.display = 'none';
+							imgclose.setAttribute("data-artlogofile", "artlogofile" );
+							imgclose.setAttribute("data-artlogo", "artlogo" );
+							imgclose.addEventListener("click", function() {
+								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-modified", 'true');
+								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-logotruefilename",'');
+								document.getElementById(this.getAttribute("data-artlogofile")).value = '';
+								document.getElementById(this.getAttribute("data-artlogo")).src = '';
+								this.style.display = 'none';
+								enblbtnvc(document.getElementById(this.getAttribute("data-artlogofile"))); 
+							});
+							divp.appendChild(imgclose); 
+							var pp = document.getElementById(elem).parentElement;
+							pp.appendChild(divp);
+         		}
+         		else
+         			document.getElementById(elem).value = data;
+
+         	}
+      	})
+      }
+      
+      function enblbtnvc(elem) 
+      {
+      	elem.setAttribute('data-modified', 'true');
+				document.getElementById('validparamid').disabled = false;
+				document.getElementById('cancelparamid').disabled = false;			
+      }
+			
+			function validparamupdate()
+			{
+				var pelem = document.getElementsByClassName("paramfield");
+				for (var i=0;i<pelem.length;i++) 
+				{
+					var el = pelem[i];
+					if (el.getAttribute("data-modified")== 'true')
+					{
+	     			var valeur;
+						if (el.getAttribute("data-typ") == "prix")
+	     				valeur = parseFloat(el.value).toFixed(2);
+	     			else if (el.getAttribute("data-typ") == "bool")
+	         	{
+		 	      	if (el.checked == true)
+		  	     		valeur = "1";
+		     	   	else
+		   	     		valeur = "0";
+	   	     	}
+	   	     	else if (el.getAttribute("data-typ") == "image")
+	   	     	{
+         			valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
+       				savdata = valeur;
+	   	     	}
+	     			else
+	     				valeur = el.value;
+	     			
+	     			var obj2;
+						if (el.getAttribute('data-paramtype') == "csp")
+						{
+		     			var prop = el.getAttribute("data-prop");
+		      		obj2 = { customer: boutic, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
+		      		
+		      	}
+		     		else {
+		     			var param = el.getAttribute("data-param");
+		     			obj2 = { customer: boutic, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
+		     		}
+
+ 		      	el.setAttribute('data-modified', 'false');
+
+		        fetch("boquery.php", {
+		          method: "POST",
+		          headers: {
+		        		'Content-Type': 'application/json',
+		        		'Accept': 'application/json'
+		          },
+		          body: JSON.stringify(obj2)
+		        })
+		        .then(function(result) {
+		          return result.json();
+		        }) 
+		        .then(function(data) {
+		         	if (typeof (data.error) !== "undefined")
+		         	{
+		         		var modal = $('.modal');
+		         		$('.modal-title').html('Erreur');
+		            modal.find('.modal-body').text(data.error);
+		            $('.modal').modal('show');
+		         	}
+		         	else {
+								document.getElementById('validparamid').disabled = true;
+								document.getElementById('cancelparamid').disabled = true;			
+	
+		         	}
+	       		})
+					}
+				}				
+											
+			}
+
+			function cancelparamupdate()
+			{
+				var pelem = document.getElementsByClassName("paramfield");
+				for (var i=0;i<pelem.length;i++) 
+				{
+					var el = pelem[i];
+					if (el.getAttribute("data-modified") == 'true')
+						subcancelparamupdate(el);
+				}
+			}
+
+			
+			function subcancelparamupdate(elem)
+			{
+				var paramtype = elem.getAttribute("data-paramtype");
+				
+				if (elem.getAttribute('data-paramtype') == "csp")
+				{
+     			var prop = elem.getAttribute("data-prop");
+     			
+      		obj2 = { customer: boutic, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      	}
+     		else 
+     		{
+     			var param = elem.getAttribute("data-param");
+     			obj2 = { customer: boutic, action:"getparam", tables:tables, table:"parametre", param:param };
+     		}
+				
+				fetch("boquery.php", {
+          method: "POST",
+          headers: {
+        		'Content-Type': 'application/json',
+        		'Accept': 'application/json'
+          },
+          body: JSON.stringify(obj2)
+        })
+        .then(function(result) {
+          return result.json();
+        }) 
+        .then(function(data) {
+         	if (typeof (data.error) !== "undefined")
+         	{
+         		var modal = $('.modal');
+         		$('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
+            $('.modal').modal('show');
+         	}
+					else 
+					{
+         		if (elem.getAttribute('data-typ') == "prix")
+         	 		elem.value = parseFloat(data).toFixed(2);
+       			if (elem.getAttribute('data-typ') == "bool")
+       			{
+ 	       			if (data == "1")
+  	     				elem.checked = true;
+     	   			else
+   	     				elem.checked = false;
+ 	     			}
+						else if (elem.getAttribute('data-typ') == "image")
+						{
+							document.getElementById(document.getElementById("logofermer").getAttribute("data-artlogofile")).setAttribute("data-logotruefilename", data);
+							document.getElementById(document.getElementById("logofermer").getAttribute("data-artlogo")).src = pathimg + data;
+							document.getElementById(document.getElementById("logofermer").getAttribute("data-artlogofile")).value = '';
+							document.getElementById("logofermer").style.display = 'block';
+							if (data == "")
+								document.getElementById('logofermer').style.display = 'none';
+							if (pathimg + data == "")
+								document.getElementById('logofermer').style.display = 'none';
+						}
+         		else
+	       			elem.value = data;
+					}
+				})
+				elem.setAttribute("data-modified", 'false');
+				document.getElementById('validparamid').disabled = true;
+				document.getElementById('cancelparamid').disabled = true;
+			}
     </script>
   </body>
 </html>

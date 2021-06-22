@@ -30,12 +30,9 @@
       include "../param.php";
      	
       $id = isset($_GET['identif']) ? $_GET['identif'] : '';
-      $rcvmail = isset($_POST['rcvemail']) ? $_POST ['rcvemail'] : '';
-      $rcvnom = isset($_POST['rcvnom']) ? $_POST ['rcvnom'] : '';
       $ishtml = isset($_POST['ishtml']) ? $_POST ['ishtml'] : '';
       $subject = isset($_POST['subject']) ? $_POST ['subject'] : '';
 			$validsms = isset($_POST['validsms']) ? $_POST ['validsms'] : '';
-			$adr = isset($_POST['adr']) ? $_POST ['adr'] : '';
 			$verifcp = isset($_POST['verifcp']) ? $_POST ['verifcp'] : '';
 			$paiement = isset($_POST['paiement']) ? $_POST ['paiement'] : '';
 			$livr = isset($_POST['livr']) ? $_POST ['livr'] : '';      
@@ -54,16 +51,13 @@
       if (empty($id)==TRUE ) {
         die("Identifiant vide");
       }
+     
 			      
 			$parametres = array (
-  			array("Receivermail_mail", $rcvmail, "Courriel du receveur pour l'envoi de mail"),
-  			array("Receivernom_mail", $rcvnom,"Nom du receveur pour l'envoi de mail"),
   			array("isHTML_mail", $ishtml, "HTML activé pour l'envoi de mail"),
   			array("Subject_mail",$subject,"Sujet du courriel pour l'envoi de mail"),
   			array("VALIDATION_SMS", $validsms, "Commande validée par sms ?"),
-  			array("ADRESSE", $adr, "Adresse de la pratic boutic"),
   			array("VerifCP", $verifcp, "Activation de la verification des codes postaux"),
-  			array("master_logo", "" ,"Le logo principal"),
   			array("Choix_Paiement", $paiement, "COMPTANT ou LIVRAISON ou TOUS"),
   			array("MP_Comptant", $compt, "Texte du paiement comptant"),
   			array("MP_Livraison", $livr, "Texte du paiement à la livraison"),
@@ -75,8 +69,8 @@
   			array("SIZE_IMG", $sizeimg, "bigimg ou smallimg"),
   			array("CMPT_CMD", "0", "Compteur des références des commandes"),
   			array("MONEY_SYSTEM", $syspaie, "STRIPE ou PAYPAL"),
-  			array("PublicKey", $pkey, ""),
-  			array("SecretKey", $skey, ""),
+  			array("PublicKey", $pkey, "Clé public stripe"),
+  			array("SecretKey", $skey, "Clé privé stripe"),
   			array("ID_CLT_PAYPAL", $clientpp, "ID Client PayPal"),
 			);
 
@@ -143,7 +137,10 @@
 	  }
 
 	  echo("<br>");	  
-		echo("<button onclick=\"window.location.href = 'logo.php?identif=" . $id . "';\">Cliquez ici pour insérer le logo</button>");
+    echo("<button onclick=\"window.location.href = 'depart.php'\">Cliquez ici pour créer une autre boutique</button>");
+    echo "<br>";
+    echo("<button onclick=\"window.location.href = 'logout.php'\">Cliquez ici pour quitter le superadmin</button>");
+
 
     ?>
 

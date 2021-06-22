@@ -12,10 +12,10 @@
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);
 
-  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+  $reqci = $conn->prepare('SELECT customid, logo FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
-  $reqci->bind_result($customid);
+  $reqci->bind_result($customid, $logo);
   $resultatci = $reqci->fetch();
   $reqci->close();
 
@@ -65,13 +65,10 @@
 
     <div id="finmain">
       <?php
-        $logo = GetValeurParam("master_logo",$conn, $customid);     
-        echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
+        echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
       ?>
       <div class="fsub">
      		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
-     		<!--<br>
-     		<button class="btnhcmd" id="submit">Voir mes commandes</button>-->
      	</div> 
     </div>
     <div id="footer">

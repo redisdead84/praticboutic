@@ -26,10 +26,10 @@
     exit();
   }
 
-  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+  $reqci = $conn->prepare('SELECT customid, logo FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
-  $reqci->bind_result($customid);
+  $reqci->bind_result($customid, $logo);
   $resultatci = $reqci->fetch();
   $reqci->close();
   
@@ -71,8 +71,7 @@
 
     echo '<div id="main" data-publickey="' . $pkey . '">';
     
-    $logo = GetValeurParam("master_logo",$conn, $customid);     
-    echo '<img id="logo" src="../' . $customer . '/' . $logo . '">';
+    echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
     
     ?>
 	   	<div id="pan">

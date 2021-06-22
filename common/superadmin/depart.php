@@ -25,11 +25,47 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-    <form autocomplete="off" method="post" action="declaration.php">
+    <form autocomplete="off" method="post" action="declaration.php" enctype="multipart/form-data">
     <div class="main">
     <p>
-     <label>identifiant de la boutique à créer</label>
+     <label>identifiant de la boutic à créer : </label>
+     <br />
      <input type="string" id="identifid" name="identif" pattern="[a-z0-9]{3,}" required><br>
+     <br />
+     <label>Nom de la boutic : </label>
+     <br />
+     <input type="string" id="nomid" name="nom" required><br>
+     <br />
+     <label>Adresse (ligne1) de la boutic : </label>
+     <br />
+     <input type="string" id="adresse1id" name="adresse1"><br>
+     <br />
+     <label>Adresse (ligne2) de la boutic : </label>
+     <br />
+     <input type="string" id="adresse2id" name="adresse2"><br>
+     <br />
+     <label>Code Postal de la boutic : </label>
+     <br />
+     <input type="string" id="codepostalid" name="codepostal"><br>
+     <br />
+     <label>Ville de la boutic : </label>
+     <br />
+     <input type="string" id="villeid" name="ville"><br>
+     <br />
+		 <label>Logo de la boutic : </label>
+		 <br />
+		 <input type="file" id="logo" name="logo" accept="image/png, image/jpeg"><br>    
+     <br />
+     <label>Courriel de la boutic : </label>
+     <br />
+     <input type="string" id="courrielid" name="courriel" type="email" required><br>
+     <br />
+     <label for="metdef">Mode de la boutique</label>
+     <br />
+			<select name="metdef" id="metdefid">
+			  <option value="3">Click and Collect</option>
+			  <option value="0">Visualisation</option>
+			</select>
      <br />
     </p>
    <input class="inpmove" type="submit" value="Valider">

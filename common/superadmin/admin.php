@@ -28,12 +28,14 @@
     <form autocomplete="off" method="post" action="users.php?identif=<?php echo $_GET['identif']; ?>">
     <div class="main">
     <p>
-     <label>courriel</label>
+     <label>courriel de l'administrateur de la boutic : </label>
+     <br>
      <input type="email" id="emailid" name="email" required 
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
   	  	  title="Une adresse de courriel valide"><br>
-     <br />
-     <label>mot de passe</label>
+     <br>
+     <label>mot de passe de l'administrateur de la boutic : </label>
+     <br>
      <input type="password" id="passid" name="pass" required 
   	    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" 
   	    title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? 

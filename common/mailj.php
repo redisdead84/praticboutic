@@ -38,10 +38,10 @@ try
   if ($conn->connect_error) 
  		die("Connection failed: " . $conn->connect_error);
  		
-  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+  $reqci = $conn->prepare('SELECT customid, nom, courriel FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
-  $reqci->bind_result($customid);
+  $reqci->bind_result($customid, $nom, $courriel);
   $resultatci = $reqci->fetch();
   $reqci->close();
 
@@ -73,21 +73,14 @@ try
   $mail->CharSet = $chars;
 
   //Recipients
-  //$sendmail = GetValeurParam("Sendermail_mail", $conn, $customid);
-  //$sendnom = GetValeurParam("Sendernom_mail", $conn, $customid);
   $mail->setFrom($sendmail, $sendnom);
-
-  $rcvmail = GetValeurParam("Receivermail_mail", $conn, $customid, $maildef);
-  $rcvnom = GetValeurParam("Receivernom_mail", $conn, $customid,"Ma PraticBoutic");
-  $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
-//  $mail->addAddress('ellen@example.com');               // Name is optional
-//  $mail->addReplyTo('info@example.com', 'Information');
-//  $mail->addCC('cc@example.com');
-//  $mail->addBCC('bcc@example.com');
-
-  //Attachments
-//    $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-//  $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+ 
+	if (strcmp($courriel, "") == 0)
+		$courriel = $maildef;  
+	if (strcmp($nom, "") == 0)
+		$nom = "Ma PraticBoutic";
+  
+  $mail->addAddress($courriel, $nom);     // Add a recipient
 
   //Content
   $isHTML = GetValeurParam("isHTML_mail", $conn, $customid, "TRUE");
@@ -112,11 +105,6 @@ try
     $text = $text . '<p style="font-family: \'Sans\'"><b>Téléphone : </b>' . $json_obj->telephone . '<br></p>';
     $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
   }
-  /*if ($json_obj->method == '2') 
-  {
-    $text = $text . '<h2>Vente à emporter<br></h2>';
-    $text = $text . '<h3>Commande pour ' . $json_obj->prenom . '<br></h3>';
-  }*/
   if ($json_obj->method == '3') 
   {
     if (strcmp($json_obj->vente, "EMPORTER") == 0)
@@ -273,12 +261,12 @@ try
 	
 	if (strcmp($validsms,"1") == 0)
 	{
-		//$content = GetValeurParam("TEXT_SMS", $conn, $customid);
-		
+				
 		$query = 'SELECT commande.telephone, statutcmd.message, commande.numref, commande.nom, commande.prenom, commande.adresse1, commande.adresse2, commande.codepostal, commande.ville,
-  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat  FROM commande ';
+  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat, customer.nom FROM commande ';
   	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
-  	$query = $query . 'WHERE statutcmd.defaut = 1 AND commande.cmdid = ' . $cmdid . ' AND commande.customid = ' . $customid . ' AND statutcmd.customid = ' . $customid;
+  	$query = $query . 'INNER JOIN customer ON commande.customid = statutcmd.statid '; 
+  	$query = $query . 'WHERE statutcmd.defaut = 1 AND commande.cmdid = ' . $cmdid . ' AND commande.customid = ' . $customid . ' AND statutcmd.customid = ' . $customid . ' AND customer.customid = ' . $customid;
   	$query = $query . ' ORDER BY commande.cmdid LIMIT 1';
 
   	//error_log($query);
@@ -288,7 +276,7 @@ try
 			if ($row = $result->fetch_row()) 
 		  {	
 	  		$content = $row[1];  	
-				$content = str_replace("%boutic%", $rcvnom, $content);
+				$content = str_replace("%boutic%", $row[16], $content);
 				$content = str_replace("%telephone%", $row[0], $content);		
 				$content = str_replace("%numref%", $row[2], $content);  
 				$content = str_replace("%nom%", $row[3], $content);  

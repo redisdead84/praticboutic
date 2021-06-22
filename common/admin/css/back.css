@@ -458,6 +458,7 @@ label
 .nopicto
 {
 	margin-left: 45px;
+	margin-bottom: 0px !important;
 }
 
 select
@@ -478,4 +479,32 @@ select
 	margin-bottom: 15px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.inpprix
+{
+  text-align: right;
+
+}
+
+div
+{
+	break-inside: avoid;
+}
+
+.param
+{
+	text-align: right;
+	display: flex;
+	align-items: center;
+}
+
+.paramfield
+{
+  flex: 1 1 auto;
+}
+
+.demiinter
+{
+  height: 15px;
 }

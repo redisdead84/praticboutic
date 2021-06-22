@@ -78,7 +78,8 @@
       else
       {
         echo("L administrateur a été correctement inséré dans la boutic<br>");
-        echo("<button onclick=\"window.location.href = 'directory.php?identif=" . $id . "';\">Cliquez ici pour créer l'arborscence</button>");
+        //echo("<button onclick=\"window.location.href = 'directory.php?identif=" . $id . "';\">Cliquez ici pour créer l'arborscence</button>");
+        echo("<button onclick=\"window.location.href = 'parametre.php?identif=" . $id . "';\">Cliquez ici pour créer les paramétres</button>");
       }
     ?>
 

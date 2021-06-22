@@ -51,8 +51,7 @@
     		  $count2 = $row2[0];
        	}
 		  }
-      
-      
+
       if($count2 >= $maxretry)
       {
         echo "<h3>Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br /></h3>";

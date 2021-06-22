@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html>
   <head>
@@ -68,6 +69,7 @@
 			chdir ("../..");
 			// creation repertoire du client
 			if (!file_exists($id))
+			{
 				if (!mkdir($id, 0775))
 				{
 					$error = error_get_last();
@@ -77,6 +79,10 @@
 				}
 				else
 					echo "Repertoire " . $id . " créé<br>";
+			}
+			else
+				die("répertoire déjà existant");
+				
 					
 			chdir ($id);		
 			$idx = fopen("index.php", "w");
@@ -130,5 +136,6 @@
 
   </body>
 </html>
+-->
 
 
