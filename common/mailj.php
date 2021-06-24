@@ -46,6 +46,8 @@ try
   $reqci->close();
 
 	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
+	
+	//error_log($validsms);
 
   //Server settings
   $mail->SMTPDebug = 0;                                 // Enable verbose debug output
@@ -262,14 +264,16 @@ try
 	if (strcmp($validsms,"1") == 0)
 	{
 				
-		$query = 'SELECT commande.telephone, statutcmd.message, commande.numref, commande.nom, commande.prenom, commande.adresse1, commande.adresse2, commande.codepostal, commande.ville,
-  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat, customer.nom FROM commande ';
+		$query = 'SELECT commande.telephone, statutcmd.message, commande.numref, commande.nom, commande.prenom, commande.adresse1, commande.adresse2, commande.codepostal, commande.ville, ';
+  	$query = $query . 'commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat, customer.nom FROM commande ';
   	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
-  	$query = $query . 'INNER JOIN customer ON commande.customid = statutcmd.statid '; 
+  	$query = $query . 'INNER JOIN customer ON commande.customid = statutcmd.customid '; 
   	$query = $query . 'WHERE statutcmd.defaut = 1 AND commande.cmdid = ' . $cmdid . ' AND commande.customid = ' . $customid . ' AND statutcmd.customid = ' . $customid . ' AND customer.customid = ' . $customid;
   	$query = $query . ' ORDER BY commande.cmdid LIMIT 1';
 
   	//error_log($query);
+		
+		$message = "";
 		
 		if ($result = $conn->query($query)) 
 		{
@@ -303,7 +307,7 @@ try
     foreach ($numbers as $n) {
       $recipients[] = array('value' => $n);
     }
-
+    
     $postdata = array(
       'sms' => array(
        'message' => array(

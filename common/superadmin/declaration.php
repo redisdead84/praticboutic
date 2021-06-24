@@ -128,14 +128,14 @@
 				}
 				else
 				  echo "Repertoire upload créé<br>";
-/*
+
 			$dossier = "";
 			
 			$fichier = isset($_FILES['logo']) ? basename($_FILES['logo']['name']) : '';
 		
 	 	  if(empty($fichier) == FALSE)
 	 	  {  
-        $dossier = '../../' . $id . '/upload/';
+        $dossier = 'upload/';
         $taille_maxi = intval($maxfilesize);
         $taille = filesize($_FILES['logo']['tmp_name']);
         $extensions = array('.png', '.gif', '.jpg', '.jpeg');
@@ -175,9 +175,9 @@
 	      else
 	      	echo("Le logo a été uploadé<br><br>");
 			}
-		*/
+
 		  $q = ' INSERT INTO customer (customer, nom, adresse1, adresse2, codepostal, ville, logo, courriel) ';
-  	  $q = $q . 'VALUES ("' . $id . '", "' . $nom . '", "' . $adresse1 . '", "' . $adresse2 . '", "' . $codepostal . '", "' . $ville . '", "", "' . $courriel . '")';
+  	  $q = $q . 'VALUES ("' . $id . '", "' . $nom . '", "' . $adresse1 . '", "' . $adresse2 . '", "' . $codepostal . '", "' . $ville . '", "' . $fichier . '", "' . $courriel . '")';
       if ($conn->query($q) === FALSE) 
       {
 		    die("erreur lors de l insertion: " . $conn->connect_error);

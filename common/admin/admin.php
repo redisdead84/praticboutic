@@ -294,12 +294,12 @@
 					  	<br>
 					  	<div class="param">
 					  	  <label>Adresse (ligne2) : </label>
-					  	  <input class="paramfield" id="pbadr2id" type='text' maxlength="150" onchange="enblbtnvc(this)" />
+					  	  <input class="paramfield" id="pbadr2id" type='text' maxlength="150" oninput="enblbtnvc(this)" />
 					  	</div>
 					  	<br>
 					  	<div class="param">
 					  	  <label>Code Postal : </label>
-					  	  <input class="paramfield" id="pbcpid" type='text' maxlength="5" oninput="enblbtnvc(this)" />
+					  	  <input class="paramfield" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="enblbtnvc(this)" />
 					  	</div>
 					  	<br>
 					  	<div class="param">
@@ -314,7 +314,7 @@
 						  <br>
 						  <div class="param">
 						    <label for="pbemailid">Courriel : </label>
-						    <input class="paramfield" id="pbemailid" type='email' maxlength="255" oninput="enblbtnvc(this)" />
+						    <input class="paramfield" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" oninput="enblbtnvc(this)" />
 						  </div>
 						  <br>
 						  <div class="param">
@@ -1524,100 +1524,106 @@
 				 	document.getElementById(place).appendChild(firstdiv);
 	
 				 	//document.getElementById(place).appendChild(document.createElement("BR"));
+					var booltxt;
 				 	if (pagination == true)
-				 	{
-				 		var divrpp = document.createElement("DIV");
-				 		divrpp.classList.add("divrpp");
-					 	lblrpp = document.createElement("LABEL");
-					 	lblrpp.for = "rpp" + numtable ;
-					 	lblrpp.innerHTML = "Nombre de résultat par page";
-					 	divrpp.appendChild(lblrpp);
-					 	selres = document.createElement("SELECT");
-					 	selres.onchange = function () {
-					 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
-					 	}
-					 	selres.id = "rppid" + numtable; 
-						for (var k=0; k<rpp.length; k++)
-						{
-							optres = document.createElement("OPTION");
-							optres.value = rpp[k];
-							optres.innerHTML = rpp[k];
-							if (limite == rpp[k])
-								optres.selected = true;						        	
-							selres.appendChild(optres);       	
-						}				
-						vallimite = parseInt(limite);
-						divrpp.appendChild(selres);
-						document.getElementById(place).appendChild(divrpp);					
-						nav  = document.createElement("NAV");
-						nav.setAttribute("aria-label", "Page navigation");
-						ul = document.createElement("UL");
-						ul.classList.add("pagination");
+						booltxt = "visible";
+					else
+						booltxt = "hidden";
+				 		
+			 		var divrpp = document.createElement("DIV");
+			 		divrpp.style.visibility = booltxt;
+			 		divrpp.classList.add("divrpp");
+				 	lblrpp = document.createElement("LABEL");
+				 	lblrpp.for = "rpp" + numtable ;
+				 	lblrpp.innerHTML = "Nombre de résultat par page";
+				 	divrpp.appendChild(lblrpp);
+				 	selres = document.createElement("SELECT");
+				 	selres.onchange = function () {
+				 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
+				 	}
+				 	selres.id = "rppid" + numtable; 
+					for (var k=0; k<rpp.length; k++)
+					{
+						optres = document.createElement("OPTION");
+						optres.value = rpp[k];
+						optres.innerHTML = rpp[k];
+						if (limite == rpp[k])
+							optres.selected = true;						        	
+						selres.appendChild(optres);       	
+					}				
+					vallimite = parseInt(limite);
+					divrpp.appendChild(selres);
+					document.getElementById(place).appendChild(divrpp);					
+					nav  = document.createElement("NAV");
+					nav.setAttribute("aria-label", "Page navigation");
+					ul = document.createElement("UL");
+					ul.classList.add("pagination");
+			    li = document.createElement("LI");
+			    li.classList.add("page-item");
+	
+			    if ((offset - vallimite) < 0)
+				    li.classList.add("disabled");
+					apl = document.createElement("A");
+					apl.classList.add("page-link");
+					apl.onclick = function () {
+						gettable(vue,place,tablestr, limite,(offset - vallimite),selcol,selid);
+					}
+					apl.setAttribute("aria-label", "Previous");
+					spanlq = document.createElement("SPAN");
+					spanlq.setAttribute("aria-hidden", "true");
+					spanlq.innerHTML = "&laquo;";
+					apl.appendChild(spanlq);
+					spanprev = document.createElement("SPAN");
+					spanprev.classList.add("sr-only");
+					spanprev.innerHTML = "Previous";
+					apl.appendChild(spanprev);
+					li.appendChild(apl);
+					ul.appendChild(li);
+	
+			    var totalpage = Math.ceil(total / vallimite);
+			    for (var k=0; k<totalpage;k++)
+			    {
 				    li = document.createElement("LI");
 				    li.classList.add("page-item");
-		
-				    if ((offset - vallimite) < 0)
-					    li.classList.add("disabled");
+	 		    	if ((offset/ vallimite) == k)
+					    li.classList.add("active");
 						apl = document.createElement("A");
 						apl.classList.add("page-link");
+						apl.setAttribute("data-num", k);
 						apl.onclick = function () {
-							gettable(vue,place,tablestr, limite,(offset - vallimite),selcol,selid);
+							num = this.getAttribute("data-num");
+							gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
 						}
-						apl.setAttribute("aria-label", "Previous");
-						spanlq = document.createElement("SPAN");
-						spanlq.setAttribute("aria-hidden", "true");
-						spanlq.innerHTML = "&laquo;";
-						apl.appendChild(spanlq);
-						spanprev = document.createElement("SPAN");
-						spanprev.classList.add("sr-only");
-						spanprev.innerHTML = "Previous";
-						apl.appendChild(spanprev);
+						apl.innerHTML = k;
 						li.appendChild(apl);
 						ul.appendChild(li);
-		
-				    var totalpage = Math.ceil(total / vallimite);
-				    for (var k=0; k<totalpage;k++)
-				    {
-					    li = document.createElement("LI");
-					    li.classList.add("page-item");
-		 		    	if ((offset/ vallimite) == k)
-						    li.classList.add("active");
-							apl = document.createElement("A");
-							apl.classList.add("page-link");
-							apl.setAttribute("data-num", k);
-							apl.onclick = function () {
-								num = this.getAttribute("data-num");
-								gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
-							}
-							apl.innerHTML = k;
-							li.appendChild(apl);
-							ul.appendChild(li);
-				    }
-				    li = document.createElement("LI");
-				    li.classList.add("page-item");
-				    
-				    if ((offset + vallimite) >= total)
-							li.classList.add("disabled");		    	
-				    
-						apl = document.createElement("A");
-						apl.classList.add("page-link");
-						apl.onclick = function () {
-							gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
-						}
-						apl.setAttribute("aria-label", "Next");
-						spanrq = document.createElement("SPAN");
-						spanrq.setAttribute("aria-hidden", "true");
-						spanrq.innerHTML = "&raquo;";
-						apl.appendChild(spanrq);
-						spannext = document.createElement("SPAN");
-						spannext.classList.add("sr-only");
-						spannext.innerHTML = "Next";
-						apl.appendChild(spannext);
-						li.appendChild(apl);
-						ul.appendChild(li);
-						nav.appendChild(ul);
-				    document.getElementById(place).appendChild(nav);
 			    }
+			    li = document.createElement("LI");
+			    li.classList.add("page-item");
+			    
+			    if ((offset + vallimite) >= total)
+						li.classList.add("disabled");		    	
+			    
+					apl = document.createElement("A");
+					apl.classList.add("page-link");
+					apl.onclick = function () {
+						gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
+					}
+					apl.setAttribute("aria-label", "Next");
+					spanrq = document.createElement("SPAN");
+					spanrq.setAttribute("aria-hidden", "true");
+					spanrq.innerHTML = "&raquo;";
+					apl.appendChild(spanrq);
+					spannext = document.createElement("SPAN");
+					spannext.classList.add("sr-only");
+					spannext.innerHTML = "Next";
+					apl.appendChild(spannext);
+					li.appendChild(apl);
+					ul.appendChild(li);
+					nav.appendChild(ul);
+					nav.style.visibility = booltxt;
+			    document.getElementById(place).appendChild(nav);
+
 	 				if (tablestr == "commande")
 	 				{
 						var j=0;
@@ -2745,79 +2751,93 @@
       
       function enblbtnvc(elem) 
       {
-      	elem.setAttribute('data-modified', 'true');
+     		elem.setAttribute('data-modified', 'true');
 				document.getElementById('validparamid').disabled = false;
-				document.getElementById('cancelparamid').disabled = false;			
+				document.getElementById('cancelparamid').disabled = false;
       }
 			
 			function validparamupdate()
 			{
+				var notvalidated = false;
 				var pelem = document.getElementsByClassName("paramfield");
-				for (var i=0;i<pelem.length;i++) 
+				for (var j=0;j<pelem.length;j++) 
 				{
-					var el = pelem[i];
-					if (el.getAttribute("data-modified")== 'true')
+					var el = pelem[j];
+					if (el.checkValidity() == false)
 					{
-	     			var valeur;
-						if (el.getAttribute("data-typ") == "prix")
-	     				valeur = parseFloat(el.value).toFixed(2);
-	     			else if (el.getAttribute("data-typ") == "bool")
-	         	{
-		 	      	if (el.checked == true)
-		  	     		valeur = "1";
-		     	   	else
-		   	     		valeur = "0";
-	   	     	}
-	   	     	else if (el.getAttribute("data-typ") == "image")
-	   	     	{
-         			valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
-       				savdata = valeur;
-	   	     	}
-	     			else
-	     				valeur = el.value;
-	     			
-	     			var obj2;
+						notvalidated = true;
 						if (el.getAttribute('data-paramtype') == "csp")
+							alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+						else
+							alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+					}
+				}
+				if (notvalidated == false)
+				{
+					for (var i=0;i<pelem.length;i++) 
+					{
+						var el = pelem[i];
+						if (el.getAttribute("data-modified")== 'true')
 						{
-		     			var prop = el.getAttribute("data-prop");
-		      		obj2 = { customer: boutic, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
-		      		
-		      	}
-		     		else {
-		     			var param = el.getAttribute("data-param");
-		     			obj2 = { customer: boutic, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
-		     		}
-
- 		      	el.setAttribute('data-modified', 'false');
-
-		        fetch("boquery.php", {
-		          method: "POST",
-		          headers: {
-		        		'Content-Type': 'application/json',
-		        		'Accept': 'application/json'
-		          },
-		          body: JSON.stringify(obj2)
-		        })
-		        .then(function(result) {
-		          return result.json();
-		        }) 
-		        .then(function(data) {
-		         	if (typeof (data.error) !== "undefined")
+		     			var valeur;
+							if (el.getAttribute("data-typ") == "prix")
+		     				valeur = parseFloat(el.value).toFixed(2);
+		     			else if (el.getAttribute("data-typ") == "bool")
 		         	{
-		         		var modal = $('.modal');
-		         		$('.modal-title').html('Erreur');
-		            modal.find('.modal-body').text(data.error);
-		            $('.modal').modal('show');
-		         	}
-		         	else {
-								document.getElementById('validparamid').disabled = true;
-								document.getElementById('cancelparamid').disabled = true;			
+			 	      	if (el.checked == true)
+			  	     		valeur = "1";
+			     	   	else
+			   	     		valeur = "0";
+		   	     	}
+		   	     	else if (el.getAttribute("data-typ") == "image")
+		   	     	{
+	         			valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
+	       				savdata = valeur;
+		   	     	}
+		     			else
+		     				valeur = el.value;
+		     			
+		     			var obj2;
+							if (el.getAttribute('data-paramtype') == "csp")
+							{
+			     			var prop = el.getAttribute("data-prop");
+			      		obj2 = { customer: boutic, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
+			      		
+			      	}
+			     		else {
+			     			var param = el.getAttribute("data-param");
+			     			obj2 = { customer: boutic, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
+			     		}
 	
-		         	}
-	       		})
+	 		      	el.setAttribute('data-modified', 'false');
+	
+			        fetch("boquery.php", {
+			          method: "POST",
+			          headers: {
+			        		'Content-Type': 'application/json',
+			        		'Accept': 'application/json'
+			          },
+			          body: JSON.stringify(obj2)
+			        })
+			        .then(function(result) {
+			          return result.json();
+			        }) 
+			        .then(function(data) {
+			         	if (typeof (data.error) !== "undefined")
+			         	{
+			         		var modal = $('.modal');
+			         		$('.modal-title').html('Erreur');
+			            modal.find('.modal-body').text(data.error);
+			            $('.modal').modal('show');
+			         	}
+			         	else {
+									document.getElementById('validparamid').disabled = true;
+									document.getElementById('cancelparamid').disabled = true;
+			         	}
+		       		})
+						}
 					}
 				}				
-											
 			}
 
 			function cancelparamupdate()

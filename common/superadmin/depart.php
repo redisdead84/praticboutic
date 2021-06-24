@@ -46,7 +46,7 @@
      <br />
      <label>Code Postal de la boutic : </label>
      <br />
-     <input type="string" id="codepostalid" name="codepostal"><br>
+     <input type="string" id="codepostalid" name="codepostal" pattern="[0-9]{5}"><br>
      <br />
      <label>Ville de la boutic : </label>
      <br />
@@ -58,7 +58,7 @@
      <br />
      <label>Courriel de la boutic : </label>
      <br />
-     <input type="string" id="courrielid" name="courriel" type="email" required><br>
+     <input type="string" id="courrielid" name="courriel" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br>
      <br />
      <label for="metdef">Mode de la boutique</label>
      <br />
