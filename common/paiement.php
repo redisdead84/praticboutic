@@ -71,7 +71,7 @@
 
     echo '<div id="main" data-publickey="' . $pkey . '">';
     
-    echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
+    echo '<img id="logo" src="../upload/' . $logo . '">';
     
     ?>
 	   	<div id="pan">

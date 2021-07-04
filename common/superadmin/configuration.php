@@ -115,18 +115,18 @@
 	    
 
 		$statuts = array (
-  			array("Commande à faire", "#E2001A", "Vote commande chez %boutic% d'un montant de %total% € a été transmise.", 1),
-  			array("En cours de préparation", "#EB690B","En cours de préparation chez %boutic% pour un montant de %total% €", 0),
-  			array("En cours de livraison", "#E2007A", "Commande référence %numref% à l'état %etat%", 0),
-  			array("Commande à disposition", "#009EE0", "Commande référence %numref% à l'état %etat%", 0),
-  			array("Commande terminée", "#009036", "Commande référence %numref% à l'état %etat%", 0),
-  			array("Commande anulée", "#1A171B", "Commande référence %numref% à l'état %etat%", 0),
+  			array("Commande à faire", "#E2001A", "Bonjour, votre commande à été transmise. %boutic% vous remercie et vous tiendra informé de son avancé. ", 1, 1),
+  			array("En cours de préparation", "#EB690B","Votre commande est en cours de préparation. ", 0, 1),
+  			array("En cours de livraison", "#E2007A", "Votre commande est en cours de livraison, ", 0, 1),
+  			array("Commande à disposition", "#009EE0", "Votre commande est à disposition", 0, 1),
+  			array("Commande terminée", "#009036", "%boutic% vous remercie pour votre commande. À très bientôt. ", 0, 1),
+  			array("Commande anulée", "#1A171B", "Nous ne pouvons donner suite à votre commande. Pour plus d\'informations, merci de nous contacter. ", 0, 1),
 			);
 
 		for($i=0; $i<count($statuts); $i++)
 		{			
-	    $q = ' INSERT INTO statutcmd (customid, etat, couleur, message, defaut) ';
-	    $q = $q . 'VALUES ("' . $customid . '","' . $statuts[$i][0] . '","' . $statuts[$i][1] . '","' . $statuts[$i][2] . '","' . $statuts[$i][3] . '")';
+	    $q = ' INSERT INTO statutcmd (customid, etat, couleur, message, defaut, actif) ';
+	    $q = $q . 'VALUES ("' . $customid . '","' . $statuts[$i][0] . '","' . $statuts[$i][1] . '","' . $statuts[$i][2] . '","' . $statuts[$i][3] . '","' . $statuts[$i][4] . '")';
 	  	  
 	    if ($conn->query($q) === FALSE) 
 	    {

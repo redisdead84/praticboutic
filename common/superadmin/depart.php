@@ -60,13 +60,6 @@
      <br />
      <input type="string" id="courrielid" name="courriel" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required><br>
      <br />
-     <label for="metdef">Mode de la boutique</label>
-     <br />
-			<select name="metdef" id="metdefid">
-			  <option value="3">Click and Collect</option>
-			  <option value="0">Visualisation</option>
-			</select>
-     <br />
     </p>
    <input class="inpmove" type="submit" value="Valider">
    </div>

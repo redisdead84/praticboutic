@@ -15,7 +15,7 @@
      <br>
      <input type="string" id="emailid" name="email">
      <br>
-     <label>mot de passe : </label>
+     <label>Mot de passe : </label>
      <br>
      <input type="password" id="passid" name="pass">
      <br><br>

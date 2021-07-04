@@ -37,8 +37,6 @@
       $ville = isset($_POST['ville']) ? $_POST ['ville'] : '';
       //$logo = isset($_POST['logo']) ? $_POST ['logo'] : '';
       $courriel = isset($_POST['courriel']) ? $_POST ['courriel'] : '';
-      $metdef = isset($_POST['metdef']) ? $_POST ['metdef'] : '';
-
       
       if (empty($id)==TRUE ) {
         die("Identifiant vide");
@@ -65,7 +63,7 @@
 		      die("Identifiant déjà existant ");
 		  }
 		  
-		  umask(0000);
+/*		  umask(0000);
 			chdir ("../..");
 			// creation repertoire du client
 			if (!file_exists($id))
@@ -128,14 +126,14 @@
 				}
 				else
 				  echo "Repertoire upload créé<br>";
-
+*/
 			$dossier = "";
 			
 			$fichier = isset($_FILES['logo']) ? basename($_FILES['logo']['name']) : '';
 		
 	 	  if(empty($fichier) == FALSE)
 	 	  {  
-        $dossier = 'upload/';
+        $dossier = '../../upload/';
         $taille_maxi = intval($maxfilesize);
         $taille = filesize($_FILES['logo']['tmp_name']);
         $extensions = array('.png', '.gif', '.jpg', '.jpeg');
@@ -158,10 +156,13 @@
         if(empty($error) == TRUE) //S'il n'y a pas d'erreur, on upload
         {
           //On formate le nom du fichier ici...
-          $fichier = strtr($fichier, 
+          /*$fichier = strtr($fichier, 
                 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
                 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-          $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+          $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);*/
+          
+					$fichier = uniqid('', true) . $extension;          
+          
           if(!(move_uploaded_file($_FILES['logo']['tmp_name'], $dossier . $fichier))) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
           {
             $error = 'Echec de l\'upload !';

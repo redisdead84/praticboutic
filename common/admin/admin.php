@@ -43,7 +43,7 @@
   <body id="backbody">
     <script>
 	var boutic = "<?php echo $boutic;?>" ;
-	var pathimg = '../../' + boutic + '/upload/';
+	var pathimg = '../../upload/';
 
 	
 	var deflimite = 5;
@@ -177,11 +177,6 @@
 						<li class="nav-item">
 							<a class="nav-link active" id="commande-tab" data-toggle="tab" href="#commande" role="tab" aria-controls="commande" aria-selected="true">COMMANDES CLIENTS</a>
 						</li>
-						<?php if (strcmp($statutcmd, "n")==0) echo "<!--" ?>
-						<li class="nav-item">
-							<a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
-						</li>
-						<?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
 					</ul>
 				<div class="tab-content" id="myTabCmdContent">
 					<div class="tab-pane active" id="commande" role="tabpanel" aria-labelledby="commande-tab">
@@ -190,11 +185,6 @@
 					  </div>
 					  <div class='tbl form-group' id="det9" data-vuep="table9" hidden></div>
 					  <div class='tbl form-group' id="det10" data-vuep="det9" hidden></div>
-					</div>
-					<div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
-				  	<div class='tbl' id="table11"></div>	
-			 	  	<div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
-			 	  	<div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>	
 					</div>
 				</div>
 			</div>
@@ -267,6 +257,11 @@
 				<li class="nav-item">
 					<a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false">REGLAGES</a>
 				</li>
+				<?php if (strcmp($statutcmd, "n")==0) echo "<!--" ?>
+				<li class="nav-item">
+					<a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
+				</li>
+				<?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
 			</ul>
 			<div class="tab-content" id="myTabAdminContent">
 				<div class="tab-pane active" id="administrateur" role="tabpanel" aria-labelledby="administrateur-tab">
@@ -428,6 +423,11 @@
 			  			<input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
 						</div>
 			  	</div>
+				</div>
+				<div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
+			  	<div class='tbl' id="table11"></div>	
+		 	  	<div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
+		 	  	<div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>	
 				</div>
 			</div>
 		</div>			
@@ -1522,149 +1522,6 @@
 				 	maintable.appendChild(maintbody);
 				 	firstdiv.appendChild(maintable);
 				 	document.getElementById(place).appendChild(firstdiv);
-	
-				 	//document.getElementById(place).appendChild(document.createElement("BR"));
-					var booltxt;
-				 	if (pagination == true)
-						booltxt = "visible";
-					else
-						booltxt = "hidden";
-				 		
-			 		var divrpp = document.createElement("DIV");
-			 		divrpp.style.visibility = booltxt;
-			 		divrpp.classList.add("divrpp");
-				 	lblrpp = document.createElement("LABEL");
-				 	lblrpp.for = "rpp" + numtable ;
-				 	lblrpp.innerHTML = "Nombre de résultat par page";
-				 	divrpp.appendChild(lblrpp);
-				 	selres = document.createElement("SELECT");
-				 	selres.onchange = function () {
-				 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
-				 	}
-				 	selres.id = "rppid" + numtable; 
-					for (var k=0; k<rpp.length; k++)
-					{
-						optres = document.createElement("OPTION");
-						optres.value = rpp[k];
-						optres.innerHTML = rpp[k];
-						if (limite == rpp[k])
-							optres.selected = true;						        	
-						selres.appendChild(optres);       	
-					}				
-					vallimite = parseInt(limite);
-					divrpp.appendChild(selres);
-					document.getElementById(place).appendChild(divrpp);					
-					nav  = document.createElement("NAV");
-					nav.setAttribute("aria-label", "Page navigation");
-					ul = document.createElement("UL");
-					ul.classList.add("pagination");
-			    li = document.createElement("LI");
-			    li.classList.add("page-item");
-	
-			    if ((offset - vallimite) < 0)
-				    li.classList.add("disabled");
-					apl = document.createElement("A");
-					apl.classList.add("page-link");
-					apl.onclick = function () {
-						gettable(vue,place,tablestr, limite,(offset - vallimite),selcol,selid);
-					}
-					apl.setAttribute("aria-label", "Previous");
-					spanlq = document.createElement("SPAN");
-					spanlq.setAttribute("aria-hidden", "true");
-					spanlq.innerHTML = "&laquo;";
-					apl.appendChild(spanlq);
-					spanprev = document.createElement("SPAN");
-					spanprev.classList.add("sr-only");
-					spanprev.innerHTML = "Previous";
-					apl.appendChild(spanprev);
-					li.appendChild(apl);
-					ul.appendChild(li);
-	
-			    var totalpage = Math.ceil(total / vallimite);
-			    for (var k=0; k<totalpage;k++)
-			    {
-				    li = document.createElement("LI");
-				    li.classList.add("page-item");
-	 		    	if ((offset/ vallimite) == k)
-					    li.classList.add("active");
-						apl = document.createElement("A");
-						apl.classList.add("page-link");
-						apl.setAttribute("data-num", k);
-						apl.onclick = function () {
-							num = this.getAttribute("data-num");
-							gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
-						}
-						apl.innerHTML = k;
-						li.appendChild(apl);
-						ul.appendChild(li);
-			    }
-			    li = document.createElement("LI");
-			    li.classList.add("page-item");
-			    
-			    if ((offset + vallimite) >= total)
-						li.classList.add("disabled");		    	
-			    
-					apl = document.createElement("A");
-					apl.classList.add("page-link");
-					apl.onclick = function () {
-						gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
-					}
-					apl.setAttribute("aria-label", "Next");
-					spanrq = document.createElement("SPAN");
-					spanrq.setAttribute("aria-hidden", "true");
-					spanrq.innerHTML = "&raquo;";
-					apl.appendChild(spanrq);
-					spannext = document.createElement("SPAN");
-					spannext.classList.add("sr-only");
-					spannext.innerHTML = "Next";
-					apl.appendChild(spannext);
-					li.appendChild(apl);
-					ul.appendChild(li);
-					nav.appendChild(ul);
-					nav.style.visibility = booltxt;
-			    document.getElementById(place).appendChild(nav);
-
-	 				if (tablestr == "commande")
-	 				{
-						var j=0;
-						var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
-	
-		        fetch("boquery.php", {
-		          method: "POST",
-		          headers: {
-		        		'Content-Type': 'application/json',
-		        		'Accept': 'application/json'
-		          },
-		          body: JSON.stringify(obj3)
-		        })
-		        .then(function(result) {
-		          return result.json();
-		        })
-		        .then(function(data) {
-		        	if (typeof (data.error) !== "undefined")
-		          {
-			        	var modal = $('.modal');
-			        	$('.modal-title').html('Erreur');
-						    modal.find('.modal-body').text(data.error);
-						    $('.modal').modal('show');
-		          }
-		         	else
-		         	{
-		         		var rowtocolor = document.getElementsByClassName("colored");
-		         		for (var i=0; i< data.length; i++)
-		         		{
-		         			var couleur = data[i][0];
-	
-		         			if (luminosite(couleur)>128)	         			
-		         				rowtocolor[i].style.color = 'black';
-		         			else 
-		         				rowtocolor[i].style.color = 'white';
-		         			
-			         		rowtocolor[i].style.backgroundColor = couleur;
-		         		}
-		         	}
-		        })
-					}
 				}
 				else 
 				{
@@ -1673,7 +1530,149 @@
 				  ita.innerText = 'Il n\'y a pas de ' + tables[getnumtable(table)].desc + ' à afficher';
 				  nodatap.appendChild(ita);
 			  	document.getElementById(place).appendChild(nodatap);				
-			  }
+				}
+			 	//document.getElementById(place).appendChild(document.createElement("BR"));
+				var booltxt;
+			 	if (pagination == true)
+					booltxt = "block";
+				else
+					booltxt = "none";
+			 		
+		 		var divrpp = document.createElement("DIV");
+		 		divrpp.style.display = booltxt;
+		 		divrpp.classList.add("divrpp");
+			 	lblrpp = document.createElement("LABEL");
+			 	lblrpp.for = "rpp" + numtable ;
+			 	lblrpp.innerHTML = "Nombre de résultat par page";
+			 	divrpp.appendChild(lblrpp);
+			 	selres = document.createElement("SELECT");
+			 	selres.onchange = function () {
+			 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
+			 	}
+			 	selres.id = "rppid" + numtable; 
+				for (var k=0; k<rpp.length; k++)
+				{
+					optres = document.createElement("OPTION");
+					optres.value = rpp[k];
+					optres.innerHTML = rpp[k];
+					if (limite == rpp[k])
+						optres.selected = true;						        	
+					selres.appendChild(optres);       	
+				}				
+				vallimite = parseInt(limite);
+				divrpp.appendChild(selres);
+				document.getElementById(place).appendChild(divrpp);					
+				nav  = document.createElement("NAV");
+				nav.setAttribute("aria-label", "Page navigation");
+				ul = document.createElement("UL");
+				ul.classList.add("pagination");
+		    li = document.createElement("LI");
+		    li.classList.add("page-item");
+
+		    if ((offset - vallimite) < 0)
+			    li.classList.add("disabled");
+				apl = document.createElement("A");
+				apl.classList.add("page-link");
+				apl.onclick = function () {
+					gettable(vue,place,tablestr, limite,(offset - vallimite),selcol,selid);
+				}
+				apl.setAttribute("aria-label", "Previous");
+				spanlq = document.createElement("SPAN");
+				spanlq.setAttribute("aria-hidden", "true");
+				spanlq.innerHTML = "&laquo;";
+				apl.appendChild(spanlq);
+				spanprev = document.createElement("SPAN");
+				spanprev.classList.add("sr-only");
+				spanprev.innerHTML = "Previous";
+				apl.appendChild(spanprev);
+				li.appendChild(apl);
+				ul.appendChild(li);
+
+		    var totalpage = Math.ceil(total / vallimite);
+		    for (var k=0; k<totalpage;k++)
+		    {
+			    li = document.createElement("LI");
+			    li.classList.add("page-item");
+ 		    	if ((offset/ vallimite) == k)
+				    li.classList.add("active");
+					apl = document.createElement("A");
+					apl.classList.add("page-link");
+					apl.setAttribute("data-num", k);
+					apl.onclick = function () {
+						num = this.getAttribute("data-num");
+						gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
+					}
+					apl.innerHTML = k;
+					li.appendChild(apl);
+					ul.appendChild(li);
+		    }
+		    li = document.createElement("LI");
+		    li.classList.add("page-item");
+		    
+		    if ((offset + vallimite) >= total)
+					li.classList.add("disabled");		    	
+		    
+				apl = document.createElement("A");
+				apl.classList.add("page-link");
+				apl.onclick = function () {
+					gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
+				}
+				apl.setAttribute("aria-label", "Next");
+				spanrq = document.createElement("SPAN");
+				spanrq.setAttribute("aria-hidden", "true");
+				spanrq.innerHTML = "&raquo;";
+				apl.appendChild(spanrq);
+				spannext = document.createElement("SPAN");
+				spannext.classList.add("sr-only");
+				spannext.innerHTML = "Next";
+				apl.appendChild(spannext);
+				li.appendChild(apl);
+				ul.appendChild(li);
+				nav.appendChild(ul);
+				nav.style.display = booltxt;
+		    document.getElementById(place).appendChild(nav);
+
+ 				if (tablestr == "commande")
+ 				{
+					var j=0;
+					var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
+
+	        fetch("boquery.php", {
+	          method: "POST",
+	          headers: {
+	        		'Content-Type': 'application/json',
+	        		'Accept': 'application/json'
+	          },
+	          body: JSON.stringify(obj3)
+	        })
+	        .then(function(result) {
+	          return result.json();
+	        })
+	        .then(function(data) {
+	        	if (typeof (data.error) !== "undefined")
+	          {
+		        	var modal = $('.modal');
+		        	$('.modal-title').html('Erreur');
+					    modal.find('.modal-body').text(data.error);
+					    $('.modal').modal('show');
+	          }
+	         	else
+	         	{
+	         		var rowtocolor = document.getElementsByClassName("colored");
+	         		for (var i=0; i< data.length; i++)
+	         		{
+	         			var couleur = data[i][0];
+
+	         			if (luminosite(couleur)>128)	         			
+	         				rowtocolor[i].style.color = 'black';
+	         			else 
+	         				rowtocolor[i].style.color = 'white';
+	         			
+		         		rowtocolor[i].style.backgroundColor = couleur;
+	         		}
+	         	}
+	        })
+				}
 			}
 			   			
 			function editcol(tablestr, limite , offset) 
@@ -2462,9 +2461,20 @@
 					    		var limitcmd = document.querySelectorAll("#rppid9")[0];
 					    		var vallimcmd = parseInt(limitcmd.value);
 					    		var offsetcmd = document.querySelectorAll("#table9 > nav > ul.pagination > li.active")[0];
-					    		var off2 = parseInt(offsetcmd.childNodes[0].textContent);
+						    	var off2;
+					    		if (typeof offsetcmd !== "undefined")
+					    		{
+						    		if (offsetcmd.childNodes.length > 0)
+						    			off2 = parseInt(offsetcmd.childNodes[0].textContent);
+						    		else 
+						    			off2 = 0;
+					    		}
+					    		else
+					    			off2 = 0;
+
+
 					    		var valoffcmd = off2 * vallimcmd;
-									gettable( "table9", "table9", "commande", vallimcmd, valoffcmd);
+									gettable( "ihm9", "table9", "commande", vallimcmd, valoffcmd);
 								}
 					    }
 				    })
@@ -2549,17 +2559,12 @@
          		}
          		else if (typ == "image")
          		{
-         			var inp = document.createElement("INPUT");
-							inp.id = "artlogofile";
-							inp.classList.add('form-control-file');
-							inp.type = 'file';
-							inp.accept="image/png, image/jpeg";
+         			var inp = document.getElementById("artlogofile"); 
 							inp.setAttribute("data-artlogo", "artlogo" );
 							inp.filename = data[0];
 							inp.setAttribute("data-logotruefilename", data[0]);
 							inp.setAttribute("data-artlogo", 'artlogo' );
 
-							document.getElementById(elem).appendChild(inp);									
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
@@ -2582,6 +2587,7 @@
 				            $('.modal').modal('show');
 				         	}
 									else {
+										fileInput.setAttribute("data-modified", 'true');
 										document.getElementById(fileInput.getAttribute("data-artlogo")).src = pathimg + data;
 		        				fileInput.setAttribute("data-logotruefilename", data);
 		        				fileInput.filename = data;
@@ -2595,9 +2601,10 @@
 							image.id = "artlogo";
 							image.alt = "";
 							image.classList.add("imgart");
-							image.src = pathimg + data[0];
+							if (data[0] != "")
+								image.src = pathimg + data[0];
 							divp.appendChild(image);
-								
+
 							var imgclose = document.createElement("IMG");
 							imgclose.id = 'logofermer';
 							imgclose.src = '../img/fermer.png';
@@ -2605,20 +2612,22 @@
 							imgclose.classList.add("imgclose");
 							if (inp.filename == "")
 								imgclose.style.display = 'none';
-							if (image.src == "")
+							if (data[0] == "")
 								imgclose.style.display = 'none';
 							imgclose.setAttribute("data-artlogofile", "artlogofile" );
 							imgclose.setAttribute("data-artlogo", "artlogo" );
 							imgclose.addEventListener("click", function() {
+								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-modified", 'true');
 								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-logotruefilename",'');
 								document.getElementById(this.getAttribute("data-artlogofile")).value = '';
-								document.getElementById(this.getAttribute("data-artlogo")).src = '';
+								document.getElementById(this.getAttribute("data-artlogo")).removeAttribute("src");
 								this.style.display = 'none';
+								enblbtnvc(document.getElementById(this.getAttribute("data-artlogofile")));
 							});
 							divp.appendChild(imgclose); 
-							document.getElementById(elem).appendChild(divp);
-							document.getElementById(elem).appendChild(document.createElement("BR"));
-         		}
+							var pp = document.getElementById(elem).parentElement;
+							pp.appendChild(divp);
+						}
          		else
          			document.getElementById(elem).value = data;
         	}
@@ -2671,7 +2680,6 @@
          		}
          		else if (typ == "image")
          		{
-         			//var inp = document.createElement("INPUT");
          			var inp = document.getElementById("artlogofile"); 
 
 							inp.setAttribute("data-artlogo", "artlogo" );
@@ -2679,7 +2687,6 @@
 							inp.setAttribute("data-logotruefilename", data[0]);
 							inp.setAttribute("data-artlogo", 'artlogo' );
 
-							//document.getElementById(elem).appendChild(inp);									
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
@@ -2712,13 +2719,15 @@
 							}
 							var divp = document.createElement("DIV");
 							divp.classList.add("frameimg");
+	
 							var image = document.createElement("IMG");
 							image.id = "artlogo";
 							image.alt = "";
 							image.classList.add("imgart");
-							image.src = pathimg + data[0];
+							if (data[0] != "")
+								image.src = pathimg + data[0];
 							divp.appendChild(image);
-								
+	
 							var imgclose = document.createElement("IMG");
 							imgclose.id = 'logofermer';
 							imgclose.src = '../img/fermer.png';
@@ -2726,7 +2735,7 @@
 							imgclose.classList.add("imgclose");
 							if (inp.filename == "")
 								imgclose.style.display = 'none';
-							if (image.src == "")
+							if (data[0] == "")
 								imgclose.style.display = 'none';
 							imgclose.setAttribute("data-artlogofile", "artlogofile" );
 							imgclose.setAttribute("data-artlogo", "artlogo" );
@@ -2734,7 +2743,7 @@
 								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-modified", 'true');
 								document.getElementById(this.getAttribute("data-artlogofile")).setAttribute("data-logotruefilename",'');
 								document.getElementById(this.getAttribute("data-artlogofile")).value = '';
-								document.getElementById(this.getAttribute("data-artlogo")).src = '';
+								document.getElementById(this.getAttribute("data-artlogo")).removeAttribute("src");
 								this.style.display = 'none';
 								enblbtnvc(document.getElementById(this.getAttribute("data-artlogofile"))); 
 							});
@@ -2744,7 +2753,6 @@
          		}
          		else
          			document.getElementById(elem).value = data;
-
          	}
       	})
       }

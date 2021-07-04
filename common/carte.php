@@ -38,8 +38,13 @@
  	  $reqci->bind_result($customid, $logo);
  	  $resultatci = $reqci->fetch();
  	  $reqci->close();
-
-    //$logo = GetValeurParam("master_logo",$conn, $customid); 
+ 	  
+ 	  if (strcmp($customid, "") == 0 )
+ 	  {
+    	header('LOCATION: 404.html');
+    	exit;
+  	}	
+ 	  
 
     $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
     
@@ -52,7 +57,7 @@
 		echo '</div>';		
 		
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'" data-customer="' . $customer .'">';
-    echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
+    echo '<img id="logo" src="../upload/' . $logo . '">';
 
     echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php?method=';
     echo $method ;
@@ -82,7 +87,7 @@
     						{
 	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
 	  	        		if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
+ 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';
 	                echo '<div class="rowah">';
 	                echo '<div class="colb1">';
 	    					  echo '<div class="nom">';
@@ -171,7 +176,7 @@
 	       	      	echo '</div>';
 	       	      	echo '<div class="cola2">';
 	  	        		if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row2[5] . '" alt = "nopic">';
+ 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';
 	                echo '</div>';
 	                echo '</div>';
 								}
@@ -269,7 +274,7 @@
       		echo '<div class="artcel" id="artid' . $row3[0] . '" data-name="' . $row3[1] . '" data-prix="' . $row3[2] . '" data-unite="' . $row3[3] . '">';
       		if (!empty($row2[5]))
       		{
-       	  	echo '<img class="pic ' . $sizeimg . '" src="../' . $customer . '/upload/' . $row3[5] . '" alt = "nopic">';
+       	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row3[5] . '" alt = "nopic">';
           	echo '<br>';
           }
           echo '<div class="rowob">';

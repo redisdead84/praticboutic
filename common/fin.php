@@ -22,7 +22,6 @@
   $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
   $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
 
-  
   if (empty($_SESSION[$customer . '_mail']) == TRUE)
   {
     header('LOCATION: ../' . $customer . '/index.php');
@@ -65,7 +64,7 @@
 
     <div id="finmain">
       <?php
-        echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
+        echo '<img id="logo" src="../upload/' . $logo . '">';
       ?>
       <div class="fsub">
      		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>

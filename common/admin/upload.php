@@ -25,10 +25,10 @@ try {
 	$reqci->close();
 	
 	$dossier = "";
-  $fichier = isset($_FILES['file']) ? basename($_FILES['file']['name']) : '';  
+  $fichier = isset($_FILES['file']) ? basename($_FILES['file']['name']) : '';
  	if(empty($fichier) == FALSE)
  	{  
-    $dossier = '../../' . $customer . '/upload/';
+    $dossier = '../../upload/';
     $taille_maxi = intval($maxfilesize);
     $mimetype = mime_content_type($_FILES['file']['tmp_name']);
     $taille = filesize($_FILES['file']['tmp_name']);
@@ -51,10 +51,13 @@ try {
     if(empty($error) == TRUE) //S'il n'y a pas d'erreur, on upload
     {
       //On formate le nom du fichier ici...
-      $fichier = strtr($fichier, 
+      /*$fichier = strtr($fichier, 
             'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
             'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-      $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
+      $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);*/
+      
+      $fichier = uniqid('', true) . $extension;  
+
       if(!(move_uploaded_file($_FILES['file']['tmp_name'], $dossier . $fichier))) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
       {
       	throw new Error('Echec de l\'upload !');

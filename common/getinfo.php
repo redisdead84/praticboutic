@@ -70,7 +70,7 @@
       echo $customer ;
       echo '">';
 
-      echo '<img id="logo" src="../' . $customer . '/upload/' . $logo . '">';
+      echo '<img id="logo" src="../upload/' . $logo . '">';
       
       if ($method > 0)
       {      
