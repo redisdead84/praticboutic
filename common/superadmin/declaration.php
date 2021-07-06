@@ -161,7 +161,7 @@
                 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
           $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);*/
           
-					$fichier = uniqid('', true) . $extension;          
+					$fichier = $id . '_' . uniqid('', true) . $extension;          
           
           if(!(move_uploaded_file($_FILES['logo']['tmp_name'], $dossier . $fichier))) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
           {
