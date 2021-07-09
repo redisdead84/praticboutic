@@ -51,7 +51,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="js/mail.js?v=1.26"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	  <script type="text/javascript" src="js/bandeau.js?v=1.01"></script>
+	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
