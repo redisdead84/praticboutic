@@ -9,12 +9,32 @@ Route::add('/',function(){
     header('LOCATION: https://www.pratic-boutic.fr');
 });
 
-// boutic file path 
+// admin file path
+Route::add('/admin',function(){
+    header('LOCATION: ../common/admin/index.php');
+});
+
+// admin directory path
+Route::add('/admin/',function(){
+    header('LOCATION: ../common/admin/index.php');
+});
+
+// superadmin file path
+Route::add('/superadmin',function(){
+    header('LOCATION: ../common/superadmin/index.php');
+});
+
+// superadmin directory path
+Route::add('/superadmin/',function(){
+    header('LOCATION: ../common/superadmin/index.php');
+});
+
+// boutic file path
 Route::add('/([a-z0-9]+)',function($customer){
     header('LOCATION: ../common/carte.php?method=' . 3 . '&customer=' . $customer);
 });
 
-// boutic directory path 
+// boutic directory path
 Route::add('/([a-z0-9]+)/',function($customer){
     header('LOCATION: ../common/carte.php?method=' . 3 . '&customer=' . $customer);
 });

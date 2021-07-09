@@ -23,7 +23,7 @@
      
   include "../config/common_cfg.php";
   include "../param.php";
-    
+  
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +31,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.11">
+    <link rel="stylesheet" href="css/back.css?v=1.12">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -43,6 +43,11 @@
   <body id="backbody">
     <script>
 	var boutic = "<?php echo $boutic;?>" ;
+	
+	var login = "<?php echo $_SESSION[$boutic . '_email']; ?>";
+	
+	var server = "<?php echo $_SERVER['SERVER_NAME']; ?>";
+	
 	var pathimg = '../../upload/';
 
 	
@@ -100,10 +105,10 @@
 	var memnbcommande = 0;
 
   $(function() {
-    gettable( "table0", "table0", "categorie", deflimite, defoffset);
-    gettable( "table1", "table1", "article", deflimite, defoffset);
-    gettable( "table3", "table3", "groupeopt", deflimite, defoffset);
-    gettable( "table5", "table5", "administrateur", deflimite, defoffset);
+    inittable( "table0", "table0", "categorie");
+    inittable( "table1", "table1", "article");
+    inittable( "table3", "table3", "groupeopt");
+    inittable( "table5", "table5", "administrateur");
     fldCustomProp("pbnomid", "nom", "text");
     fldCustomProp("pbadr1id", "adresse1", "text");
     fldCustomProp("pbadr2id", "adresse2", "text");
@@ -128,11 +133,11 @@
     fldParam( "publickeyid", "PublicKey", "text");
 		fldParam( "secretkeyid", "SecretKey", "text");
 		fldParam( "idcltpaypalid", "ID_CLT_PAYPAL", "text");
-    gettable( "table7", "table7", "cpzone", deflimite, defoffset);
-    gettable( "table8", "table8", "barlivr", deflimite, defoffset);
-    gettable( "ihm9", "table9", "commande", deflimite, defoffset);
+    inittable( "table7", "table7", "cpzone");
+    inittable( "table8", "table8", "barlivr");
+    inittable( "ihm9", "table9", "commande");
     startWorkerCommande();
-    gettable( "table11", "table11", "statutcmd", deflimite, defoffset);
+    inittable( "table11", "table11", "statutcmd");
   });
 
 
@@ -262,6 +267,9 @@
 					<a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
 				</li>
 				<?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
+				<li class="nav-item">
+					<a class="nav-link" id="backoffice-tab" data-toggle="tab" href="#backoffice" role="tab" aria-controls="backoffice" aria-selected="false">BACK-OFFICE</a>
+				</li>
 			</ul>
 			<div class="tab-content" id="myTabAdminContent">
 				<div class="tab-pane active" id="administrateur" role="tabpanel" aria-labelledby="administrateur-tab">
@@ -428,6 +436,11 @@
 			  	<div class='tbl' id="table11"></div>	
 		 	  	<div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
 		 	  	<div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>	
+				</div>
+				<div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
+				  <div class='tbl'>	
+					  <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
+					</div>
 				</div>
 			</div>
 		</div>			
@@ -999,7 +1012,7 @@
 							rgp.hidden = false;
 							vue.appendChild(rgp);
 
-							gettable( "maj" + numtable, "tablesub" + subnumtable, tables[subnumtable].nom, deflimite, defoffset, jpk, idtoup);							
+							inittable( "maj" + numtable, "tablesub" + subnumtable, tables[subnumtable].nom, jpk, idtoup);							
 						
 						}
 						var okbtn = document.createElement('button');
@@ -1382,11 +1395,11 @@
 			}			
 			  
  			function displaytable(vue, place, tablestr, donnees, total, pagination, limite, offset, selcol="", selid=0)
- 			{
+ 			{ 				
 			 	var pkval;
 			 	nummtable = getnumtable(tablestr);
 			 	table = tables[numtable];
-		 		
+
 			 	var firstdiv, maintable, mainthead, maintbody, tr, th, td, input, buttonins, lblrpp, selres, optres, nav, ul, li, apl, spanlq, spanprev, spanrq, spannext;
 			 	
 				if ((tablestr !== "commande") &&  (tablestr !== "lignecmd"))
@@ -1548,6 +1561,8 @@
 			 	selres = document.createElement("SELECT");
 			 	selres.onchange = function () {
 			 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
+			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(tablestr), this.value);
+			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), 0);
 			 	}
 			 	selres.id = "rppid" + numtable; 
 				for (var k=0; k<rpp.length; k++)
@@ -1561,7 +1576,8 @@
 				}				
 				vallimite = parseInt(limite);
 				divrpp.appendChild(selres);
-				document.getElementById(place).appendChild(divrpp);					
+				document.getElementById(place).appendChild(divrpp);
+
 				nav  = document.createElement("NAV");
 				nav.setAttribute("aria-label", "Page navigation");
 				ul = document.createElement("UL");
@@ -1574,7 +1590,8 @@
 				apl = document.createElement("A");
 				apl.classList.add("page-link");
 				apl.onclick = function () {
-					gettable(vue,place,tablestr, limite,(offset - vallimite),selcol,selid);
+					gettable(vue,place,tablestr, limite, (offset - vallimite), selcol, selid);
+					localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), (offset - vallimite));
 				}
 				apl.setAttribute("aria-label", "Previous");
 				spanlq = document.createElement("SPAN");
@@ -1601,6 +1618,7 @@
 					apl.onclick = function () {
 						num = this.getAttribute("data-num");
 						gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
+						localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), ( num * limite ));
 					}
 					apl.innerHTML = k;
 					li.appendChild(apl);
@@ -1616,6 +1634,7 @@
 				apl.classList.add("page-link");
 				apl.onclick = function () {
 					gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
+				  localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), (offset + vallimite));
 				}
 				apl.setAttribute("aria-label", "Next");
 				spanrq = document.createElement("SPAN");
@@ -1675,7 +1694,7 @@
 				}
 			}
 			   			
-			function editcol(tablestr, limite , offset) 
+			/*function editcol(tablestr, limite , offset) 
 			{
 				$('.modal-title').html('Configuration des colonnes');
 				$('.modal-dialog').removeClass("modal-lg");
@@ -1803,8 +1822,8 @@
 				}
 
 				$('.modal').modal('show');
-			}
-			
+			}*/
+			/*
 			function editfil(tablestr, limite , offset) 
 			{
 				$('.modal-title').html('Configuration des filtres');
@@ -1875,7 +1894,7 @@
 					inpval.id ='inpval' + k;
 					document.getElementById('divpan' + k).appendChild(inpval);
 					
-					/*var chpm = document.createElement("DIV");
+					var chpm = document.createElement("DIV");
 					chpm.id ='chpm' + k;
 					chpm.innerHTML= '+';
 					chpm.style.cursor ="default";
@@ -1894,11 +1913,11 @@
 							chpm.innerHTML= '+';
 						}
 					}
-					document.getElementsByClassName('modal-body')[0].appendChild(chpm);*/
-					/*var br1 = document.createElement("BR");
+					document.getElementsByClassName('modal-body')[0].appendChild(chpm);
+					var br1 = document.createElement("BR");
 					document.getElementsByClassName('modal-body')[0].appendChild(br1);
 					var br2 = document.createElement("BR");
-					document.getElementsByClassName('modal-body')[0].appendChild(br2);*/
+					document.getElementsByClassName('modal-body')[0].appendChild(br2);
 				}				
 
 								
@@ -1926,7 +1945,7 @@
 				}
 
 				$('.modal').modal('show');
-			}
+			}*/
 			
 			function detail(numtable, idtoup, limite, offset, vueparent, placeparent, selcol, selid)
 			{
@@ -2101,7 +2120,7 @@
 							lignecmd.id = "table10";
 							lignecmd.hidden = false;
 							document.getElementById('det' + numtable).appendChild(lignecmd);
-							gettable( "table10", "table10", "lignecmd", deflimite, defoffset, "cmdid", objectid);
+							inittable( "table10", "table10", "lignecmd", "cmdid", objectid);
 						}
 						else {
 							vue.appendChild(document.createElement("BR"));
@@ -2129,6 +2148,24 @@
 					}
       	})
 			}
+			
+      function inittable(vue, place, table, selcol="", selid=0)      
+      {
+     		if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(table))) {
+			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(table), deflimite);
+	 	 			limite = deflimite;
+				} else {
+					limite = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(table));
+				}
+				if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(table))) {
+ 	 				localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(table), defoffset);
+				} else {
+				  offset = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(table));
+				}		
+
+      	gettable(vue, place, table, limite, offset, selcol, selid);
+			}
+			
 			
       function gettable(vue, place, table, limite, offset, selcol="", selid=0)      
       {
@@ -2169,6 +2206,7 @@
 		        else {
 		        	pagination = true;
 		        }
+
 			      var obj2 = { customer: boutic, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
 			  	
 			      fetch("boquery.php", {
@@ -2925,6 +2963,30 @@
 				document.getElementById('validparamid').disabled = true;
 				document.getElementById('cancelparamid').disabled = true;
 			}
+
+			function razctrl()
+			{
+				var yn = confirm("Vous êtes sur le point de supprimer toute les mémoires de pagination ! Confirmez-vous ?");
+				if (yn == true)
+				{
+					// Raz praticboutic ctrl
+					var total = localStorage.length;
+					var list = new Array();
+					for (var i=0; i<total; i++)
+					{
+						var key = localStorage.key(i);
+						if (key.startsWith("praticboutic_ctrl_" + server + "_" + login))
+						{
+							list.push(key);
+						}
+					}
+					while (list.length > 0)
+					{
+						localStorage.removeItem(list.pop());
+					}
+				}
+			}
+
     </script>
   </body>
 </html>

@@ -72,6 +72,11 @@ body
   overflow: hidden;
   padding-left: 3%;
   padding-right: 3%;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 @media only screen and (min-width: 640px) {

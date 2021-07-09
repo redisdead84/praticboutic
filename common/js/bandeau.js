@@ -12,15 +12,16 @@ $(document).ready(function(){
 
 
   if (sessionStorage.getItem("barre") == "close")
-		$('#barre').hide();
+		$('#barre').remove();
 
-  $('#barre').animate({
+  /*$('#barre').animate({
     marginTop: "0",
-  }, 500);
+  }, 500);*/
   $("#fermer").mousedown(function(){      
-    $('#barre').animate({ 
+    /*$('#barre').animate({ 
       marginBottom: "-90px",
-    }, 500);
+    }, 500);*/
     sessionStorage.setItem("barre","close");
+    $('#barre').remove();
    });
  });
