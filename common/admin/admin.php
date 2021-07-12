@@ -1561,8 +1561,9 @@
 			 	selres = document.createElement("SELECT");
 			 	selres.onchange = function () {
 			 		changeFunc(vue, place, tablestr, this.value, selcol, selid);
-			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(tablestr), this.value);
-			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), 0);
+			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_rppid" + getnumtable(tablestr), this.value);
+			 		if (selid == 0)
+			 			localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(tablestr), defoffset);
 			 	}
 			 	selres.id = "rppid" + numtable; 
 				for (var k=0; k<rpp.length; k++)
@@ -1591,7 +1592,8 @@
 				apl.classList.add("page-link");
 				apl.onclick = function () {
 					gettable(vue,place,tablestr, limite, (offset - vallimite), selcol, selid);
-					localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), (offset - vallimite));
+					if (selid == 0)
+						localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(tablestr), (offset - vallimite));
 				}
 				apl.setAttribute("aria-label", "Previous");
 				spanlq = document.createElement("SPAN");
@@ -1618,7 +1620,8 @@
 					apl.onclick = function () {
 						num = this.getAttribute("data-num");
 						gettable(vue, place, tablestr, limite, ( num * limite ), selcol, selid);
-						localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), ( num * limite ));
+						if (selid == 0)
+							localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(tablestr), ( num * limite ));
 					}
 					apl.innerHTML = k;
 					li.appendChild(apl);
@@ -1634,7 +1637,8 @@
 				apl.classList.add("page-link");
 				apl.onclick = function () {
 					gettable(vue, place, tablestr, limite, (offset + vallimite), selcol, selid);
-				  localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(tablestr), (offset + vallimite));
+					if (selid == 0)
+				  	localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(tablestr), (offset + vallimite));
 				}
 				apl.setAttribute("aria-label", "Next");
 				spanrq = document.createElement("SPAN");
@@ -2151,16 +2155,22 @@
 			
       function inittable(vue, place, table, selcol="", selid=0)      
       {
-     		if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(table))) {
-			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(table), deflimite);
+     		if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_rppid" + getnumtable(table))) {
+			 		localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_rppid" + getnumtable(table), deflimite);
 	 	 			limite = deflimite;
 				} else {
-					limite = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_rppid" + getnumtable(table));
+					limite = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_rppid" + getnumtable(table));
 				}
-				if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(table))) {
- 	 				localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(table), defoffset);
-				} else {
-				  offset = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_" + selcol + "_" + selid + "_nav" + getnumtable(table));
+				if (selid == 0)
+				{
+					if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(table))) {
+	 	 				localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(table), defoffset);
+					} else {
+					  offset = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_nav" + getnumtable(table));
+					}
+				}
+				else {
+					offset = defoffset;
 				}		
 
       	gettable(vue, place, table, limite, offset, selcol, selid);
