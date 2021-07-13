@@ -59,5 +59,9 @@
 /testl/*
 /testm/*
 /praticboutic/*
-/upload/*
+/upload/*.jpg
+/upload/*.jpeg
+/upload/*.gif
+/upload/*.png
+/upload/*.php*
 /oldrepo/*

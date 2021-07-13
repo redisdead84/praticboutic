@@ -893,8 +893,9 @@
 											var divp = document.createElement("DIV");
 											divp.classList.add("frameimg");
 											var image = document.createElement("IMG");
-											image.id = 'utable' + numtable + '_' + 'artimg' + i;;
-											image.src = pathimg + data[i];
+											image.id = 'utable' + numtable + '_' + 'artimg' + i;
+											if (data[i] != "")
+												image.src = pathimg + data[i];
 											image.alt = "";
 											image.classList.add("imgart");
 											divp.appendChild(image);
