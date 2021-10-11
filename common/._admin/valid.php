@@ -76,9 +76,9 @@
 				          if ($isPasswordCorrect) 
 				          {
 				          	$_SESSION['boutic'] = $boutic;
-				            $_SESSION[$boutic . '_id'] = $id;
-				            $_SESSION[$boutic . '_email'] = $email;
-				            $_SESSION[$boutic . '_auth'] = 'oui';
+				            $_SESSION['bo_id'] = $id;
+				            $_SESSION['bo_email'] = $email;
+				            $_SESSION['bo_auth'] = 'oui';
 				            header("LOCATION: admin.php");
 				          }
 				          else 

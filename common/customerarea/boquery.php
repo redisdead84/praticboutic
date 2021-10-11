@@ -2,23 +2,6 @@
 
 session_start();
 
-  if (empty($_SESSION['boutic']) == TRUE)
- 	  header("LOCATION: index.php");
-  else	
-	  $boutic = $_SESSION['boutic'];
-	
-  if (empty($_SESSION[$boutic . '_auth']) == TRUE)
-  {
- 	  header("LOCATION: index.php");
- 	  exit();
-  }	
-  
-  if (strcmp($_SESSION[$boutic . '_auth'],'oui') != 0)
-  {
- 	  header("LOCATION: index.php");
- 	  exit();
-  }
-     
 class Lien {
   public $nom;
   public $tblsrc;
@@ -49,14 +32,8 @@ try {
   $json_str = file_get_contents('php://input');
   $input = json_decode($json_str);
 
-	$reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
-	$reqci->bind_param("s", $input->customer);
-	$reqci->execute();
-	$reqci->bind_result($customid);
-	$resultatci = $reqci->fetch();
-	$reqci->close();
 	
-	$rcvnom = GetValeurParam("Receivernom_mail", $conn, $customid, $input->customer);
+	//$rcvnom = GetValeurParam("Receivernom_mail", $conn, $input->bouticid);
 
 	//error_log($input->action);
 	
@@ -84,7 +61,7 @@ try {
 		}
 		
 	  $query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
-	  $query = $query . ' WHERE T1.customid = ' . $customid; 
+	  $query = $query . ' WHERE T1.customid = ' . $input->bouticid; 
 	  if (strcmp($input->selcol, "")!=0)
 			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 			
@@ -218,9 +195,9 @@ try {
 	  $query = $query . $addwhere;
 	  
 	  if (strcmp($addwhere, "")==0)
-	    $query = $query . ' WHERE T1.customid = ' . $customid;
+	    $query = $query . ' WHERE T1.customid = ' . $input->bouticid;
 	  else
-	    $query = $query . ' AND T1.customid = ' . $customid;
+	    $query = $query . ' AND T1.customid = ' . $input->bouticid;
 	    
 	  if (strcmp($input->selcol, "")!=0)
 	  	$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
@@ -273,7 +250,7 @@ try {
 				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
 
   	$query = 'SELECT ' . $clep . ', ' . $input->colonne . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
-  	$query = $query . ' WHERE customid = ' . $customid;
+  	$query = $query . ' WHERE customid = ' . $input->bouticid;
   	
 		if (strcmp($input->tables[$numtable]->nom, "statutcmd") == 0 ) 
 	  	$query = $query . ' AND actif = 1';
@@ -307,7 +284,7 @@ try {
 			{
 				$colonnes = "count(*)"; 						
 			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
-			  $subquery = $subquery . ' WHERE T1.customid = ' . $customid; 
+			  $subquery = $subquery . ' WHERE T1.customid = ' . $input->bouticid; 
 				$subquery = $subquery . ' AND T1.' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
 				//error_log($subquery);
 				if ($result = $conn->query($subquery)) 
@@ -343,7 +320,7 @@ try {
 	  		$query = $query . ', ';
   	}
   	$query = $query . ') VALUES (';
-  	$query = $query . '"' . $customid . '", '; 
+  	$query = $query . '"' . $input->bouticid . '", '; 
 		for($i=0; $i<count($input->row); $i++) 
 		{ 
 			if (strcmp($input->row[$i]->type, "pass") != 0) 	
@@ -382,7 +359,7 @@ try {
 		}
   	
   	$query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
-  	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $customid;
+  	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $input->bouticid;
   	
   	//error_log($query);
   	
@@ -411,7 +388,7 @@ try {
 			{
 				$colonnes = "count(*)"; 						
 			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`';
-			  $subquery = $subquery . ' WHERE customid = ' . $customid;
+			  $subquery = $subquery . ' WHERE customid = ' . $input->bouticid;
 			  $subquery = $subquery . ' AND ' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"'; 
 		  	$subquery = $subquery . ' AND ' . $input->colonne . '!=' . $input->idtoup;
 				//error_log($subquery);
@@ -458,7 +435,7 @@ try {
 		  		
   	}
   	
-  	$query = $query . ' WHERE ' . $input->colonne . '=' . $input->idtoup . ' AND customid=' . $customid;
+  	$query = $query . ' WHERE ' . $input->colonne . '=' . $input->idtoup . ' AND customid=' . $input->bouticid;
   	
 		//error_log($query);	  	
   	
@@ -482,7 +459,7 @@ try {
 	  $liens=array();
   	
   	$query = 'SELECT ' . $cs . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
-  	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $customid;
+  	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $input->bouticid;
   	
   	//error_log($query);
   	
@@ -503,7 +480,7 @@ try {
   {
   	$query = 'SELECT statutcmd.couleur FROM commande ';
   	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
-  	$query = $query . 'WHERE commande.customid = ' . $customid;
+  	$query = $query . 'WHERE commande.customid = ' . $input->bouticid;
   	$query = $query . ' ORDER BY commande.cmdid';
   	$query = $query . ' LIMIT ' . $input->limite . ' OFFSET '. $input->offset;
   	
@@ -527,9 +504,10 @@ try {
 	if (strcmp($input->action,"getcomdata") == 0)
   {
   	$query = 'SELECT commande.telephone, statutcmd.message, commande.numref, commande.nom, commande.prenom, commande.adresse1, commande.adresse2, commande.codepostal, commande.ville,
-  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat  FROM commande ';
-  	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
-  	$query = $query . 'WHERE commande.cmdid = ' . $input->cmdid . ' AND commande.customid = ' . $customid . ' AND statutcmd.customid = ' . $customid;
+  						commande.vente, commande.paiement, commande.sstotal, commande.fraislivraison, commande.total, commande.commentaire, statutcmd.etat, customer.nom  FROM commande ';
+  	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid ';
+  	$query = $query . 'INNER JOIN customer ON commande.customid = customer.customid '; 
+  	$query = $query . 'WHERE commande.cmdid = ' . $input->cmdid . ' AND commande.customid = ' . $input->bouticid . ' AND statutcmd.customid = ' . $input->bouticid . ' AND customer.customid = ' . $input->bouticid;
   	$query = $query . ' ORDER BY commande.cmdid';
   	
   	//error_log($query);
@@ -541,7 +519,7 @@ try {
 			if ($row = $result->fetch_row()) 
 		  {	
 	  		$content = $row[1];  	
-				$content = str_replace("%boutic%", $rcvnom, $content);
+				$content = str_replace("%boutic%", $row[16], $content);
 				$content = str_replace("%telephone%", $row[0], $content);		
 				$content = str_replace("%numref%", $row[2], $content);  
 				$content = str_replace("%nom%", $row[3], $content);  
@@ -569,7 +547,7 @@ try {
 
 	if (strcmp($input->action,"getparam") == 0)
   {
-		$value = stripcslashes(GetValeurParam($input->param, $conn, $customid, ""));
+		$value = stripcslashes(GetValeurParam($input->param, $conn, $input->bouticid, ""));
 					
 		//error_log($value);
 		
@@ -581,7 +559,7 @@ try {
 
 	if (strcmp($input->action,"setparam") == 0)
   {
-		$error = SetValeurParam($input->param, addslashes($input->valeur), $conn, $customid, "");
+		$error = SetValeurParam($input->param, addslashes($input->valeur), $conn, $input->bouticid, "");
 			
 		//error_log($error);
 		
@@ -593,7 +571,7 @@ try {
 
 	if (strcmp($input->action,"getCustomProp") == 0)
   {
-  	$query = "SELECT " . stripcslashes($input->prop) . " FROM customer WHERE customid = " . $customid . " LIMIT 1";			
+  	$query = "SELECT " . stripcslashes($input->prop) . " FROM customer WHERE customid = " . $input->bouticid . " LIMIT 1";			
 		
 		//error_log($query);
 		
@@ -610,35 +588,100 @@ try {
 
   }		
 
-	if (strcmp($input->action,"setCustomProp") == 0)
+  if (strcmp($input->action,"setCustomProp") == 0)
   {
-  	$query = "UPDATE customer SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE customid = " . $customid;			
+    $arr="";
+    $query = "SELECT COUNT(*) FROM customer WHERE " . $input->prop . " = '" . addslashes($input->valeur) . "' LIMIT 1";
+    //error_log($query);
+    if ($result = $conn->query($query)) 
+    {
+      if ($row = $result->fetch_row())
+      {
+        if (($row[0]>=1) && (strcmp($input->typ, "ref")==0))
+        {
+          $arr = "KO";
+        }
+        else
+        {
+          $query = "UPDATE customer SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE customid = " . $input->bouticid;
+          //error_log($query);
+
+          $arr=array();
+          // remove following comments to enable writing in db
+          if ($conn->query($query) === FALSE)
+          {
+            throw new Error($conn->error);
+          }
+          else
+            $arr = "OK";
+        }
+      }
+      $result->close();
+    }
+  }
+	if (strcmp($input->action,"getClientProp") == 0)
+  {
+  	$query = "SELECT client." . stripcslashes($input->prop) . " FROM customer, client WHERE customer.customid = " . $input->bouticid . " AND customer.cltid = client.cltid LIMIT 1";			
 		
 		//error_log($query);
-
-		$arr=array();
-		// remove following comments to enable writing in db
-		if ($conn->query($query) === FALSE)
+		
+		$arr=array();	
+		
+		if ($result = $conn->query($query)) 
 		{
-			throw new Error($conn->error);
-		}
-  }	
+			if ($row = $result->fetch_row()) 
+		  {	
+				array_push($arr, $row[0]);
+	    }						
+		  $result->close();
+	  }   
+
+  }		
+
+  if (strcmp($input->action,"setClientProp") == 0)
+  {
+    $arr="";
+    
+   	$query = "SELECT client.cltid FROM customer, client WHERE customer.customid = " . $input->bouticid . " AND customer.cltid = client.cltid LIMIT 1";
+
+    //error_log($query);
+
+    if ($result = $conn->query($query)) 
+    {
+      if ($row = $result->fetch_row()) 
+      {	
+        $cltid = $row[0];
+      }
+      $result->close();
+    }
+    if (strcmp($input->typ, "pass") == 0)
+    {
+      if (strcmp($input->valeur,"") != 0) 	
+        $query = "UPDATE client SET " . $input->prop . " = '" . password_hash($input->valeur, PASSWORD_DEFAULT) . "' WHERE cltid = " . $cltid;
+    }
+    else
+      $query = "UPDATE client SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE cltid = " . $cltid;
+    //error_log($query);
+
+    // remove following comments to enable writing in db
+    if ($conn->query($query) === FALSE)
+    {
+      throw new Error($conn->error);
+    }
+  }
 
 
   $conn->close();
 
-	$output = $arr;
-	
-	//error_log(json_encode($output));	
-	
+  $output = $arr;
+
+  //error_log(json_encode($output));	
+
   echo json_encode($output);
 } catch (Error $e) {
   http_response_code(500);
   echo json_encode(['error' => $e->getMessage()]);
 }
-
-
-
 ?>
 
 

@@ -2,6 +2,19 @@
 
 session_start();
 
+if (empty($_SESSION['bo_email']) == TRUE)
+{
+  header("LOCATION: index.php");
+  exit();
+}
+
+  if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+  {
+ 	  header("LOCATION: index.php");
+ 	  exit();
+  }
+
+
 require '../../vendor/autoload.php';
 
 include "../config/common_cfg.php";
@@ -15,14 +28,6 @@ if ($conn->connect_error)
 
 try {
 	$output = "";
-	
-  $customer = $_POST['boutic'];
-	$reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
-	$reqci->bind_param("s", $customer);
-	$reqci->execute();
-	$reqci->bind_result($customid);
-	$resultatci = $reqci->fetch();
-	$reqci->close();
 	
 	$dossier = "";
   $fichier = isset($_FILES['file']) ? basename($_FILES['file']['name']) : '';
@@ -56,7 +61,7 @@ try {
             'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
       $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);*/
       
-      $fichier = $customer . '_' . uniqid('', true) . $extension;  
+      $fichier = uniqid('', true) . $extension;
 
       if(!(move_uploaded_file($_FILES['file']['tmp_name'], $dossier . $fichier))) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
       {
@@ -69,8 +74,6 @@ try {
 	}
 
   $conn->close();
-
-	
 
   echo json_encode($output);
 } catch (Error $e) {

@@ -1,6 +1,27 @@
 <?php
   session_start();
-  $customer = htmlspecialchars($_GET['customer']);
+  
+  if (empty($_SESSION['customer']) != 0)
+	{
+    header('LOCATION: 404.html');
+    exit();
+	}
+
+  $customer = $_SESSION['customer'];
+  $method = $_SESSION['method'];
+  $table = $_SESSION['table'];
+
+  if (empty($_SESSION[$customer . '_mail']) == TRUE)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }
+  
+  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }
 
   include "config/common_cfg.php";
   include "param.php";
@@ -9,23 +30,8 @@
   $conn = new mysqli($servername, $username, $password, $bdd);
   // Check connection
   if ($conn->connect_error) 
-    die("Connection failed: " . $conn->connect_error);    
-
-  $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
-  $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
-
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: ../' . $customer . '/index.php');
-    exit();
-  }
+    die("Connection failed: " . $conn->connect_error);
   
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer);
-    exit();
-  }
-
   $reqci = $conn->prepare('SELECT customid, logo FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
@@ -86,10 +92,11 @@
 	    </div>
     </div>
 
-		<script src="https://www.paypal.com/sdk/js?client-id=<?php echo $idcpp;?>&currency=EUR"> // Replace YOUR_CLIENT_ID with your sandbox client ID
-   	</script>
+
+   
     <!-- Display a payment form -->
     <script type="text/javascript">
+      var idcpp = "<?php echo $idcpp;?>";
     	var mnysys = "<?php echo $mnysys;?>";
       if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
     		if (mnysys == "STRIPE")
@@ -112,11 +119,13 @@
      		}
      		else if (mnysys == "PAYPAL")
      		{
+     		  document.write('<script src="https://www.paypal.com/sdk/js?client-id=' + idcpp + '&currency=EUR">');
+     		  document.write('</"+"script>');
      			document.write('<div id="payementfooter" style="height:140px">');
       		document.write('<div id="paypal-button-container"></div>');
       	}
         document.write('<div class="solobn">');
-        document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+        document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php\'">');
 				document.write('Revenir sur les informations');
       	document.write('</button>');
       	document.write('</div>');
@@ -124,10 +133,10 @@
     	} else {
       	document.write('<div id="footer">');
         document.write('<div class="grpbn">');
-        document.write('<button class="navindic" id="retourcarte" onclick="window.location.href = \'getinfo.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+        document.write('<button class="navindic" id="retourcarte" onclick="window.location.href = \'getinfo.php\'">');
       	document.write('Retour');
       	document.write('</button>');
-        document.write('<button class="navindic" id="validcarte" onclick="window.location.href = \'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer") + '\'">');
+        document.write('<button class="navindic" id="validcarte" onclick="window.location.href = \'fin.php\'">');
         document.write('Valider');
         document.write('</button>');
         document.write('</div>');
@@ -200,7 +209,7 @@
 			      	// This function captures the funds from the transaction.
 				 	    	return actions.order.capture().then(function(details) {
 		    	    		// This function shows a transaction success message to your buyer.
-		        			document.location.href = 'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer");
+		        			document.location.href = 'fin.php';
 				      	});
 				    	}
 						}).render('#paypal-button-container'); // Display payment options on your web page
@@ -249,7 +258,7 @@
 			      	// This function captures the funds from the transaction.
 				 	    	return actions.order.capture().then(function(details) {
 		    	    		// This function shows a transaction success message to your buyer.
-		        			document.location.href = 'fin.php?method=' + sessionStorage.getItem("method") + '&table=' + sessionStorage.getItem("table") + '&customer=' + sessionStorage.getItem("customer");
+		        			document.location.href = 'fin.php';
 				      	});
 				    	}
 						}).render('#paypal-button-container'); // Display payment options on your web page

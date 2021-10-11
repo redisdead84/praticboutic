@@ -1,26 +1,26 @@
 <?php
 	session_start();
 
-  if (empty($_SESSION['boutic']) == TRUE)
+  if (empty($_SESSION['bo_id']) == TRUE)
   {
  	  header("LOCATION: index.php");
  	  exit();
  	}
   else	
-	  $boutic = $_SESSION['boutic'];
+	  $bouticid = $_SESSION['bo_id'];
 	
-  if (empty($_SESSION[$boutic . '_auth']) == TRUE)
+  if (empty($_SESSION['bo_auth']) == TRUE)
   {
  	  header("LOCATION: index.php");
  	  exit();
   }	
   
-  if (strcmp($_SESSION[$boutic . '_auth'],'oui') != 0)
+  if (strcmp($_SESSION['bo_auth'],'oui') != 0)
   {
  	  header("LOCATION: index.php");
  	  exit();
   }
-     
+
   include "../config/common_cfg.php";
   include "../param.php";
   
@@ -42,9 +42,9 @@
   </head>
   <body id="backbody">
     <script>
-	var boutic = "<?php echo $boutic;?>" ;
+	var bouticid = "<?php echo $bouticid;?>" ;
 	
-	var login = "<?php echo $_SESSION[$boutic . '_email']; ?>";
+	var login = "<?php echo $_SESSION['bo_email']; ?>";
 	
 	var server = "<?php echo $_SERVER['SERVER_NAME']; ?>";
 	
@@ -108,7 +108,8 @@
     inittable( "table0", "table0", "categorie");
     inittable( "table1", "table1", "article");
     inittable( "table3", "table3", "groupeopt");
-    inittable( "table5", "table5", "administrateur");
+    //inittable( "table5", "table5", "administrateur");
+    fldCustomProp("pbaliasid", "customer", "ref");
     fldCustomProp("pbnomid", "nom", "text");
     fldCustomProp("pbadr1id", "adresse1", "text");
     fldCustomProp("pbadr2id", "adresse2", "text");
@@ -148,9 +149,6 @@
 	  <div class="vertical-nav" id="sidebar">
 	  	<ul class="nav nav-menu flex-column">
 	  		<img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' />
-			  <!--<span class="navbar-text breakword">
-			    Bienvenue sur le backoffice de la boutic <?php echo $boutic;?>, <?php echo $_SESSION[$boutic . '_email']; ?> ! 
-			  </span>-->
 			  <li class="nav-item">
 			    <a class="nav-link active" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
 			  </li>
@@ -162,7 +160,7 @@
 			  </li>	
 			  <div class="demiinter"></div>		  
  			  <li class="nav-item">
-			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' /><?php echo $boutic;?></a>
+			    <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Administration</a>
 			  </li>			  
  			  <li class="nav-item">
 			    <a class="nav-link" href="https://pratic-boutic.fr/#faq"><p class="nopicto">Aide</p></a>
@@ -257,7 +255,7 @@
 			<p class="title">Administration</p>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" id="administrateur-tab" data-toggle="tab" href="#administrateur" role="tab" aria-controls="administrateur" aria-selected="false">UTILISATEURS</a>
+					<a class="nav-link active" id="perso-tab" data-toggle="tab" href="#perso" role="tab" aria-controls="perso" aria-selected="false">PERSONNALISATION</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false">REGLAGES</a>
@@ -270,179 +268,202 @@
 				<li class="nav-item">
 					<a class="nav-link" id="backoffice-tab" data-toggle="tab" href="#backoffice" role="tab" aria-controls="backoffice" aria-selected="false">BACK-OFFICE</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="qrcode-tab" data-toggle="tab" href="#qrcode" role="tab" aria-controls="qrcode" aria-selected="false">GENERATEUR QRCODE</a>
+				</li>
 			</ul>
 			<div class="tab-content" id="myTabAdminContent">
-				<div class="tab-pane active" id="administrateur" role="tabpanel" aria-labelledby="administrateur-tab">
-					<div class='tbl' id="ihm5">	
-					  <div id="table5"></div>
-					</div>
-				 	<div class='tbl form-group' id="ins5" data-vuep="table5" hidden></div>
-				 	<div class='tbl form-group' id="maj5" data-vuep="table5" hidden></div>	
-				</div>
-				<div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
-<!--				  <div class='tbl' id="table6"></div>	
-			 	  <div class='tbl' id="ins6" data-vuep="table6" hidden></div>
-		 	  	<div class='tbl' id="maj6" data-vuep="table6" hidden></div>	-->
+				<div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
 		 	  	<div class='tbl'>
 		 	  		<div class='twocol'>
 					  	<div class="param">
+					  	  <label>Alias de la Boutic : </label>
+					  	  <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
+					  	</div>
+					  	<br>
+					  	<div class="param">
 					  	  <label>Nom de l'entreprise : </label>
-					  	  <input class="paramfield" id="pbnomid" type='text' maxlength="100" oninput="enblbtnvc(this)" />
+					  	  <input class="fieldperso" id="pbnomid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
 					  	</div>
 					  	<br>
 					  	<div class="param">
 					  	  <label>Adresse (ligne1) : </label>
-					  	  <input class="paramfield" id="pbadr1id" type='text' maxlength="150" oninput="enblbtnvc(this)" />
+					  	  <input class="fieldperso" id="pbadr1id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
 					  	</div>
 					  	<br>
 					  	<div class="param">
 					  	  <label>Adresse (ligne2) : </label>
-					  	  <input class="paramfield" id="pbadr2id" type='text' maxlength="150" oninput="enblbtnvc(this)" />
+					  	  <input class="fieldperso" id="pbadr2id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
 					  	</div>
 					  	<br>
 					  	<div class="param">
 					  	  <label>Code Postal : </label>
-					  	  <input class="paramfield" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="enblbtnvc(this)" />
+					  	  <input class="fieldperso" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="persoenblbtnvc(this)" />
 					  	</div>
 					  	<br>
 					  	<div class="param">
 					  	  <label>Ville : </label>
-					  	  <input class="paramfield" id="pbvilleid" type='text' maxlength="50" oninput="enblbtnvc(this)" />
+					  	  <input class="fieldperso" id="pbvilleid" type='text' maxlength="50" oninput="persoenblbtnvc(this)" />
 					  	</div>
 					  	<br>
 						  <div class="" id="bloclogoid">
 						  	<label for="artlogofile">Logo : </label>
-								<input class="paramfield" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="enblbtnvc(this)" />
+								<input class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
 						  </div>
 						  <br>
 						  <div class="param">
 						    <label for="pbemailid">Courriel : </label>
-						    <input class="paramfield" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" oninput="enblbtnvc(this)" />
+						    <input class="fieldperso" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" oninput="persoenblbtnvc(this)" />
 						  </div>
 						  <br>
-						  <div class="param">
-						    <label for="ishtmlid">Courriel au format HTML : </label>
-						    <div>
-						    	<input class="paramfield" id="ishtmlid" type='checkbox' onclick="enblbtnvc(this)" />
-						    </div>
-						  </div>
-						  <br>
-						  <div class="param">
-						    <label for="subjectmailid">Sujet du courriel : </label>
-						    <input class="paramfield" id="subjectmailid" type='text' maxlength="255" oninput="enblbtnvc(this)" />
-						  </div>
-						  <br>
-						  <div class="param">
-						    <label for="validationsmsid">Validation SMS : </label>
-						    <div>
-						    	<input class="paramfield" id="validationsmsid" type='checkbox' onclick="enblbtnvc(this)" />
-						    </div>
-						  </div>
-						  <br>
-						  <div class="param">
-						    <label for="verifcpid">Vérification des codes postaux : </label>
-						    <div>
-						      <input class="paramfield" id="verifcpid" type='checkbox' onclick="enblbtnvc(this)" />
-						    </div>
-						  </div>
-						  <br>
-					  	<div class="param">
-						  	<label for="choixpaiementid">Choix de paiement : </label>
-						  	<select class="paramfield" id="choixpaiementid" oninput="enblbtnvc(this)"  >
-						  		<option value='COMPTANT'>Comptant</option>
-						  		<option value='LIVRAISON'>Livraison</option>
-						  		<option value='TOUS'>Comptant & Livraison</option>
-						  	</select>
-					  	</div>
-						  <br>
-						  <div class="param">
-						    <label for="mpcomptantid">Texte du paiement comptant : </label>
-						    <input class="paramfield" id="mpcomptantid" type='text' maxlength="255" oninput="enblbtnvc(this)"  />
-						  </div>
-						  <br>
-						  <div class="param">
-						    <label for="mplivraisonid">Texte du paiement à la livraison : </label>
-						    <input class="paramfield" id="mplivraisonid" type='text' maxlength="255" oninput="enblbtnvc(this)"  />
-						  </div>
-						  <br>
-					  	<div class="param">
-						  	<label for="choixmethodid">Choix de la méthode : </label>
-						  	<select class="paramfield" id="choixmethodid" onchange="enblbtnvc(this)"  >
-						  		<option value='EMPORTER'>Emporter</option>
-						  		<option value='LIVRER'>Livrer</option>
-						  		<option value='TOUS'>Emporter & Livrer</option>
-						  	</select>
-					  	</div>
-						  <br>
-						  <div class="param">
-						    <label for="cmlivrerid">Texte de la vente à la livraison : </label>
-						    <input class="paramfield" id="cmlivrerid" type='text' maxlength="255" oninput="enblbtnvc(this)"  />
-						  </div>
-						  <br>
-						  <div class="param">
-						    <label for="cmemporterid">Texte de la vente à emporter : </label>
-						    <input class="paramfield" id="cmemporterid" type='text' maxlength="255" oninput="enblbtnvc(this)" />
-						  </div>
-						  <br>
-						  <div class="param">
-						    <label for="mntmincmdid">Montant minimum de commande : </label>
-						    <input class="inpprix paramfield" id="mntmincmdid" type='number' step='0.01' min='0' oninput="enblbtnvc(this)"  />
-						  </div>
-					  	<br>
-						  <div class="param">
-						    <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
-						    <input class="inpprix paramfield" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="enblbtnvc(this)"  />
-						  </div>
-					  	<br>
-					  	<div class="param">
-						  	<label for="sizeimgid">Taille des images : </label>
-						  	<select class="paramfield" id="sizeimgid" oninput="enblbtnvc(this)"  >
-						  		<option value='smallimg'>Petites</option>
-						  		<option value='bigimg'>Grandes</option>
-						  	</select>
-					  	</div>
-					  	<br>
-							<div class="param">
-						  	<label for="moneysystemid">Système de paiement : </label>
-						  	<select class="paramfield" id="moneysystemid" oninput="enblbtnvc(this)" >
-						  		<option value='STRIPE'>STRIPE</option>
-						  		<option value='PAYPAL'>PAYPAL</option>
-						  	</select>
-							</div>
-							<br>
-						  <div class="param">
-						    <label for="publickeyid">Clé Public Stripe : </label>
-						    <input class="paramfield" id="publickeyid" type='text' maxlength="255" oninput="enblbtnvc(this)" autocomplete="off" />
-						  </div>
-					  	<br>
-						  <div class="param">
-						    <label for="secretkeyid">Clé Privé Stripe : </label>
-						    <input class="paramfield" id="secretkeyid" type='password' maxlength="255" oninput="enblbtnvc(this)" autocomplete="one-time-code" />
-						  </div>
-					  	<br>
-						  <div class="param">
-						    <label for="idcltpaypalid">ID Client Paypal : </label>
-						    <input class="paramfield" id="idcltpaypalid" type='text' maxlength="255" oninput="enblbtnvc(this)" autocomplete="off" />
-						  </div>
-					  	<br>
-			  		</div>
+						</div>
 			  		<div class="center">
-							<input type='button' class="btn btn-primary btn-block" id='validparamid' disabled='true' value='Valid' onclick="validparamupdate()" />
-			  			<input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
+							<input type='button' class="btn btn-primary btn-block" id='validpersoid' disabled='true' value='Valid' onclick="validpersoupdate()" />
+			  			<input type='button' class="btn btn-secondary btn-block" id='cancelpersoid' disabled='true' value='Cancel' onclick="cancelpersoupdate()" />
 						</div>
 			  	</div>
-				</div>
-				<div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
-			  	<div class='tbl' id="table11"></div>	
-		 	  	<div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
-		 	  	<div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>	
-				</div>
-				<div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
-				  <div class='tbl'>	
-					  <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
-					</div>
-				</div>
-			</div>
+			  </div>
+  			<div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
+          <div class='tbl'>
+  	 	  		<div class='twocol'>
+  					  <div class="param">
+  					    <label for="ishtmlid">Courriel au format HTML : </label>
+  					    <div>
+  					    	<input class="fieldparam" id="ishtmlid" type='checkbox' onclick="paramenblbtnvc(this)" />
+  					    </div>
+  					  </div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="subjectmailid">Sujet du courriel : </label>
+  					    <input class="fieldparam" id="subjectmailid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
+  					  </div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="validationsmsid">Validation SMS : </label>
+  					    <div>
+  					    	<input class="fieldparam" id="validationsmsid" type='checkbox' onclick="paramenblbtnvc(this)" />
+  					    </div>
+  					  </div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="verifcpid">Vérification des codes postaux : </label>
+  					    <div>
+  					      <input class="fieldparam" id="verifcpid" type='checkbox' onclick="paramenblbtnvc(this)" />
+  					    </div>
+  					  </div>
+  					  <br>
+  				  	<div class="param">
+  					  	<label for="choixpaiementid">Choix de paiement : </label>
+  					  	<select class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
+  					  		<option value='COMPTANT'>Comptant</option>
+  					  		<option value='LIVRAISON'>Livraison</option>
+  					  		<option value='TOUS'>Comptant & Livraison</option>
+  					  	</select>
+  				  	</div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="mpcomptantid">Texte du paiement comptant : </label>
+  					    <input class="fieldparam" id="mpcomptantid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+  					  </div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="mplivraisonid">Texte du paiement à la livraison : </label>
+  					    <input class="fieldparam" id="mplivraisonid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+  					  </div>
+  					  <br>
+  				  	<div class="param">
+  					  	<label for="choixmethodid">Choix de la méthode : </label>
+  					  	<select class="fieldparam" id="choixmethodid" onchange="paramenblbtnvc(this)"  >
+  					  		<option value='EMPORTER'>Emporter</option>
+  					  		<option value='LIVRER'>Livrer</option>
+  					  		<option value='TOUS'>Emporter & Livrer</option>
+  					  	</select>
+  				  	</div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="cmlivrerid">Texte de la vente à la livraison : </label>
+  					    <input class="fieldparam" id="cmlivrerid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+  					  </div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="cmemporterid">Texte de la vente à emporter : </label>
+  					    <input class="fieldparam" id="cmemporterid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
+  					  </div>
+  					  <br>
+  					  <div class="param">
+  					    <label for="mntmincmdid">Montant minimum de commande : </label>
+  					    <input class="inpprix fieldparam" id="mntmincmdid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
+  					  </div>
+  				  	<br>
+  					  <div class="param">
+  					    <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
+  					    <input class="inpprix fieldparam" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
+  					  </div>
+  				  	<br>
+  				  	<div class="param">
+  					  	<label for="sizeimgid">Taille des images : </label>
+  					  	<select class="fieldparam" id="sizeimgid" oninput="paramenblbtnvc(this)"  >
+  					  		<option value='smallimg'>Petites</option>
+  					  		<option value='bigimg'>Grandes</option>
+  					  	</select>
+  				  	</div>
+  				  	<br>
+  						<div class="param">
+  					  	<label for="moneysystemid">Système de paiement : </label>
+  					  	<select class="fieldparam" id="moneysystemid" oninput="paramenblbtnvc(this)" >
+  					  		<option value='STRIPE'>STRIPE</option>
+  					  		<option value='PAYPAL'>PAYPAL</option>
+  					  	</select>
+  						</div>
+  						<br>
+  					  <div class="param">
+  					    <label for="publickeyid">Clé Public Stripe : </label>
+  					    <input class="fieldparam" id="publickeyid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
+  					  </div>
+  				  	<br>
+  					  <div class="param">
+  					    <label for="secretkeyid">Clé Privé Stripe : </label>
+  					    <input class="fieldparam" id="secretkeyid" type='password' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="one-time-code" />
+  					  </div>
+  				  	<br>
+  					  <div class="param">
+  					    <label for="idcltpaypalid">ID Client Paypal : </label>
+  					    <input class="fieldparam" id="idcltpaypalid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
+  					  </div>
+  				  	<br>
+  		  		</div>
+  		  		<div class="center">
+  						<input type='button' class="btn btn-primary btn-block" id='validparamid' disabled='true' value='Valid' onclick="validparamupdate()" />
+  		  			<input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
+  					</div>
+  		  	</div>
+  			</div>
+  			<div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
+  		  	<div class='tbl' id="table11"></div>	
+  	 	  	<div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
+  	 	  	<div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>	
+  			</div>
+  			<div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
+  			  <div class='tbl'>	
+  				  <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
+  				</div>
+  			</div>
+  			<div class="tab-pane" id="qrcode" role="tabpanel" aria-labelledby="qrcode-tab">
+  			  <div class='tbl'>	
+      			<form action="pdfqrcode.php" method="post" target="_blank">
+      				<fieldset>
+      					<legend>Méthode de vente:</legend>
+        				<input type="radio" id="radatbl" name="methv" value="2" onclick="javascript:document.getElementById('optnbtable').style.display='block'" checked>
+        				<label for="radatbl">A Table</label><br><input type="radio" id="radqnc" name="methv" value="3" onclick="javascript:document.getElementById('optnbtable').style.display='none'">
+        				<label for="radqnc">Qlick'n'Collect</label><br><br>
+        			</fieldset>
+  					  <p id="optnbtable">Nombre de table : <input type="number" class="inpprix" name="nbtable" step="1" min="1" value = "1" /></p>
+  					  <p>Nombre d'exemplaire : <input type="number" class="inpprix" name="nbex" step="1" min="1" value = "1" /></p>
+  					  <p><input type="submit" value="Générer le PDF de QRCODE"></p>
+  					</form>
+  				</div>
+  			</div>
+  		</div>
 		</div>			
 	</div>	
 		
@@ -548,7 +569,7 @@
 									inp.onchange = function () {
 										const fileInput = this;
 										const formdata = new FormData();
-										formdata.append('boutic', boutic);
+										//formdata.append('boutic', boutic);
 										formdata.append('file', fileInput.files[0]);
 										
 						        fetch("upload.php", {
@@ -782,7 +803,7 @@
 				var br = document.createElement('br');
 				vue.appendChild(br);				
 				
-				var obj = { customer: boutic, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
+				var obj = { bouticid: bouticid, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
 
         fetch("boquery.php", {
           method: "POST",
@@ -864,7 +885,7 @@
 											inp.onchange = function () {
 												const fileInput = this;
 												const formdata = new FormData();
-												formdata.append('boutic', boutic);
+												//formdata.append('boutic', boutic);
 												formdata.append('file', fileInput.files[0]);
 												
 								        fetch("upload.php", {
@@ -1659,7 +1680,7 @@
  				if (tablestr == "commande")
  				{
 					var j=0;
-					var obj3 = { customer: boutic, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
+					var obj3 = { bouticid: bouticid, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
 
 	        fetch("boquery.php", {
 	          method: "POST",
@@ -1970,7 +1991,7 @@
 				var br = document.createElement('br');
 				vue.appendChild(br);				
 				
-				var obj = { customer: boutic, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
+				var obj = { bouticid: bouticid, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
 
         fetch("boquery.php", {
           method: "POST",
@@ -2181,7 +2202,7 @@
       function gettable(vue, place, table, limite, offset, selcol="", selid=0)      
       {
       	
-      	var obj = { customer: boutic, action:"elemtable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:selcol, selid:selid, filtres:filtres };
+      	var obj = { bouticid: bouticid, action:"elemtable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:selcol, selid:selid, filtres:filtres };
   	
         fetch("boquery.php", {
           method: "POST",
@@ -2218,7 +2239,7 @@
 		        	pagination = true;
 		        }
 
-			      var obj2 = { customer: boutic, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
+			      var obj2 = { bouticid: bouticid, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
 			  	
 			      fetch("boquery.php", {
 			        method: "POST",
@@ -2298,7 +2319,7 @@
       {
         var retour;      
         
-      	var obj = { customer: boutic, action:"rempliroption", tables:tables, table:table, liens:liens, colonne:colonne };
+      	var obj = { bouticid: bouticid, action:"rempliroption", tables:tables, table:table, liens:liens, colonne:colonne };
       	
         fetch("boquery.php", {
           method: "POST",
@@ -2329,7 +2350,7 @@
       {
         var retour;      
         
-      	var obj = { customer: boutic, action:"insertrow", tables:tables, table:table, liens:liens, colonne:"", row:row };
+      	var obj = { bouticid: bouticid, action:"insertrow", tables:tables, table:table, liens:liens, colonne:"", row:row };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2365,7 +2386,7 @@
       {
         var retour;      
         
-      	var obj = { customer: boutic, action:"updaterow", tables:tables, table:table, liens:liens, colonne:pknom, row:row, idtoup:idtoup };
+      	var obj = { bouticid: bouticid, action:"updaterow", tables:tables, table:table, liens:liens, colonne:pknom, row:row, idtoup:idtoup };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2414,7 +2435,7 @@
       {
         var retour;      
         
-      	var obj = { customer: boutic, telephone:telephone, message:message };
+      	var obj = { bouticid: bouticid, telephone:telephone, message:message };
      	
         fetch("sms.php", {
           method: "POST",
@@ -2442,7 +2463,7 @@
       {
         var retour;      
         
-      	var obj = { customer: boutic, action:"getcomdata", tables:tables, table:"commande", liens:liens, cmdid:cmdid };
+      	var obj = { bouticid: bouticid, action:"getcomdata", tables:tables, table:"commande", liens:liens, cmdid:cmdid };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2480,7 +2501,7 @@
 			    }
 			    w.onmessage = function(event) {
 			      //document.getElementById("result").innerHTML = event.data;
-		      	var obj = { customer: boutic, action:"elemtable", tables:tables, table:"commande", liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:"", selid:0, filtres:filtres };
+		      	var obj = { bouticid: bouticid, action:"elemtable", tables:tables, table:"commande", liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:"", selid:0, filtres:filtres };
 
 		        fetch("boquery.php", {
 		          method: "POST",
@@ -2565,7 +2586,7 @@
       {
         var retour;
  
-      	var obj = { customer: boutic, action:"getparam", tables:tables, table:"parametre", param:param };
+      	var obj = { bouticid: bouticid, action:"getparam", tables:tables, table:"parametre", param:param };
 
         fetch("boquery.php", {
           method: "POST",
@@ -2617,7 +2638,7 @@
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
-								formdata.append('boutic', boutic);
+								//formdata.append('boutic', boutic);
 								formdata.append('file', fileInput.files[0]);
 								
 				        fetch("upload.php", {
@@ -2687,7 +2708,7 @@
       {
         var retour;      
         
-      	var obj = { customer: boutic, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      	var obj = { bouticid: bouticid, action:"getCustomProp", tables:tables, table:"", prop:prop };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2739,7 +2760,7 @@
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
-								formdata.append('boutic', boutic);
+								//formdata.append('boutic', boutic);
 								formdata.append('file', fileInput.files[0]);
 								
 				        fetch("upload.php", {
@@ -2806,7 +2827,14 @@
       	})
       }
       
-      function enblbtnvc(elem) 
+      function persoenblbtnvc(elem) 
+      {
+     		elem.setAttribute('data-modified', 'true');
+				document.getElementById('validpersoid').disabled = false;
+				document.getElementById('cancelpersoid').disabled = false;
+      }      
+      
+      function paramenblbtnvc(elem) 
       {
      		elem.setAttribute('data-modified', 'true');
 				document.getElementById('validparamid').disabled = false;
@@ -2816,7 +2844,7 @@
 			function validparamupdate()
 			{
 				var notvalidated = false;
-				var pelem = document.getElementsByClassName("paramfield");
+				var pelem = document.getElementsByClassName("fieldparam");
 				for (var j=0;j<pelem.length;j++) 
 				{
 					var el = pelem[j];
@@ -2858,12 +2886,12 @@
 							if (el.getAttribute('data-paramtype') == "csp")
 							{
 			     			var prop = el.getAttribute("data-prop");
-			      		obj2 = { customer: boutic, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
+			      		obj2 = { bouticid: bouticid, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
 			      		
 			      	}
 			     		else {
 			     			var param = el.getAttribute("data-param");
-			     			obj2 = { customer: boutic, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
+			     			obj2 = { bouticid: bouticid, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
 			     		}
 	
 	 		      	el.setAttribute('data-modified', 'false');
@@ -2899,7 +2927,7 @@
 
 			function cancelparamupdate()
 			{
-				var pelem = document.getElementsByClassName("paramfield");
+				var pelem = document.getElementsByClassName("fieldparam");
 				for (var i=0;i<pelem.length;i++) 
 				{
 					var el = pelem[i];
@@ -2917,12 +2945,12 @@
 				{
      			var prop = elem.getAttribute("data-prop");
      			
-      		obj2 = { customer: boutic, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      		obj2 = { bouticid: bouticid, action:"getCustomProp", tables:tables, table:"", prop:prop };
       	}
      		else 
      		{
      			var param = elem.getAttribute("data-param");
-     			obj2 = { customer: boutic, action:"getparam", tables:tables, table:"parametre", param:param };
+     			obj2 = { bouticid: bouticid, action:"getparam", tables:tables, table:"parametre", param:param };
      		}
 				
 				fetch("boquery.php", {
@@ -2974,6 +3002,187 @@
 				document.getElementById('validparamid').disabled = true;
 				document.getElementById('cancelparamid').disabled = true;
 			}
+
+      function validpersoupdate()
+      {
+        var notvalidated = false;
+        var pelem = document.getElementsByClassName("fieldperso");
+        for (var j=0;j<pelem.length;j++) 
+        {
+          var el = pelem[j];
+          if (el.checkValidity() == false)
+          {
+             notvalidated = true;
+             if (el.getAttribute('data-paramtype') == "csp")
+               alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+             else
+               alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+          }
+        }
+        if (notvalidated == false)
+        {
+          for (var i=0;i<pelem.length;i++) 
+          {
+             var el = pelem[i];
+             if (el.getAttribute("data-modified")== 'true')
+             {
+               var valeur;
+               if (el.getAttribute("data-typ") == "prix")
+                 valeur = parseFloat(el.value).toFixed(2);
+               else if (el.getAttribute("data-typ") == "bool")
+               {
+                 if (el.checked == true)
+                   valeur = "1";
+                  else
+                    valeur = "0";
+               }
+               else if (el.getAttribute("data-typ") == "image")
+               {
+                 valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
+                 savdata = valeur;
+               }
+               else
+                 valeur = el.value;
+             
+               var obj2;
+               if (el.getAttribute('data-paramtype') == "csp")
+               {
+                 var prop = el.getAttribute("data-prop");
+                 var typ = el.getAttribute("data-typ");
+                 obj2 = { bouticid: bouticid, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur, typ:typ };
+               }
+               else 
+               {
+                 var param = el.getAttribute("data-param");
+                 var typ = el.getAttribute("data-typ");
+                 obj2 = { bouticid: bouticid, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur, typ:typ };
+               }
+  
+               el.setAttribute('data-modified', 'false');
+    
+               fetch("boquery.php", {
+                 method: "POST",
+                 headers: {
+                   'Content-Type': 'application/json',
+                   'Accept': 'application/json'
+                 },
+                 body: JSON.stringify(obj2)
+               })
+               .then(function(result) {
+                 return result.json();
+               }) 
+               .then(function(data) {
+                 if (typeof (data.error) !== "undefined")
+                 {
+                   var modal = $('.modal');
+                   $('.modal-title').html('Erreur');
+                   modal.find('.modal-body').text(data.error);
+                   $('.modal').modal('show');
+                   //document.getElementById('validpersoid').disabled = true;
+                   //document.getElementById('cancelpersoid').disabled = true;
+                   //cancelpersoupdate();
+                 }
+                 else 
+                 {
+                   if (data == "OK")
+                   {
+                     //fldCustomProp("pbaliasid", "customer", "text");
+                     //el.setAttribute('data-modified', 'false');
+                    document.getElementById('validpersoid').disabled = true;
+                    document.getElementById('cancelpersoid').disabled = true;
+                   }
+                   else if (data == "KO") 
+                   {
+                     var modal = $('.modal');
+                     $('.modal-title').html('Impossible de continuer');
+                     modal.find('.modal-body').text("Ce nom de boutic est déjà utilisé");
+                     $('.modal').modal('show');
+                   }
+                 }
+               })
+            }
+          }
+        }        
+      }
+
+			function cancelpersoupdate()
+			{
+				var pelem = document.getElementsByClassName("fieldperso");
+				for (var i=0;i<pelem.length;i++) 
+				{
+					var el = pelem[i];
+					if (el.getAttribute("data-modified") == 'true')
+						subcancelpersoupdate(el);
+				}
+			}
+
+			
+			function subcancelpersoupdate(elem)
+			{
+				var paramtype = elem.getAttribute("data-paramtype");
+				
+				if (elem.getAttribute('data-paramtype') == "csp")
+				{
+     			var prop = elem.getAttribute("data-prop");
+     			
+      		obj2 = { bouticid: bouticid, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      	}
+     		else 
+     		{
+     			var param = elem.getAttribute("data-param");
+     			obj2 = { bouticid: bouticid, action:"getparam", tables:tables, table:"parametre", param:param };
+     		}
+				
+				fetch("boquery.php", {
+          method: "POST",
+          headers: {
+        		'Content-Type': 'application/json',
+        		'Accept': 'application/json'
+          },
+          body: JSON.stringify(obj2)
+        })
+        .then(function(result) {
+          return result.json();
+        }) 
+        .then(function(data) {
+         	if (typeof (data.error) !== "undefined")
+         	{
+         		var modal = $('.modal');
+         		$('.modal-title').html('Erreur');
+            modal.find('.modal-body').text(data.error);
+            $('.modal').modal('show');
+         	}
+					else 
+					{
+         		if (elem.getAttribute('data-typ') == "prix")
+         	 		elem.value = parseFloat(data).toFixed(2);
+       			if (elem.getAttribute('data-typ') == "bool")
+       			{
+ 	       			if (data == "1")
+  	     				elem.checked = true;
+     	   			else
+   	     				elem.checked = false;
+ 	     			}
+						else if (elem.getAttribute('data-typ') == "image")
+						{
+							document.getElementById(document.getElementById("logofermer").getAttribute("data-artlogofile")).setAttribute("data-logotruefilename", data);
+							document.getElementById(document.getElementById("logofermer").getAttribute("data-artlogo")).src = pathimg + data;
+							document.getElementById(document.getElementById("logofermer").getAttribute("data-artlogofile")).value = '';
+							document.getElementById("logofermer").style.display = 'block';
+							if (data == "")
+								document.getElementById('logofermer').style.display = 'none';
+							if (pathimg + data == "")
+								document.getElementById('logofermer').style.display = 'none';
+						}
+         		else
+	       			elem.value = data;
+					}
+				})
+				elem.setAttribute("data-modified", 'false');
+				document.getElementById('validpersoid').disabled = true;
+				document.getElementById('cancelpersoid').disabled = true;
+			}
+
 
 			function razctrl()
 			{

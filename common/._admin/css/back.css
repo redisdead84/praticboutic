@@ -1,0 +1,520 @@
+
+* {
+  touch-action: manipulation;
+}
+  
+body {
+  text-align: left;
+  font-family: 'Public Sans' !important;
+  background-color: silver !important;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+body#backbody
+{
+	font-family: 'Public Sans' !important;
+  background-color: white !important;
+}
+
+
+
+.inpmove {
+  width: 320px;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  border: none;
+}
+  .vcentered {
+     margin: 4px;
+     vertical-align:middle;
+  }
+
+#main {
+  width: 320px;
+  height: 360px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.lcont {
+  text-align: right;
+display:inline-block; width:100px;
+}
+
+/* Tabbed example */
+div.tabs {
+  min-height: 7em;		/* No height: can grow if :target doesn't work */
+  position: relative;		/* Establish a containing block */
+  line-height: 1;		/* Easier to calculate with */
+  z-index: 0}			/* So that we can put other things behind */
+div.tabs > div {
+  display: inline}		/* We want the buttons all on one line */
+div.tabs > div > a {
+  color: black;			/* Looks more like a button than a link */
+  background: #CCC;		/* Active tabs are light gray */
+  padding: 0.2em;		/* Some breathing space */
+  border: 0.1em outset #BBB;	/* Make it look like a button */
+  border-bottom: 0.1em solid #CCC} /* Visually connect tab and tab body */
+div.tabs > div:not(:target) > a {
+  border-bottom: none;		/* Make the bottom border disappear */
+  background: #999}		/* Inactive tabs are dark gray */
+div.tabs > div:target > a,	/* Apply to the targeted item or... */
+:target #tabParam > a {		/* ... to the default item */
+  border-bottom: 0.1em solid #CCC; /* Visually connect tab and tab body */
+  background: #CCC}		/* Active tab is light gray */
+div.tabs > div > div {
+  background: #CCC;		/* Light gray */
+  z-index: -2;			/* Behind, because the borders overlap */
+  left: 0; top: 1.3em;		/* The top needs some calculation... */
+  bottom: -500px; 
+  right: 0;		/* Other sides flush with containing block */
+  overflow: auto;		/* Scroll bar if needed */
+  padding: 0.3em;		/* Looks better */
+  border: 0.1em outset #BBB}	/* 3D look */
+div.tabs > div:not(:target) > div { /* Protect CSS1 & CSS2 browsers */
+  position: absolute }		/* All these DIVs overlap */
+div.tabs > div:target > div, :target #tabParam > div {
+  position: absolute;		/* All these DIVs overlap */
+  z-index: -1}			/* Raise it above the others */
+
+.tbl, .ins{
+margin-left: 60px;
+margin-right: 60px;
+margin-top: 30px;
+margin-bottom: 30px;
+}
+
+/*table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+  border-color: rgb(222, 226, 230);
+}*/
+
+td {
+	/*width: 800px;*/
+  max-width: 1200px;
+  overflow-wrap: break-word;
+}
+
+.sheet {
+  height:auto;
+  margin 0px;  
+}
+
+.vertical-nav {
+  min-width: 16rem;
+  width: 16rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  background-color: #595858;
+  z-index: 10;
+  color: white;
+}
+
+.page-content {
+  width: calc(100% - 16rem);
+  margin-left: 16rem;
+  transition: all 0.4s;
+}
+
+.twocol {
+	column-count: 2;
+}
+
+.center {
+	text-align: center;
+}
+
+.tdtri:hover
+{
+	cursor: default;
+}
+
+.filpan
+{
+	display: none;
+  transition: all 1s;
+  width: 0px;
+}
+
+.bodyflex
+{
+	display: flex;
+}
+
+.title
+{
+	font-size: 120%;
+	font-weight: bold;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: 60px;
+}
+
+table
+{
+	margin-bottom: 30px !important;
+}
+
+table.table-hover tbody tr:hover {
+    background-color: #e2007a !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+table thead th {
+	border-top: 0px !important;
+	border-bottom: 0px !important;
+}
+
+table tbody td {
+	border-top: 1px solid black !important;
+}
+
+
+.frameimg 
+{
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	position: relative;
+	height: 225px;
+	width: 400px;
+	border: 1px solid black;
+}
+
+.imgart
+{
+	z-index: 1;
+	width: auto;
+	height: auto;
+	max-width: 400px;
+	max-height: 225px;
+}
+
+.imgclose
+{
+	z-index: 2;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.breakword
+{
+	word-break: break-word;
+}
+
+.btn-insert
+{
+	margin-bottom: 30px;
+}
+
+.modal-title
+{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+  border-bottom: 1px solid white;
+  /*width: 260px;*/
+  height: 38px;
+}
+
+.modal { 
+   /*background-color: #ECEDED !important; */
+   background-color: transparent !important;
+}
+
+.modal-dialog {
+    width: 800px;
+    margin: 30px auto;
+      margin-left: auto;
+	margin-right: auto;
+
+
+}
+
+.modal-content {
+  margin-left: auto;
+	margin-right: auto;
+
+background-color: #595858 !important; 
+padding: 100px;
+/*padding-right: 100px;*/
+}
+
+
+.modal-header
+{
+	background-color: #595858;
+	color: white;
+	border-bottom: 0px !important;
+  margin-left: auto;
+	margin-right: auto;
+  flex-flow: column;
+}
+
+.modal-body
+{
+	background-color: #595858;
+	color: white;
+	border-top: 0px !important;
+	border-bottom: 0px !important;
+  margin-left: auto;
+	margin-right: auto;
+	padding: 100px;
+}
+
+.modal-footer
+{
+	background-color: #595858;
+	color: white;
+	border-top: 0px !important;
+}
+
+.btn-primary
+{
+	background-color: #e2007a !important;
+	border-color: #e2007a !important;
+}
+
+.white-color
+{
+	color: white !important;
+}
+
+.form-control
+{
+	border: none;
+	outline: none;
+  background-color: white;
+}
+
+
+.form-control:focus
+{
+	border-color: #e2007a !important;
+	outline: none;
+  background-color: #FFE0FF;
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover, 
+.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #FFE0FF inset !important;
+}
+
+.navbar-text
+{
+	color: white;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active 
+{
+	background-color: #ECEDED;
+	border-color: black !important;
+	color: white !important;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+.nav-tabs
+{
+  border-bottom: 1px solid black !important;
+  padding-left: 60px !important;
+}
+
+.nav-menu > .nav-item > .nav-link.active
+{
+	background-color: #595858 !important;
+	color: white !important; 
+}
+
+.nav-menu > .nav-item > .nav-link:not(active)
+{
+	color: black !important; 
+}
+
+.nav-menu > .nav-item > .nav-link:hover
+{
+	color: #ECEDED !important; 
+}
+
+.nav-tabs > .nav-item > .nav-link.active
+{
+	background-color: #e2007a !important;
+	color: white !important; 
+}
+
+.nav-tabs > .nav-item > .nav-link:not(active)
+{
+	color: black !important; 
+}
+
+.nav-tabs > .nav-item > .nav-link:hover
+{
+	color: black !important; 
+}
+
+
+
+/*.pagination {
+  border: 4px solid #ddd;
+}*/
+
+.pagination > li > ul > a
+{
+	color: black !important;
+}
+
+.pagination > li:not(first-child last-child) {
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 0px;
+  
+}
+
+.page-item.active .page-link {
+   /*border-top: 1px solid black !important;
+   border-bottom: 1px solid black !important;
+   border-left: 0px;
+   border-right: 0px;
+   border-radius: 0px;*/
+   background-color: #e2007a !important;
+   color: white !important;
+}
+
+.page-item .page-link
+{
+   height: 30px !important;
+   padding: 0.4rem 1.25rem !important;
+}
+
+.pagination > li:first-child {
+   /*border-top: 1px solid black;
+   border-bottom: 1px solid black;*/
+   border-left: 1px solid black;
+   border-right: 0px;
+   border-radius: 0px;
+}
+
+.pagination > li:last-child {
+   /*border-top: 1px solid black;
+   border-bottom: 1px solid black;*/
+   border-right: 1px solid black;
+   border-left: 0px;
+   border-radius: 0px;
+}
+
+.pagination > li:not(first-child last-child) >a.page-link
+{
+	border-radius: 0px !important;
+	border: 0px !important;
+	color: black !important;
+}
+
+input[type='checkbox'] 
+{
+	filter: hue-rotate(105deg);
+}
+
+.divrpp
+{
+	margin-bottom: 30px;
+}
+
+label
+{
+	margin-bottom: 0px !important;
+}
+
+#logopbid
+{
+	width: 100px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.picto
+{
+	width: 25px;
+	height: auto;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.nopicto
+{
+	margin-left: 45px;
+	margin-bottom: 0px !important;
+}
+
+select
+{
+	height: 30px;
+}
+
+.mbchk
+{
+	margin-bottom: 21px;
+}
+
+#logopblid
+{
+	width: 150px;
+	height: auto;
+	margin-top: 30px;
+	margin-bottom: 15px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.inpprix
+{
+  text-align: right;
+
+}
+
+div
+{
+	break-inside: avoid;
+}
+
+.param
+{
+	text-align: right;
+	display: flex;
+	align-items: center;
+}
+
+.fieldperso
+{
+  flex: 1 1 auto;
+}
+
+.fieldparam
+{
+  flex: 1 1 auto;
+}
+
+.demiinter
+{
+  height: 15px;
+}

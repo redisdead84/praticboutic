@@ -1,7 +1,27 @@
 <?php
   session_start();
 
-  $customer = htmlspecialchars($_GET['customer']);
+	if (empty($_SESSION['customer']) != 0)
+	{
+    header('LOCATION: 404.html');
+    exit();
+	}
+  //$customer = htmlspecialchars($_GET['customer']);
+  $customer = $_SESSION['customer'];
+  $method = $_SESSION['method'];
+  $table = $_SESSION['table'];
+  
+  if (empty($_SESSION[$customer . '_mail']) == TRUE)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }
+  
+  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }  
   
   include "config/common_cfg.php";
   include "param.php";
@@ -19,21 +39,6 @@
   $resultatci = $reqci->fetch();
   $reqci->close();
 
-  $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
-  $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
-
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: ../' . $customer . '/index.php');
-    exit();
-  }
-  
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer);
-    exit();
-  }
-  
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +78,7 @@
     <div id="footer">
       <?php
       	echo '<div class="solobn">';
-        echo '<input id="recommander" class="soloindic" type="button" value="Passer une autre commande" onclick="window.location.href = \'carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer . '\'">';
+        echo '<input id="recommander" class="soloindic" type="button" value="Passer une autre commande" onclick="window.location.href = \'index.php?customer=' . $customer . '\'">';
         echo '</div>';
       ?>
     </div>

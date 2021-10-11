@@ -1,7 +1,9 @@
 <?php
 
   session_start();
-  $customer = htmlspecialchars($_GET['customer']);
+  $customer = $_SESSION['customer'];
+  $method = $_SESSION['method'];
+  $table = $_SESSION['table'];
   
   include "config/common_cfg.php";
   include "param.php";
@@ -11,15 +13,25 @@
   // Check connection
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);    
-
-  $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
-  $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
   
-  if (strcmp($_SESSION[$customer .'_mail'],'oui') == 0)
+	if (empty($_SESSION['customer']) != 0)
+	{
+    header('LOCATION: 404.html');
+    exit();
+	}
+
+  if (empty($_SESSION[$customer . '_mail']) == TRUE)
   {
-    header('LOCATION: carte.php?method=' . $method . '&table=' . $table . '&customer=' . $customer);
+    header('LOCATION: index.php?customer=' . $customer . '');
     exit();
   }
+  
+  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }
+  
 ?>
 
 <html>
@@ -33,18 +45,14 @@
   </head>
   <body>
   <?php
-    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="';
-    echo 'window.location.href = \'getinfo.php?method=';
-    echo $method;
-    echo '&table=';
-    echo $table;
-    echo '&customer=';
-    echo $customer;
-    echo '\'"';
+    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">;';
   ?>
 <br>
 <p style="text-align: justify; text-justify: inter-word;">
+<br>
+<br>
 Praticboutic<br>
+<br>
 Conditions générales de vente<br>
 <br>
 Bienvenue sur notre site web Praticboutic.fr et dans nos services. Cette page présente les conditions aux-quelles nos établissements partenaires vous fournissent leurs produits figurant sur notre site internet.<br>
@@ -209,14 +217,7 @@ L’inscription et les conditions générales standard de Praticboutic sont appl
 Praticboutic utilisera les données personnelles fournies sur le compte du client et lors des commandes, uniquement à des fins de gestion des commandes et à aucune autre fin, sauf si nous avons obtenu votre consentement. Praticboutic se réserve le droit de divulguer les données personnelles du client à ses  prestataires, afin de permettre le bon déroulement d’une commande ou en réponse à une question de la part d’un client.<br><br>
 </p>
   <?php
-    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="';
-    echo 'window.location.href = \'getinfo.php?method=';
-    echo $method;
-    echo '&table=';
-    echo $table;
-    echo '&customer=';
-    echo $customer;
-    echo '\'"';
+    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">';
   ?>
 
   </body>

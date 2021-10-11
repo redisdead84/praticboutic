@@ -8,9 +8,14 @@ session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Stripe\Stripe;
+use Ramsey\Uuid\Uuid;
 
 //Load composer's autoloader
 require '../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 header('Content-Type: application/json');
 
@@ -260,6 +265,85 @@ try
   		throw new Exception("Error: " . $qlncmdi . "<br>" . $conn->error);
 
 	}
+	//error_log("balise1");
+	
+	/* Initialize the Stripe client */
+  // For sample support and debugging. Not required for production:
+  \Stripe\Stripe::setAppInfo(
+    "pratic-boutic/subscription/fixed-price",
+    "0.0.2",
+    "https://praticboutic.fr"
+  );
+
+  $stripe = new \Stripe\StripeClient([
+  // TODO replace hardcoded apikey by env variable
+    'api_key' => $_ENV['STRIPE_SECRET_KEY'],
+    'stripe_version' => '2020-08-27',
+  ]);
+  
+	$stq = "SELECT aboid, stripe_subscription_id FROM abonnement WHERE bouticid = " . $customid . " AND actif = 1 LIMIT 1";
+  if ($result = $conn->query($stq)) 
+  { 
+    while ($row = $result->fetch_row()) 
+    {
+      $subscription = $stripe->subscriptions->retrieve($row[1]);
+      // Recuperation de la souscription grace à de l'id subscription stripe 
+      //error_log($subscription->items->data[0]->id);
+      $subscription_items = $stripe->subscriptionItems->all([
+        'subscription' => $subscription,
+      ]);
+      //error_log(print_r($subscription_items, TRUE));
+      //error_log(count($subscription_items->data));
+      for ($j = 0; $j < count($subscription_items->data); $j++)
+      {
+        $subscription_item = $subscription_items->data[$j];
+        //error_log(print_r($subscription_item, TRUE));
+        $metered = $subscription_item->price->recurring->usage_type;
+        //error_log(print_r($subscription_item->price->recurring, TRUE));
+        //error_log($metered);
+        if (strcmp($metered, "metered") == 0)
+        {
+          //error_log('metered2');
+          //$price = $subscription_item->price->unit_amount;
+          //error_log($price);
+          $usage_quantity = $sum;// * $price;
+          //error_log($usage_quantity);
+          $action = 'set';
+          
+          $date = date_create();
+          $timestamp = date_timestamp_get($date);
+          // The idempotency key allows you to retry this usage record call if it fails.
+          $idempotency_key = Uuid::uuid4()->toString();
+          
+          //error_log($subscription_item->id);
+          //error_log($usage_quantity);
+          //error_log($timestamp);
+          //error_log($action);
+          //error_log($idempotency_key);
+          $subscription_item_id = $subscription_item->id;
+          try {
+            $stripe->subscriptionItems->createUsageRecord(
+              $subscription_item_id,
+              [
+                'quantity' => intval($usage_quantity),
+                'timestamp' => $timestamp,
+                'action' => $action,
+              ],
+              [
+                'idempotency_key' => $idempotency_key,
+              ]
+            );
+          } catch (\Stripe\Exception\ApiErrorException $error) {
+            //error_log("test1");
+            //error_log(print_r($error, TRUE));
+            throw new Exception("Usage report failed for item ID $subscription_item_id with idempotency key $idempotency_key: $error.toString()");
+          }
+        }
+      }
+    }
+    $result->close();
+  }
+	
 	
 	if (strcmp($validsms,"1") == 0)
 	{
@@ -336,6 +420,7 @@ try
 } 
 catch (Exception $e) 
 {
+  //error_log("test2");
   http_response_code(500);
   echo json_encode(['error' => $e->getMessage()]);
 }    

@@ -1,7 +1,28 @@
 <?php
 
   session_start();
-  $customer = htmlspecialchars($_GET['customer']);
+  
+	if (empty($_SESSION['customer']) != 0)
+	{
+    header('LOCATION: 404.html');
+    exit();
+	}
+
+  $customer = $_SESSION['customer'];
+  $method = $_SESSION['method'];
+  $table = $_SESSION['table'];
+
+  if (empty($_SESSION[$customer . '_mail']) == TRUE)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }
+  
+  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+  {
+    header('LOCATION: index.php?customer=' . $customer . '');
+    exit();
+  }
   
   include "config/common_cfg.php";
   include "param.php";
@@ -21,20 +42,6 @@
    
   $adr = $nom . ' ' . $adresse1 . ' ' . $adresse2 . ' ' . $codepostal . ' ' . $ville;
 
-  $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
-  $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
-  
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: ../' . $customer . '/index.php');
-    exit();
-  }
-  
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: carte.php?method=' . $method . '&table=' . $table . 'customer=' . $customer);
-    exit();
-  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,13 +69,7 @@
 			
       echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '" data-verifcp="' . $verifcp . '" >';
       
-      echo '<form name="mainform" autocomplete="on" method="post" action="paiement.php?method=';
-      echo $method ;
-      echo '&table=';
-      echo $table ;
-      echo '&customer=';
-      echo $customer ;
-      echo '">';
+      echo '<form name="mainform" autocomplete="on" method="post" action="paiement.php">';
 
       echo '<img id="logo" src="../upload/' . $logo . '">';
       
@@ -214,7 +215,7 @@
       }
       echo '<div class="panneau" id="cgv">';
       echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()">';
-      echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php?method=' . $method . '&table=' . $table .  '&customer=' . $customer .  '\'">les conditions générales de vente</a></label><br>';
+      echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>';
       echo '</div>';
     ?>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)" maxlength="300"></textarea>
@@ -225,14 +226,7 @@
         {
         	echo '<div class="grpbn">';
          	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">';
-         	echo '<input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();';
-         	echo 'window.location.href = \'carte.php?method=';
-         	echo $method;
-         	echo '&table=';
-         	echo $table;
-         	echo '&customer=';
-         	echo $customer;
-         	echo '\'">';
+         	echo '<input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();window.location.href = \'carte.php\'">';
           echo '</div>';
         }
       ?>

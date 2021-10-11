@@ -1,7 +1,15 @@
 <?php
   session_start();
-  $customer = htmlspecialchars($_GET['customer']);
-  $_SESSION[$customer . '_mail'] = "non";
+  
+  if (empty($_SESSION['customer']) != 0)
+	{
+    header('LOCATION: 404.html');
+    exit();
+	}
+  
+  $customer = $_SESSION['customer'];
+  $method = $_SESSION['method'];
+  $table = $_SESSION['table'];
   
   include "config/common_cfg.php";
   include "param.php";
@@ -25,8 +33,6 @@
  
     <?php
 
-    $method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
-    $table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
 
     $conn = new mysqli($servername, $username, $password, $bdd);
     if ($conn->connect_error) 
@@ -59,13 +65,7 @@
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'" data-customer="' . $customer .'">';
     echo '<img id="logo" src="../upload/' . $logo . '">';
 
-    echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php?method=';
-    echo $method ;
-    echo '&table=';
-    echo $table ;
-    echo '&customer=';
-    echo $customer ;
-    echo '">';
+    echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php">';
     
     //echo "Connected successfully";
     $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' ORDER BY catid';

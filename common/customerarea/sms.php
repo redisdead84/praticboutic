@@ -2,23 +2,6 @@
 
 session_start();
 
-if (empty($_SESSION['boutic']) == TRUE)
- 	  header("LOCATION: index.php");
-else	
-  $boutic = $_SESSION['boutic'];
-
-if (empty($_SESSION[$boutic . '_auth']) == TRUE)
-{
- 	header("LOCATION: index.php");
- 	exit();
-}	
-
-if (strcmp($_SESSION[$boutic . '_auth'],'oui') != 0)
-{
- 	header("LOCATION: index.php");
- 	exit();
-}
-  
 require '../../vendor/autoload.php';
 
 include "../config/common_cfg.php";
@@ -28,7 +11,9 @@ $conn = new mysqli($servername, $username, $password, $bdd);
 if ($conn->connect_error) 
   die("Connection failed: " . $conn->connect_error); 
 
-
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+  
 header('Content-Type: application/json');
 
 try {
@@ -38,6 +23,7 @@ try {
   
   //error_log($json_obj->customer);
 
+  $customid = $_SESSION['bo_id'];
   
   $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $json_obj->customer);
@@ -81,7 +67,7 @@ try {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postdata));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json', 'Authorization: Bearer ' . $tokensms));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json', 'Authorization: Bearer ' . $_ENV['TOKEN_SMS']));
     $response = curl_exec($ch);
     curl_close($ch);
 	   

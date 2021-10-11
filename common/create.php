@@ -2,6 +2,28 @@
 
 session_start();
 
+if (empty($_SESSION['customer']) != 0)
+{
+  header('LOCATION: 404.html');
+  exit();
+}
+
+$customer = $_SESSION['customer'];
+$method = $_SESSION['method'];
+$table = $_SESSION['table'];
+
+if (empty($_SESSION[$customer . '_mail']) == TRUE)
+{
+  header('LOCATION: index.php?customer=' . $customer . '');
+  exit();
+}
+
+if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+{
+  header('LOCATION: index.php?customer=' . $customer . '');
+  exit();
+}
+
 require '../vendor/autoload.php';
 
 function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr): int 
@@ -74,7 +96,7 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
 		  		$surcout = 0; 
   		}
   		
-			if($surcout !== $fraislivr) {
+			if($surcout != $fraislivr) {
         throw new Exception("erreur Frais de livraison");
   		}
   		
@@ -116,6 +138,8 @@ try {
 	
 	// This is your real test secret API key.
 	\Stripe\Stripe::setApiKey($skey);
+	
+	error_log($json_obj->fraislivr);
 	
   $paymentIntent = \Stripe\PaymentIntent::create([
     'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr),
