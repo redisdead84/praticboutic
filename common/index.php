@@ -26,7 +26,7 @@
    	exit;
 	}
 	
-  $reqai = $conn->prepare('SELECT client.stripe_customer_id FROM abonnement, client WHERE abonnement.bouticid = ? AND abonnement.actif = 1 AND abonnement.cltid = client.cltid LIMIT 1');
+  $reqai = $conn->prepare('SELECT client.stripe_customer_id FROM abonnement, client WHERE abonnement.bouticid = ? AND abonnement.cltid = client.cltid LIMIT 1');
   
  	$reqai->bind_param("i", $customid);
  	$reqai->execute();

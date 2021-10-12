@@ -80,6 +80,19 @@
 	
 	var login = "<?php echo $_SESSION['bo_email']; ?>";
 	
+	//var host = "<?php echo $_SERVER['HTTP_HOST']; ?>";
+	
+	var proto = "<?php echo $_SERVER['SERVER_PROTOCOL']; ?>";
+	
+  proto = proto.toLowerCase();
+	
+	var protocole;
+	
+	if (proto.indexOf('https') != -1)
+    protocole = 'https://';
+  else
+    protocole = 'http://';
+	
 	var server = "<?php echo $_SERVER['SERVER_NAME']; ?>";
 	
 	var pathimg = '../../upload/';
@@ -143,7 +156,7 @@
     inittable( "table1", "table1", "article");
     inittable( "table3", "table3", "groupeopt");
     //inittable( "table5", "table5", "administrateur");
-    fldCustomProp("pbaliasid", "customer", "ref");
+    fldCustomProp("pbaliasid", "customer", "url");
     fldCustomProp("pbnomid", "nom", "text");
     fldCustomProp("pbadr1id", "adresse1", "text");
     fldCustomProp("pbadr2id", "adresse2", "text");
@@ -342,9 +355,10 @@
         <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
            <div class='tbl'>
              <div class='twocol'>
-              <div class="param">
+              <div class="param" id="bloclinkid" >
                 <label>Alias de la Boutic : </label>
                 <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
+                <a id="linkid" target="_blank"></a>
               </div>
               <br>
               <div class="param">
@@ -2804,7 +2818,7 @@
       	})
       }
 
-			function fldCustomProp( elem, prop, typ)      
+			function fldCustomProp( elem, prop, typ)
       {
         var retour;      
         
@@ -2921,6 +2935,12 @@
 							var pp = document.getElementById(elem).parentElement;
 							pp.appendChild(divp);
          		}
+         		else if (typ == "url")
+         		{
+         			document.getElementById(elem).value = data;
+         			document.getElementById("linkid").innerHTML = "URL de la boutic : " + protocole + server + "/" + data;
+         			document.getElementById("linkid").href = protocole + server + "/" + data;
+         		}
          		else
          			document.getElementById(elem).value = data;
          	}
@@ -2979,6 +2999,11 @@
 	         			valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
 	       				savdata = valeur;
 		   	     	}
+  		   	    else if (el.getAttribute("data-typ") == "url")
+           		{
+           			valeur = el.value;
+           			//document.getElementById("linkid").value = el.value;
+           		}
 		     			else
 		     				valeur = el.value;
 		     			
@@ -3432,7 +3457,7 @@
                    document.getElementById('cancelpersoid').disabled = true;
                    if (data == "KO") 
                    {
-                     fldCustomProp("pbaliasid", "customer", "ref");
+                     fldCustomProp("pbaliasid", "customer", "url");
                      var modal = $('.modal');
                      $('.modal-title').html('Impossible de continuer');
                      modal.find('.modal-body').text("Ce nom de boutic est déjà utilisé");

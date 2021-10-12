@@ -182,7 +182,7 @@
             {
               // Redirect the customer to their account page
               setMessage('Congratulations! Nous vous redirigeons vers votre compte.');
-              window.location.href = 'account.php';
+              window.location.href = 'admin.php';
             }
           })
         }

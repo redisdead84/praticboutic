@@ -128,8 +128,8 @@
       {
         //changeLoadingStatePrices(false);
         let displayError = document.getElementById('card-element-errors');
-        if (event.error) {
-          displayError.textContent = event.error;
+        if (event) {
+          displayError.textContent = event.message;
         } else {
           displayError.textContent = '';
         }
@@ -144,7 +144,7 @@
           })
           .then((result) => {
             if (result.error) {
-              displayError(error);
+              displayError(result.error);
             } else {
               createSubscription(
                 customerId,

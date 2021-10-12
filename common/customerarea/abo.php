@@ -240,6 +240,17 @@ try
     
     $stripe_customer_id = $input->customerId;
     
+    $req = $conn->prepare('SELECT cltid FROM client WHERE stripe_customer_id = ? AND actif = 1 ');
+    $req->bind_param("s", $stripe_customer_id);
+    $req->execute();
+    $req->bind_result($cltid);
+    $resultat = $req->fetch();
+    $req->close();
+    if (strcmp($stripe_customer_id, "") == 0 )
+    {
+      throw new Error("Erreur ! Client non trouvé");
+    }
+    
     $_SESSION['creationabonnement_priceid'] = $input->priceId;
     
     try {
@@ -270,6 +281,18 @@ try
       ],
       'expand' => ['latest_invoice.payment_intent'],
     ]);
+    
+    $query = "INSERT INTO abonnement(cltid, creationboutic, bouticid, stripe_subscription_id, actif) VALUES ";
+    $query = $query . "('$cltid', '0', " . $_SESSION['bo_id'] . ", '" . $subscription->id . "', '1')";
+
+    //error_log($query);
+
+    // remove following comments to enable writing in db
+    if ($conn->query($query) === FALSE)
+    {
+      throw new Error($conn->error);
+    }
+
     
     $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
     

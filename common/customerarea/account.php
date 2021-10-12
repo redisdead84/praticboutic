@@ -43,7 +43,7 @@
     <title>Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="account.js?v=1.01" defer></script>
+    <script src="account.js?v=1.03" defer></script>
   </head>
   <body class="custombody" id="bodyid" data-login="<?php echo $_SESSION['bo_email']?>">
     <main class="fcb">
@@ -53,7 +53,7 @@
       <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
       <h1>Votre compte</h1>
 
-      <a href="boprices.php">Ajouter un abonnement</a>
+      <a id="addaboid" href="boprices.php">Ajouter un abonnement</a>
 
       <h2>Abonnements</h2>
       <div id="bouticlinks">
