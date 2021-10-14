@@ -353,12 +353,18 @@
       </ul>
       <div class="tab-content" id="myTabAdminContent">
         <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
-           <div class='tbl'>
-             <div class='twocol'>
-              <div class="param" id="bloclinkid" >
-                <label>Alias de la Boutic : </label>
-                <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
-                <a id="linkid" target="_blank"></a>
+          <div class='tbl'>
+            <div class='twocol'>
+              <div class="blocurl">
+                <div class="param">
+                  <label>Alias de la Boutic : </label>
+                  <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>URL de la Boutic :&nbsp;</label>
+                  <a id="linkid" target="_blank"></a>
+                </div>
               </div>
               <br>
               <div class="param">
@@ -397,6 +403,7 @@
               </div>
               <br>
             </div>
+            <br>
             <div class="center">
               <input type='button' class="btn btn-primary btn-block" id='validpersoid' disabled='true' value='Valid' onclick="validpersoupdate()" />
               <input type='button' class="btn btn-secondary btn-block" id='cancelpersoid' disabled='true' value='Cancel' onclick="cancelpersoupdate()" />
@@ -405,7 +412,7 @@
         </div>
         <div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
           <div class='tbl'>
-             <div class='twocol'>
+            <div class='twocol'>
               <div class="param">
                 <label for="ishtmlid">Courriel au format HTML : </label>
                 <div>
@@ -512,6 +519,7 @@
               </div>
               <br>
             </div>
+            <br>
             <div class="center">
               <input type='button' class="btn btn-primary btn-block" id='validparamid' disabled='true' value='Valid' onclick="validparamupdate()" />
               <input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
@@ -519,8 +527,8 @@
           </div>
         </div>
         <div class="tab-pane" id="client" role="tabpanel" aria-labelledby="client-tab">
-           <div class='tbl'>
-             <div class='twocol'>
+          <div class='tbl'>
+            <div class='twocol'>
               <div class="param">
                 <label>Mot de passe : </label>
                 <input class="fieldclient" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
@@ -605,10 +613,6 @@
             </form>
           </div>
         </div>
-        <!--<div class="tab-pane" id="abo" role="tabpanel" aria-labelledby="abo-tab">
-          <div class='tbl' id="tblaboid">
-          </div>
-        </div>-->
       </div>
     </div>
   </div>
@@ -2648,7 +2652,12 @@
 			    w.onmessage = function(event) {
 
   	    		var limitcmd = document.querySelectorAll("#rppid9")[0];
-  	    		var vallimcmd = parseInt(limitcmd.value);
+  	    		var vallimcmd;
+  	    		try {
+              vallimcmd = parseInt(limitcmd.value);
+            } catch (error) {
+              vallimcmd = 0;
+            }
   	    		var offsetcmd = document.querySelectorAll("#table9 > nav > ul.pagination > li.active")[0];
   		    	var off2;
   	    		if (typeof(offsetcmd) !== "undefined")
@@ -2938,7 +2947,7 @@
          		else if (typ == "url")
          		{
          			document.getElementById(elem).value = data;
-         			document.getElementById("linkid").innerHTML = "URL de la boutic : " + protocole + server + "/" + data;
+         			document.getElementById("linkid").innerHTML = protocole + server + "/" + data;
          			document.getElementById("linkid").href = protocole + server + "/" + data;
          		}
          		else
@@ -3410,6 +3419,12 @@
                  valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
                  savdata = valeur;
                }
+               else if (el.getAttribute("data-typ") == "url")
+               {
+                 valeur = el.value;
+                 document.getElementById("linkid").innerHTML = protocole + server + "/" + valeur;
+                 document.getElementById("linkid").href = protocole + server + "/" + valeur;
+               }
                else
                  valeur = el.value;
              
@@ -3602,10 +3617,6 @@
                {
                  valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
                  savdata = valeur;
-               }
-               else if (el.getAttribute("data-typ") == "image")
-               {
-                 valeur
                }
                else
                  valeur = el.value;

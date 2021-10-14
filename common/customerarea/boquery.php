@@ -597,7 +597,7 @@ try {
     {
       if ($row = $result->fetch_row())
       {
-        if (($row[0]>=1) && (strcmp($input->typ, "ref")==0))
+        if (($row[0]>=1) && (strcmp($input->typ, "url")==0))
         {
           $arr = "KO";
         }
