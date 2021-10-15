@@ -301,338 +301,340 @@
           </div>
         </div>
       </div>
-    <div class="tab-pane" id="livraison" role="tabpanel" aria-labelledby="livraison-tab">
-      <p class="title">Livraison</p>
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">ZONES DE LIVRAISON</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">BAREME DE LIVRAISON</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabLivrContent">
-        <div class="tab-pane active" id="cpzone" role="tabpanel" aria-labelledby="cpzone-tab">
-          <div class='tbl' id="table7"></div>  
-           <div class='tbl form-group' id="ins7" data-vuep="table7" hidden></div>
-           <div class='tbl form-group' id="maj7" data-vuep="table7" hidden></div>  
-        </div>
-        <div class="tab-pane" id="barlivr" role="tabpanel" aria-labelledby="barlivr-tab">
-          <div class='tbl' id="table8"></div>  
-           <div class='tbl form-group' id="ins8" data-vuep="table8" hidden></div>
-           <div class='tbl form-group' id="maj8" data-vuep="table8" hidden></div>  
+      <div class="tab-pane" id="livraison" role="tabpanel" aria-labelledby="livraison-tab">
+        <p class="title">Livraison</p>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">ZONES DE LIVRAISON</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">BAREME DE LIVRAISON</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabLivrContent">
+          <div class="tab-pane active" id="cpzone" role="tabpanel" aria-labelledby="cpzone-tab">
+            <div class='tbl' id="table7"></div>  
+             <div class='tbl form-group' id="ins7" data-vuep="table7" hidden></div>
+             <div class='tbl form-group' id="maj7" data-vuep="table7" hidden></div>  
+          </div>
+          <div class="tab-pane" id="barlivr" role="tabpanel" aria-labelledby="barlivr-tab">
+            <div class='tbl' id="table8"></div>  
+             <div class='tbl form-group' id="ins8" data-vuep="table8" hidden></div>
+             <div class='tbl form-group' id="maj8" data-vuep="table8" hidden></div>  
+          </div>
         </div>
       </div>
-    </div>
-    <div class="tab-pane" id="administration" role="tabpanel" aria-labelledby="administration-tab">
-      <p class="title">Espace Client</p>
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="perso-tab" data-toggle="tab" href="#perso" role="tab" aria-controls="perso" aria-selected="false">BOUTIC</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false">REGLAGES</a>
-        </li>
-        <?php if (strcmp($statutcmd, "n")==0) echo "<!--" ?>
-        <li class="nav-item">
-          <a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
-        </li>
-        <?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
-        <li class="nav-item">
-          <a class="nav-link" id="backoffice-tab" data-toggle="tab" href="#backoffice" role="tab" aria-controls="backoffice" aria-selected="false">BACK-OFFICE</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="qrcode-tab" data-toggle="tab" href="#qrcode" role="tab" aria-controls="qrcode" aria-selected="false">GENERATEUR QRCODE</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="client-tab" data-toggle="tab" href="#client" role="tab" aria-controls="client" aria-selected="false">CLIENT</a>
-        </li>
-        <!--<li class="nav-item">
-          <a class="nav-link" id="abo-tab" data-toggle="tab" href="#abo" role="tab" aria-controls="abo" aria-selected="false">ABONNEMENT</a>
-        </li>-->
-      </ul>
-      <div class="tab-content" id="myTabAdminContent">
-        <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
-          <div class='tbl'>
-            <div class='twocol'>
-              <div class="blocurl">
-                <div class="param">
-                  <label>Alias de la Boutic : </label>
-                  <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
+      <div class="tab-pane" id="administration" role="tabpanel" aria-labelledby="administration-tab">
+        <p class="title">Espace Client</p>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="perso-tab" data-toggle="tab" href="#perso" role="tab" aria-controls="perso" aria-selected="false">BOUTIC</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false">REGLAGES</a>
+          </li>
+          <?php if (strcmp($statutcmd, "n")==0) echo "<!--" ?>
+          <li class="nav-item">
+            <a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
+          </li>
+          <?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
+          <li class="nav-item">
+            <a class="nav-link" id="backoffice-tab" data-toggle="tab" href="#backoffice" role="tab" aria-controls="backoffice" aria-selected="false">BACK-OFFICE</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="qrcode-tab" data-toggle="tab" href="#qrcode" role="tab" aria-controls="qrcode" aria-selected="false">GENERATEUR QRCODE</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="client-tab" data-toggle="tab" href="#client" role="tab" aria-controls="client" aria-selected="false">CLIENT</a>
+          </li>
+          <!--<li class="nav-item">
+            <a class="nav-link" id="abo-tab" data-toggle="tab" href="#abo" role="tab" aria-controls="abo" aria-selected="false">ABONNEMENT</a>
+          </li>-->
+        </ul>
+        <div class="tab-content" id="myTabAdminContent">
+          <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
+            <div class='tbl'>
+              <div class='twocol'>
+                <div class="blocurl">
+                  <div class="param">
+                    <label>Alias de la Boutic : </label>
+                    <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
+                  </div>
+                  <br>
+                  <div class="param">
+                    <label>URL de la Boutic :&nbsp;</label>
+                    <a id="linkid" target="_blank"></a>
+                  </div>
                 </div>
                 <br>
                 <div class="param">
-                  <label>URL de la Boutic :&nbsp;</label>
-                  <a id="linkid" target="_blank"></a>
+                  <label>Nom de l'entreprise : </label>
+                  <input class="fieldperso" id="pbnomid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
                 </div>
+                <br>
+                <div class="param">
+                  <label>Adresse (ligne1) : </label>
+                  <input class="fieldperso" id="pbadr1id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Adresse (ligne2) : </label>
+                  <input class="fieldperso" id="pbadr2id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Code Postal : </label>
+                  <input class="fieldperso" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Ville : </label>
+                  <input class="fieldperso" id="pbvilleid" type='text' maxlength="50" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="" id="bloclogoid">
+                  <label for="artlogofile">Logo : </label>
+                  <input class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="pbemailid">Courriel : </label>
+                  <input class="fieldperso" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" oninput="persoenblbtnvc(this)" />
+                </div>
+                <br>
               </div>
               <br>
-              <div class="param">
-                <label>Nom de l'entreprise : </label>
-                <input class="fieldperso" id="pbnomid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
+              <div class="center">
+                <input type='button' class="btn btn-primary btn-block" id='validpersoid' disabled='true' value='Valid' onclick="validpersoupdate()" />
+                <input type='button' class="btn btn-secondary btn-block" id='cancelpersoid' disabled='true' value='Cancel' onclick="cancelpersoupdate()" />
               </div>
-              <br>
-              <div class="param">
-                <label>Adresse (ligne1) : </label>
-                <input class="fieldperso" id="pbadr1id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Adresse (ligne2) : </label>
-                <input class="fieldperso" id="pbadr2id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Code Postal : </label>
-                <input class="fieldperso" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="persoenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Ville : </label>
-                <input class="fieldperso" id="pbvilleid" type='text' maxlength="50" oninput="persoenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="" id="bloclogoid">
-                <label for="artlogofile">Logo : </label>
-                <input class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label for="pbemailid">Courriel : </label>
-                <input class="fieldperso" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" oninput="persoenblbtnvc(this)" />
-              </div>
-              <br>
-            </div>
-            <br>
-            <div class="center">
-              <input type='button' class="btn btn-primary btn-block" id='validpersoid' disabled='true' value='Valid' onclick="validpersoupdate()" />
-              <input type='button' class="btn btn-secondary btn-block" id='cancelpersoid' disabled='true' value='Cancel' onclick="cancelpersoupdate()" />
             </div>
           </div>
-        </div>
-        <div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
-          <div class='tbl'>
-            <div class='twocol'>
-              <div class="param">
-                <label for="ishtmlid">Courriel au format HTML : </label>
-                <div>
-                  <input class="fieldparam" id="ishtmlid" type='checkbox' onclick="paramenblbtnvc(this)" />
+          <div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
+            <div class='tbl'>
+              <div class='twocol'>
+                <!--<div class="param">
+                  <label for="ishtmlid">Courriel au format HTML : </label>
+                  <div>
+                    <input class="fieldparam" id="ishtmlid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                  </div>
                 </div>
-              </div>
-              <br>
-              <div class="param">
-                <label for="subjectmailid">Sujet du courriel : </label>
-                <input class="fieldparam" id="subjectmailid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label for="validationsmsid">Validation des commandes par SMS : </label>
-                <div>
-                  <input class="fieldparam" id="validationsmsid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                <br>-->
+                <div class="param">
+                  <label for="subjectmailid">Sujet du courriel : </label>
+                  <input class="fieldparam" id="subjectmailid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
                 </div>
-              </div>
-              <br>
-              <div class="param">
-                <label for="verifcpid">Vérification des codes postaux : </label>
-                <div>
-                  <input class="fieldparam" id="verifcpid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                <br>
+                <div class="param">
+                  <label for="validationsmsid">Validation des commandes par SMS : </label>
+                  <div>
+                    <input class="fieldparam" id="validationsmsid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                  </div>
                 </div>
+                <br>
+                <div class="param">
+                  <label for="verifcpid">Vérification des codes postaux : </label>
+                  <div>
+                    <input class="fieldparam" id="verifcpid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                  </div>
+                </div>
+                <br>
+                <div class="param">
+                  <label for="choixpaiementid">Choix de paiement : </label>
+                  <select class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
+                    <option value='COMPTANT'>Via praticboutic</option>
+                    <option value='LIVRAISON'>Autre</option>
+                    <option value='TOUS'>Via praticboutic & Autre</option>
+                  </select>
+                </div>
+                <br>
+                <div class="param">
+                  <label for="mpcomptantid">Texte du paiement comptant : </label>
+                  <input class="fieldparam" id="mpcomptantid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="mplivraisonid">Texte du paiement à la livraison : </label>
+                  <input class="fieldparam" id="mplivraisonid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="choixmethodid">Choix de la méthode : </label>
+                  <select class="fieldparam" id="choixmethodid" onchange="paramenblbtnvc(this)"  >
+                    <option value='EMPORTER'>Emporter</option>
+                    <option value='LIVRER'>Livrer</option>
+                    <option value='TOUS'>Emporter & Livrer</option>
+                  </select>
+                </div>
+                <br>
+                <div class="param">
+                  <label for="cmlivrerid">Texte de la vente à la livraison : </label>
+                  <input class="fieldparam" id="cmlivrerid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="cmemporterid">Texte de la vente à emporter : </label>
+                  <input class="fieldparam" id="cmemporterid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="mntmincmdid">Montant minimum de commande : </label>
+                  <input class="inpprix fieldparam" id="mntmincmdid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
+                  <input class="inpprix fieldparam" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
+                </div>
+                <br>
+                <div class="param">
+                  <label for="sizeimgid">Taille des images : </label>
+                  <select class="fieldparam" id="sizeimgid" oninput="paramenblbtnvc(this)"  >
+                    <option value='smallimg'>Petites</option>
+                    <option value='bigimg'>Grandes</option>
+                  </select>
+                </div>
+                <br>
+                <div class="param">
+                  <label for="moneysystemid">Système de paiement : </label>
+                  <select class="fieldparam" id="moneysystemid" oninput="paramenblbtnvc(this)" >
+                    <option value='STRIPE'>STRIPE</option>
+                    <option value='PAYPAL'>PAYPAL</option>
+                  </select>
+                </div>
+                <br>
+                <div class="param">
+                  <label for="publickeyid">Clé Public Stripe : </label>
+                  <input class="fieldparam" id="publickeyid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
+                </div>
+                <br>
+                <form autocomplete="off">
+                  <div class="param">
+                      <label for="secretkeyid">Clé Privé Stripe : </label>
+                      <input class="fieldparam" id="secretkeyid" type='password' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="one-time-code" />
+                  </div>
+                </form>
+                <br>
+                <div class="param">
+                  <label for="idcltpaypalid">ID Client Paypal : </label>
+                  <input class="fieldparam" id="idcltpaypalid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
+                </div>
+                <br>
               </div>
               <br>
-              <div class="param">
-                <label for="choixpaiementid">Choix de paiement : </label>
-                <select class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
-                  <option value='COMPTANT'>Via praticboutic</option>
-                  <option value='LIVRAISON'>Autre</option>
-                  <option value='TOUS'>Via praticboutic & Autre</option>
-                </select>
+              <div class="center">
+                <input type='button' class="btn btn-primary btn-block" id='validparamid' disabled='true' value='Valid' onclick="validparamupdate()" />
+                <input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
               </div>
-              <br>
-              <div class="param">
-                <label for="mpcomptantid">Texte du paiement comptant : </label>
-                <input class="fieldparam" id="mpcomptantid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
-              </div>
-              <br>
-              <div class="param">
-                <label for="mplivraisonid">Texte du paiement à la livraison : </label>
-                <input class="fieldparam" id="mplivraisonid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
-              </div>
-              <br>
-              <div class="param">
-                <label for="choixmethodid">Choix de la méthode : </label>
-                <select class="fieldparam" id="choixmethodid" onchange="paramenblbtnvc(this)"  >
-                  <option value='EMPORTER'>Emporter</option>
-                  <option value='LIVRER'>Livrer</option>
-                  <option value='TOUS'>Emporter & Livrer</option>
-                </select>
-              </div>
-              <br>
-              <div class="param">
-                <label for="cmlivrerid">Texte de la vente à la livraison : </label>
-                <input class="fieldparam" id="cmlivrerid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
-              </div>
-              <br>
-              <div class="param">
-                <label for="cmemporterid">Texte de la vente à emporter : </label>
-                <input class="fieldparam" id="cmemporterid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label for="mntmincmdid">Montant minimum de commande : </label>
-                <input class="inpprix fieldparam" id="mntmincmdid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
-              </div>
-              <br>
-              <div class="param">
-                <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
-                <input class="inpprix fieldparam" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
-              </div>
-              <br>
-              <div class="param">
-                <label for="sizeimgid">Taille des images : </label>
-                <select class="fieldparam" id="sizeimgid" oninput="paramenblbtnvc(this)"  >
-                  <option value='smallimg'>Petites</option>
-                  <option value='bigimg'>Grandes</option>
-                </select>
-              </div>
-              <br>
-              <div class="param">
-                <label for="moneysystemid">Système de paiement : </label>
-                <select class="fieldparam" id="moneysystemid" oninput="paramenblbtnvc(this)" >
-                  <option value='STRIPE'>STRIPE</option>
-                  <option value='PAYPAL'>PAYPAL</option>
-                </select>
-              </div>
-              <br>
-              <div class="param">
-                <label for="publickeyid">Clé Public Stripe : </label>
-                <input class="fieldparam" id="publickeyid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
-              </div>
-              <br>
-              <div class="param">
-                <label for="secretkeyid">Clé Privé Stripe : </label>
-                <input class="fieldparam" id="secretkeyid" type='password' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="one-time-code" />
-              </div>
-              <br>
-              <div class="param">
-                <label for="idcltpaypalid">ID Client Paypal : </label>
-                <input class="fieldparam" id="idcltpaypalid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
-              </div>
-              <br>
-            </div>
-            <br>
-            <div class="center">
-              <input type='button' class="btn btn-primary btn-block" id='validparamid' disabled='true' value='Valid' onclick="validparamupdate()" />
-              <input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
             </div>
           </div>
-        </div>
-        <div class="tab-pane" id="client" role="tabpanel" aria-labelledby="client-tab">
-          <div class='tbl'>
-            <div class='twocol'>
-              <div class="param">
-                <label>Mot de passe : </label>
-                <input class="fieldclient" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
+          <div class="tab-pane" id="client" role="tabpanel" aria-labelledby="client-tab">
+            <div class='tbl'>
+              <div class='twocol'>
+                <div class="param">
+                  <label>Mot de passe : </label>
+                  <input class="fieldclient" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Mot de passe (confirmation): </label>
+                  <input class="fieldclientpassconf" id="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="javascript:document.getElementById('clpassid').setAttribute('data-modified', true);clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Qualité : </label>
+                  <div class="fieldclientradio center"><input class="fieldclient" type="radio" id="clhommeid" name="clqualite" value="Monsieur" oninput="clientenblbtnvc(this)"><label for="clhommeid">&nbsp;Monsieur&nbsp;</label></div>
+                  <div class="fieldclientradio center"><input class="fieldclient" type="radio" id="clfemmeid" name="clqualite" value="Madame" oninput="clientenblbtnvc(this)"><label for="clfemmeid">&nbsp;Madame&nbsp;</label></div><br>
+                </div>
+                <br>
+                <div class="param">
+                  <label>Nom : </label>
+                  <input class="fieldclient" id="clnomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Prénom : </label>
+                  <input class="fieldclient" id="clprenomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Adresse (ligne1) : </label>
+                  <input class="fieldclient" id="cladr1id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Adresse (ligne2) : </label>
+                  <input class="fieldclient" id="cladr2id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Code Postal : </label>
+                  <input class="fieldclient" id="clcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Ville : </label>
+                  <input class="fieldclient" id="clvilleid" type='text' maxlength="50" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
+                <div class="param">
+                  <label>Téléphone : </label>
+                  <input class="fieldclient" id="cltelid" type='text' maxlength="255" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" oninput="clientenblbtnvc(this)" />
+                </div>
+                <br>
               </div>
               <br>
-              <div class="param">
-                <label>Mot de passe (confirmation): </label>
-                <input class="fieldclientpassconf" id="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="javascript:document.getElementById('clpassid').setAttribute('data-modified', true);clientenblbtnvc(this)" />
+              <div class="center">
+                <input type='button' class="btn btn-primary btn-block" id='validclientid' disabled='true' value='Valid' onclick="validclientupdate()" />
+                <input type='button' class="btn btn-secondary btn-block" id='cancelclientid' disabled='true' value='Cancel' onclick="cancelclientupdate()" />
               </div>
-              <br>
-              <div class="param">
-                <label>Qualité : </label>
-                <div class="fieldclientradio center"><input class="fieldclient" type="radio" id="clhommeid" name="clqualite" value="Monsieur" oninput="clientenblbtnvc(this)"><label for="clhommeid">&nbsp;Monsieur&nbsp;</label></div>
-                <div class="fieldclientradio center"><input class="fieldclient" type="radio" id="clfemmeid" name="clqualite" value="Madame" oninput="clientenblbtnvc(this)"><label for="clfemmeid">&nbsp;Madame&nbsp;</label></div><br>
-              </div>
-              <br>
-              <div class="param">
-                <label>Nom : </label>
-                <input class="fieldclient" id="clnomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Prénom : </label>
-                <input class="fieldclient" id="clprenomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Adresse (ligne1) : </label>
-                <input class="fieldclient" id="cladr1id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Adresse (ligne2) : </label>
-                <input class="fieldclient" id="cladr2id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Code Postal : </label>
-                <input class="fieldclient" id="clcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Ville : </label>
-                <input class="fieldclient" id="clvilleid" type='text' maxlength="50" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-              <div class="param">
-                <label>Téléphone : </label>
-                <input class="fieldclient" id="cltelid" type='text' maxlength="255" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" oninput="clientenblbtnvc(this)" />
-              </div>
-              <br>
-            </div>
-            <br>
-            <div class="center">
-              <input type='button' class="btn btn-primary btn-block" id='validclientid' disabled='true' value='Valid' onclick="validclientupdate()" />
-              <input type='button' class="btn btn-secondary btn-block" id='cancelclientid' disabled='true' value='Cancel' onclick="cancelclientupdate()" />
             </div>
           </div>
-        </div>
-        <div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
-          <div class='tbl' id="table11"></div>  
-           <div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
-           <div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>  
-        </div>
-        <div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
-          <div class='tbl'>  
-            <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
+          <div class="tab-pane" id="statutcmd" role="tabpanel" aria-labelledby="statutcmd-tab">
+            <div class='tbl' id="table11"></div>  
+             <div class='tbl form-group' id="ins11" data-vuep="table11" hidden></div>
+             <div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>  
           </div>
-        </div>
-        <div class="tab-pane" id="qrcode" role="tabpanel" aria-labelledby="qrcode-tab">
-          <div class='tbl'>  
-            <form action="pdfqrcode.php" method="post" target="_blank">
-              <fieldset>
-                <legend>Méthode de vente:</legend>
-                <input type="radio" id="radatbl" name="methv" value="2" onclick="javascript:document.getElementById('optnbtable').style.display='block'" checked>
-                <label for="radatbl">A Table</label><br><input type="radio" id="radqnc" name="methv" value="3" onclick="javascript:document.getElementById('optnbtable').style.display='none'">
-                <label for="radqnc">Qlick'n'Collect</label><br><br>
-              </fieldset>
-              <p id="optnbtable">Nombre de table : <input type="number" class="inpprix" name="nbtable" step="1" min="1" value = "1" /></p>
-              <p>Nombre d'exemplaire : <input type="number" class="inpprix" name="nbex" step="1" min="1" value = "1" /></p>
-              <p><input type="submit" value="Générer le PDF de QRCODE"></p>
-            </form>
+          <div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
+            <div class='tbl'>  
+              <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
+            </div>
+          </div>
+          <div class="tab-pane" id="qrcode" role="tabpanel" aria-labelledby="qrcode-tab">
+            <div class='tbl'>  
+              <form action="pdfqrcode.php" method="post" target="_blank">
+                <fieldset>
+                  <legend>Méthode de vente:</legend>
+                  <input type="radio" id="radatbl" name="methv" value="2" onclick="javascript:document.getElementById('optnbtable').style.display='block'" checked>
+                  <label for="radatbl">A Table</label><br><input type="radio" id="radqnc" name="methv" value="3" onclick="javascript:document.getElementById('optnbtable').style.display='none'">
+                  <label for="radqnc">Qlick'n'Collect</label><br><br>
+                </fieldset>
+                <p id="optnbtable">Nombre de table : <input type="number" class="inpprix" name="nbtable" step="1" min="1" value = "1" /></p>
+                <p>Nombre d'exemplaire : <input type="number" class="inpprix" name="nbex" step="1" min="1" value = "1" /></p>
+                <p><input type="submit" value="Générer le PDF de QRCODE"></p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-    
-	<!--<div class="modal" tabindex="-1" role="dialog">-->
-	<div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Erreur</h5>
-	      </div>
-	      <div class="modal-body">
-	        <!--<p>Modal body text goes here.</p>-->
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="okbtn">OK</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+      
+  	<!--<div class="modal" tabindex="-1" role="dialog">-->
+  	<div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  	  <div class="modal-dialog modal-dialog-centered" role="document">
+  	    <div class="modal-content">
+  	      <div class="modal-header">
+  	        <h5 class="modal-title">Erreur</h5>
+  	      </div>
+  	      <div class="modal-body">
+  	        <!--<p>Modal body text goes here.</p>-->
+  	      </div>
+  	      <div class="modal-footer">
+  	        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="okbtn">OK</button>
+  	      </div>
+  	    </div>
+  	  </div>
+  	</div>
 
 	<script type="text/javascript" >
 			function getnumtable(nom)
@@ -682,13 +684,13 @@
 								inp.autocomplete = "off";
 								if (champs[i].typ == "text")
 								{
-									inp.classList.add('form-control');								
+									inp.classList.add('form-control');
 									inp.type = 'text';
 									inp.value = champs[i].defval;
 								}
 								else if (champs[i].typ == "ref")
 								{
-									inp.classList.add('form-control');								
+									inp.classList.add('form-control');
 									inp.type = 'text';
 									inp.required = true;
 									inp.value = champs[i].defval;
