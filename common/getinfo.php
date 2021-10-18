@@ -9,9 +9,9 @@
 	}
 
   $customer = $_SESSION['customer'];
-  $method = $_SESSION['method'];
-  $table = $_SESSION['table'];
-
+  $method = intval($_SESSION['method']);
+  $table = intval($_SESSION['table']);
+  
   if (empty($_SESSION[$customer . '_mail']) == TRUE)
   {
     header('LOCATION: index.php?customer=' . $customer . '');
@@ -77,7 +77,7 @@
       {      
       	echo '<div id="grpinfo">';
         echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
-        if ($method >= 2)
+        if ($method > 2)
 	      {      
 	        echo '<div class="underlined">';
 	        echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
@@ -94,7 +94,7 @@
         pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
         title="Il faut un numéro de téléphone portable français valide">';
         echo '</div>';
-        if ($method >= 2)
+        if ($method > 2)
 	      {      
 	        $chm = GetValeurParam("Choix_Method", $conn, $customid, "TOUS");         
 	       
@@ -168,7 +168,7 @@
 
 		    echo '</form>';
 		    
-		    if ($method >= 2)
+		    if ($method > 2)
 		    {
 		      echo '<hr class="separation">';
 	   

@@ -2,7 +2,13 @@
 	session_start();
 	session_destroy();
 	session_start();
-	$customer = htmlspecialchars($_GET['customer']);
+	if (empty($_GET['customer']) != 0)
+	{
+    header('LOCATION: 404.html');
+    exit();
+	}
+	else
+    $customer = htmlspecialchars($_GET['customer']);
 
   require '../vendor/autoload.php';
   include "config/common_cfg.php";

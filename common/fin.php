@@ -8,8 +8,8 @@
 	}
   //$customer = htmlspecialchars($_GET['customer']);
   $customer = $_SESSION['customer'];
-  $method = $_SESSION['method'];
-  $table = $_SESSION['table'];
+  $method = intval($_SESSION['method']);
+  $table = intval($_SESSION['table']);
   
   if (empty($_SESSION[$customer . '_mail']) == TRUE)
   {

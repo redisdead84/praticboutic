@@ -45,7 +45,7 @@
   </head>
   <body>
   <?php
-    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">;';
+    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">';
   ?>
 <br>
 <p style="text-align: justify; text-justify: inter-word;">
