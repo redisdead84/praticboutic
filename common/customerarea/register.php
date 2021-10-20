@@ -144,7 +144,7 @@
             </div>
           </div>
           <div class="param rwc margetop">
-            <input class="butc regbutton" type="button" onclick="javascript:cancel()" value="Annulation" />
+            <!--<input class="butc regbutton" type="button" onclick="javascript:cancel()" value="Annulation" />-->
             <input class="butc regbutton" type="submit" value="Inscription" autofocus /><br><br>
           </div>
         </form>
