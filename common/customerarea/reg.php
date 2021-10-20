@@ -6,10 +6,8 @@ $_SESSION['reg_mailsent'] = 'non';
 
 require_once '../../vendor/autoload.php';
 
-use Gregwar\Captcha\CaptchaBuilder;
-
-$builder = new CaptchaBuilder;
-$builder->build();
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 ?>
 
@@ -68,19 +66,12 @@ $builder->build();
             <div class="param">
               <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required /><br>
             </div>
-            <!--<div class="param">
-              <img src="<?php echo $builder->inline(); ?>" /><input class="paramfieldc" id="captcha" name="captcha" type="text" placeholder="Recopier le text de l'image ci-dessus" value="" maxlength="5" required autocomplete="off" /><br>
-              <?php $_SESSION['reg_phrase'] = $builder->getPhrase();?>
-            </div>
-            <i>CAPTCHA illisible cliquez <a href="javascript:bakinfo();location.reload();">ici</a></i><br>-->
             <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
           </div>
           <div>
           </div>
           <div class="param rwc margetop">
-            <!--<input class="butc regbutton" type="button" onclick="javascript:cancel()" value="Annulation" />-->
-            <button class="butc regbutton g-recaptcha" data-sitekey="6LfYCuEcAAAAAFpO-3gkCmjPM5BWqlyYlIY_3QVb" data-callback='onSubmit' data-action='submit'>Inscription</button><br><br>
-            <!--<input class="butc regbutton g-recaptcha" data-sitekey="6LfYCuEcAAAAAFpO-3gkCmjPM5BWqlyYlIY_3QVb" data-callback='onSubmit' data-action='submit' type="submit" value="Inscription" onclick="onClick(this)" autofocus /><br><br>-->
+            <button class="butc regbutton g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit'>Inscription</button><br><br>
           </div>
         </form>
       </div>

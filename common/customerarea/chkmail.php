@@ -98,10 +98,8 @@
              
              putenv($_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
              // TODO(Developer): Replace the following before running the sample
-             create_assessment(
-            '6LfYCuEcAAAAAFpO-3gkCmjPM5BWqlyYlIY_3QVb', $_POST['gRecaptchaResponse'], 'praticboutic'
-             );
-   
+             create_assessment($_ENV['RECAPTCHA_KEY'], $_POST['gRecaptchaResponse'], $_ENV['GOOGLE_PROJECT']);
+             
               $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
               try 
               {
@@ -174,7 +172,7 @@
                   $text = $text . '<html>';
                   $text = $text . '<head>';
                   $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
-                  $text = $text . '</head>';    
+                  $text = $text . '</head>';
                   $text = $text . '<body>';
                   $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
                   $text = $text . $email . '<br><br>';    
