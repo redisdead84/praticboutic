@@ -77,9 +77,9 @@
 
                 $cpwd = password_hash($_SESSION['registration_pass'], PASSWORD_DEFAULT);
                 $query = "INSERT INTO client(email, pass, qualite, nom, prenom, adr1, adr2, cp, ville, tel, stripe_customer_id, actif) VALUES ";
-                $query = $query . "('" . $_SESSION['verify_email']  . "','" . $cpwd. "','" . $_SESSION['registration_qualite'] . "','" . $_SESSION['registration_nom'] . "','";
-                $query = $query . $_SESSION['registration_prenom'] . "','" . $_SESSION['registration_adr1'] . "','" . $_SESSION['registration_adr2'] . "','" . $_SESSION['registration_cp'] . "','";
-                $query = $query . $_SESSION['registration_ville'] . "','" . $_SESSION['registration_tel'] . "','" . $_SESSION['registration_stripe_customer_id'] . "','1')";
+                $query = $query . "('" . $_SESSION['verify_email']  . "','" . $cpwd. "','" . $_SESSION['registration_qualite'] . "','" . addslashes($_SESSION['registration_nom']) . "','";
+                $query = $query . addslashes($_SESSION['registration_prenom']) . "','" . addslashes($_SESSION['registration_adr1']) . "','" . addslashes($_SESSION['registration_adr2']) . "','" . addslashes($_SESSION['registration_cp']) . "','";
+                $query = $query . addslashes($_SESSION['registration_ville']) . "','" . $_SESSION['registration_tel'] . "','" . $_SESSION['registration_stripe_customer_id'] . "','1')";
                 
                 //error_log($query);
 
@@ -102,8 +102,8 @@
                 }
                 
                 $q = "INSERT INTO customer (cltid, customer, nom, adresse1, adresse2, codepostal, ville, logo, courriel) ";
-                $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . $_SESSION['initboutic_nom'] . "', '" .  $_SESSION['initboutic_adresse1'] . "', '";
-                $q = $q . $_SESSION['initboutic_adresse2'] . "', '" . $_SESSION['initboutic_codepostal'] . "', '" . $_SESSION['initboutic_ville'] . "', '";
+                $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . addslashes($_SESSION['initboutic_nom']) . "', '" .  addslashes($_SESSION['initboutic_adresse1']) . "', '";
+                $q = $q . addslashes($_SESSION['initboutic_adresse2']) . "', '" . $_SESSION['initboutic_codepostal'] . "', '" . addslashes($_SESSION['initboutic_ville']) . "', '";
                 $q = $q . $_SESSION['initboutic_logo'] . "', '" . $_SESSION['initboutic_email'] . "')";
                 //error_log($q);
                 
@@ -149,7 +149,7 @@
                 for($i=0; $i<count($parametres); $i++)
                 {
                   $q = ' INSERT INTO parametre (customid, nom, valeur, commentaire) ';
-                  $q = $q . 'VALUES ("' . $bouticid . '","' . $parametres[$i][0] . '","' . $parametres[$i][1] . '","' . $parametres[$i][2] . '")';
+                  $q = $q . 'VALUES ("' . $bouticid . '","' . $parametres[$i][0] . '","' . addslashes($parametres[$i][1]) . '","' . $parametres[$i][2] . '")';
                   //error_log($q);
                   if ($conn->query($q) === FALSE) 
                   {
@@ -191,7 +191,7 @@
             ?>
             </div>
             <div class="modal-footer">
-              <a href="reg.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
+              <a href="register.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
             </div>
          </div>
       </div>

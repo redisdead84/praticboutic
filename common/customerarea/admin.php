@@ -352,13 +352,15 @@
           </li>-->
         </ul>
         <div class="tab-content" id="myTabAdminContent">
+          
           <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
+          <form autocomplete="off">
             <div class='tbl'>
               <div class='twocol'>
                 <div class="blocurl">
                   <div class="param">
                     <label>Alias de la Boutic : </label>
-                    <input class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
+                    <input data-lbl="Alias de la Boutic" class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
                   </div>
                   <br>
                   <div class="param">
@@ -369,38 +371,40 @@
                 <br>
                 <div class="param">
                   <label>Nom de l'entreprise : </label>
-                  <input class="fieldperso" id="pbnomid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Nom de l'entreprise" class="fieldperso" id="pbnomid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Adresse (ligne1) : </label>
-                  <input class="fieldperso" id="pbadr1id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Adresse (ligne1)" class="fieldperso" id="pbadr1id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Adresse (ligne2) : </label>
-                  <input class="fieldperso" id="pbadr2id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Adresse (ligne2)" class="fieldperso" id="pbadr2id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Code Postal : </label>
-                  <input class="fieldperso" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Code Postal" class="fieldperso" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Ville : </label>
-                  <input class="fieldperso" id="pbvilleid" type='text' maxlength="50" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Ville" class="fieldperso" id="pbvilleid" type='text' maxlength="50" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="" id="bloclogoid">
                   <label for="artlogofile">Logo : </label>
-                  <input class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Logo" class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
+                <form autocomplete="off">
                 <div class="param">
                   <label for="pbemailid">Courriel : </label>
-                  <input class="fieldperso" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Courriel" class="fieldperso" id="pbemailid" type='email' maxlength="255" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="un courriel valide" oninput="persoenblbtnvc(this)" />
                 </div>
+                </form>
                 <br>
               </div>
               <br>
@@ -409,39 +413,41 @@
                 <input type='button' class="btn btn-secondary btn-block" id='cancelpersoid' disabled='true' value='Cancel' onclick="cancelpersoupdate()" />
               </div>
             </div>
+          </form>
           </div>
           <div class="tab-pane" id="reglage" role="tabpanel" aria-labelledby="reglage-tab">
+          <form autocomplete="off">
             <div class='tbl'>
               <div class='twocol'>
                 <!--<div class="param">
                   <label for="ishtmlid">Courriel au format HTML : </label>
                   <div>
-                    <input class="fieldparam" id="ishtmlid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                    <input data-lbl="Courriel au format HTML" class="fieldparam" id="ishtmlid" type='checkbox' onclick="paramenblbtnvc(this)" />
                   </div>
                 </div>
                 <br>-->
                 <div class="param">
                   <label for="subjectmailid">Sujet du courriel : </label>
-                  <input class="fieldparam" id="subjectmailid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
+                  <input data-lbl="Sujet du courriel" class="fieldparam" id="subjectmailid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label for="validationsmsid">Validation des commandes par SMS : </label>
                   <div>
-                    <input class="fieldparam" id="validationsmsid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                    <input data-lbl="Validation des commandes par SMS" class="fieldparam" id="validationsmsid" type='checkbox' onclick="paramenblbtnvc(this)" />
                   </div>
                 </div>
                 <br>
                 <div class="param">
                   <label for="verifcpid">Vérification des codes postaux : </label>
                   <div>
-                    <input class="fieldparam" id="verifcpid" type='checkbox' onclick="paramenblbtnvc(this)" />
+                    <input data-lbl="Vérification des codes postaux" class="fieldparam" id="verifcpid" type='checkbox' onclick="paramenblbtnvc(this)" />
                   </div>
                 </div>
                 <br>
                 <div class="param">
                   <label for="choixpaiementid">Choix de paiement : </label>
-                  <select class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
+                  <select data-lbl="Choix de paiement" class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
                     <option value='COMPTANT'>Via praticboutic</option>
                     <option value='LIVRAISON'>Autre</option>
                     <option value='TOUS'>Via praticboutic & Autre</option>
@@ -450,17 +456,17 @@
                 <br>
                 <div class="param">
                   <label for="mpcomptantid">Texte du paiement comptant : </label>
-                  <input class="fieldparam" id="mpcomptantid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+                  <input data-lbl="Texte du paiement comptant" class="fieldparam" id="mpcomptantid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
                 </div>
                 <br>
                 <div class="param">
                   <label for="mplivraisonid">Texte du paiement à la livraison : </label>
-                  <input class="fieldparam" id="mplivraisonid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+                  <input data-lbl="Texte du paiement à la livraison" class="fieldparam" id="mplivraisonid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
                 </div>
                 <br>
                 <div class="param">
                   <label for="choixmethodid">Choix de la méthode : </label>
-                  <select class="fieldparam" id="choixmethodid" onchange="paramenblbtnvc(this)"  >
+                  <select data-lbl="Choix de la méthode" class="fieldparam" id="choixmethodid" onchange="paramenblbtnvc(this)"  >
                     <option value='EMPORTER'>Emporter</option>
                     <option value='LIVRER'>Livrer</option>
                     <option value='TOUS'>Emporter & Livrer</option>
@@ -469,27 +475,27 @@
                 <br>
                 <div class="param">
                   <label for="cmlivrerid">Texte de la vente à la livraison : </label>
-                  <input class="fieldparam" id="cmlivrerid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
+                  <input data-lbl="Texte de la vente à la livraison" class="fieldparam" id="cmlivrerid" type='text' maxlength="255" oninput="paramenblbtnvc(this)"  />
                 </div>
                 <br>
                 <div class="param">
                   <label for="cmemporterid">Texte de la vente à emporter : </label>
-                  <input class="fieldparam" id="cmemporterid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
+                  <input data-lbl="Texte de la vente à emporter" class="fieldparam" id="cmemporterid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label for="mntmincmdid">Montant minimum de commande : </label>
-                  <input class="inpprix fieldparam" id="mntmincmdid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
+                  <input data-lbl="Montant minimum de commande" class="inpprix fieldparam" id="mntmincmdid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
                 </div>
                 <br>
                 <div class="param">
                   <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
-                  <input class="inpprix fieldparam" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
+                  <input data-lbl="Montant minimum de livraison" class="inpprix fieldparam" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
                 </div>
                 <br>
                 <div class="param">
                   <label for="sizeimgid">Taille des images : </label>
-                  <select class="fieldparam" id="sizeimgid" oninput="paramenblbtnvc(this)"  >
+                  <select data-lbl="Taille des images" class="fieldparam" id="sizeimgid" oninput="paramenblbtnvc(this)"  >
                     <option value='smallimg'>Petites</option>
                     <option value='bigimg'>Grandes</option>
                   </select>
@@ -497,7 +503,7 @@
                 <br>
                 <div class="param">
                   <label for="moneysystemid">Système de paiement : </label>
-                  <select class="fieldparam" id="moneysystemid" oninput="paramenblbtnvc(this)" >
+                  <select data-lbl="Système de paiement" class="fieldparam" id="moneysystemid" oninput="paramenblbtnvc(this)" >
                     <option value='STRIPE'>STRIPE</option>
                     <option value='PAYPAL'>PAYPAL</option>
                   </select>
@@ -505,19 +511,19 @@
                 <br>
                 <div class="param">
                   <label for="publickeyid">Clé Public Stripe : </label>
-                  <input class="fieldparam" id="publickeyid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
+                  <input data-lbl="Clé Public Stripe" class="fieldparam" id="publickeyid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
                 </div>
                 <br>
                 <form autocomplete="off">
                   <div class="param">
                       <label for="secretkeyid">Clé Privé Stripe : </label>
-                      <input class="fieldparam" id="secretkeyid" type='password' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="one-time-code" />
+                      <input data-lbl="Clé Privé Stripe" class="fieldparam" id="secretkeyid" type='password' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="one-time-code" />
                   </div>
                 </form>
                 <br>
                 <div class="param">
                   <label for="idcltpaypalid">ID Client Paypal : </label>
-                  <input class="fieldparam" id="idcltpaypalid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
+                  <input data-lbl="ID Client Paypal" class="fieldparam" id="idcltpaypalid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
                 </div>
                 <br>
               </div>
@@ -527,18 +533,19 @@
                 <input type='button' class="btn btn-secondary btn-block" id='cancelparamid' disabled='true' value='Cancel' onclick="cancelparamupdate()" />
               </div>
             </div>
+          </form>
           </div>
           <div class="tab-pane" id="client" role="tabpanel" aria-labelledby="client-tab">
             <div class='tbl'>
               <div class='twocol'>
                 <div class="param">
                   <label>Mot de passe : </label>
-                  <input class="fieldclient" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Mot de passe" class="fieldclient" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Mot de passe (confirmation): </label>
-                  <input class="fieldclientpassconf" id="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="javascript:document.getElementById('clpassid').setAttribute('data-modified', true);clientenblbtnvc(this)" />
+                  <input data-lbl="Mot de passe (confirmation)" class="fieldclientpassconf" id="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="javascript:document.getElementById('clpassid').setAttribute('data-modified', true);clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
@@ -549,37 +556,37 @@
                 <br>
                 <div class="param">
                   <label>Nom : </label>
-                  <input class="fieldclient" id="clnomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Nom" class="fieldclient" id="clnomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Prénom : </label>
-                  <input class="fieldclient" id="clprenomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Prénom" class="fieldclient" id="clprenomid" type='text' maxlength="60" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Adresse (ligne1) : </label>
-                  <input class="fieldclient" id="cladr1id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Adresse (ligne1)" class="fieldclient" id="cladr1id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Adresse (ligne2) : </label>
-                  <input class="fieldclient" id="cladr2id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Adresse (ligne2)" class="fieldclient" id="cladr2id" type='text' maxlength="150" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Code Postal : </label>
-                  <input class="fieldclient" id="clcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Code Postal" class="fieldclient" id="clcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Ville : </label>
-                  <input class="fieldclient" id="clvilleid" type='text' maxlength="50" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Ville" class="fieldclient" id="clvilleid" type='text' maxlength="50" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
                 <div class="param">
                   <label>Téléphone : </label>
-                  <input class="fieldclient" id="cltelid" type='text' maxlength="255" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Téléphone" class="fieldclient" id="cltelid" type='text' maxlength="255" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Un téléphone français valide" oninput="clientenblbtnvc(this)" />
                 </div>
                 <br>
               </div>
@@ -596,7 +603,7 @@
              <div class='tbl form-group' id="maj11" data-vuep="table11" hidden></div>  
           </div>
           <div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
-            <div class='tbl'>  
+            <div class='tbl'>
               <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
             </div>
           </div>
@@ -2983,9 +2990,13 @@
 					{
 						notvalidated = true;
 						if (el.getAttribute('data-paramtype') == "csp")
-							alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+							//alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+              alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
+
 						else
-							alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+							//alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+              alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
+
 					}
 				}
 				if (notvalidated == false)
@@ -3232,9 +3243,11 @@
 					{
 						notvalidated = true;
 						if (el.getAttribute('data-paramtype') == "csp")
-							alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+							//alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+              alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
 						else
-							alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+              alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
+							//alert( el.getAttribute("data-param") + " : " + el.validationMessage);
 					}
 				}
 				if (notvalidated == false)
@@ -3394,9 +3407,9 @@
           {
              notvalidated = true;
              if (el.getAttribute('data-paramtype') == "csp")
-               alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
              else
-               alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
           }
         }
         if (notvalidated == false)
@@ -3575,11 +3588,15 @@
           var el = pelem[j];
           if (el.checkValidity() == false)
           {
-             notvalidated = true;
-             if (el.getAttribute('data-paramtype') == "clt")
-               alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
-             else
-               alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+            notvalidated = true;
+            if (el.getAttribute('data-paramtype') == "clt")
+              //alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
+              alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
+
+            else
+              //alert( el.getAttribute("data-param") + " : " + el.validationMessage);
+             alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
+
           }
           
           if (el.getAttribute("data-typ")== "pass")

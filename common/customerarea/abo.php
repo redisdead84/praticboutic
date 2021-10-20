@@ -26,7 +26,7 @@ try
   /* Initialize the Stripe client */
   // For sample support and debugging. Not required for production:
   \Stripe\Stripe::setAppInfo(
-    "pratic-boutic/subscription/fixed-price",
+    "pratic-boutic/registration  ",
     "0.0.2",
     "https://praticboutic.fr"
   );
@@ -94,35 +94,59 @@ try
     
   if (strcmp($input->action,"creationabonnement") == 0)
   {
-
-    //error_log($input->priceid);
-    $_SESSION['creationabonnement_priceid'] = $input->priceid;
-    
-    $stripe_customer_id = $_SESSION['registration_stripe_customer_id'];
-    
-    //error_log($stripe_customer_id);
-    
-    // Create the subscription.
-    $subscription = $stripe->subscriptions->create([
-        'customer' => $stripe_customer_id,
-        'items' => [[
-            'price' => $input->priceid,
-        ]],
-        'payment_behavior' => 'default_incomplete',
-        'expand' => ['latest_invoice.payment_intent'],
-    ]);
-    
-    //error_log(print_r($subscription, TRUE));
-    
-    $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
-    
-    //error_log($subscription->latest_invoice->payment_intent->client_secret);
-
-    $output = array(
-      'subscriptionId' => $subscription->id,
-      'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret
-    );
+    //if (strcmp($_SESSION['registration_abonnement_created'], "oui") != 0)
+    //{
+      //error_log($input->priceid);
+      $_SESSION['creationabonnement_priceid'] = $input->priceid;
+      
+      //$_SESSION['abonnement_type'] = 'fixe';
+      
+      $stripe_customer_id = $_SESSION['registration_stripe_customer_id'];
+      
+      //error_log($stripe_customer_id);
+      
+      // Create the subscription.
+      $subscription = $stripe->subscriptions->create([
+          'customer' => $stripe_customer_id,
+          'items' => [[
+              'price' => $input->priceid,
+          ]],
+          'payment_behavior' => 'default_incomplete',
+          'expand' => ['latest_invoice.payment_intent'],
+      ]);
+      
+      //error_log(print_r($subscription, TRUE));
+      
+      $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
+      
+      //error_log($subscription->latest_invoice->payment_intent->client_secret);
+  
+      $_SESSION['registration_abonnement_created'] = "oui";
+  
+      $output = array(
+        'subscriptionId' => $subscription->id,
+        'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret
+      );
+    //}
   }
+  
+  /*if (strcmp($input->action,"annulationcreationabonnement") == 0)
+  {
+
+    if (strcmp($_SESSION['registration_abonnement_created'], "oui") == 0)
+    {
+      $id_subscription = $_SESSION['creationabonnement_stripe_subscription_id'];
+      
+      $stripe->subscriptions->cancel(
+        $id_subscription,
+        []
+      );
+      
+      $_SESSION['registration_abonnement_created'] = "non";
+      
+      $output = array();
+    }
+  }*/
   
   if (strcmp($input->action,"bocreationabonnement") == 0)
   {

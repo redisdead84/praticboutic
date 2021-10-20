@@ -205,7 +205,7 @@
             'Content-type': 'application/json',
           },
           body: JSON.stringify({
-            action: "consocreationabonnement",
+            action: "boconsocreationabonnement",
             customerId: customerId,
             paymentMethodId: paymentMethodId,
             priceId: priceId,
