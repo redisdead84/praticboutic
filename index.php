@@ -20,14 +20,14 @@ Route::add('/admin/',function(){
 });
 
 // superadmin file path
-Route::add('/superadmin',function(){
-    header('LOCATION: ../common/superadmin/index.php');
-});
+//Route::add('/superadmin',function(){
+//    header('LOCATION: ../common/superadmin/index.php');
+//});
 
 // superadmin directory path
-Route::add('/superadmin/',function(){
-    header('LOCATION: ../common/superadmin/index.php');
-});
+//Route::add('/superadmin/',function(){
+//    header('LOCATION: ../common/superadmin/index.php');
+//});
 
 // boutic file path
 Route::add('/([a-z0-9]+)',function($customer){

@@ -41,6 +41,7 @@
   
   $mnysys = GetValeurParam("MONEY_SYSTEM", $conn, $customid, "STRIPE");
   $idcpp = GetValeurParam("ID_CLT_PAYPAL", $conn, $customid);
+  //error_log($idcpp);
 ?>
 
 <!DOCTYPE html>
@@ -54,15 +55,19 @@
     <link rel="stylesheet" href="css/global.css?v=<?php echo $ver_com_css;?>" />
     <!--<link rel="stylesheet" href="css/style.css?v=1.22" />-->
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
 		<?php    
     	if (strcmp($mnysys, "STRIPE") == 0)
     	{
-    		echo '<script src="https://js.stripe.com/v3/"></script>';
-				echo '<script src="js/client.js?v=1.26" defer></script>';
-			}    		 
+    		echo '<script src="https://js.stripe.com/v3/"></script>' . "\n";
+				echo '<script src="js/client.js?v=1.26" defer></script>' . "\n";
+			}
+    	if (strcmp($mnysys, "PAYPAL") == 0)
+    	{
+    		echo '<script src="https://www.paypal.com/sdk/js?client-id=' . $idcpp . '&currency=EUR"></script>' . "\n";
+			}
     ?>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -119,10 +124,10 @@
      		}
      		else if (mnysys == "PAYPAL")
      		{
-     		  document.write('<script src="https://www.paypal.com/sdk/js?client-id=' + idcpp + '&currency=EUR">');
-     		  document.write('</"+"script>');
      			document.write('<div id="payementfooter" style="height:140px">');
+     			document.write('<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">');
       		document.write('<div id="paypal-button-container"></div>');
+      		document.write('</form>');
       	}
         document.write('<div class="solobn">');
         document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php\'">');
@@ -144,6 +149,7 @@
       }
     </script>
 	  <script>
+	    var mnysys = "<?php echo $mnysys;?>";
 	    if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
 	    	if (mnysys == "PAYPAL") 
 	    	{

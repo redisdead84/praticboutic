@@ -3805,67 +3805,6 @@
 				}
 			}
       
-      /*function initabo(id)
-      {
-        var obj2 = { action: "lienscreationboutic", login: login };
-        fetch("abo.php", {
-          method: "POST",
-          headers: {
-        		'Content-Type': 'application/json',
-        		'Accept': 'application/json'
-          },
-          body: JSON.stringify(obj2)
-        })
-        .then(function(result) {
-          return result.json();
-        }) 
-        .then(function(data) {
-         	if (typeof (data.error) !== "undefined")
-         	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
-         	}
-					else 
-					{
-            const bouticlinksDiv = document.getElementById(id);
-            var lienscreation = data;
-            for (var i=0; i<lienscreation.length; i++)
-            {
-              var hr = document.createElement("HR")
-              bouticlinksDiv.appendChild(hr);
-              var hsub = document.createElement("H4");
-              hsub.innerHTML = lienscreation[i].stripe_subscription.id;// ${subscription.id}
-              bouticlinksDiv.appendChild(hsub);
-              var pst = document.createElement("P");
-              pst.innerHTML = "Status: " + lienscreation[i].stripe_subscription.status;// ${subscription.id}
-              bouticlinksDiv.appendChild(pst);
-              var tarif = document.createElement("P");
-              if (lienscreation[i].stripe_subscription.items.data[0].price.lookup_key == "pb_fixe")
-                tarif.innerHTML = "Tarif : " + (lienscreation[i].stripe_subscription.items.data[0].price.unit_amount) / 100 + ' ' 
-                + (lienscreation[i].stripe_subscription.items.data[0].price.metadata.currency_symbol) + ' ' 
-                + (lienscreation[i].stripe_subscription.items.data[0].price.metadata.fr_interval);
-              else if (lienscreation[i].stripe_subscription.items.data[0].price.lookup_key == "pb_conso")
-                tarif.innerHTML = "Tarif : " + (lienscreation[i].stripe_subscription.items.data[0].price.unit_amount) + '% de commission' 
-              bouticlinksDiv.appendChild(tarif);
-              let last4 = lienscreation[i].stripe_subscription.default_payment_method?.card?.last4 || '';
-              var pl4 = document.createElement("P");
-              pl4.innerHTML = "4 Dernier Digit de la carte: " + last4; // ${subscription.id}
-              bouticlinksDiv.appendChild(pl4);
-              var pcpe = document.createElement("P");
-              const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-              pcpe.innerHTML = "Fin de la période courante: " + new Date(lienscreation[i].stripe_subscription.current_period_end * 1000).toLocaleDateString('fr-FR', options); // ${subscription.id}
-              bouticlinksDiv.appendChild(pcpe);
-              var acl = document.createElement("A");
-              acl.href = "cancel.php?subscription=" + lienscreation[i].stripe_subscription.id;
-              acl.innerHTML = "Annulation";
-              bouticlinksDiv.appendChild(acl);
-            }
-          }
-        })
-      }*/
-
     </script>
   </body>
 </html>

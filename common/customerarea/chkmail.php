@@ -73,6 +73,7 @@
                     if ($response->getTokenProperties()->getValid() == false) {
                         printf('The CreateAssessment() call failed because the token was invalid for the following reason: ');
                         printf(InvalidReason::name($response->getTokenProperties()->getInvalidReason()));
+                        die();
                     } 
                     else 
                     {
@@ -90,6 +91,7 @@
                 } catch (exception $e) {
                     printf('CreateAssessment() call failed with the following error: ');
                     printf($e);
+                    die();
                 }
              }
              
@@ -106,7 +108,6 @@
                 $sent = 0;
                 $email = isset($_POST['email']) ? $_POST ['email'] : '';
                 $captcha = isset($_POST['captcha']) ? $_POST ['captcha'] : '';
-                $phrase = $_SESSION['reg_phrase'];
                 $hash = md5(microtime(TRUE)*100000);
 
                 // Create connection
@@ -132,11 +133,6 @@
                 }
                 else
                 {
-                  /*$conn = new mysqli($servername, $username, $password, $bdd);
-                  if ($conn->connect_error) 
-                  {
-                    die("Connection failed: " . $conn->connect_error);
-                  }*/
                   $q1 = "INSERT INTO identifiant(email, hash, actif) VALUES ('$email','$hash', '0')";
                   //error_log($q1);
                   if ($r1 = $conn->query($q1)) 

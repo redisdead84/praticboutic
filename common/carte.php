@@ -1,4 +1,5 @@
 <?php
+  
   session_start();
   
   if (empty($_SESSION['customer']) != 0)
@@ -11,8 +12,15 @@
   $method = $_SESSION['method'];
   $table = $_SESSION['table'];
   
+  require_once '../vendor/autoload.php';
+  
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
+  
   include "config/common_cfg.php";
   include "param.php";
+  
+  header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,12 +33,13 @@
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
+	  <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['RECAPTCHA_KEY']; ?>"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
- 
+
     <?php
 
 
@@ -316,7 +325,7 @@
 		  	}						
 		  	$result3->close();
       }
-      
+      echo '<input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">';
       echo '</form>';
             
       echo '</div>';
@@ -328,12 +337,12 @@
 					if  ($method > 0)
 					{
 						echo '<input id="totaliseur" class="navindic" type="button" value="Total">'; 
-          	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="genCartList()">';
+          	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre">';
           }
           else
           {
           	echo '<input id="totaliseur" class="navindic" type="hidden" value="Total" disabled>'; 
-						echo '<input id="validcarte" class="navindic" type="hidden" value="Poursuivre" onclick="genCartList()" disabled>';
+						echo '<input id="validcarte" class="navindic" type="hidden" value="Poursuivre" disabled>';
           }
           echo '</div>';
       ?>
@@ -430,194 +439,202 @@
     </script>    
     
     <script type="text/javascript">
-    function genCartList()
+    document.getElementById("validcarte").addEventListener("click", function(e)
     {
-      var somme =0;
-      var failed = false;
-      var opt = [];
-      var mntcmdmini = document.getElementById("main").getAttribute("data-mntcmdmini");
-      var mntlivraisonmini = document.getElementById("main").getAttribute("data-mntlivraisonmini");
-      sessionStorage.setItem("method", document.getElementById("main").getAttribute("data-method"));
-      sessionStorage.setItem("table", document.getElementById("main").getAttribute("data-table"));
-      sessionStorage.setItem("customer", document.getElementById("main").getAttribute("data-customer"));
-      if (sessionStorage.getItem("method") > 0)
-      {
-        var artcel = document.getElementsByClassName("artcel");
-        var artqt = document.getElementsByClassName("artqt");
-        
-        var ligne = [];
-        var idc = 0;
-        var qtc = 0;
-        var j = 0;
-        for (var i = 0; i<artcel.length; i++ )
-        {
-          if (artqt[i].hidden !== true )
-            sessionStorage.setItem(artqt[i].id, artqt[i].innerText);
-          var options = "";
-          var artopt = artcel[i].getElementsByClassName("divopt2")[0];
-          if (artopt != null)
+      e.preventDefault();
+      grecaptcha.ready(function() {
+        var key = '<?php echo $_ENV['RECAPTCHA_KEY']; ?>';
+        grecaptcha.execute(key, {action: 'submit'}).then(function(token) {
+          var somme =0;
+          var failed = false;
+          var opt = [];
+          var mntcmdmini = document.getElementById("main").getAttribute("data-mntcmdmini");
+          var mntlivraisonmini = document.getElementById("main").getAttribute("data-mntlivraisonmini");
+          sessionStorage.setItem("method", document.getElementById("main").getAttribute("data-method"));
+          sessionStorage.setItem("table", document.getElementById("main").getAttribute("data-table"));
+          sessionStorage.setItem("customer", document.getElementById("main").getAttribute("data-customer"));
+          if (sessionStorage.getItem("method") > 0)
           {
-            if (artopt.innerHTML != "")
+            var artcel = document.getElementsByClassName("artcel");
+            var artqt = document.getElementsByClassName("artqt");
+            
+            var ligne = [];
+            var idc = 0;
+            var qtc = 0;
+            var j = 0;
+            for (var i = 0; i<artcel.length; i++ )
             {
-              var opttab = artcel[i].getElementsByClassName("divopttab");
-              for (k=0; k<opttab.length; k++)
+              if (artqt[i].hidden !== true )
+                sessionStorage.setItem(artqt[i].id, artqt[i].innerText);
+              var options = "";
+              var artopt = artcel[i].getElementsByClassName("divopt2")[0];
+              if (artopt != null)
               {
-                var sefld = opttab[k].children;
-                for (l=0; l<sefld.length; l++) 
+                if (artopt.innerHTML != "")
                 {
-          				if (sefld[l].tagName == "DIV")
-          				{ 
-	                  var alfa = true;
-	          				var chsefld = sefld[l].children;
-	            			if (chsefld[2].tagName == "SELECT") 
-	            			{
-		            			var secase = chsefld[2].children;                	
-		                  for (m=0; m<secase.length; m++) 
-		                  {
-		                    if (secase[m].tagName == "OPTION") 
-		                    {
-		                      if (chsefld[2].multiple == false)
-		                      {
-		                        if (secase[m].selected == true)
-		                        {
-		                          options = options + " / " + secase[m].value;
-		                          alfa = false;
-		                          sessionStorage.setItem(secase[m].id, 1);
-		                        }
-		                        else
-		                        	sessionStorage.setItem(secase[m].id, 0);
-		                      }
-		                      if (chsefld[2].multiple == true)
-		                      {
-		                        alfa = false;
-		                        if (secase[m].selected == true)
-		                        {
-		                          options = options + " + " + secase[m].value;
-		                          sessionStorage.setItem(secase[m].id, 1);
-		                        }
-		                        else
-		                        	sessionStorage.setItem(secase[m].id, 0);
-		                      }
-		                    }
-		                  }
-	                  
-	
-		                  if ((alfa == true) && (failed == false))
-		                  {
-		                    alert("Il manque un choix sur l article " + artcel[i].getAttribute("data-name") + " numéro " + (k+1) + " dans le groupe d'option " + secase[0].innerHTML );
-		                    failed = true;
-		                  }
-		                }
-	                }
-                }              
-                options = options + "<br />";
-              }         
+                  var opttab = artcel[i].getElementsByClassName("divopttab");
+                  for (k=0; k<opttab.length; k++)
+                  {
+                    var sefld = opttab[k].children;
+                    for (l=0; l<sefld.length; l++) 
+                    {
+              				if (sefld[l].tagName == "DIV")
+              				{ 
+    	                  var alfa = true;
+    	          				var chsefld = sefld[l].children;
+    	            			if (chsefld[2].tagName == "SELECT") 
+    	            			{
+    		            			var secase = chsefld[2].children;                	
+    		                  for (m=0; m<secase.length; m++) 
+    		                  {
+    		                    if (secase[m].tagName == "OPTION") 
+    		                    {
+    		                      if (chsefld[2].multiple == false)
+    		                      {
+    		                        if (secase[m].selected == true)
+    		                        {
+    		                          options = options + " / " + secase[m].value;
+    		                          alfa = false;
+    		                          sessionStorage.setItem(secase[m].id, 1);
+    		                        }
+    		                        else
+    		                        	sessionStorage.setItem(secase[m].id, 0);
+    		                      }
+    		                      if (chsefld[2].multiple == true)
+    		                      {
+    		                        alfa = false;
+    		                        if (secase[m].selected == true)
+    		                        {
+    		                          options = options + " + " + secase[m].value;
+    		                          sessionStorage.setItem(secase[m].id, 1);
+    		                        }
+    		                        else
+    		                        	sessionStorage.setItem(secase[m].id, 0);
+    		                      }
+    		                    }
+    		                  }
+    	                  
+    	
+    		                  if ((alfa == true) && (failed == false))
+    		                  {
+    		                    alert("Il manque un choix sur l article " + artcel[i].getAttribute("data-name") + " numéro " + (k+1) + " dans le groupe d'option " + secase[0].innerHTML );
+    		                    failed = true;
+    		                  }
+    		                }
+    	                }
+                    }              
+                    options = options + "<br />";
+                  }         
+                }
+              }
+              var txt = "";
+              var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
+              if (txtf != null)
+              {
+                txt = txtf.value;
+                sessionStorage.setItem(txtf.id, txt);
+              }          
+              idc = artcel[i].id.substr(5);  
+              qtc = artqt[i].innerText; 
+              if (qtc === "")
+                qtc = 0;          
+              if (qtc > 0)
+              {
+                ligne[j] = {id:idc, type:"article", name:artcel[i].getAttribute("data-name"), prix:artcel[i].getAttribute("data-prix"), qt:qtc, unite:artcel[i].getAttribute("data-unite"), opts:options, txta:txt};
+                somme = somme + ligne[j].prix * ligne[j].qt;
+                j++;
+              }
             }
-          }
-          var txt = "";
-          var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
-          if (txtf != null)
-          {
-            txt = txtf.value;
-            sessionStorage.setItem(txtf.id, txt);
-          }          
-          idc = artcel[i].id.substr(5);  
-          qtc = artqt[i].innerText; 
-          if (qtc === "")
-            qtc = 0;          
-          if (qtc > 0)
-          {
-            ligne[j] = {id:idc, type:"article", name:artcel[i].getAttribute("data-name"), prix:artcel[i].getAttribute("data-prix"), qt:qtc, unite:artcel[i].getAttribute("data-unite"), opts:options, txta:txt};
-            somme = somme + ligne[j].prix * ligne[j].qt;
-            j++;
-          }
-        }
-        for (var ii = 0; ii<artcel.length; ii++ )
-        {
-          var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
-          if (artopt != null)
-          {
-            if (artopt.innerHTML != "")
+            for (var ii = 0; ii<artcel.length; ii++ )
             {
-              var opttab = artcel[ii].getElementsByClassName("divopttab");
-              for (ik=0; ik<opttab.length; ik++)
+              var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
+              if (artopt != null)
               {
-                var sefld = opttab[ik].children;
-                for (il=0; il<sefld.length; il++) 
+                if (artopt.innerHTML != "")
                 {
-          				if (sefld[il].tagName == "DIV")
-          				{ 
-	          				var chsefld = sefld[il].children;
-	            			if (chsefld[2].tagName == "SELECT") 
-	            			{
-		            			var secase = chsefld[2].children;                	
-	                  	for (im=0; im<secase.length; im++) 
-  	                	{
-    	                	if (secase[im].tagName == "OPTION") 
-      	              	{
-        	              	if (secase[im].selected == true)
-          	            	{
-	                        	var mystr = secase[im].id;
-	                        	var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
-	                        	var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
-	                        	var alfd = false;                          
-	                        	for(io=0;io<opt.length;io++)
-	                        	{
-	                          	var mystr2 = opt[io].id;
-	                          	if (mystr2 == myoption.id )
-	                          	{
-	                            	alfd = true;
-	                            	opt[io].qt = opt[io].qt + 1;                              
-	                          	}
-	                        	}
-	                        	if (alfd == false)
-	                        	{
-	                          	opt.push(myoption);                          
-	                        	} 
-	                        }                           
-                      	} 
+                  var opttab = artcel[ii].getElementsByClassName("divopttab");
+                  for (ik=0; ik<opttab.length; ik++)
+                  {
+                    var sefld = opttab[ik].children;
+                    for (il=0; il<sefld.length; il++) 
+                    {
+              				if (sefld[il].tagName == "DIV")
+              				{ 
+    	          				var chsefld = sefld[il].children;
+    	            			if (chsefld[2].tagName == "SELECT") 
+    	            			{
+    		            			var secase = chsefld[2].children;                	
+    	                  	for (im=0; im<secase.length; im++) 
+      	                	{
+        	                	if (secase[im].tagName == "OPTION") 
+          	              	{
+            	              	if (secase[im].selected == true)
+              	            	{
+    	                        	var mystr = secase[im].id;
+    	                        	var theid = mystr.substring(mystr.indexOf('opt')+3, mystr.length);
+    	                        	var myoption = {id:theid, type:"option", name:secase[im].value, prix:secase[im].getAttribute("data-surcout"), qt:1, unite:"€", opts:"", txta:""};
+    	                        	var alfd = false;                          
+    	                        	for(io=0;io<opt.length;io++)
+    	                        	{
+    	                          	var mystr2 = opt[io].id;
+    	                          	if (mystr2 == myoption.id )
+    	                          	{
+    	                            	alfd = true;
+    	                            	opt[io].qt = opt[io].qt + 1;                              
+    	                          	}
+    	                        	}
+    	                        	if (alfd == false)
+    	                        	{
+    	                          	opt.push(myoption);                          
+    	                        	} 
+    	                        }                           
+                          	} 
+                        	}
+                      	}
                     	}
-                  	}
-                	}
-                }              
-              }         
+                    }              
+                  }         
+                }
+              }
+            }
+            for (jj=0;jj<opt.length;jj++)
+            {
+              ligne.push(opt[jj]);
+              somme = somme + opt[jj].prix * opt[jj].qt;
+            }
+            var jsonligne = JSON.stringify(ligne);          
+              
+            sessionStorage.setItem("commande", jsonligne);
+          }
+          
+          if (sessionStorage.getItem("method")==3) {
+            if ((somme < mntlivraisonmini) && (failed == false)) {
+              alert("Les livraisons sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
+              failed = true;
+            }
+          } else {
+            if ((somme < mntcmdmini) && (failed == false)) {
+              alert("La commmande doit être au moins de " + parseFloat(mntcmdmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
+              failed = true;
             }
           }
-        }
-        for (jj=0;jj<opt.length;jj++)
-        {
-          ligne.push(opt[jj]);
-          somme = somme + opt[jj].prix * opt[jj].qt;
-        }
-        var jsonligne = JSON.stringify(ligne);          
           
-        sessionStorage.setItem("commande", jsonligne);
-      }
-      
-      if (sessionStorage.getItem("method")==3) {
-        if ((somme < mntlivraisonmini) && (failed == false)) {
-          alert("Les livraisons sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
-          failed = true;
-        }
-      } else {
-        if ((somme < mntcmdmini) && (failed == false)) {
-          alert("La commmande doit être au moins de " + parseFloat(mntcmdmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
-          failed = true;
-        }
-      }
-      
-      for (var j=0; j < document.forms["mainform"].length; j++)
-      {
-        if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false))
-        {
-          alert(document.forms["mainform"][j].name + " : " + document.forms["mainform"][j].validationMessage);
-          failed = true;
-        }
-      }
-      if (failed == false)
-        document.forms["mainform"].submit();
-
-    }
+          for (var j=0; j < document.forms["mainform"].length; j++)
+          {
+            if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false))
+            {
+              alert(document.forms["mainform"][j].name + " : " + document.forms["mainform"][j].validationMessage);
+              failed = true;
+            }
+          }
+          if (failed == false)
+          {
+            document.forms["mainform"].elements.namedItem("gRecaptchaResponse").value = token;
+            document.forms["mainform"].submit();
+          }
+        });
+      });
+    });
     </script>
     <script type="text/javascript" >
       function showoptions(eleminp) 

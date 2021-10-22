@@ -2,13 +2,13 @@
 
   session_start();
 
-  require_once '../../vendor/autoload.php';
-
   if (empty($_SESSION['verify_email']) == TRUE)
   {
  	  header("LOCATION: index.php");
  	  exit();
  	}
+
+  require_once '../../vendor/autoload.php';
 
 ?>
 
