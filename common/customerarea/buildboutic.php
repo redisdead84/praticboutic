@@ -181,6 +181,7 @@
                 $_SESSION['bo_id'] = $bouticid;
                 $_SESSION['bo_email'] = $_SESSION['verify_email'];
                 $_SESSION['bo_auth'] = 'oui';
+                $_SESSION['bo_init'] = 'oui';
                 header("LOCATION: admin.php");
               }
               catch (Error $e)

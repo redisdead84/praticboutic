@@ -137,15 +137,15 @@ require_once '../../vendor/autoload.php';
             <div class="param">
               <input class="paramfieldc" id="ville" maxlength="50" name="ville" type="text" placeholder="Ville de la boutic" value="" /><br>
             </div>
+            <div class="param">
+              <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
+            </div>
             <div id="bloclogoid">
               <label>Logo de la boutic : </label><input class="form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
               <div class="frameimg">
                 <img id="artlogo" class="imgart" src="" alt="">
                 <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
               </div>
-            </div>
-            <div class="param">
-              <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
             </div>
           </div>
           <div class="param rwc margetop">

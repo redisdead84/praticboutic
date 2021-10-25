@@ -44,7 +44,6 @@
   $dotenv->load();
   
   $stripe = new \Stripe\StripeClient([
-  // TODO replace hardcoded apikey by env variable
     'api_key' => $_ENV['STRIPE_SECRET_KEY'],
     'stripe_version' => '2020-08-27',
   ]);
@@ -80,7 +79,7 @@
 	
 	var login = "<?php echo $_SESSION['bo_email']; ?>";
 	
-	//var host = "<?php echo $_SERVER['HTTP_HOST']; ?>";
+	var init = "<?php echo $_SESSION['bo_init']; ?>";
 	
 	var proto = "<?php echo $_SERVER['SERVER_PROTOCOL']; ?>";
 	
@@ -106,7 +105,7 @@
 								{nom:"categorie", desc:"Catégories", cs:"nom", champs:[{nom:"catid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"article", desc:"Articles", cs:"nom", champs:[{nom:"artid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"description", desc:"Description", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
 	                {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""},
-	                {nom:"unite", desc:"Unité", typ:"text", defval:"€", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"obligatoire", desc:"Frais de Préparation", typ:"bool", defval:"0", vis:"n", ordre:"0", sens:""}]},
+	                {nom:"unite", desc:"Unité", typ:"text", defval:"€", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", defval:"", vis:"n", ordre:"0", sens:""}]},
 	              {nom:"relgrpoptart", desc:"Relations groupes d'option-articles", cs:"", champs:[{nom:"relgrpoartid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", desc:"", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"artid", defval:"", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"groupeopt", desc:"Groupes d'option", cs:"nom", champs:[{nom:"grpoptid",  desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"multiple", desc:"Choix Multiple", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}]},
 	              {nom:"option", desc:"Options", cs:"nom", champs:[{nom:"optid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", desc:"Groupe d'option", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
@@ -155,7 +154,6 @@
     inittable( "table0", "table0", "categorie");
     inittable( "table1", "table1", "article");
     inittable( "table3", "table3", "groupeopt");
-    //inittable( "table5", "table5", "administrateur");
     fldCustomProp("pbaliasid", "customer", "url");
     fldCustomProp("pbnomid", "nom", "text");
     fldCustomProp("pbadr1id", "adresse1", "text");
@@ -164,7 +162,6 @@
     fldCustomProp("pbvilleid", "ville", "text");
     fldCustomProp("artlogofile", "logo", "image");
     fldCustomProp("pbemailid", "courriel", "email");
-    fldParam( "ishtmlid", "isHTML_mail", "bool");
     fldParam( "subjectmailid", "Subject_mail", "text");
     fldParam( "validationsmsid", "VALIDATION_SMS", "bool");
     fldParam( "verifcpid", "VerifCP", "bool");
@@ -183,7 +180,6 @@
 		fldParam( "idcltpaypalid", "ID_CLT_PAYPAL", "text");
 
     fldClientProp("clpassid", "pass", "pass");
-    //fldClientProp("clpassconfid", "pass", "passconf");
     fldClientProp("clhommeid", "qualite", "radio");
     fldClientProp("clfemmeid", "qualite", "radio");
     fldClientProp("clnomid", "nom", "text");
@@ -199,10 +195,9 @@
     inittable( "ihm9", "table9", "commande");
     startWorkerCommande();
     inittable( "table11", "table11", "statutcmd");
-    //initabo("tblaboid");
-    if (localStorage.getItem("praticboutic_ctrl_welcome_message") != "non")
+    if (init == "oui")
     {
-      localStorage.setItem("praticboutic_ctrl_welcome_message", "non")
+      init = "non";
       var modal = $('.modal');
       $('.modal-title').html('Félicitations');
       modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer une catégorie puis un article pour commencer l\'expérience.');
@@ -448,9 +443,9 @@
                 <div class="param">
                   <label for="choixpaiementid">Choix de paiement : </label>
                   <select data-lbl="Choix de paiement" class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
-                    <option value='COMPTANT'>Via praticboutic</option>
-                    <option value='LIVRAISON'>Autre</option>
-                    <option value='TOUS'>Via praticboutic & Autre</option>
+                    <option value='COMPTANT'>En ligne par CB</option>
+                    <option value='LIVRAISON'>En direct par vos moyens</option>
+                    <option value='TOUS'>En ligne & En direct</option>
                   </select>
                 </div>
                 <br>
@@ -728,7 +723,6 @@
 									inp.onchange = function () {
 										const fileInput = this;
 										const formdata = new FormData();
-										//formdata.append('boutic', boutic);
 										formdata.append('file', fileInput.files[0]);
 										
 						        fetch("boupload.php", {
@@ -1044,7 +1038,6 @@
 											inp.onchange = function () {
 												const fileInput = this;
 												const formdata = new FormData();
-												//formdata.append('boutic', boutic);
 												formdata.append('file', fileInput.files[0]);
 												
 								        fetch("boupload.php", {
@@ -1595,11 +1588,9 @@
 			  	}
 			  	buttonins.innerHTML = "Insérer";
 			  	document.getElementById(place).appendChild(buttonins);
-			  	//document.getElementById(place).appendChild(document.createElement("BR"));
 				}
 				if (total > 0)
 				{
-				 	//document.getElementById(place).appendChild(document.createElement("BR"));
 				 	firstdiv = document.createElement("DIV");
 					maintable = document.createElement("TABLE");
 					maintable.classList.add("table");
@@ -1725,7 +1716,6 @@
 				  nodatap.appendChild(ita);
 			  	document.getElementById(place).appendChild(nodatap);				
 				}
-			 	//document.getElementById(place).appendChild(document.createElement("BR"));
 				var booltxt;
 			 	if (pagination == true)
 					booltxt = "block";
@@ -1879,259 +1869,6 @@
 				}
 			}
 			   			
-			/*function editcol(tablestr, limite , offset) 
-			{
-				$('.modal-title').html('Configuration des colonnes');
-				$('.modal-dialog').removeClass("modal-lg");
-				document.getElementsByClassName('modal-body')[0].innerHTML = '';
-				var tbl = document.createElement("TABLE");
-				tbl.id = 'modtbl';
-				document.getElementsByClassName('modal-body')[0].appendChild(tbl);
-				var trh = document.createElement("TR");
-				//tr.id = 'modtr';
-				tbl.appendChild(trh);
-				var th1 = document.createElement("TH");
-				//th.id = 'modtr';
-				th1.innerHTML = "Champs";
-				trh.appendChild(th1);
-				var th2 = document.createElement("TH");
-				th2.innerHTML = "Visible";
-				trh.appendChild(th2);
-				var th3 = document.createElement("TH");
-				th3.innerHTML = "Ordre";
-				trh.appendChild(th3);
-				
-				
-				for (var i=0;i<tables.length; i++)
-				{
-					if (tables[i].nom == tablestr)
-					{
-						for (var j=0;j<tables[i].champs.length; j++)
-						{
-							if (tables[i].champs[j].typ != "pk")
-							{
-								var trd = document.createElement("TR");
-								var td1 = document.createElement("TD");
-								td1.innerHTML = tables[i].champs[j].desc;
-								trd.appendChild(td1);
-								var td2 = document.createElement("TD");
-								td2.classList.add("center")
-								var chkb = document.createElement("INPUT");
-								chkb.type = "checkbox";
-								chkb.setAttribute("data-numtbl", i);
-								chkb.setAttribute("data-numfld", j);
-								chkb.onchange = function () {
-									if (this.checked == true)
-									{
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].vis ="o";									
-									}
-									else {
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].vis ="n";
-									}
-								}
-								
-								if (tables[i].champs[j].vis == "o")
-									chkb.checked = true;
-								else {
-									chkb.checked = false;
-								}
-								td2.appendChild(chkb);
-								trd.appendChild(td2);
-								var td3 = document.createElement("TD");
-								td3.setAttribute("data-numtbl", i);
-								td3.setAttribute("data-numfld", j);
-								//td3.setAttribute("data-numordre", 0);
-								//td3.setAttribute("data-sens", "");
-								td3.classList.add("tdtri");
-								td3.onclick = function () {
-									//numtri = getmaxvalue();
-									var listtdtri = document.getElementsByClassName("tdtri");
-									var tempval = 0;
-									var maxval = 0;
-									for (var k=0; k<listtdtri.length; k++)
-									{
-										tempval = parseInt(tables[listtdtri[k].getAttribute("data-numtbl")].champs[listtdtri[k].getAttribute("data-numfld")].ordre);
-										if (tempval >= maxval)
-											maxval = tempval + 1;								
-									}
-									if (tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens =="")
-									{
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens = "A";
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre = maxval;
-										this.innerHTML = "&#9650;" + maxval;	
-									}
-									else if (tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens =="A")
-									{
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens = "D";
-										this.innerHTML = "&#9660;" + tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre;	
-									}
-									else if (tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens =="D")
-									{
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].sens = "";
-										var removedval = parseInt(tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre);
-										for (var l=0; l<listtdtri.length; l++)
-										{
-											tempval = parseInt(tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre);
-											if (tempval > removedval)
-											{
-												tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre = tempval - 1;
-												if (tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].sens =="A")
-													listtdtri[l].innerHTML = "&#9650;" + tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre;
-												else if (tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].sens =="D")
-													listtdtri[l].innerHTML = "&#9660;" + tables[listtdtri[l].getAttribute("data-numtbl")].champs[listtdtri[l].getAttribute("data-numfld")].ordre;
-											}								
-										}
-										
-										tables[this.getAttribute("data-numtbl")].champs[this.getAttribute("data-numfld")].ordre = 0;
-										this.innerHTML = "&#9650;/&#9660;";
-									}
-								}
-								if ((tables[i].champs[j].sens == "A") && (parseInt(tables[i].champs[j].ordre) > 0))
-									td3.innerHTML = "&#9650;" + tables[i].champs[j].ordre;
-								else if ((tables[i].champs[j].sens == "D") && (parseInt(tables[i].champs[j].ordre) > 0))
-									td3.innerHTML = "&#9660;" + tables[i].champs[j].ordre;
-								else {
-									td3.innerHTML = "&#9650;/&#9660;";
-								}
-								trd.appendChild(td3);
-								tbl.appendChild(trd);
-							}
-						}	
-					}
-				}							
-				
-				var okbtn = document.getElementById('okbtn');
-				okbtn.onclick = function () 
-				{
-					gettable( "table9", "commande", limite, offset);
-				}
-
-				$('.modal').modal('show');
-			}*/
-			/*
-			function editfil(tablestr, limite , offset) 
-			{
-				$('.modal-title').html('Configuration des filtres');
-				$('.modal-dialog').addClass("modal-lg");
-				//$('.modal-body').addClass("bodyflex");
-				document.getElementsByClassName('modal-body')[0].innerHTML = '';
-				
-				for (var k=0;k<maxfiltre;k++) 
-				{
-					var divpan = document.createElement("DIV");
-					divpan.id = 'divpan' + k;
-					//divpan.classList.add("filpan");
-									
-					document.getElementsByClassName('modal-body')[0].appendChild(divpan);
-					var lblfld = document.createElement("LABEL");
-					lblfld.id ='lblfld' + k;
-					lblfld.for = 'fld' + k;
-					lblfld.innerHTML= 'Champs';
-					document.getElementById('divpan' + k).appendChild(lblfld);
-					var fld = document.createElement("SELECT");
-					fld.id = 'fld' + k;
-					document.getElementById('divpan' + k).appendChild(fld);
-					
-					var opt = document.createElement("OPTION");
-					opt.innerHTML = "";
-					document.getElementById('fld' + k).appendChild(opt);					
-					
-					for (var i=0;i<tables.length; i++)
-					{
-						if (tables[i].nom == tablestr)
-						{
-							for (var j=0;j<tables[i].champs.length; j++)
-							{
-								if (tables[i].champs[j].typ != "pk")
-								{
-									var opt = document.createElement("OPTION");
-									opt.innerHTML = tables[i].champs[j].desc;
-									document.getElementById('fld' + k).appendChild(opt);
-								}
-							}
-						}
-					}
-					
-					var lblop = document.createElement("LABEL");
-					lblop.id ='lblopd' + k;
-					lblop.for = 'op' + k;
-					lblop.innerHTML= '&nbsp;Operators';
-					document.getElementById('divpan' + k).appendChild(lblop);
-	
-					var ope = document.createElement("SELECT");
-					ope.id = 'op' + k;
-					document.getElementById('divpan' + k).appendChild(ope);
-
-					for (var i=0;i<op.length; i++)
-					{
-						var opo = document.createElement("OPTION");
-						opo.innerHTML = op[i];
-						document.getElementById('op' + k).appendChild(opo);
-					}
-					
-					var lblval = document.createElement("LABEL");
-					lblval.id ='lblvald' + k;
-					lblval.for = 'val' + k;
-					lblval.innerHTML= '&nbsp;Valeur';
-					document.getElementById('divpan' + k).appendChild(lblval);
-	
-					var inpval = document.createElement("INPUT");
-					inpval.id ='inpval' + k;
-					document.getElementById('divpan' + k).appendChild(inpval);
-					
-					var chpm = document.createElement("DIV");
-					chpm.id ='chpm' + k;
-					chpm.innerHTML= '+';
-					chpm.style.cursor ="default";
-					chpm.setAttribute("data-num", k);
-					chpm.onclick = function () 
-					{
-						var preve = document.getElementById('divpan' + this.getAttribute("data-num"));
-						if (chpm.innerHTML == '+') 					
-						{	
-							preve.style.display = "contents";
-							chpm.innerHTML= '-';
-						}
-						else if (chpm.innerHTML == '-')
-						{
-							preve.style.display = "none";
-							chpm.innerHTML= '+';
-						}
-					}
-					document.getElementsByClassName('modal-body')[0].appendChild(chpm);
-					var br1 = document.createElement("BR");
-					document.getElementsByClassName('modal-body')[0].appendChild(br1);
-					var br2 = document.createElement("BR");
-					document.getElementsByClassName('modal-body')[0].appendChild(br2);
-				}				
-
-								
-				var okbtn = document.getElementById('okbtn');
-				okbtn.onclick = function () 
-				{
-					filtres = [];
-					for (var l=0;l<maxfiltre;l++) 
-					{
-						var table = tablestr;
-						var champ = document.getElementById('fld' + l).value;
-						var operateur = document.getElementById('op' + l).value;
-						var valeur = document.getElementById('inpval' + l).value;
-
-						var filtre= {table:table, champ:champ, operateur:operateur, valeur:valeur};
-
-						if (champ!="")
-							filtres.push(filtre);
-
-					}					
-					
-					gettable( "table9", "commande", limite, offset);
-					$('.modal-dialog').removeClass("modal-lg");
-					$('.modal-body').removeClass("bodyflex");
-				}
-
-				$('.modal').modal('show');
-			}*/
-			
 			function detail(numtable, idtoup, limite, offset, vueparent, placeparent, selcol, selid)
 			{
 				var champs = tables[numtable].champs;
@@ -2770,7 +2507,6 @@
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
-								//formdata.append('boutic', boutic);
 								formdata.append('file', fileInput.files[0]);
 								
 				        fetch("boupload.php", {
@@ -2892,7 +2628,6 @@
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
-								//formdata.append('boutic', boutic);
 								formdata.append('file', fileInput.files[0]);
 								
 				        fetch("boupload.php", {
@@ -2990,11 +2725,9 @@
 					{
 						notvalidated = true;
 						if (el.getAttribute('data-paramtype') == "csp")
-							//alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
 
 						else
-							//alert( el.getAttribute("data-param") + " : " + el.validationMessage);
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
 
 					}
@@ -3024,7 +2757,6 @@
   		   	    else if (el.getAttribute("data-typ") == "url")
            		{
            			valeur = el.value;
-           			//document.getElementById("linkid").value = el.value;
            		}
 		     			else
 		     				valeur = el.value;
@@ -3128,7 +2860,6 @@
 							inp.onchange = function () {
 								const fileInput = this;
 								const formdata = new FormData();
-								//formdata.append('boutic', boutic);
 								formdata.append('file', fileInput.files[0]);
 								
 				        fetch("boupload.php", {
@@ -3243,11 +2974,9 @@
 					{
 						notvalidated = true;
 						if (el.getAttribute('data-paramtype') == "csp")
-							//alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
 						else
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
-							//alert( el.getAttribute("data-param") + " : " + el.validationMessage);
 					}
 				}
 				if (notvalidated == false)
@@ -3477,9 +3206,6 @@
                    $('.modal-title').html('Erreur');
                    modal.find('.modal-body').text(data.error);
                    $('.modal').modal('show');
-                   //document.getElementById('validpersoid').disabled = true;
-                   //document.getElementById('cancelpersoid').disabled = true;
-                   //cancelpersoupdate();
                  }
                  else 
                  {
@@ -3590,15 +3316,10 @@
           {
             notvalidated = true;
             if (el.getAttribute('data-paramtype') == "clt")
-              //alert( el.getAttribute("data-prop") + " : " + el.validationMessage);
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
-
             else
-              //alert( el.getAttribute("data-param") + " : " + el.validationMessage);
              alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
-
           }
-          
           if (el.getAttribute("data-typ")== "pass")
           {
             pass = el.value;
@@ -3639,7 +3360,7 @@
                }
                else
                  valeur = el.value;
-             
+
                var obj2;
                if (el.getAttribute('data-paramtype') == "clt")
                {
@@ -3647,15 +3368,7 @@
                  var typ = el.getAttribute("data-typ");
                  obj2 = { bouticid: bouticid, action:"setClientProp", tables:tables, table:"", prop:prop, valeur:valeur, typ:typ };
                }
-//               else 
-//               {
-//                 var param = el.getAttribute("data-param");
-//                 var typ = el.getAttribute("data-typ");
-//                 obj2 = { bouticid: bouticid, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur, typ:typ };
-//               }
-  
                el.setAttribute('data-modified', 'false');
-    
                fetch("boquery.php", {
                  method: "POST",
                  headers: {
@@ -3674,22 +3387,11 @@
                    $('.modal-title').html('Erreur');
                    modal.find('.modal-body').text(data.error);
                    $('.modal').modal('show');
-                   //document.getElementById('validpersoid').disabled = true;
-                   //document.getElementById('cancelpersoid').disabled = true;
-                   //cancelpersoupdate();
                  }
                  else 
                  {
                    document.getElementById('validclientid').disabled = true;
                    document.getElementById('cancelclientid').disabled = true;
-                   //if (data == "KO") 
-                   //{
-                     //fldCustomProp("pbaliasid", "customer", "ref");
-                   //  var modal = $('.modal');
-                   //  $('.modal-title').html('Impossible de continuer');
-                   //  modal.find('.modal-body').text("Ce nom de boutic est déjà utilisé");
-                   //  $('.modal').modal('show');
-                   //}
                  }
                })
             }
@@ -3787,7 +3489,6 @@
 				var yn = confirm("Vous êtes sur le point de supprimer toute les mémoires de pagination ! Confirmez-vous ?");
 				if (yn == true)
 				{
-					// Raz praticboutic ctrl
 					var total = localStorage.length;
 					var list = new Array();
 					for (var i=0; i<total; i++)

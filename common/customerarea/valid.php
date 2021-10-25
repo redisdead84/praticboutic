@@ -79,7 +79,7 @@
                     $_SESSION['bo_id'] = $bouticid;
                     $_SESSION['bo_email'] = $email;
                     $_SESSION['bo_auth'] = 'oui';
-                    
+                    $_SESSION['bo_init'] = 'non';
                     header("LOCATION: admin.php");
                   }
                   else 

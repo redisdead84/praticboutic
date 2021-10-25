@@ -34,28 +34,6 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
     throw new Exception("Panier Vide");
   else 
   {
-  	// Calcul du cout des articles obligatoires
-    $query = 'SELECT artid FROM article WHERE customid = ' . $customid . ' AND obligatoire = 1';
-    
-		if ($result = $conn->query($query)) {
-      while ($row = $result->fetch_row()) {
-        $find = 0;
-     		for ($j=0; $j<$arrlength ; $j++)
-        { 
-          $id1 = $items[$j]->id;
-          $id2 = $row[0];
-          if ($id1 == $id2)
-          {
-            $find = 1;          
-          }
-     		}
-     		if($find == 0) {
-     		  throw new Exception("Article obligatoire manquant");
-     		}
-     	}
-   		$result->close();
-   	}
-    
     // Calcul du cout des lignes de commandes
  		for ($i=0; $i<$arrlength ; $i++)
     { 
@@ -139,7 +117,7 @@ try {
 	// This is your real test secret API key.
 	\Stripe\Stripe::setApiKey($skey);
 	
-	error_log($json_obj->fraislivr);
+	//error_log($json_obj->fraislivr);
 	
   $paymentIntent = \Stripe\PaymentIntent::create([
     'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr),

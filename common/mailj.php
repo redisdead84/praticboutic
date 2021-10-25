@@ -229,7 +229,7 @@ try
   
   if ($conn->query($qcmdi)== FALSE) 
   {
-		error_log("Error: " . $qcmdi . "<br>" . $conn->error);
+		//error_log("Error: " . $qcmdi . "<br>" . $conn->error);
   	throw new Exception("Error: " . $qcmdi . "<br>" . $conn->error);
   }
   	

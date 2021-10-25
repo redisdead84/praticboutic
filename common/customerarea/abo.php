@@ -130,24 +130,6 @@ try
     //}
   }
   
-  /*if (strcmp($input->action,"annulationcreationabonnement") == 0)
-  {
-
-    if (strcmp($_SESSION['registration_abonnement_created'], "oui") == 0)
-    {
-      $id_subscription = $_SESSION['creationabonnement_stripe_subscription_id'];
-      
-      $stripe->subscriptions->cancel(
-        $id_subscription,
-        []
-      );
-      
-      $_SESSION['registration_abonnement_created'] = "non";
-      
-      $output = array();
-    }
-  }*/
-  
   if (strcmp($input->action,"bocreationabonnement") == 0)
   {
 
@@ -305,18 +287,6 @@ try
       ],
       'expand' => ['latest_invoice.payment_intent'],
     ]);
-    
-    $query = "INSERT INTO abonnement(cltid, creationboutic, bouticid, stripe_subscription_id, actif) VALUES ";
-    $query = $query . "('$cltid', '0', " . $_SESSION['bo_id'] . ", '" . $subscription->id . "', '1')";
-
-    //error_log($query);
-
-    // remove following comments to enable writing in db
-    if ($conn->query($query) === FALSE)
-    {
-      throw new Error($conn->error);
-    }
-
     
     $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
     

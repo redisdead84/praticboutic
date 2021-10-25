@@ -87,7 +87,7 @@
     				echo html_entity_decode($row[1]);
     				echo '</button>';
     				echo '<div class="panel">';
-		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 0 AND catid = ' . $row[0] . ' ORDER BY artid';
+		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND catid = ' . $row[0] . ' ORDER BY artid';
 		      	if ($result2 = $conn->query($query2)) 
 	  				{
 	  				  while ($row2 = $result2->fetch_row()) 
@@ -274,57 +274,6 @@
   			}
 	   		$result->close();
 			}
-			// Affichage des Frais Fixe
-    	$query3 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND obligatoire = 1 ORDER BY artid LIMIT 1';
-			if ($result3 = $conn->query($query3)) 
-			{
-				while ($row3 = $result3->fetch_row()) 
-				{
-      		echo '<div class="artcel" id="artid' . $row3[0] . '" data-name="' . $row3[1] . '" data-prix="' . $row3[2] . '" data-unite="' . $row3[3] . '">';
-      		if (!empty($row2[5]))
-      		{
-       	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row3[5] . '" alt = "nopic">';
-          	echo '<br>';
-          }
-          echo '<div class="rowob">';
-          echo '<div class="colart">';
-        	echo '<div class="nom">';
- 	      	echo $row3[1];
- 	      	echo '<br />';
- 	      	echo '</div>';
- 	      	echo '<div class="desco">';
- 	      	if (!empty($row3[4]))
- 	      	{
- 	      	 echo $row3[4];
-           echo '<br />'; 
- 	      	} 
- 	      	echo '</div>';
- 	      	echo '</div>';
- 	      	echo '<div class="colval">';
-					echo '<div class="vert-center">';
- 	      	echo '<p class="prixo">';
- 	      	echo number_format($row3[2], 2, ',', ' ');
- 	      	echo ' ';
- 	      	echo $row3[3];
- 	      	echo '</p>';
- 	      	echo '</div>';
- 	      	echo '</div>';
- 	      	echo '</div>';
- 	      	
- 	      	if($method > 0) 
- 	      	{
- 	      		echo '<div>';
-		  		  echo '<label hidden>Quantit&eacute;</label>';
-		  		  $id = 'qt' . $row3[0];
-		  		  $name = 'qty' . $row3[0];    
-      		  echo '<p class="artqt" id="' . $id . '" name="' . $name . '" hidden>1</p>';
-      		  echo '</div>';
-        	}
-        	echo '<br />';
-   	    	echo '</div>';
-		  	}						
-		  	$result3->close();
-      }
       echo '<input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">';
       echo '</form>';
             

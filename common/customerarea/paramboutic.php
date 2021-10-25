@@ -129,8 +129,8 @@ require_once '../../vendor/autoload.php';
             <div class="param">
               <label for="chxpaieid">Choix du paiement : </label>
                 <select class="paramfieldc" id="chxpaieid" name="chxpaie">// onchange="setchxpaie()">
-                  <option value='COMPTANT'>En ligne</option>
-                  <option value='LIVRAISON'>En direct</option>
+                  <option value='COMPTANT'>En ligne par CB</option>
+                  <option value='LIVRAISON'>En direct par vos moyens</option>
                   <option value='TOUS' selected>En ligne & En direct</option>
                 </select><br>
             </div>
