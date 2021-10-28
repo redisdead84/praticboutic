@@ -168,9 +168,6 @@ try
     
     //error_log($stripe_customer_id);
     
-    $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
-    
-
     $output = array(
       'customerId' => $stripe_customer_id,
       'priceId' => $input->priceid

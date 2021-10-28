@@ -1,5 +1,11 @@
 <?php
 
+  require '../vendor/autoload.php';
+  include "config/common_cfg.php";
+  include "param.php";
+  
+  ini_set('session.gc_maxlifetime', $maxdureesessionclt);
+  
 	session_start();
 	session_destroy();
 	session_start();
@@ -11,11 +17,6 @@
 	else
     $customer = htmlspecialchars($_GET['customer']);
 
-  require '../vendor/autoload.php';
-  include "config/common_cfg.php";
-  include "param.php";
-  
-	
 	$conn = new mysqli($servername, $username, $password, $bdd);
   if ($conn->connect_error) 
  	  die("Connection failed: " . $conn->connect_error);

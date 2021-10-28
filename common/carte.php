@@ -779,6 +779,7 @@
         document.getElementById("main").style.height = x;
       }
     </script>
+    <!-- TODO further see if this script should be removed -->
     <script type="text/javascript" >
       if(/Android/.test(navigator.appVersion)) {
         window.addEventListener("resize", function() {
@@ -886,6 +887,7 @@
       totaliser();
     }  
     </script>
+    <!-- TODO This script should be removed parce que on ne supporte plus la lécture seul -->
     <script type="text/javascript" >
       reachBottom();
       var sle = document.getElementsByTagName("SELECT");
