@@ -32,21 +32,6 @@
   <a href="logout.php">Deconnexion</a>
     <main class="fcb">
       <h1>Informations de Paiement</h1>
-<!--
-      <p>
-        Try the successful test card: <span>4242424242424242</span>.
-      </p>
-
-      <p>
-        Try the test card that requires SCA: <span>4000002500003155</span>.
-      </p>
-
-      <p>
-        Use any <i>future</i> expiry date, CVC, and 5 digit postal code.
-      </p>
-
-      <hr />
--->
       <form id="subscribe-form">
 
         <div id="card-element">

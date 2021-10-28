@@ -65,17 +65,6 @@ try {
 	  if (strcmp($input->selcol, "")!=0)
 			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 			
-		/*for($i=0; $i<count($input->filtres); $i++)
-		{
-			if (strcmp($input->filtres[$i]->table, $input->tables[$numtable]->nom)==0)
-			{
-				$fchamp =	$input->filtres[$i]->champ;
-				$fop	= $input->filtres[$i]->operateur;
-				$fval = $input->filtres[$i]->valeur;
-				$query = $query . ' AND T1.' . $fchamp . ' ' . $fop . ' ' . '"' . $fval . '"';
-			}
-		}*/
-		
 		//error_log($query);
 		
 		$arr=array();	
@@ -202,18 +191,6 @@ try {
 	  if (strcmp($input->selcol, "")!=0)
 	  	$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 	  	
-		/*for($i=0; $i<count($input->filtres); $i++)
-		{
-			if (strcmp($input->filtres[$i]->table, $input->tables[$numtable]->nom)==0)
-			{
-				$fchamp =	$input->filtres[$i]->champ;
-				$fop	= $input->filtres[$i]->operateur;
-				$fval = $input->filtres[$i]->valeur;
-				$query = $query . ' AND T1.' . $fchamp . ' ' . $fop . ' ' . '"' . $fval . '"';
-			}
-		}*/	  	
-	  	
-	  //$query = $query . $addwhere;
 	  $query = $query . ' ORDER BY ';
 
 	  for ($i=0; $i<count($orderby); $i++)
@@ -264,7 +241,7 @@ try {
 		  	$arm = array();
 		  	for($j=0;$j<count($row);$j++)
 					array_push($arm, $row[$j]);
-		  	//array_push($arm, $row[1]);
+
 		  	array_push($arr, $arm);
 
 	    }						
@@ -334,7 +311,7 @@ try {
   	$query = $query . ')';
   	  	
 		$arr=array();
-		// remove following comments to enable writing in db
+
 		if ($conn->query($query) === FALSE)
 		{
 			throw new Error($conn->error);
@@ -440,40 +417,12 @@ try {
 		//error_log($query);	  	
   	
 		$arr=array();
-		// remove following comments to enable writing in db
+
 		if ($conn->query($query) === FALSE)
 		{
 			throw new Error($conn->error);
 		}
 		
-  }
-
-  if (strcmp($input->action,"getcs") == 0)
-  {
- 		for ($i=0;$i<count($input->tables[$numtable]->champs);$i++)
-			if (strcmp($input->tables[$numtable]->champs[$i]->typ, "pk")== 0)
-				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
-
-  	$cs = $input->tables[$numtable]->cs;
-
-	  $liens=array();
-  	
-  	$query = 'SELECT ' . $cs . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
-  	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $input->bouticid;
-  	
-  	//error_log($query);
-  	
-		$arr=array();	
-		
-		if ($result = $conn->query($query)) 
-		{
-			if ($row = $result->fetch_row()) 
-		  {	
-		  	$arr = $row[0];
-	    }						
-		  $result->close();
-	  }   
-
   }
 
 	if (strcmp($input->action,"colorrow") == 0)
@@ -607,7 +556,7 @@ try {
           //error_log($query);
 
           $arr=array();
-          // remove following comments to enable writing in db
+
           if ($conn->query($query) === FALSE)
           {
             throw new Error($conn->error);
@@ -663,7 +612,6 @@ try {
       $query = "UPDATE client SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE cltid = " . $cltid;
     //error_log($query);
 
-    // remove following comments to enable writing in db
     if ($conn->query($query) === FALSE)
     {
       throw new Error($conn->error);

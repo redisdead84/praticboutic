@@ -87,7 +87,6 @@ switch ($type) {
 
       error_log($query);
 
-      // remove following comments to enable writing in db
       if ($conn->query($query) === FALSE)
       {
         throw new Error($conn->error);

@@ -27,7 +27,6 @@
     <meta http-equiv="Expires" content="0" />
     <title>Tarifs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!--<script src="./prices.js" defer></script>-->
   </head>
   <body class="custombody">
   <a href="logout.php">Deconnexion</a>
@@ -98,12 +97,6 @@
           }
           else 
           {
-            /*const params = new URLSearchParams(window.location.search);
-            params.append('subscriptionId', data.subscriptionId);
-            params.append('clientSecret', data.clientSecret);
-            window.location.href = 'subscribe.php?' + params.toString();*/
-            //const params = new URLSearchParams(window.location.search);
-            //const customerId = params.get('customerId');
             const params = new URLSearchParams(window.location.search);
             params.append('customerId', data.customerId);
             params.append('priceId', data.priceId);

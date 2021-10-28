@@ -34,15 +34,6 @@
               include "../param.php";
               try
               {
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $bdd);
-                
-                $conn->autocommit(false);
-                // Check connection
-                if ($conn->connect_error) 
-                {
-                  throw new Error("Connection failed: " . $conn->connect_error);
-                }
                 
                 $_SESSION['moneysys_moneysys'] = isset($_POST['moneysystem']) ? $_POST ['moneysystem'] : '';
                 $_SESSION['moneysys_stripepubkey'] = isset($_POST['publickey']) ? $_POST ['publickey'] : '';
@@ -54,7 +45,6 @@
               catch (Error $e)
               {
                 echo $e->getMessage();
-                $conn->rollback();
               }
               ?>
             </div>

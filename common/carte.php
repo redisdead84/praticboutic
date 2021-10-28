@@ -20,7 +20,6 @@
   include "config/common_cfg.php";
   include "param.php";
   
-  header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,15 +62,13 @@
 
     $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
     
-    $mntlivraisonmini = GetValeurParam("MntLivraisonMini",$conn, $customid, "0");
-
     $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
 		
 		echo '<div id="header">';
 		echo '<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>';
 		echo '</div>';		
 		
-    echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-mntlivraisonmini="' . $mntlivraisonmini .'" data-customer="' . $customer .'">';
+    echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-customer="' . $customer .'">';
     echo '<img id="logo" src="../upload/' . $logo . '">';
 
     echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php">';
@@ -398,7 +395,6 @@
           var failed = false;
           var opt = [];
           var mntcmdmini = document.getElementById("main").getAttribute("data-mntcmdmini");
-          var mntlivraisonmini = document.getElementById("main").getAttribute("data-mntlivraisonmini");
           sessionStorage.setItem("method", document.getElementById("main").getAttribute("data-method"));
           sessionStorage.setItem("table", document.getElementById("main").getAttribute("data-table"));
           sessionStorage.setItem("customer", document.getElementById("main").getAttribute("data-customer"));
@@ -556,16 +552,9 @@
             sessionStorage.setItem("commande", jsonligne);
           }
           
-          if (sessionStorage.getItem("method")==3) {
-            if ((somme < mntlivraisonmini) && (failed == false)) {
-              alert("Les livraisons sont acceptées à partir de " + parseFloat(mntlivraisonmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
-              failed = true;
-            }
-          } else {
-            if ((somme < mntcmdmini) && (failed == false)) {
-              alert("La commmande doit être au moins de " + parseFloat(mntcmdmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
-              failed = true;
-            }
+          if ((somme < mntcmdmini) && (failed == false)) {
+            alert("La commmande doit être au moins de " + parseFloat(mntcmdmini).toFixed(2) + " € or la commande est de " + parseFloat(somme).toFixed(2) + " €");
+            failed = true;
           }
           
           for (var j=0; j < document.forms["mainform"].length; j++)

@@ -5,3 +5,4 @@ function timedCount() {
 }
 
 timedCount();
+

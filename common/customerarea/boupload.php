@@ -2,19 +2,6 @@
 
 session_start();
 
-if (empty($_SESSION['bo_email']) == TRUE)
-{
-  header("LOCATION: index.php");
-  exit();
-}
-
-  if (strcmp($_SESSION['bo_auth'],'oui') != 0)
-  {
- 	  header("LOCATION: index.php");
- 	  exit();
-  }
-
-
 require '../../vendor/autoload.php';
 
 include "../config/common_cfg.php";
@@ -55,12 +42,7 @@ try {
     } 
     if(empty($error) == TRUE) //S'il n'y a pas d'erreur, on upload
     {
-      //On formate le nom du fichier ici...
-      /*$fichier = strtr($fichier, 
-            'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 
-            'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-      $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);*/
-      
+
       $fichier = uniqid('', true) . $extension;
 
       if(!(move_uploaded_file($_FILES['file']['tmp_name'], $dossier . $fichier))) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...

@@ -172,7 +172,6 @@
     fldParam( "cmlivrerid", "CM_Livrer", "text");
     fldParam( "cmemporterid", "CM_Emporter", "text");
     fldParam( "mntmincmdid", "MntCmdMini", "prix");
-		fldParam( "mntlivraisonminiid", "MntLivraisonMini", "prix");
     fldParam( "sizeimgid", "SIZE_IMG", "select");
 		fldParam( "moneysystemid", "MONEY_SYSTEM", "select");
     fldParam( "publickeyid", "PublicKey", "text");
@@ -414,13 +413,6 @@
           <form autocomplete="off">
             <div class='tbl'>
               <div class='twocol'>
-                <!--<div class="param">
-                  <label for="ishtmlid">Courriel au format HTML : </label>
-                  <div>
-                    <input data-lbl="Courriel au format HTML" class="fieldparam" id="ishtmlid" type='checkbox' onclick="paramenblbtnvc(this)" />
-                  </div>
-                </div>
-                <br>-->
                 <div class="param">
                   <label for="subjectmailid">Sujet du courriel : </label>
                   <input data-lbl="Sujet du courriel" class="fieldparam" id="subjectmailid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" />
@@ -481,11 +473,6 @@
                 <div class="param">
                   <label for="mntmincmdid">Montant minimum de commande : </label>
                   <input data-lbl="Montant minimum de commande" class="inpprix fieldparam" id="mntmincmdid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
-                </div>
-                <br>
-                <div class="param">
-                  <label for="mntlivraisonminiid">Montant minimum de livraison : </label>
-                  <input data-lbl="Montant minimum de livraison" class="inpprix fieldparam" id="mntlivraisonminiid" type='number' step='0.01' min='0' oninput="paramenblbtnvc(this)"  />
                 </div>
                 <br>
                 <div class="param">
@@ -1285,130 +1272,6 @@
 					}
       	})
 			}
-
-			/*function relgrpoptart(numtable, idtoup, limite, offset ) 
-			{
-				var champs = tables[numtable].champs;
-				document.getElementById('table' + numtable).hidden = true;
-				document.getElementById('ins' + numtable).hidden = true;
-				document.getElementById('maj' + numtable).hidden = true;
-				if (numtable == 1)
-					document.getElementById('opt' + numtable).hidden = false;
-				var obj = { customer: boutic, action:"getcs", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
-
-        fetch("boquery.php", {
-          method: "POST",
-          headers: {
-        		'Content-Type': 'application/json',
-        		'Accept': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        })
-        .then(function(result) {
-          return result.json();
-        })
-        .then(function(data) {
-     			if (typeof (data.error) !== "undefined")
-					{
-	          var modal = $('.modal');
-	          $('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
-					}
-	       	else 
-        	{
-						var titre = document.createElement('H5');
-						titre.id = 'itable'+ numtable +'titre';
-						titre.innerHTML = 'Sélection des groupes d\'option de l\'article : ' + data;
-						document.getElementById('opt' + numtable).appendChild(titre);
-		
-						var rgp = document.createElement('DIV');
-						rgp.classList.add("tbl");
-						rgp.classList.add("form-group");
-						rgp.id = "tablesubrgpa";
-						rgp.hidden = false;
-						document.getElementById('opt' + numtable).appendChild(rgp);
-		
-						gettable( "opt1", "tablesubrgpa", "relgrpoptart", deflimite, defoffset, "artid", idtoup);
-						
-						var clbtn = document.createElement('button');
-						clbtn.id = "clbtn" + numtable;
-						clbtn.type = "button";
-						clbtn.innerHTML = "Close";
-						clbtn.classList.add("btn");
-						clbtn.classList.add("btn-primary");
-						clbtn.classList.add("btn-block");
-						clbtn.onclick = function(){
-							document.getElementById('table' + numtable).hidden = false;
-							document.getElementById('opt' + numtable).hidden = true;
-							document.getElementById('opt' + numtable).innerHTML = "";
-						}; 
-						document.getElementById('opt' + numtable).appendChild(clbtn);
-					}
-      	})
-			}
-
-			function option(numtable, idtoup, limite, offset ) 
-			{
-				var champs = tables[numtable].champs;
-				document.getElementById('table' + numtable).hidden = true;
-				document.getElementById('ins' + numtable).hidden = true;
-				document.getElementById('maj' + numtable).hidden = true;
-				if (numtable == 3)
-					document.getElementById('opt' + numtable).hidden = false;
-				var obj = { customer: boutic, action:"getcs", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
-
-        fetch("boquery.php", {
-          method: "POST",
-          headers: {
-        		'Content-Type': 'application/json',
-        		'Accept': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        })
-        .then(function(result) {
-          return result.json();
-        })
-        .then(function(data) {
-     			if (typeof (data.error) !== "undefined")
-					{
-	          var modal = $('.modal');
-	          $('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
-					}
-	       	else 
-        	{
-						var titre = document.createElement('H5');
-						titre.id = 'itable'+ numtable +'titre';
-						titre.innerHTML = 'Sélection des options du groupe d\'option : ' + data;
-						document.getElementById('opt' + numtable).appendChild(titre);
-		
-						var rgp = document.createElement('DIV');
-						rgp.classList.add("tbl");
-						rgp.classList.add("form-group");
-						rgp.id = "tablesubgopt";
-						rgp.hidden = false;
-						document.getElementById('opt' + numtable).appendChild(rgp);
-		
-						gettable( "opt4", "tablesubgopt", "option", deflimite, defoffset, "grpoptid", idtoup);
-						
-						var clbtn = document.createElement('button');
-						clbtn.id = "clbtn" + numtable;
-						clbtn.type = "button";
-						clbtn.innerHTML = "Close";
-						clbtn.classList.add("btn");
-						clbtn.classList.add("btn-primary");
-						clbtn.classList.add("btn-block");
-						clbtn.onclick = function(){
-							document.getElementById('table' + numtable).hidden = false;
-							document.getElementById('opt' + numtable).hidden = true;
-							document.getElementById('opt' + numtable).innerHTML = "";
-						}; 
-						document.getElementById('opt' + numtable).appendChild(clbtn);
-					}
-      	})
-			}*/
 			
 			function changeFunc(vue, place, tablestr, $i, selcol="", selid=0) 
 			{
@@ -1417,131 +1280,6 @@
    		}
    		
    		
- 			/*function vartotable(vue, place, tablestr, donnees, total, limite, offset, selcol="", selid=0)
- 			{
-			 	var tab = '';
-			 	var pkval;
-			 	nummtable = getnumtable(tablestr);
-			 	table = tables[numtable];
-
-				if (tablestr == "lignecmd")
-			 		tab = tab + '<div class=""><table class="table table-bordered table-striped"><thead><tr class="">';
-			 	else	
-			 		tab = tab + '<div class=""><table class="table table-bordered table-striped table-hover"><thead><tr class="">';
-				for (var i=0; i<table.champs.length; i++)          	
-			 	{
-			 		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
-			 		{
-			   		tab = tab + '<th class="">';
-			   		if (table.champs[i].typ != "fk")
-			   			tab = tab + table.champs[i].desc;
-			   		else
-			   		{
-							for (var j=0; j<liens.length; j++)          	
-			 				{
-			 					if ((liens[j].srctbl == table.nom) && (liens[j].srcfld == table.champs[i].nom))
-			 						tab = tab + liens[j].desc; 
-							}
-			   		}	
-			   		tab = tab + '</th>';
-			 		}
-			 	}
-
-			 	tab = tab + '</tr></thead><tbody>';
-			 	for (var j=0; j<donnees.length; j++)
-			 	{
-					for (var i=0; i<donnees[j].length; i++)          	
-			   	{
-			   		if ((table.champs[i].typ != "pk") && (table.champs[i].vis != "n") && (table.champs[i].nom != selcol))
-			 			{
-			     		tab = tab + '<td class="">';
-			     		
-			     		if (table.champs[i].typ != "bool")
-			     		{
-			     			var val = donnees[j][i];
-			     			if (table.champs[i].typ == "prix")
-			     				tab = tab + parseFloat(val).toFixed(2);
-			     			else if (table.champs[i].typ == "date")
-								{
-										const event = new Date(Date.parse(val));
-										tab = tab + event.toLocaleString('fr-FR');
-								}
-			     			else
-			     				tab = tab + val;	 
-			     		}
-			     		else {
-			     			if (donnees[j][i] > 0)
-			     				tab = tab + '<input type="checkbox" checked disabled>';
-			     			else {
-			     				tab = tab + '<input type="checkbox" disabled>';
-			     			}
-			     		}
-			     		tab = tab + '</td>';
-			   		}
-			   		else if (table.champs[i].typ == "pk")
-			   		{
-			   			pkval = donnees[j][i];
-							if (tablestr == "commande")
-								tab = tab + '<tr onclick="detail(' + numtable + ',' + pkval + ',' + limite + ',' + offset + ')" class="clickable-row colored">';
-							else if (tablestr == "lignecmd")
-								tab = tab + '<tr onclick="">';
-							else
-								tab = tab + '<tr onclick="update(' + numtable + ',' + pkval + ',' + limite + ',' + offset + ',\'' + vue + '\',\'' + place + '\',\'' + selcol + '\',' + selid + ')" class="clickable-row">';
-					  }
-					  
-			   	}
-			   	tab = tab + '</tr>';    	
-				}
-			 	
-			 	tab = tab + '</tbody></table></div>';
-				if ((tablestr !== "commande") &&  (tablestr !== "lignecmd"))
-			   	tab = tab + '<button class="btn btn-primary" onclick="insert(' + numtable + ',' + limite + ',' + offset + ',\'' + vue + '\',\'' + place + '\',\'' + selcol + '\',' + selid + ')">Insérer</button>';
-			 	tab = tab + '<br>';
-			 	tab = tab + '<label for="rpp '+ numtable + '">Nombre de résultat par page</label>';
-			 	tab = tab + '<select onchange="changeFunc(\'' + vue + '\',\'' + place +'\',\'' + tablestr + '\',value,\'' + selcol  + '\',' + selid + ');" name="rpp' + numtable + '" id="rppid' + numtable + '">';
-				for (var k=0; k<rpp.length; k++)
-				{
-					if (limite == rpp[k])
-						tab = tab + '<option value="' + rpp[k] + '" selected>' + rpp[k] + '</option>';       	
-					else
-						tab = tab + '<option value="' + rpp[k] + '">' + rpp[k] + '</option>';       	
-				}				
-				vallimite = parseInt(limite);
-				tab = tab + '</select>';				
-				tab = tab + '<nav aria-label="Page navigation">';
-				  tab = tab + '<ul class="pagination">';
-				    if ((offset - vallimite) < 0)
-					    tab = tab + '<li class="page-item disabled">';
-					  else
-					    tab = tab + '<li class="page-item">';
-				      tab = tab + '<a class="page-link" href="javascript:gettable(\'' + vue + '\',\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (offset - vallimite) + ',\'' + selcol  + '\',' + selid + ')" aria-label="Previous">';
-				        tab = tab + '<span aria-hidden="true">&laquo;</span>';
-				        tab = tab + '<span class="sr-only">Previous</span>';
-				      tab = tab + '</a>';
-				    tab = tab + '</li>';
-				    var totalpage = Math.ceil(total / vallimite);
-				    for (var k=0; k<totalpage;k++)
-				    {
-				    	if ((offset/ vallimite) == k)
-				    		tab = tab + '<li class="page-item active"><a class="page-link" href="javascript:gettable(\'' + vue + '\',\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (k*limite) + ',\'' + selcol  + '\',' + selid + ')">' + k + '</a></li>';
-				    	else
-				    		tab = tab + '<li class="page-item"><a class="page-link" href="javascript:gettable(\'' + vue + '\',\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (k*limite) + ',\'' + selcol  + '\',' + selid + ')">' + k + '</a></li>';
-				    }
-				    if ((offset + vallimite) >= total)
-				    	tab = tab + '<li class="page-item disabled">';
-				    else
-				    	tab = tab + '<li class="page-item">';
-				      tab = tab + '<a class="page-link" href="javascript:gettable(\'' + vue + '\',\'' + place + '\',\'' + tablestr + '\',' + limite + ',' + (offset + vallimite) + ',\'' + selcol  + '\',' + selid + ')" aria-label="Next">';
-				        tab = tab + '<span aria-hidden="true">&raquo;</span>';
-				        tab = tab + '<span class="sr-only">Next</span>';
-				      tab = tab + '</a>';
-				    tab = tab + '</li>';
-				  tab = tab + '</ul>';
-				tab = tab + '</nav>' ;   	
-			 	
-			 	
-			 	return tab; 			
-			}*/
 			
 			function luminosite(couleur)
 			{
@@ -1549,19 +1287,6 @@
    			var r = parseInt(couleur.slice(1, 3), 16);
    			var g = parseInt(couleur.slice(3, 5), 16);
    			var b = parseInt(couleur.slice(5, 7), 16);
-   			
-   			/*if ((r>=g) && (r>=b)) 
-					maxi = r; 	         			
-   			if ((g>=r) && (g>=b)) 
-					maxi = g; 	         			
-   			if ((b>=r) && (b>=g)) 
-					maxi = b; 	        
-   			if ((r<g) && (r<b)) 
-					mini = r; 	         			
-   			if ((g<r) && (g<b)) 
-					mini = g; 	         			
-   			if ((b<r) && (b<g)) 
-					mini = b; */	        
 				
 				lumi = (r + g + b) / 3;
 
@@ -2316,17 +2041,6 @@
       	})
       }
       
-      function getarray(myarrray, place, table, limite, offset, selcol="", selid=0)      
-      {
-      	
-				var larray = [];
-      	
-	    	var total = myarrray.length;
-
- 				document.getElementById(place).innerHTML = vartotable(place, table, myarrray, total, limite, offset, selcol, selid) ;
- 				
-      } 
-      
 			function sendSMS( telephone, message)      
       {
         var retour;      
@@ -2726,10 +2440,8 @@
 						notvalidated = true;
 						if (el.getAttribute('data-paramtype') == "csp")
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
-
 						else
               alert( (el.getAttribute("data-lbl") !== null ? el.getAttribute("data-lbl") + " : " : "") + (el.getAttribute("title") !== null ? el.getAttribute("title") + " - " : "") + el.validationMessage);
-
 					}
 				}
 				if (notvalidated == false)

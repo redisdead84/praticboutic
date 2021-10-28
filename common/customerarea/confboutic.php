@@ -34,25 +34,9 @@
               include "../param.php";
               try
               {
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $bdd);
-                
-                $conn->autocommit(false);
-                // Check connection
-                if ($conn->connect_error) 
-                {
-                  throw new Error("Connection failed: " . $conn->connect_error);
-                }
-                
                 $_SESSION['confboutic_chxpaie'] = isset($_POST['chxpaie']) ? $_POST ['chxpaie'] : '';
-//                $_SESSION['confboutic_txtcomptant'] = isset($_POST['txtcomptant']) ? $_POST ['txtcomptant'] : '';
-//                $_SESSION['confboutic_txtlivraison'] = isset($_POST['txtlivraison']) ? $_POST ['txtlivraison'] : '';
                 $_SESSION['confboutic_chxmethode'] = isset($_POST['chxmethode']) ? $_POST ['chxmethode'] : '';
-//                $_SESSION['confboutic_txtemporter'] = isset($_POST['txtemporter']) ? $_POST ['txtemporter'] : '';
-//                $_SESSION['confboutic_txtlivrer'] = isset($_POST['txtlivrer']) ? $_POST ['txtlivrer'] : '';
                 $_SESSION['confboutic_mntmincmd'] = isset($_POST['mntmincmd']) ? $_POST ['mntmincmd'] : '';
-                $_SESSION['confboutic_mntlivraisonmin'] = isset($_POST['mntlivraisonmin']) ? $_POST ['mntlivraisonmin'] : '';
-//                $_SESSION['confboutic_tailleimg'] = isset($_POST['tailleimg']) ? $_POST ['tailleimg'] : '';
                 $_SESSION['confboutic_validsms'] = isset($_POST['validsms']) ? ((strcmp($_POST ['validsms'], "on")==0) ? "1" : "0") : '';
                 
                 header("LOCATION: prices.php");
@@ -60,7 +44,6 @@
               catch (Error $e)
               {
                 echo $e->getMessage();
-                $conn->rollback();
               }
             ?>
             </div>

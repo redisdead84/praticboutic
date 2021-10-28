@@ -36,8 +36,6 @@
 
         <img class="centerimg" src="img/LOGO_PRATIC_BOUTIC.png" alt="Pratic Boutic image" id="logopbid" />
 
-        <!--<h1 class="center" >Adhésion Pratic Boutic</h1>-->
-
         <p class="center middle title">
           Formulaire d'inscription client
         </p>
@@ -45,8 +43,6 @@
         <script type="text/javascript" >
           function bakinfo()
           {
-            //sessionStorage.setItem('pb_reg_pass', document.getElementById("pass").value);
-            //sessionStorage.setItem('pb_reg_passconf', document.getElementById("passconf").value);
             if (document.getElementById("homme").checked == true)
               sessionStorage.setItem('pb_reg_qualite', "Monsieur");
             if (document.getElementById("femme").checked == true)
@@ -58,13 +54,9 @@
             sessionStorage.setItem('pb_reg_cp', document.getElementById("cp").value);
             sessionStorage.setItem('pb_reg_ville', document.getElementById("ville").value);
             sessionStorage.setItem('pb_reg_tel', document.getElementById("tel").value);
-            //sessionStorage.setItem('pb_reg_entreprise', document.getElementById("entreprise").value);
-            //sessionStorage.setItem('pb_reg_siret', document.getElementById("siret").value);
           }
           window.onload=function()
           {
-            //document.getElementById("pass").value = sessionStorage.getItem('pb_reg_pass');
-            //document.getElementById("passconf").value = sessionStorage.getItem('pb_reg_passconf');
             if (sessionStorage.getItem('pb_reg_qualite')  == "Monsieur")
             {
               document.getElementById("homme").checked = true;
@@ -82,15 +74,11 @@
             document.getElementById("cp").value = sessionStorage.getItem('pb_reg_cp');
             document.getElementById("ville").value = sessionStorage.getItem('pb_reg_ville');
             document.getElementById("tel").value = sessionStorage.getItem('pb_reg_tel');
-            //document.getElementById("entreprise").value = sessionStorage.getItem('pb_reg_entreprise');
-            //document.getElementById("siret").value = sessionStorage.getItem('pb_reg_siret');
           }
           
           function cancel() 
           {
             sessionStorage.removeItem('pb_reg_email');
-            //sessionStorage.removeItem('pb_reg_pass');
-            //sessionStorage.removeItem('pb_reg_passconf');
             sessionStorage.removeItem('pb_reg_qualite');
             sessionStorage.removeItem('pb_reg_nom');
             sessionStorage.removeItem('pb_reg_prenom');
@@ -99,52 +87,47 @@
             sessionStorage.removeItem('pb_reg_cp');
             sessionStorage.removeItem('pb_reg_ville');
             sessionStorage.removeItem('pb_reg_tel');
-            //sessionStorage.removeItem('pb_reg_entreprise');
-            //sessionStorage.removeItem('pb_reg_siret');
+
             window.location.href = './index.php';
           }
           
         </script>
         <form id="signup-form" onsubmit="bakinfo()" method="post" action="registration.php" autocomplete="on">
           <div class="twocol">
-            <!--<div class="param">
-              <input class="paramfieldc" id="loginid" maxlength="255" name="login" type="text" placeholder="Login" value="<?php echo $_SESSION['verify_email']; ?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" autocomplete="username" readonly="readonly" />
-            </div>-->
             <div class="param">
-              <!--<label>Mot de passe : </label>--><input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
+              <input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
               <i class="bi bi-eye-slash bi-eye eyeico" id="togglepass"></i><br>
             </div>
             <div class="param">
-              <!--<label>Mot de passe (confirmation) : </label>--><input class="paramfieldc inputeye" id="passconf" maxlength="255" name="passconf" type="password" placeholder="Mot de passe(confirmation)" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
+              <input class="paramfieldc inputeye" id="passconf" maxlength="255" name="passconf" type="password" placeholder="Mot de passe(confirmation)" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
               <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br><br>
             </div>
             <div class="param rwse">
-              <!--<label>Qualité :&nbsp;</label>--><div class="param center"><input class="paramfieldc center" type="radio" id="homme" name="qualite" value="Monsieur" required><label for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label>&nbsp;Madame&nbsp;</label></div><br>
+              <div class="param center"><input class="paramfieldc center" type="radio" id="homme" name="qualite" value="Monsieur" required><label for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label>&nbsp;Madame&nbsp;</label></div><br>
             </div>
             <div class="param">
-              <!--<label>Nom : </label>--><input class="paramfieldc" id="nom" name="nom" type="text" placeholder="Nom" value="" maxlength="60" required /><br>
+              <input class="paramfieldc" id="nom" name="nom" type="text" placeholder="Nom" value="" maxlength="60" required /><br>
             </div>
             <div class="param">
-              <!--<label>Prénom : </label>--><input class="paramfieldc" id="prenom" name="prenom" type="text" placeholder="Prénom" value="" maxlength="60" required /><br>
+              <input class="paramfieldc" id="prenom" name="prenom" type="text" placeholder="Prénom" value="" maxlength="60" required /><br>
             </div>
             <div class="param">
-              <!--<label>Adresse (ligne 1) : </label>--><input class="paramfieldc" id="adr1" name="adr1" type="text" placeholder="Adresse (ligne 1)" value="" maxlength="150" required /><br>
+              <input class="paramfieldc" id="adr1" name="adr1" type="text" placeholder="Adresse (ligne 1)" value="" maxlength="150" required /><br>
             </div>
             <div class="param">
-              <!--<label>Adresse (ligne 2) : </label>--><input class="paramfieldc" id="adr2" name="adr2" type="text" placeholder="Adresse (ligne 2)" value="" maxlength="150" /><br>
+              <input class="paramfieldc" id="adr2" name="adr2" type="text" placeholder="Adresse (ligne 2)" value="" maxlength="150" /><br>
             </div>
             <div class="param">
-              <!--<label>Code Postal : </label>--><input class="paramfieldc" id="cp" name="cp" type="text" placeholder="Code Postal" value="" maxlength="5" pattern="[0-9]{5}" required /><br>
+              <input class="paramfieldc" id="cp" name="cp" type="text" placeholder="Code Postal" value="" maxlength="5" pattern="[0-9]{5}" required /><br>
             </div>
             <div class="param">
-              <!--<label>Ville : </label>--><input class="paramfieldc" id="ville" name="ville" type="text" placeholder="Ville" value="" maxlength="50" required /><br>
+              <input class="paramfieldc" id="ville" name="ville" type="text" placeholder="Ville" value="" maxlength="50" required /><br>
             </div>
             <div class="param">
-              <!--<label>Téléphone : </label>--><input class="paramfieldc" id="tel" name="tel" type="text" placeholder="Téléphone" value="" autocomplete="tel" maxlength="60" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Il faut un numéro de téléphone français valide" /><br>
+              <input class="paramfieldc" id="tel" name="tel" type="text" placeholder="Téléphone" value="" autocomplete="tel" maxlength="60" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Il faut un numéro de téléphone français valide" /><br>
             </div>
           </div>
           <div class="param rwc margetop">
-            <!--<input class="butc regbutton" type="button" onclick="javascript:cancel()" value="Annulation" />-->
             <input class="butc regbutton" type="submit" value="Inscription" autofocus /><br><br>
           </div>
         </form>

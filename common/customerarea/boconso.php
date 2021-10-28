@@ -34,9 +34,6 @@
     <meta http-equiv="Expires" content="0" />
     <title>Souscription</title>
     <script src="https://js.stripe.com/v3/"></script>
-    <!--<script src="subscribe.js" defer></script>-->
-    <!--<link rel="stylesheet" href="css2/normalize.css" />
-    <link rel="stylesheet" href="css2/global.css" />-->
   </head>
   <body class="custombody">
   <a href="logout.php">Deconnexion</a>
@@ -98,23 +95,7 @@
       if (paymentForm) {
         paymentForm.addEventListener('submit', function (evt) {
           evt.preventDefault();
-          //changeLoadingStateprices(true);
-    
-          // If a previous payment was attempted, get the lastest invoice
-          //const latestInvoicePaymentIntentStatus = localStorage.getItem(
-          //  'latestInvoicePaymentIntentStatus'
-          //);
-    
-         // if (latestInvoicePaymentIntentStatus === 'requires_payment_method') {
-         //   const invoiceId = localStorage.getItem('latestInvoiceId');
-         //   const isPaymentRetry = true;
-            // create new payment method & retry payment on invoice with new payment method
-         //   createPaymentMethod({
-         //     card,
-         //     isPaymentRetry,
-         //     invoiceId,
-         //   });
-          //} else {
+
             // create new payment method & create subscription
             const params = new URLSearchParams(window.location.search);
             const customerId = params.get('customerId');
@@ -258,141 +239,7 @@
     {
       window.location.href = './boprices.php';
     }
-      /*function stripeElements(publishableKey) {
-        stripe = Stripe(publishableKey);
       
-        if (document.getElementById('card-element')) {
-          let elements = stripe.elements();
-      
-          // Card Element styles
-          let style = {
-            base: {
-              fontSize: '16px',
-              color: '#32325d',
-              fontFamily:
-                '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
-              fontSmoothing: 'antialiased',
-              '::placeholder': {
-                color: '#a0aec0',
-              },
-            },
-          };
-      
-          card = elements.create('card', { style: style });
-      
-          card.mount('#card-element');
-        }
-        
-        let paymentForm = document.getElementById('payment-form');
-        if (paymentForm) {
-          paymentForm.addEventListener('submit', function (evt) {
-            evt.preventDefault();
-            // create new payment method & create subscription
-              createPaymentMethod({ card });
-          });
-        }
-      }*/
-        /*
-        function createPaymentMethod({ card, isPaymentRetry, invoiceId }) 
-        {
-          //const params = new URLSearchParams(document.location.search.substring(1));
-          const customerId = 0; //<?php echo $_SESSION['registration_stripe_customer_id']; ?>;
-          // Set up payment method for recurring usage
-          let billingName = document.querySelector('#name').value;
-          const params = new URLSearchParams(window.location.search);
-          const priceId = params.get('priceId');
-        
-          stripe
-            .createPaymentMethod({
-              type: 'card',
-              card: card,
-              billing_details: {
-                name: billingName,
-              },
-            })
-            .then((result) => {
-              if (result.error) {
-                displayError(result.error);
-              } else {
-                createSubscription(customerId, result.paymentMethod.id, priceId);
-              }
-            });
-        }*/
-/*
-        function createSubscription(customerId, paymentMethodId, priceId) {
-         var obj = { action: "creationaboconso", login: <?php echo '"' . $_SESSION['verify_email'] . '"' ?>};
-            fetch('abo.php ', {
-              method: 'post',
-              headers: {
-                'Content-type': 'application/json',
-              },
-              body: JSON.stringify({
-                customerId: customerId,
-                paymentMethodId: paymentMethodId,
-                priceId: priceId,
-              }),
-            })
-              .then((response) => {
-                return response.json();
-              })
-              // If the card is declined, display an error to the user.
-              .then((result) => {
-                if (result.error) {
-                  // The card had an error when trying to attach it to a customer
-                  throw result;
-                }
-                return result;
-              })
-              // Normalize the result to contain the object returned
-              // by Stripe. Add the addional details we need.
-              .then((result) => {
-                return {
-                  // Use the Stripe 'object' property on the
-                  // returned result to understand what object is returned.
-                  subscription: result,
-                  paymentMethodId: paymentMethodId,
-                  priceId: priceId,
-                };
-              })
-              // Some payment methods require a customer to do additional
-              // authentication with their financial institution.
-              // Eg: 2FA for cards.
-              .then(handleCardSetupRequired)
-              .then(handlePaymentThatRequiresCustomerAction)
-              // If attaching this card to a Customer object succeeds,
-              // but attempts to charge the customer fail. You will
-              // get a requires_payment_method error.
-              .then(handleRequiresPaymentMethod)
-              // No more actions required. Provision your service for the user.
-              .then(onSubscriptionComplete)
-              .catch((error) => {
-                // An error has happened. Display the failure to the user here.
-                // We utilize the HTML element we created.
-                displayError(error);
-              })
-        }
-*/
-      /*function getConfig() 
-      {
-         var obj = { action: "consoconfig", login: <?php echo '"' . $_SESSION['verify_email'] . '"'; ?>};
-         fetch("abo.php", {
-          method: 'post',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(obj),
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((response) => {
-            // Set up Stripe Elements
-            stripeElements(response.publishableKey);
-          });
-      }
-      
-      getConfig();    
-*/
     </script>
   </body>
 </html>

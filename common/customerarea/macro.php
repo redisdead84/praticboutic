@@ -36,7 +36,7 @@ $stripe = new \Stripe\StripeClient(
 $stripe->prices->all(['lookup_keys' => 'pb_conso']);
 */
 
-$stripe = new \Stripe\StripeClient(
+/*$stripe = new \Stripe\StripeClient(
   'sk_test_51H8fNKHGzhgYgqhxXKxXLCKqGMGaHXXfQ3AedURHAd2BTaNjr07L7wLHVZP41UMNWnxRHt4R7XTdeydg0GWcUXL400QA2swxxl'
 );
 
@@ -46,7 +46,7 @@ print_r($stripe->prices->retrieve(
 ));
 
 print_r($stripe->prices->all(['limit' => '3']));
-
+*/
 ?>
 
 

@@ -147,7 +147,7 @@
                 $text = $text . '&nbsp;&nbsp;Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement. <br>';        
                 $text = $text . 'Voici votre nouveau mot de mot de passe administrateur praticboutic : ';
                 $text = $text . '<b>' . $password . '</b><br>';
-                $text = $text . 'Vous pourrez en personnaliser un nouveau à partir de l\'espace client.<br><br>';
+                $text = $text . 'Vous pourrez en personnaliser un nouveau à partir du formulaire client de l\'arrière boutic.<br><br>';
                 $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
                 $text = $text . '</body>';
                 $text = $text . '</html>';

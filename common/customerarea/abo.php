@@ -71,7 +71,6 @@ try
   }
   if (strcmp($input->action,"configuration") == 0)
   {
-    //$pub_key = getenv('STRIPE_PUBLISHABLE_KEY');
     $pub_key = $_ENV['STRIPE_PUBLISHABLE_KEY'];
     
     $prices = $stripe->prices->all(['lookup_keys' => ['pb_fixe','pb_conso']]);
@@ -82,52 +81,35 @@ try
 
   }
   
-  if (strcmp($input->action,"consoconfig") == 0)
-    //$pub_key = getenv('STRIPE_PUBLISHABLE_KEY');
-  {
-    $pub_key = $_ENV['STRIPE_PUBLISHABLE_KEY'];
-    
-    //$prices = $stripe->prices->all(['lookup_keys' => ['pb_fixe','pb_conso']]);
-    
-    $output = array('publishableKey' => $pub_key);
-  }
-    
   if (strcmp($input->action,"creationabonnement") == 0)
   {
-    //if (strcmp($_SESSION['registration_abonnement_created'], "oui") != 0)
-    //{
-      //error_log($input->priceid);
-      $_SESSION['creationabonnement_priceid'] = $input->priceid;
-      
-      //$_SESSION['abonnement_type'] = 'fixe';
-      
-      $stripe_customer_id = $_SESSION['registration_stripe_customer_id'];
-      
-      //error_log($stripe_customer_id);
-      
-      // Create the subscription.
-      $subscription = $stripe->subscriptions->create([
-          'customer' => $stripe_customer_id,
-          'items' => [[
-              'price' => $input->priceid,
-          ]],
-          'payment_behavior' => 'default_incomplete',
-          'expand' => ['latest_invoice.payment_intent'],
-      ]);
-      
-      //error_log(print_r($subscription, TRUE));
-      
-      $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
-      
-      //error_log($subscription->latest_invoice->payment_intent->client_secret);
-  
-      $_SESSION['registration_abonnement_created'] = "oui";
-  
-      $output = array(
-        'subscriptionId' => $subscription->id,
-        'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret
-      );
-    //}
+    //error_log($input->priceid);
+    $_SESSION['creationabonnement_priceid'] = $input->priceid;
+    
+    $stripe_customer_id = $_SESSION['registration_stripe_customer_id'];
+    
+    //error_log($stripe_customer_id);
+    
+    // Create the subscription.
+    $subscription = $stripe->subscriptions->create([
+        'customer' => $stripe_customer_id,
+        'items' => [[
+            'price' => $input->priceid,
+        ]],
+        'payment_behavior' => 'default_incomplete',
+        'expand' => ['latest_invoice.payment_intent'],
+    ]);
+    
+    //error_log(print_r($subscription, TRUE));
+    
+    $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
+    
+    //error_log($subscription->latest_invoice->payment_intent->client_secret);
+
+    $output = array(
+      'subscriptionId' => $subscription->id,
+      'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret
+    );
   }
   
   if (strcmp($input->action,"bocreationabonnement") == 0)
@@ -163,7 +145,6 @@ try
 
     //error_log($query);
 
-    // remove following comments to enable writing in db
     if ($conn->query($query) === FALSE)
     {
       throw new Error($conn->error);
@@ -187,21 +168,8 @@ try
     
     //error_log($stripe_customer_id);
     
-    // Create the subscription.
-    /*$subscription = $stripe->subscriptions->create([
-        'customer' => $stripe_customer_id,
-        'items' => [[
-            'price' => $input->priceid,
-        ]],
-        'payment_behavior' => 'default_incomplete',
-        'expand' => ['latest_invoice.payment_intent'],
-    ]);
-    
-    //error_log(print_r($subscription, TRUE));
-    
     $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
     
-    //error_log($subscription->latest_invoice->payment_intent->client_secret);*/
 
     $output = array(
       'customerId' => $stripe_customer_id,
@@ -219,22 +187,6 @@ try
     
     //error_log($stripe_customer_id);
     
-    // Create the subscription.
-    /*$subscription = $stripe->subscriptions->create([
-        'customer' => $stripe_customer_id,
-        'items' => [[
-            'price' => $input->priceid,
-        ]],
-        'payment_behavior' => 'default_incomplete',
-        'expand' => ['latest_invoice.payment_intent'],
-    ]);
-    
-    //error_log(print_r($subscription, TRUE));
-    
-    $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
-    
-    //error_log($subscription->latest_invoice->payment_intent->client_secret);*/
-
     $output = array(
       'customerId' => $stripe_customer_id,
       'priceId' => $input->priceid
@@ -291,58 +243,11 @@ try
     $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
     
     $output = $subscription;
-/*
-    //error_log($input->priceid);
-    $_SESSION['creationabonnement_priceid'] = $input->priceid;
-    
-    $stripe_customer_id = $_SESSION['registration_stripe_customer_id'];
-    
-    //error_log($stripe_customer_id);
-    
-    // Create the subscription.
-    $subscription = $stripe->subscriptions->create([
-        'customer' => $stripe_customer_id,
-        'items' => [[
-            'price' => $input->priceid,
-        ]],
-        'payment_behavior' => 'default_incomplete',
-        'expand' => ['latest_invoice.payment_intent'],
-    ]);
-    
-    //error_log(print_r($subscription, TRUE));
-    
-    $_SESSION['creationabonnement_stripe_subscription_id'] = $subscription->id;
-    
-    //error_log($subscription->latest_invoice->payment_intent->client_secret);
-
-    $output = array(
-      'subscriptionId' => $subscription->id,
-      'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret
-    );
-    */
   }
 
   
   if (strcmp($input->action,"boannulerabonnement") == 0)
   {
-    # Simulates an authenticated user. In practice, you'll
-    # use the Stripe Customer ID of the authenticated user.
-    /*$req = $conn->prepare('SELECT stripe_customer_id FROM client WHERE email = ? AND actif = 1 ');
-    $req->bind_param("s", $input->login);
-    $req->execute();
-    $req->bind_result($stripe_customer_id);
-    $resultat = $req->fetch();
-    $req->close();
-    if (strcmp($stripe_customer_id, "") == 0 )
-    {
-      throw new Error("Erreur ! Client non trouvé");
-    }*/
-    //error_log($stripe_customer_id);
-    // Delete the subscription.
-    /*$stripe->subscriptions->cancel(
-  'sub_1JZu1zHGzhgYgqhxQXtqZ7bb',
-  []
-);*/
 
     $subscription = $stripe->subscriptions->cancel($input->subscriptionid);
     
@@ -357,7 +262,6 @@ try
     
     $query = "UPDATE abonnement SET actif = 0 WHERE aboid = $aboid";
 
-    // remove following comments to enable writing in db
     if ($conn->query($query) === FALSE)
     {
       throw new Error($conn->error);
@@ -377,7 +281,6 @@ try
     
     $query = "UPDATE abonnement SET actif = 1 WHERE aboid = $aboid";
 
-    // remove following comments to enable writing in db
     if ($conn->query($query) === FALSE)
     {
       throw new Error($conn->error);
@@ -387,51 +290,6 @@ try
 
     $output = array('subscription' => $subscription);
   }
-  
-  if (strcmp($input->action,"listboutic") == 0)
-  {
-    $req = $conn->prepare("SELECT cltid FROM client WHERE email = ? ");
-    $req->bind_param("s", $input->login);
-    $req->execute();
-    $req->bind_result($cltid);
-    $resultat = $req->fetch();
-    $req->close();
-    
-    $lesboutics = array();
-    $query = 'SELECT customid, customer FROM customer WHERE cltid = ' . $cltid;
-    if ($result = $conn->query($query)) 
-    {
-      while ($row = $result->fetch_row()) 
-      {
-        $arm = array("bouticid" => $row[0], "bouticalias" => $row[1] );
-        array_push($lesboutics, $arm);
-      }
-      $result->close();
-    }
-
-    $output = $lesboutics;
-  }
-  
-  if (strcmp($input->action,"updateboutic") == 0)
-  {
-    $req = $conn->prepare("SELECT cltid FROM client WHERE email = ? ");
-    $req->bind_param("s", $input->login);
-    $req->execute();
-    $req->bind_result($cltid);
-    $resultat = $req->fetch();
-    $req->close();
-    
-    $lesboutics = array();
-    $query = "UPDATE abonnement SET bouticid = " . $input->bouticid . " WHERE aboid = " . $input->aboid;
-    // remove following comments to enable writing in db
-    if ($conn->query($query) === FALSE)
-    {
-      throw new Error($conn->error);
-    }
-
-    $output = "OK";
-  }
-    
   
   echo json_encode($output);
 }

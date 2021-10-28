@@ -49,20 +49,6 @@
                 
                 $output ="";
 
-                // Initialize the Stripe client 
-                // For sample support and debugging. Not required for production:
-                \Stripe\Stripe::setAppInfo(
-                  "pratic-boutic/subscription/fixed-price",
-                  "0.0.2",
-                  "https://praticboutic.fr"
-                );
-
-                $stripe = new \Stripe\StripeClient([
-                // TODO replace hardcoded apikey by env variable
-                  'api_key' => $_ENV['STRIPE_SECRET_KEY'],
-                  'stripe_version' => '2020-08-27',
-                ]);
-
                 $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['verify_email'] . "'";
 
                 if ($result = $conn->query($subquery)) 
@@ -83,7 +69,6 @@
                 
                 //error_log($query);
 
-                // remove following comments to enable writing in db
                 if ($conn->query($query) === FALSE)
                 {
                   throw new Error($conn->error);
@@ -119,7 +104,6 @@
             
                 //error_log($query);
             
-                // remove following comments to enable writing in db
                 if ($conn->query($query) === FALSE)
                 {
                   throw new Error($conn->error);
@@ -137,7 +121,6 @@
                   array("CM_Livrer", "Vente avec livraison", "Texte de la vente à la livraison"),
                   array("CM_Emporter", "Vente avec passage à la caisse", "Texte de la vente à emporter"),
                   array("MntCmdMini", $_SESSION['confboutic_mntmincmd'], "Montant commande minimal"),
-                  array("MntLivraisonMini", $_SESSION['confboutic_mntlivraisonmin'], "Montant Minimum pour accepter la livraison"),
                   array("SIZE_IMG", "smallimg", "bigimg ou smallimg"),
                   array("CMPT_CMD", "0", "Compteur des références des commandes"),
                   array("MONEY_SYSTEM", $_SESSION['moneysys_moneysys'], "STRIPE ou PAYPAL"),

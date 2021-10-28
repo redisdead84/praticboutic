@@ -34,15 +34,6 @@
               include "../param.php";
               try
               {
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $bdd);
-                
-                $conn->autocommit(false);
-                // Check connection
-                if ($conn->connect_error) 
-                {
-                  throw new Error("Connection failed: " . $conn->connect_error);
-                }
                 
                 $_SESSION['initboutic_aliasboutic'] = isset($_POST['aliasboutic']) ? $_POST ['aliasboutic'] : '';
                 $_SESSION['initboutic_nom'] = isset($_POST['nom']) ? $_POST ['nom'] : '';
@@ -50,7 +41,6 @@
                 $_SESSION['initboutic_adresse2'] = isset($_POST['adresse2']) ? $_POST ['adresse2'] : '';
                 $_SESSION['initboutic_codepostal'] = isset($_POST['codepostal']) ? $_POST ['codepostal'] : '';
                 $_SESSION['initboutic_ville'] = isset($_POST['ville']) ? $_POST ['ville'] : '';
-                //$_SESSION['initboutic_logo'] = isset($_POST['logo']) ? $_POST ['logo'] : '';
                 $_SESSION['initboutic_email'] = isset($_POST['email']) ? $_POST ['email'] : '';
 
                 if (empty($_SESSION['initboutic_aliasboutic'])==TRUE ) {
@@ -68,7 +58,6 @@
               catch (Error $e)
               {
                 echo $e->getMessage();
-                //$conn->rollback();
               }
             ?>
             </div>
