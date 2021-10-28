@@ -23,7 +23,7 @@ try {
   
   //error_log($json_obj->customer);
 
-  $customid = $_SESSION['bo_id'];
+  $customid = $json_obj->bouticid;
   
   $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $json_obj->customer);

@@ -57,6 +57,7 @@
   }
   
   $bouticid = $_SESSION['bo_id'];
+  
 ?>
 
 <!DOCTYPE html>
@@ -80,6 +81,8 @@
 	var login = "<?php echo $_SESSION['bo_email']; ?>";
 	
 	var init = "<?php echo $_SESSION['bo_init']; ?>";
+	
+	var initdone = "<?php $_SESSION['bo_init'] = 'non'; ?>";
 	
 	var proto = "<?php echo $_SERVER['SERVER_PROTOCOL']; ?>";
 	
@@ -197,6 +200,7 @@
     if (init == "oui")
     {
       init = "non";
+      initdone;
       var modal = $('.modal');
       $('.modal-title').html('Félicitations');
       modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer une catégorie puis un article pour commencer l\'expérience.');

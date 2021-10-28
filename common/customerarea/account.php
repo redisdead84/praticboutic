@@ -24,7 +24,7 @@
   include "../config/common_cfg.php";
   include "../param.php";
   
-  
+  $_SESSION['bo_init'] = 'non';
 
 ?>
 <!DOCTYPE html>
