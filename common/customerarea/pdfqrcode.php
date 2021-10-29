@@ -11,13 +11,20 @@ use Fpdf\Fpdf;
 
 session_start();
 
+if (empty($_SESSION['bo_id']) == TRUE)
+{
+  header("LOCATION: index.php");
+  exit();
+}
+else
+  $bouticid = $_SESSION['bo_id'];
+
 if (empty($_SERVER['HTTPS']))
 	$protocol = "http://";
 else 
 	$protocol = "https://";
 	
 $server = $_SERVER['SERVER_NAME'];
-$bouticid = $_SESSION['bo_id'];
 
 $conn = new mysqli($servername, $username, $password, $bdd);
 if ($conn->connect_error) 
@@ -56,20 +63,22 @@ while ($num< $nbex * $nbtable )
 			
 			if ($notable > $nbtable)
 				$notable = 1;
-			$pdf->SetXY(10 + 50*$i, 10 + 50*$j);
+			$pdf->SetXY(10 + 50*$i, 10 + 55*$j);
+			$pdf->Cell( 10, 10, $boutic . "\n");
+			$pdf->SetXY(10 + 50*$i, 10 + 55*$j);
 			if ($methv == 2)
 			{
-				$pdf->Cell( 10, 10, $boutic . " table " . strval($notable));
+			  $pdf->Cell( 10, 20, "Table " . strval($notable));
 				$qrcode = new QRcode($protocol . $server . '/common/carte.php?method=2&table=' . strval($num) . '&customer=' . $boutic, 'H'); // error level : L, M, Q, H
 			}
 			if ($methv == 3)
 			{
-				$pdf->Cell( 10, 10, $boutic . " Qlick'n'Collect ");
+				$pdf->Cell( 10, 20, "Qlick n Collect");
 				$qrcode = new QRcode($protocol . $server . '/common/carte.php?method=3&table=0&customer=' . $boutic, 'H'); // error level : L, M, Q, H
 			}
 			
 			
-		  $qrcode->displayFPDF($pdf, 10 + 50*$i, 20 + 50*$j, 40);
+		  $qrcode->displayFPDF($pdf, 10 + 50*$i, 25 + 55*$j, 40);
 		  if ($num >= $nbex * $nbtable)
 		  	break;
 		}
