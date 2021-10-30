@@ -71,7 +71,7 @@
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-customer="' . $customer .'">';
     echo '<img id="logo" src="../upload/' . $logo . '">';
 
-    echo '<form name="mainform" autocomplete="off" method="post" action="getinfo.php">';
+    echo '<form name="mainform" autocomplete="off" method="post" action="valrecap.php">';
     
     //echo "Connected successfully";
     $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' ORDER BY catid';

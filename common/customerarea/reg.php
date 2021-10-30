@@ -61,7 +61,7 @@ $dotenv->load();
             document.getElementById("signup-form").submit();
           }
         </script>
-        <form id="signup-form" onsubmit="bakinfo()" method="post" action="chkmail.php" autocomplete="on">
+        <form id="signup-form" onsubmit="bakinfo()" method="post" action="valrecapi.php" autocomplete="on">
           <div class="">
             <div class="param">
               <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required /><br>
