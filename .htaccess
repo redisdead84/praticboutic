@@ -1,3 +1,18 @@
+# Disable index view
+Options -Indexes
+
+<Files .gitignore>
+ order allow,deny
+ deny from all
+ satisfy all
+</Files>
+
+<Files composer.*>
+ order allow,deny
+ deny from all
+ satisfy all
+</Files>
+
 DirectoryIndex index.php
 
 # enable apache rewrite engine
@@ -13,4 +28,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
  
 # Push every request to index.php
 RewriteRule ^(.*)$ index.php [QSA]
+
 

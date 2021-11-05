@@ -1,0 +1,8 @@
+# Disable index view
+Options -Indexes
+
+<Files .env>
+ order allow,deny
+ deny from all
+ satisfy all
+</Files>
