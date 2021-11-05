@@ -71,7 +71,7 @@ $dotenv->load();
           <div>
           </div>
           <div class="param rwc margetop">
-            <button class="butc regbutton g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit'>Inscription</button><br><br>
+            <input type="submit" class="butc regbutton g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="Inscription" /><br><br>
           </div>
         </form>
       </div>

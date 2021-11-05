@@ -43,6 +43,7 @@
         <script type="text/javascript" >
           function bakinfo()
           {
+            sessionStorage.setItem('pb_reg_courriel', document.getElementById("courriel").value);
             if (document.getElementById("homme").checked == true)
               sessionStorage.setItem('pb_reg_qualite', "Monsieur");
             if (document.getElementById("femme").checked == true)
@@ -75,25 +76,14 @@
             document.getElementById("ville").value = sessionStorage.getItem('pb_reg_ville');
             document.getElementById("tel").value = sessionStorage.getItem('pb_reg_tel');
           }
-          
-          function cancel() 
-          {
-            sessionStorage.removeItem('pb_reg_email');
-            sessionStorage.removeItem('pb_reg_qualite');
-            sessionStorage.removeItem('pb_reg_nom');
-            sessionStorage.removeItem('pb_reg_prenom');
-            sessionStorage.removeItem('pb_reg_adr1');
-            sessionStorage.removeItem('pb_reg_adr2');
-            sessionStorage.removeItem('pb_reg_cp');
-            sessionStorage.removeItem('pb_reg_ville');
-            sessionStorage.removeItem('pb_reg_tel');
-
-            window.location.href = './index.php';
-          }
-          
+       
+       
         </script>
         <form id="signup-form" onsubmit="bakinfo()" method="post" action="registration.php" autocomplete="on">
           <div class="twocol">
+            <div style="display: none;" class="param">
+              <input class="paramfieldc" id="courriel" name="courriel" type="email" value="<?php echo $_SESSION['verify_email'];?>" placeholder="Courriel" maxlength="255" required /><br>
+            </div>
             <div class="param">
               <input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
               <i class="bi bi-eye-slash bi-eye eyeico" id="togglepass"></i><br>
