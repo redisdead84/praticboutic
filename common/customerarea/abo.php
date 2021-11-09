@@ -241,7 +241,67 @@ try
     
     $output = $subscription;
   }
+  
+  if (strcmp($input->action,"boconsocreationabonnement") == 0)
+  {
+    
+    $stripe_customer_id = $input->customerId;
+    
+    $req = $conn->prepare('SELECT cltid FROM client WHERE stripe_customer_id = ? AND actif = 1 ');
+    $req->bind_param("s", $stripe_customer_id);
+    $req->execute();
+    $req->bind_result($cltid);
+    $resultat = $req->fetch();
+    $req->close();
+    if (strcmp($stripe_customer_id, "") == 0 )
+    {
+      throw new Error("Erreur ! Client non trouvé");
+    }
+    
+    $_SESSION['bocreationabonnement_priceid'] = $input->priceId;
+    
+    try {
+      $payment_method = $stripe->paymentMethods->retrieve(
+        $input->paymentMethodId
+      );
+      $payment_method->attach([
+        'customer' => $stripe_customer_id,
+      ]);
+    } catch (Exception $e) {
+      throw new Error($e->getMessage());
+    }
+    
+    // Set the default payment method on the customer
+    $stripe->customers->update($input->customerId, [
+      'invoice_settings' => [
+        'default_payment_method' => $input->paymentMethodId
+      ]
+    ]);
+    
+    // Create the subscription
+    $subscription = $stripe->subscriptions->create([
+      'customer' => $stripe_customer_id,
+      'items' => [
+        [
+          'price' => $input->priceId,
+        ],
+      ],
+      'expand' => ['latest_invoice.payment_intent'],
+    ]);
+    
+    $query = "INSERT INTO abonnement(cltid, creationboutic, bouticid, stripe_subscription_id, actif) VALUES ";
+    $query = $query . "('$cltid', '0', " . $_SESSION['bo_id'] . ", '" . $subscription->id . "', '1')";
 
+    //error_log($query);
+
+    if ($conn->query($query) === FALSE)
+    {
+      throw new Error($conn->error);
+    }
+    $_SESSION['bocreationabonnement_stripe_subscription_id'] = $subscription->id;
+    
+    $output = $subscription;
+  }
   
   if (strcmp($input->action,"boannulerabonnement") == 0)
   {
