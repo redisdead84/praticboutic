@@ -26,13 +26,15 @@ try
   $json_obj = json_decode($json_str);
 
 	$customer = htmlspecialchars($json_obj->customer);
+  if (empty($customer) == TRUE)
+	{
+	  throw new Exception("Client Vide");
+	}
+	
 	
 	include "config/common_cfg.php";
 	include "param.php";
 		
-	$method = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '0');
-	$table = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
-	
 	if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
 	{
 	  throw new Exception("Courriel déjà envoyé");
