@@ -706,6 +706,7 @@
 									inp.step = '0.01';
 									inp.value = champs[i].defval;
 									inp.min = '0';
+									inp.title = "Doit être un nombre positif avec 2 chiffres après la virgule";
 								}
 								else if (champs[i].typ == "image")
 								{
@@ -884,7 +885,7 @@
 						  if (!fld.checkValidity())
 						  {
 								error = true;
-					  		errmsg = fld.title;
+					  		errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
 								break;  	
 						  }						  
 						}
@@ -1022,6 +1023,7 @@
 											inp.step = '0.01';
 											inp.value = parseFloat(data[i]).toFixed(2);
 											inp.min = '0';
+											inp.title = "Doit être un nombre positif avec 2 chiffres après la virgule";
 										}
 										else if (champs[i].typ == "image")
 										{
