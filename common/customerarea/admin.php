@@ -657,6 +657,8 @@
 				vue.appendChild(titre);
 				var br = document.createElement('br');
 				vue.appendChild(br);
+				var formoff = document.createElement("form");
+				formoff.autocomplete = "off";
 				var labels = [];
 				var input = [];
 				for(i=0; i<champs.length; i++)				
@@ -764,8 +766,8 @@
 										this.style.display = 'none';
 									});
 									divp.appendChild(imgclose); 
-									vue.appendChild(divp);
-									vue.appendChild(document.createElement("BR"));
+									formoff.appendChild(divp);
+									formoff.appendChild(document.createElement("BR"));
 								}
 								else if (champs[i].typ == "pass")
 								{
@@ -795,12 +797,12 @@
 									inp.required = true;
 								}
 								
-								vue.appendChild(lbl);
+								formoff.appendChild(lbl);
 								inp.name = 'itable' + numtable + '_' + champs[i].nom;
 								inp.id = 'itable' + numtable + '_' + 'inp' + i;
 								inp.setAttribute("data-table",tables[numtable].nom);
 								inp.setAttribute("data-champ",champs[i].nom);
-								vue.appendChild(inp);
+								formoff.appendChild(inp);
 							}
 							else
 							{
@@ -815,8 +817,8 @@
 									if ((liens[j].srctbl == tables[numtable].nom) && (liens[j].srcfld == champs[i].nom ))
 									{	
 										lbl.innerHTML = liens[j].desc + '&nbsp;:&nbsp;';
-										vue.appendChild(lbl);
-										vue.appendChild(lien);
+										formoff.appendChild(lbl);
+										formoff.appendChild(lien);
 										for (var k=0; k<tables.length; k++)
 										{
 											if (tables[k].nom == liens[j].dsttbl)
@@ -826,7 +828,7 @@
 								}
 							}
 							var br = document.createElement('br');
-							vue.appendChild(br);
+							formoff.appendChild(br);
 						}
 					}
 				}	
@@ -906,7 +908,7 @@
 					}
 				}; 
 
-				vue.appendChild(okbtn);
+				formoff.appendChild(okbtn);
 				
 				var clbtn = document.createElement('button');
 				clbtn.id = "clbtn" + numtable;
@@ -926,8 +928,10 @@
 					vue.hidden = true;
 					vue.innerHTML = '';
 				}; 
-				vue.appendChild(clbtn);
+				formoff.appendChild(clbtn);
 
+				vue.appendChild(formoff);
+				
 			}
 			
 			function update(numtable, idtoup, limite, offset, vueparent, placeparent, selcol, selid)
@@ -946,7 +950,8 @@
 				vue.appendChild(titre);
 				var br = document.createElement('br');
 				vue.appendChild(br);				
-				
+				var formoff = document.createElement("form");
+				formoff.autocomplete = "off";
 				var obj = { bouticid: bouticid, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
 
         fetch("boquery.php", {
@@ -984,7 +989,7 @@
 									if (champs[i].typ != "fk")
 									{
 										lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
-										vue.appendChild(lbl);
+										formoff.appendChild(lbl);
 										var inp = document.createElement('input');
 										inp.autocomplete = "off";
 										if (champs[i].typ == "text")
@@ -1081,8 +1086,8 @@
 												this.style.display = 'none';
 											});
 											divp.appendChild(imgclose);
-											vue.appendChild(divp);
-											vue.appendChild(document.createElement("BR"));
+											formoff.appendChild(divp);
+											formoff.appendChild(document.createElement("BR"));
 										}
 										else if (champs[i].typ == "pass")
 										{
@@ -1119,7 +1124,7 @@
 										
 										inp.setAttribute("data-table",tables[numtable].nom);
 										inp.setAttribute("data-champ",champs[i].nom);
-										vue.appendChild(inp);
+										formoff.appendChild(inp);
 									}
 									else 
 									{
@@ -1134,23 +1139,23 @@
 											if ((liens[j].srctbl == tables[numtable].nom) && (liens[j].srcfld == champs[i].nom ))
 											{	
 												lbl.innerHTML = liens[j].desc + '&nbsp;:&nbsp;';
-												vue.appendChild(lbl);
+												formoff.appendChild(lbl);
 												
 												for (k=0; k<tables.length; k++)
 													if (tables[k].nom == liens[j].dsttbl)
 														getoptions('utable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i]) ;
 												
-												vue.appendChild(lien);
+												formoff.appendChild(lien);
 											}
 										}
 									}
 									var br = document.createElement('br');
-									vue.appendChild(br);
+									formoff.appendChild(br);
 								}
 							}
 						}
 						
-						var lnk = vue.getAttribute("data-lnkchild");
+						var lnk = formoff.getAttribute("data-lnkchild");
 						if (lnk != null)						
 						{
 							var numlnk,jpk,subnumtable;
@@ -1168,14 +1173,14 @@
 							titre.id = 'itable'+ subnumtable +'titre';
 							titre.innerHTML = tables[subnumtable].desc;
 							
-							vue.appendChild(titre);
+							formoff.appendChild(titre);
 			
 							var rgp = document.createElement('DIV');
 							rgp.classList.add("tbl");
 							rgp.classList.add("form-group");
 							rgp.id = "tablesub" + subnumtable;
 							rgp.hidden = false;
-							vue.appendChild(rgp);
+							formoff.appendChild(rgp);
 
 							inittable( "maj" + numtable, "tablesub" + subnumtable, tables[subnumtable].nom, jpk, idtoup);							
 						
@@ -1251,7 +1256,7 @@
     						$('.modal').modal('show');
 							}
 						};
-						vue.appendChild(okbtn);
+					  formoff.appendChild(okbtn);
 						
 						var clbtn = document.createElement('button');
 						clbtn.id = "clbtn" + numtable;
@@ -1272,7 +1277,9 @@
 	  					vue.hidden = true;
 							vue.innerHTML = '';
 						}; 
-						vue.appendChild(clbtn);
+						formoff.appendChild(clbtn);
+						vue.appendChild(formoff);
+						
 					}
       	})
 			}
