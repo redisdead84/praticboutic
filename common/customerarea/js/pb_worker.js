@@ -1,8 +1,14 @@
 
 function timedCount() {
-  postMessage("RefreshCommande");
-  setTimeout("timedCount()",20000);
+  setTimeout(sendMessage, 20000);
 }
 
-timedCount();
+function sendMessage()
+{
+  postMessage("RefreshCommande");
+  timedCount();
+}
 
+(async function() {
+  timedCount();
+})();
