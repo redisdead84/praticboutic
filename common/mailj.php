@@ -6,13 +6,15 @@ session_start();
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 
+//Load composer's autoloader
+require '../vendor/autoload.php';
+include "config/common_cfg.php";
+include "param.php";
+  
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Stripe\Stripe;
 use Ramsey\Uuid\Uuid;
-
-//Load composer's autoloader
-require '../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -22,19 +24,17 @@ header('Content-Type: application/json');
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 try 
 {
+
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
 
 	$customer = htmlspecialchars($json_obj->customer);
-  if (empty($customer) == TRUE)
+  
+  if (strcmp($customer, "") == 0)
 	{
 	  throw new Exception("Client Vide");
 	}
 	
-	
-	include "config/common_cfg.php";
-	include "param.php";
-		
 	if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
 	{
 	  throw new Exception("Courriel déjà envoyé");
@@ -55,6 +55,7 @@ try
 	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
 	
 	//error_log($validsms);
+	//error_log("ok");
 
   //Server settings
   $mail->SMTPDebug = 0;                                 // Enable verbose debug output
@@ -195,8 +196,11 @@ try
 
   $mail->Body = $text;
   
-  $mail->send();
-  
+  //$mail->send();
+  if(!$mail->send()) {
+    throw new Exception('Message could not be sent. Mailer Error: ' . $mail->ErrorInfo);
+  }
+   
 	$compt = 0;
 	// todo insertion 
 	$qcpt = 'SELECT valeur FROM parametre WHERE customid = "' . $customid . '" AND nom = "CMPT_CMD" FOR UPDATE';
@@ -418,11 +422,10 @@ try
   $_SESSION[$customer . '_mail'] = 'oui';
   
   $conn->close();
-  
+  echo json_encode("OK");
 } 
 catch (Exception $e) 
 {
-  //error_log("test2");
   http_response_code(500);
   echo json_encode(['error' => $e->getMessage()]);
 }    

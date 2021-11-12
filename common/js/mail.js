@@ -20,9 +20,20 @@
     fetch("mailj.php", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(commande)
+    })
+    .then(function(result) {
+      return result.json();
+    }) 
+    .then(function(data) {
+      if (typeof (data.error) !== "undefined")
+      {
+        alert("Erreur : " + data.error);
+        window.location.href = "404.html";
+      }
     })
   }
    
