@@ -28,6 +28,7 @@ try
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
 
+  //error_log($json_str);
 	$customer = htmlspecialchars($json_obj->customer);
   
   if (strcmp($customer, "") == 0)
