@@ -2098,7 +2098,7 @@
 			  {
 			    if(typeof(w) == "undefined")
 			    {
-			      w = new Worker("js/pb_worker.js?v=1.05");
+			      w = new Worker("js/pb_worker.js?v=1.06");
 			    }
 			    w.onmessage = function(event) {
 

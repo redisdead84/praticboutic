@@ -9,6 +9,5 @@ function sendMessage()
   timedCount();
 }
 
-(async function() {
-  timedCount();
-})();
+timedCount();
+
