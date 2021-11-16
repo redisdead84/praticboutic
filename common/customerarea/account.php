@@ -43,7 +43,7 @@
     <title>Account</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="account.js?v=1.03" defer></script>
+    <script src="account.js?v=1.04" defer></script>
   </head>
   <body class="custombody" id="bodyid" data-login="<?php echo $_SESSION['bo_email']?>">
     <main class="fcb">

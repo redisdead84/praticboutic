@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     else if (lienscreation[i].stripe_subscription.items.data[0].price.recurring.usage_type == "metered")
       tarif.innerHTML = "Tarif : " + (lienscreation[i].stripe_subscription.items.data[0].price.unit_amount_decimal) + ' % de commission' 
     bouticlinksDiv.appendChild(tarif);
-    if (lienscreation[i].stripe_subscription.status != 'canceled')
+    if (lienscreation[i].stripe_subscription.status == 'active')
     {
       var acl = document.createElement("A");
       acl.href = "cancel.php?subscription=" + lienscreation[i].stripe_subscription.id;

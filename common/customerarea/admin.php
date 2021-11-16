@@ -67,6 +67,7 @@
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/back.css?v=1.13">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
@@ -504,12 +505,14 @@
               <div class='twocol'>
                 <div class="param">
                   <label>Mot de passe : </label>
-                  <input data-lbl="Mot de passe" class="fieldclient" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
+                  <input data-lbl="Mot de passe" class="fieldclient inputeye" id="clpassid" data-conffldid="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="clientenblbtnvc(this)" />
+                  <i class="bi bi-eye-slash bi-eye eyeico" id="togglepass"></i><br>
                 </div>
                 <br>
                 <div class="param">
                   <label>Mot de passe (confirmation): </label>
-                  <input data-lbl="Mot de passe (confirmation)" class="fieldclientpassconf" id="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="javascript:document.getElementById('clpassid').setAttribute('data-modified', true);clientenblbtnvc(this)" />
+                  <input data-lbl="Mot de passe (confirmation)" class="fieldclientpassconf inputeye" id="clpassconfid" type='password' autocomplete="one-time-code" maxlength="255" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" oninput="javascript:document.getElementById('clpassid').setAttribute('data-modified', true);clientenblbtnvc(this)" />
+                  <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br>
                 </div>
                 <br>
                 <div class="param">
@@ -589,7 +592,29 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript" >
+      const togglePassword1 = document.querySelector('#togglepass');
+      const password1 = document.querySelector('#clpassid');
       
+      togglePassword1.addEventListener('click', function (e) {
+      // toggle the type attribute
+          const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+          password1.setAttribute('type', type);
+          // toggle the eye / eye slash icon
+          this.classList.toggle('bi-eye');
+      });
+      const togglePassword2 = document.querySelector('#togglepassconf');
+      const password2 = document.querySelector('#clpassconfid');
+      
+      togglePassword2.addEventListener('click', function (e) {
+      // toggle the type attribute
+          const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+          password2.setAttribute('type', type);
+          // toggle the eye / eye slash icon
+          this.classList.toggle('bi-eye');
+      });
+    </script>
+
   	<!--<div class="modal" tabindex="-1" role="dialog">-->
   	<div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   	  <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1135,8 +1160,8 @@
 							}
 						}
 						
-						var lnk = formoff.getAttribute("data-lnkchild");
-						if (lnk != null)						
+						var lnk = vue.getAttribute("data-lnkchild");
+						if (lnk != null)
 						{
 							var numlnk,jpk,subnumtable;
 							for (var i=0; i<liens.length; i++ ) {
@@ -3061,6 +3086,11 @@
                  valeur = document.getElementById("artlogofile").getAttribute("data-logotruefilename");
                  savdata = valeur;
                }
+               else if (typ == "radio")
+               {
+                 if (el.checked == true)
+                   valeur = el.value;
+               }
                else
                  valeur = el.value;
 
@@ -3207,6 +3237,7 @@
 						localStorage.removeItem(list.pop());
 					}
 				}
+				location.reload();
 			}
       
     </script>

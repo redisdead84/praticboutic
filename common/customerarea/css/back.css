@@ -651,7 +651,8 @@ div
   padding-right: 25px;
 }
 
-.eyeico {
+.eyeico
+{
     margin-left: -20px;
     cursor: pointer;
 }
