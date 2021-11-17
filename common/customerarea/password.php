@@ -34,7 +34,7 @@
 					   </div>
 			      </div>
 			      <div class="modal-footer">
-							<a href="index.php"><button class="btn btn-secondary" type="button">Cancel</button></a>
+							<a href="index.php"><button class="btn btn-secondary" type="button">Retour</button></a>
 			        <input class="btn btn-primary" type="submit" value="Valider">
 			      </div>
 			    </form>
