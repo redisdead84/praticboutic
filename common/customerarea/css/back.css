@@ -526,7 +526,6 @@ margin: 1rem;
   border: 0px solid transparent;
   background-color: #EEEEEE;
   height: 35px;
-  border-radius: 5px;
 }
 .margetop
 {
@@ -591,6 +590,7 @@ margin: 1rem;
 .fcb
 {
 	margin: 4%;
+	float: right;
 }
 
 /*#subscribe-form
@@ -696,6 +696,11 @@ div
   margin-left: 20% !important;
 }
 
+.modal-dialog-reg
+{
+  margin-left: 50% !important;
+}
+
 .modal-mainmenu
 {
   top: 2.5% !important;
@@ -720,6 +725,14 @@ div
   border: 1px solid #e2007a !important;
 }
 
+.btn-annuler
+{
+  font-weight: bold !important;
+  background-color: white !important;
+  color: #e2007a !important;
+  border: 1px solid #e2007a !important;
+}
+
 .bigform-content {
     overflow: hidden;
     position:relative;
@@ -730,36 +743,78 @@ div
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 100%;
+  width: 100vw !important;
+  height: 10.36vw !important;
   overflow: auto;
   z-index: 2000;
+  cursor: pointer;
 }
 
 #bandeaub
 {
   position: absolute;
   bottom: 0px;
-  right: 0px;
-  width: 100%;
-  height: auto;
+  left: 0px;
+  width: 100vw !important;
+  height: 6.29vw !important;
+  overflow: auto;
   z-index: 2000;
+  cursor: pointer;
 }
 
 #screen
+{
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+#workspace
+{
+  position: absolute;
+  top: 10.36vw !important;
+  bottom: 6.29vw !important;
+  left: 0px;
+  right: 0px;
+  /*display: flex;
+  align-items: center;
+  justify-content : center;*/
+}
+
+.spaceflex
 {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
 #illus1
 {
-  position: relative;
-  height: 30%;
-  width: 30%;
-  margin-top: 10%;
-  margin-bottom: 0%;
-  margin-left: 35%;
+  height: 62vh;
+  margin-left: 50%;
+  margin-right: 0%;
+}
+
+#illus2
+{
+  height: 46vh;
+  margin-left: 20%;
   margin-right: 10%;
+  margin-top: 3%;
+}
+
+#illus3
+{
+  height: 38vh;
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-top: 3%;
+}
+
+.title
+{
+  font-size: 200%;
+  font-weight: bolder;
 }
 
