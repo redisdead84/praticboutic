@@ -17,8 +17,13 @@
   <head>
     <title>Inscription</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.02">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/back.css?v=1.05">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -53,13 +58,16 @@
                   <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br><br>
                 </div>
                 <div class="param rwse">
-                  <div class="param center"><input class="paramfieldc center" type="radio" id="homme" name="qualite" value="Monsieur" required><label for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label>&nbsp;Madame&nbsp;</label></div><br>
+                  <div class="param center"><input class="paramfieldc center" type="radio" id="homme" name="qualite" value="Monsieur" required><label class="paramfieldr" for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label class="paramfieldr">&nbsp;Madame&nbsp;</label></div><br>
                 </div>
                 <div class="param">
                   <input class="paramfieldc" id="nom" name="nom" type="text" placeholder="Nom" value="" maxlength="60" required /><br>
                 </div>
                 <div class="param">
                   <input class="paramfieldc" id="prenom" name="prenom" type="text" placeholder="Prénom" value="" maxlength="60" required /><br>
+                </div>
+                <div class="param">
+                  <div class="paramfieldb" id="blank" name="blank"></div><br>
                 </div>
                 <div class="param">
                   <input class="paramfieldc" id="adr1" name="adr1" type="text" placeholder="Adresse (ligne 1)" value="" maxlength="150" required /><br>
@@ -76,9 +84,9 @@
                 <div class="param">
                   <input class="paramfieldc" id="tel" name="tel" type="text" placeholder="Téléphone" value="" autocomplete="tel" maxlength="60" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Il faut un numéro de téléphone français valide" /><br>
                 </div>
-              </div>
-              <div class="param rwc margetop">
-                <input class="butc regbutton" type="submit" value="Inscription" autofocus /><br><br>
+                <div class="param rwc">
+                  <input class="butc regsubmit" type="submit" value="INSCRIPTION" autofocus /><br><br>
+                </div>
               </div>
             </form>
           </div>
@@ -146,5 +154,13 @@
       document.getElementById("tel").value = sessionStorage.getItem('pb_reg_tel');
     }
   </script>
-
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter le consructeur de boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
+    }
+  </script>
 </html>
