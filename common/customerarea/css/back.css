@@ -612,6 +612,12 @@ margin: 1rem;
   font-weight: 500;
 }
 
+:focus
+{
+  outline-style: dotted;
+}
+
+
 .btn-nbprimary
 {
   flex: 0 0 49%;
@@ -943,3 +949,16 @@ div.grecaptcha-badge
   z-index: 10000;
 }
 
+div.chxpaisys
+{
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row;
+}
+
+.paieico
+{
+  flex: 0 0 20%;
+  height: auto;
+  width: 28%;
+}
