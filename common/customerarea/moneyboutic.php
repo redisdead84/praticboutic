@@ -41,35 +41,38 @@ require_once '../../vendor/autoload.php';
             <p class="center middle title">
               Choix de paiement
             </p>
-            <div class="chxpaisys">
-              <img id="paypalico" class="paieico" src="img/paypal_unselected.png" onclick="toggle(this)" data-state="off">
-              <img id="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
-              <img id="caisseico" class="paieico" src="img/caisse_unselected.png" onclick="toggle(this)" data-state="off">
-            </div>
             <form id="moneysys-form" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="on">
               <input id="moneysystemid" type="hidden" value="NONE" />
               <input id="caisseid" type="hidden" value="NONE" />
-              <div id="idparamstripe" class="param" style="display: none;">
-                <div id="iddivpubkey" class="param">
-                  <label id="publickeyidlbl" for="publickeyid">Clé Public Stripe : </label>
-                  <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" />
+              <div class="chxpaisys">
+                <div class="blocsysmoney">
+                  <img id="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
+                  <div id="idparamstripe" style="display: none;">
+                    <div id="iddivpubkey" class="param">
+                      <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" placeholder="Clé Public Stripe"/>
+                    </div>
+                    <div id="iddivseckey" class="param">
+                      <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" placeholder="Clé Privé Stripe" />
+                    </div>
+                    <a id="idlienstripe" href="https://www.stripe.com/" target="_blank">Stripe (site officiel) - Standard du paiement en ligne</a>
+                  </div>
                 </div>
-                <div id="iddivseckey" class="param">
-                  <label id="secretkeyidlbl"  for="secretkeyid">Clé Privé Stripe : </label>
-                  <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" />
+                <div class="blocsysmoney">
+                  <img id="paypalico" class="paieico" src="img/paypal_unselected.png" onclick="toggle(this)" data-state="off">
+                  <div id="idparampaypal" style="display: none;">
+                    <div id="iddivppakey" class="param">
+                      <input class="paramfieldc" id="idcltpaypalid" type='text' maxlength="255" name="idcltpaypal" autocomplete="off" placeholder="ID Client Paypal"/>
+                    </div>
+                    <a id="idlienpaypal" href="https://www.paypal.com/" target="_blank">Paiements en ligne - Transferts d'argent | PayPal FR</a>
+                  </div>
                 </div>
-                <a id="idlienstripe" href="https://www.stripe.com/" target="_blank">Stripe (site officiel) - Standard du paiement en ligne</a>
-              </div>
-              <div id="idparampaypal" class="param" style="display: none;"> 
-                <div id="iddivppakey" class="param">
-                  <label  id="idcltpaypalidlbl" for="idcltpaypalid">ID Client Paypal : </label>
-                  <input class="paramfieldc" id="idcltpaypalid" type='text' maxlength="255" name="idcltpaypal" autocomplete="off" />
+                <div class="blocsysmoney">
+                  <img id="caisseico" class="paieico" src="img/caisse_unselected.png" onclick="toggle(this)" data-state="off">
                 </div>
-                <a id="idlienpaypal" href="https://www.paypal.com/" target="_blank">Paiements en ligne - Transferts d'argent | PayPal FR</a>
               </div>
               <div class="param rwc margetop">
-                <input class="butc regbutton" type="button" onclick="javascript:cancel()" value="Annulation" />
-                <input class="butc regbutton" type="submit" value="Continuer" autofocus /><br><br>
+                <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+                <input class="butc btn-msprimary" id="msvalid" type="submit" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
               </div>
             </form>
           </div>
@@ -80,20 +83,10 @@ require_once '../../vendor/autoload.php';
     </div>
   </body>
   <script type="text/javascript">
-    function setmoneysystem() 
-    {
-      if (document.getElementById("moneysystemid").value == "STRIPE")
-      {
-      }
-      else if (document.getElementById("moneysystemid").value == "PAYPAL")
-      {
-
-      }
-    }
-  
     function bakinfo()
     {
       sessionStorage.setItem('pb_initb_moneysys', document.getElementById("moneysystemid").value);
+      sessionStorage.setItem('pb_initb_caisseid', document.getElementById("caisseid").value);
       sessionStorage.setItem('pb_initb_publickeyid', document.getElementById("publickeyid").value);
       sessionStorage.setItem('pb_initb_secretkeyid', document.getElementById("secretkeyid").value);
       sessionStorage.setItem('pb_initb_idcltpaypalid', document.getElementById("idcltpaypalid").value);
@@ -105,11 +98,66 @@ require_once '../../vendor/autoload.php';
       document.getElementById("publickeyid").value = sessionStorage.getItem('pb_initb_publickeyid');
       document.getElementById("secretkeyid").value = sessionStorage.getItem('pb_initb_secretkeyid');
       document.getElementById("idcltpaypalid").value = sessionStorage.getItem('pb_initb_idcltpaypalid');
-      setmoneysystem();
+      document.getElementById("caisseid").value = sessionStorage.getItem('pb_initb_caisseid');
+
+      var elemc = document.getElementById("caisseid");
+      if (elemc.value == 'NONE')
+      {
+        document.getElementById("caisseico").setAttribute("data-state", "off");
+        document.getElementById("caisseico").src = "img/caisse_unselected.png";
+      }
+      else if (elemc.value == 'COMPTANT')
+      {
+        document.getElementById("caisseico").setAttribute("data-state", "off");
+        document.getElementById("caisseico").src = "img/caisse_unselected.png";
+      }
+      else if (elemc.value == 'LIVRAISON')
+      {
+        document.getElementById("caisseico").setAttribute("data-state", "on");
+        document.getElementById("caisseico").src = "img/caisse_selected.png";
+        document.getElementById("msvalid").disabled = false;
+        document.getElementById("msvalid").style = "opacity: 1";
+      }
+      else if (elemc.value == 'TOUS')
+      {
+        document.getElementById("caisseico").setAttribute("data-state", "on");
+        document.getElementById("caisseico").src = "img/caisse_selected.png";
+        document.getElementById("msvalid").disabled = false;
+        document.getElementById("msvalid").style = "opacity: 1";
+      }
+      var elemms = document.getElementById("moneysystemid");
+      if (elemms.value == 'NONE')
+      {
+        document.getElementById("stripeico").setAttribute("data-state", "off");
+        document.getElementById("paypalico").setAttribute("data-state", "off");
+        document.getElementById("stripeico").src = "img/stripe_unselected.png";
+        document.getElementById("paypalico").src = "img/paypal_unselected.png";
+        document.getElementById("idparamstripe").style.display = "none";
+        document.getElementById("idparampaypal").style.display = "none";
+      }
+      else if (elemms.value == 'PAYPAL')
+      {
+        document.getElementById("stripeico").setAttribute("data-state", "off");
+        document.getElementById("paypalico").setAttribute("data-state", "on");
+        document.getElementById("stripeico").src = "img/stripe_unselected.png";
+        document.getElementById("paypalico").src = "img/paypal_selected.png";
+        document.getElementById("idparamstripe").style.display = "none";
+        document.getElementById("idparampaypal").style.display = "block";
+      }
+      else if (elemms.value == 'STRIPE')
+      {
+        document.getElementById("paypalico").setAttribute("data-state", "off");
+        document.getElementById("stripeico").setAttribute("data-state", "on");
+        document.getElementById("stripeico").src = "img/stripe_selected.png";
+        document.getElementById("paypalico").src = "img/paypal_unselected.png";
+        document.getElementById("idparamstripe").style.display = "block";
+        document.getElementById("idparampaypal").style.display = "none";
+      }
     }
   
     function cancel() 
     {
+      bakinfo();
       window.location.href = './newboutic.php';
     }
   </script>
@@ -140,6 +188,8 @@ require_once '../../vendor/autoload.php';
              document.getElementById("caisseid").value = "TOUS";
           else if (document.getElementById("caisseico").getAttribute("data-state") == "off")
              document.getElementById("caisseid").value = "COMPTANT";
+          document.getElementById("msvalid").disabled = false;
+          document.getElementById("msvalid").style = "opacity: 1";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
@@ -150,9 +200,17 @@ require_once '../../vendor/autoload.php';
           document.getElementById("idparamstripe").style.display = "none";
           document.getElementById("idparampaypal").style.display = "none";
           if (document.getElementById("caisseico").getAttribute("data-state") == "on")
-             document.getElementById("caisseid").value = "LIVRAISON";
+          {
+            document.getElementById("caisseid").value = "LIVRAISON";
+            document.getElementById("msvalid").disabled = false;
+            document.getElementById("msvalid").style = "opacity: 1";
+          }
           else if (document.getElementById("caisseico").getAttribute("data-state") == "off")
-             document.getElementById("caisseid").value = "NONE";
+          {
+            document.getElementById("caisseid").value = "NONE";
+            document.getElementById("msvalid").disabled = true;
+            document.getElementById("msvalid").style = "opacity: 0.5";
+          }
         }
       }
       else if (elem.id == "stripeico")
@@ -170,6 +228,8 @@ require_once '../../vendor/autoload.php';
              document.getElementById("caisseid").value = "TOUS";
           else if (document.getElementById("caisseico").getAttribute("data-state") == "off")
              document.getElementById("caisseid").value = "COMPTANT";
+          document.getElementById("msvalid").disabled = false;
+          document.getElementById("msvalid").style = "opacity: 1";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
@@ -180,9 +240,17 @@ require_once '../../vendor/autoload.php';
           document.getElementById("idparamstripe").style.display = "none";
           document.getElementById("idparampaypal").style.display = "none";
           if (document.getElementById("caisseico").getAttribute("data-state") == "on")
-             document.getElementById("caisseid").value = "LIVRAISON";
+          {
+            document.getElementById("caisseid").value = "LIVRAISON";
+            document.getElementById("msvalid").disabled = false;
+            document.getElementById("msvalid").style = "opacity: 1";
+          }
           else if (document.getElementById("caisseico").getAttribute("data-state") == "off")
-             document.getElementById("caisseid").value = "NONE";
+          {
+            document.getElementById("caisseid").value = "NONE";
+            document.getElementById("msvalid").disabled = true;
+            document.getElementById("msvalid").style = "opacity: 0.5";
+          }
         }
       }
       else if (elem.id == "caisseico")
@@ -195,15 +263,25 @@ require_once '../../vendor/autoload.php';
             document.getElementById("caisseid").value = "LIVRAISON";
           else if (document.getElementById("moneysystemid").value != "NONE")
             document.getElementById("caisseid").value = "TOUS";
+          document.getElementById("msvalid").disabled = false;
+          document.getElementById("msvalid").style = "opacity: 1";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
           elem.src = "img/caisse_unselected.png";
           elem.setAttribute("data-state", "off");
           if (document.getElementById("moneysystemid").value == "NONE")
+          {
             document.getElementById("caisseid").value = "NONE";
+            document.getElementById("msvalid").disabled = true;
+            document.getElementById("msvalid").style = "opacity: 0.5";
+          }
           else if (document.getElementById("moneysystemid").value != "NONE")
+          {
             document.getElementById("caisseid").value = "COMPTANT";
+            document.getElementById("msvalid").disabled = false;
+            document.getElementById("msvalid").style = "opacity: 1";
+          }
         }
       }
     }
