@@ -286,4 +286,13 @@ require_once '../../vendor/autoload.php';
       }
     }
   </script>
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter le consructeur de boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
+    }
+  </script>
 </html>

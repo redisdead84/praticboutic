@@ -531,6 +531,8 @@ margin: 1rem;
   font-family: 'Montserrat';
   font-size: 80%;
   font-weight: 500;
+  color: black;
+  width: 100%;
 }
 
 .paramfieldb
@@ -660,6 +662,32 @@ margin: 1rem;
 }
 
 .btn-mssecondary
+{
+  flex: 0 0 40%;
+  background-color: white;
+  border: 1px solid #e2007a !important;
+  color: #e2007a;
+  margin: 5px;
+  padding: 5px;
+  font-family: 'Montserrat';
+  font-size: 80%;
+  font-weight: 500;
+}
+
+.btn-cfprimary
+{
+  flex: 0 0 40%;
+  background-color: #e2007a;
+  border: 1px solid #e2007a;
+  color: white;
+  margin: 5px;
+  padding: 5px;
+  font-family: 'Montserrat';
+  font-size: 80%;
+  font-weight: 500;
+}
+
+.btn-cfsecondary
 {
   flex: 0 0 40%;
   background-color: white;
@@ -973,6 +1001,22 @@ div
   margin-top: 3%;
 }
 
+#illus7
+{
+  height: 30vh;
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-top: 3%;
+}
+
+#illus8
+{
+  height: 38vh;
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-top: 3%;
+}
+
 .title
 {
   font-size: 200%;
@@ -1012,3 +1056,19 @@ div.blocsysmoney
   flex: 0 0 auto;
 }
 
+.formuleico
+{
+  height: 16vh;
+}
+
+.formulespace
+{
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row;
+}
+
+.stripeelem
+{
+  margin-left: 2px;
+}
