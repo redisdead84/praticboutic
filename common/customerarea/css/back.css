@@ -532,7 +532,6 @@ margin: 1rem;
   font-size: 80%;
   font-weight: 500;
   color: black;
-  width: 100%;
 }
 
 .paramfieldb
@@ -688,6 +687,32 @@ margin: 1rem;
 }
 
 .btn-cfsecondary
+{
+  flex: 0 0 40%;
+  background-color: white;
+  border: 1px solid #e2007a !important;
+  color: #e2007a;
+  margin: 5px;
+  padding: 5px;
+  font-family: 'Montserrat';
+  font-size: 80%;
+  font-weight: 500;
+}
+
+.btn-ifprimary
+{
+  flex: 0 0 40%;
+  background-color: #e2007a;
+  border: 1px solid #e2007a;
+  color: white;
+  margin: 5px;
+  padding: 5px;
+  font-family: 'Montserrat';
+  font-size: 80%;
+  font-weight: 500;
+}
+
+.btn-ifsecondary
 {
   flex: 0 0 40%;
   background-color: white;
@@ -1036,6 +1061,13 @@ div.chxpaisys
   flex-flow: row;
 }
 
+div.ifgrpbtn
+{
+  display: flex;
+  justify-content: space-evenly;
+  flex-flow: row;
+}
+
 div.blocsysmoney
 {
   display: flex;
@@ -1071,4 +1103,9 @@ div.blocsysmoney
 .stripeelem
 {
   margin-left: 2px;
+}
+
+.enlarged
+{
+  width: 100%;
 }

@@ -47,11 +47,8 @@
               <img id="commissionico" class="formuleico" src="img/commission_unselected.png" onclick="toggle(this)" data-state="off">
               <img id="engagementico" class="formuleico" src="img/engagement_unselected.png" onclick="toggle(this)" data-state="off">
             </div>
-            <!--<div id="price-list" class="price-list">
-              Chargement...
-            </div>-->
             <div class="param rwc margetop">
-              <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="changelink()" />
+              <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="allow()" />
               <label for="cgv"> En cochant cette case vous accpetez <a href="cgv.html">les conditions générales de vente</a></label>
             </div>
             <div class="param rwc margetop">
@@ -93,9 +90,7 @@
         const params = new URLSearchParams(window.location.search);
         params.append('subscriptionId', data.subscriptionId);
         params.append('clientSecret', data.clientSecret);
-        document.getElementById("cfvalid").disabled = false;
-        document.getElementById("cfvalid").style = "opacity: 1";
-        document.getElementById("cfvalid").onclick = function(){window.location.href = 'subscribe.php?' + params.toString();};
+        linkfixe = function(){window.location.href = 'subscribe.php?' + params.toString();};
       }
     })
   }
@@ -127,9 +122,7 @@
           const params = new URLSearchParams(window.location.search);
           params.append('customerId', data.customerId);
           params.append('priceId', data.priceId);
-          document.getElementById("cfvalid").disabled = false;
-          document.getElementById("cfvalid").style = "opacity: 1";
-          document.getElementById("cfvalid").onclick = function(){window.location.href = 'conso.php?' + params.toString();};
+          linkconso = function(){window.location.href = 'conso.php?' + params.toString();};
         }
       })
     }
@@ -169,20 +162,12 @@
           }
           else
           {
-            if (document.getElementById("cgvid").checked == true)
-            {
-              data.prices.forEach((price) => {
-                if ((price.lookup_key == "pb_fixe") && (document.getElementById("engagementico").getAttribute("data-state") == "on"))
-                  createSubscription(price.id);
-                else if ((price.lookup_key == "pb_conso") && (document.getElementById("commissionico").getAttribute("data-state") == "on"))
-                  conso(price.id);
-              });
-            }
-            else 
-            {
-              document.getElementById("cfvalid").disabled = true;
-              document.getElementById("cfvalid").style = "opacity: 0.5";
-            }
+            data.prices.forEach((price) => {
+              if (price.lookup_key == "pb_fixe")
+                createSubscription(price.id);
+              else if (price.lookup_key == "pb_conso")
+                conso(price.id);
+            });
           }
         }
       })
@@ -191,6 +176,36 @@
     {
       window.location.href = './paramboutic.php';
     }
+    
+    function allow() 
+    {
+      if (document.getElementById("cgvid").checked == true)
+      {
+        if (document.getElementById("engagementico").getAttribute("data-state") == "on")
+        {
+          document.getElementById("cfvalid").disabled = false;
+          document.getElementById("cfvalid").style = "opacity: 1";
+          document.getElementById("cfvalid").onclick = linkfixe;
+        }
+        else if (document.getElementById("commissionico").getAttribute("data-state") == "on")
+        {
+          document.getElementById("cfvalid").disabled = false;
+          document.getElementById("cfvalid").style = "opacity: 1";
+          document.getElementById("cfvalid").onclick = linkconso;
+        }
+        else 
+        {
+          document.getElementById("cfvalid").disabled = true;
+          document.getElementById("cfvalid").style = "opacity: 0.5";
+        }
+      }
+      else 
+      {
+        document.getElementById("cfvalid").disabled = true;
+        document.getElementById("cfvalid").style = "opacity: 0.5";
+      }
+    }
+    
   </script>
   <script type="text/javascript" >
     function toggle(elem)
@@ -215,10 +230,12 @@
           elem.src = "img/engagement_selected.png";
         }
       }
-      changelink();
+      allow();
     }
   </script>
   <script type="text/javascript" >
+    var linkfixe;
+    var linkconso;
     changelink();
   </script>
 </html>

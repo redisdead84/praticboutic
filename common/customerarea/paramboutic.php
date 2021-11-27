@@ -59,7 +59,7 @@ require_once '../../vendor/autoload.php';
                 </div>
                 <div class="param rwse">
                   <label id="validsmslbl" for="validsms">Validation Commande par SMS : </label>
-                  <div class="param center"><input class="paramfieldc center" type="radio" id="smson" name="validsms" value="on" required><label class="paramfieldr" for="validsmson">&nbsp;Activé&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="smsoff" name="validsms" value="off"><label class="paramfieldr">&nbsp;Désactivé&nbsp;</label></div><br>
+                  <div class="param center"><input class="paramfieldc center" type="radio" id="smson" name="validsms" value="on" required checked><label class="paramfieldr" for="validsmson">&nbsp;Activé&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="smsoff" name="validsms" value="off"><label class="paramfieldr">&nbsp;Désactivé&nbsp;</label></div><br>
                 </div>
               </div>
               <div class="param rwc margetop">
