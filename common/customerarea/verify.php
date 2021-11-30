@@ -58,6 +58,7 @@
                     {
                       $activation = 1;
                       echo "Votre courriel est déjà actif !";
+                      $_SESSION['verify_email'] = $email;
                     }
                     else // Si ce n'est pas le cas on passe aux comparaisons
                     {

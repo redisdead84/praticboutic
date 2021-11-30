@@ -63,6 +63,33 @@
     </div>
   </body>
   <script type="text/javascript" >
+    var linkfixe;
+    var linkconso;
+
+    function bakinfo()
+    {
+      sessionStorage.setItem('pb_chxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
+      sessionStorage.setItem('pb_chxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
+      sessionStorage.setItem('pb_chxfor_cgv', document.getElementById("cgvid").checked);
+    }
+    window.onload=function()
+    {
+      changelink();
+      document.getElementById("engagementico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_engagement'));
+      document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_commission'));
+      document.getElementById("cgvid").checked = sessionStorage.getItem('pb_chxfor_cgv');
+      if (document.getElementById("engagementico").getAttribute("data-state") == "on")
+        document.getElementById("engagementico").src = "img/engagement_selected.png";
+      else 
+        document.getElementById("engagementico").src = "img/engagement_unselected.png";
+      if (document.getElementById("commissionico").getAttribute("data-state") == "on")
+        document.getElementById("commissionico").src = "img/commission_selected.png";
+      else 
+        document.getElementById("commissionico").src = "img/commission_unselected.png";
+      allow();
+    }
+  </script>
+  <script type="text/javascript" >
     const createSubscription = (priceId) => {
     const params = new URLSearchParams(window.location.search);
     const customerId = params.get('customerId');
@@ -90,7 +117,7 @@
         const params = new URLSearchParams(window.location.search);
         params.append('subscriptionId', data.subscriptionId);
         params.append('clientSecret', data.clientSecret);
-        linkfixe = function(){window.location.href = 'subscribe.php?' + params.toString();};
+        document.getElementById("cfvalid").setAttribute("data-linkfixe", params.toString() );
       }
     })
   }
@@ -107,7 +134,7 @@
         body: JSON.stringify(obj)
       })
       .then(function(result) {
-       return result.json();
+        return result.json();
       }) 
       .then(function(data) {
         if (typeof (data.error) !== "undefined")
@@ -122,7 +149,7 @@
           const params = new URLSearchParams(window.location.search);
           params.append('customerId', data.customerId);
           params.append('priceId', data.priceId);
-          linkconso = function(){window.location.href = 'conso.php?' + params.toString();};
+          document.getElementById("cfvalid").setAttribute("data-linkconso", params.toString() );
         }
       })
     }
@@ -131,7 +158,7 @@
     function changelink()
     {
       var obj = { action: "configuration", login: <?php echo '"' . $_SESSION['verify_email'] . '"'; ?>};
-   
+
       fetch("abo.php", {
         method: "POST",
         headers: {
@@ -174,6 +201,7 @@
     }
     function cancel() 
     {
+      bakinfo();
       window.location.href = './paramboutic.php';
     }
     
@@ -185,13 +213,21 @@
         {
           document.getElementById("cfvalid").disabled = false;
           document.getElementById("cfvalid").style = "opacity: 1";
-          document.getElementById("cfvalid").onclick = linkfixe;
+          document.getElementById("cfvalid").onclick = function()
+          {
+            bakinfo();
+            window.location.href = 'subscribe.php?' + document.getElementById("cfvalid").getAttribute("data-linkfixe");
+          };
         }
         else if (document.getElementById("commissionico").getAttribute("data-state") == "on")
         {
           document.getElementById("cfvalid").disabled = false;
           document.getElementById("cfvalid").style = "opacity: 1";
-          document.getElementById("cfvalid").onclick = linkconso;
+          document.getElementById("cfvalid").onclick = function()
+          {
+            bakinfo();
+            window.location.href = 'conso.php?' + document.getElementById("cfvalid").getAttribute("data-linkconso");
+          };
         }
         else 
         {
@@ -219,6 +255,11 @@
           elem.setAttribute("data-state", "on");
           elem.src = "img/commission_selected.png";
         }
+        else if (elem.getAttribute("data-state") == "on")
+        {
+          elem.setAttribute("data-state", "off");
+          elem.src = "img/commission_unselected.png";
+        }
       }
       else if (elem.id == "engagementico")
       {
@@ -229,13 +270,13 @@
           elem.setAttribute("data-state", "on");
           elem.src = "img/engagement_selected.png";
         }
+        else if (elem.getAttribute("data-state") == "on")
+        {
+          elem.setAttribute("data-state", "off");
+          elem.src = "img/engagement_unselected.png";
+        }
       }
       allow();
     }
-  </script>
-  <script type="text/javascript" >
-    var linkfixe;
-    var linkconso;
-    changelink();
   </script>
 </html>
