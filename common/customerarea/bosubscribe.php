@@ -6,17 +6,28 @@
     header("LOCATION: index.php");
     exit();
   }
-
+  
+  require '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
+  
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
+  
+  $pubkey = $_ENV['STRIPE_PUBLISHABLE_KEY'];
 
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.01">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/back.css?v=1.04">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -26,36 +37,36 @@
     <meta http-equiv="Expires" content="0" />
     <title>Souscription</title>
     <script src="https://js.stripe.com/v3/"></script>
-    <!--<script src="subscribe.js" defer></script>-->
   </head>
   <body class="custombody">
-  <a href="logout.php">Deconnexion</a>
-    <main class="fcb">
-      <h1>Informations de Paiement</h1>
-      <form id="subscribe-form">
-
-        <div id="card-element">
-          <!-- the card element will be mounted here -->
-        </div>
-
-        <label>
-          Nom complet
-          <input type="text" id="name" value="" />
-        </label>
-        
-        <br />
-
-        <input class="butc regbutton" type="button" onclick="javascript:cancel()" value="Annulation" />
-
-        <button type="submit">
-          Inscription
-        </button>
-
-        <div id="messages"></div>
-      </form>
-    </main>
+    <div id="screen">
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <div id="workspace" class="spaceflex">
+        <img id='illus8' src='img/illustration_8.png' />
+        <main class="fcb">
+          <div class="customform">
+            <p class="center middle title">
+              Informations de Paiement
+            </p>
+            <form id="subscribe-form">
+              <div class="stripeelem" id="card-element">
+                <!-- Elements will create input elements here -->
+              </div>
+              <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
+              <br />
+              <div class="ifgrpbtn">
+                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="Annulation" />
+                <button class="btn-ifprimary" type="submit">Subscribe</button>
+              </div>
+            </form>
+          </div>
+          <div id="messages"></div>
+        </main>
+      </div>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+    </div>
   </body>
-    <script type="text/javascript" >
+  <script type="text/javascript" >
   // helper method for displaying a status message.
     const setMessage = (message) => {
       const messageDiv = document.querySelector('#messages');
@@ -79,24 +90,26 @@
         const elements = stripe.elements({
   				fonts: [
   					{
-  						cssSrc: 'https://fonts.googleapis.com/css?family=Public+Sans'
+  						cssSrc: 'https://fonts.googleapis.com/css?family=Montserrat:wght@400;500'
   					}
   				],
   			});
         var style = {
         hidePostalCode: true,
         base: {
-          color: "black",
-          backgroundColor: "white",
-          fontFamily: 'Public Sans',
+          color: "#444444",
+          backgroundColor: "#EEEEEE",
+          fontFamily: 'Montserrat',
+          fontWeight: "500",
+          lineHeight: "2.5",
           fontSmoothing: "antialiased",
-          fontSize: "16px",
+          fontSize: "13px",
           "::placeholder": {
-            color: "black"
+            color: "#444444"
           }
         },
         invalid: {
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: 'Montserrat',
           color: "#fa755a",
           iconColor: "#fa755a"
         }
@@ -178,6 +191,14 @@
     {
       window.location.href = './boprices.php';
     }
-
+  </script>
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter l'espace client de la boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
+    }
   </script>
 </html>

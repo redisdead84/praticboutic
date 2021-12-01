@@ -68,16 +68,18 @@
 
     function bakinfo()
     {
-      sessionStorage.setItem('pb_chxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
-      sessionStorage.setItem('pb_chxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
-      sessionStorage.setItem('pb_chxfor_cgv', document.getElementById("cgvid").checked);
+      sessionStorage.setItem('pb_bochxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
+      sessionStorage.setItem('pb_bochxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
+      sessionStorage.setItem('pb_bochxfor_cgv', document.getElementById("cgvid").checked);
     }
     window.onload=function()
     {
       changelink();
-      document.getElementById("engagementico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_engagement'));
-      document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_commission'));
-      document.getElementById("cgvid").checked = sessionStorage.getItem('pb_chxfor_cgv');
+      if (sessionStorage.getItem('pb_bochxfor_engagement') !== null)
+        document.getElementById("engagementico").setAttribute("data-state", sessionStorage.getItem('pb_bochxfor_engagement'));
+      if (sessionStorage.getItem('pb_bochxfor_commission') !== null)
+        document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_bochxfor_commission'));
+      document.getElementById("cgvid").checked = (sessionStorage.getItem('pb_bochxfor_cgv') === 'true');
       if (document.getElementById("engagementico").getAttribute("data-state") == "on")
         document.getElementById("engagementico").src = "img/engagement_selected.png";
       else 
@@ -216,7 +218,7 @@
           document.getElementById("cfvalid").onclick = function()
           {
             bakinfo();
-            window.location.href = 'subscribe.php?' + document.getElementById("cfvalid").getAttribute("data-linkfixe");
+            window.location.href = 'bosubscribe.php?' + document.getElementById("cfvalid").getAttribute("data-linkfixe");
           };
         }
         else if (document.getElementById("commissionico").getAttribute("data-state") == "on")
@@ -226,7 +228,7 @@
           document.getElementById("cfvalid").onclick = function()
           {
             bakinfo();
-            window.location.href = 'conso.php?' + document.getElementById("cfvalid").getAttribute("data-linkconso");
+            window.location.href = 'boconso.php?' + document.getElementById("cfvalid").getAttribute("data-linkconso");
           };
         }
         else 
@@ -277,6 +279,15 @@
         }
       }
       allow();
+    }
+  </script>
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter l'espace client de la boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
     }
   </script>
 </html>

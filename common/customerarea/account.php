@@ -30,7 +30,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0">
+    <title>Compte Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/back.css?v=1.01">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -40,34 +47,46 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Account</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="account.js?v=1.04" defer></script>
+    <script src="account.js?v=1.09" defer></script>
   </head>
-  <body class="custombody" id="bodyid" data-login="<?php echo $_SESSION['bo_email']?>">
-    <main class="fcb">
+  <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" >
+    <div id="screen">
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <div id="workspace" class="spacegrid">
+        <main class="fcb enlarged">
     
-      <a href="logout.php">Déconnexion</a>
+          <a href="logout.php">Déconnexion</a>
       
-      <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
-      <h1>Votre compte</h1>
+          <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
+          <p class="center middle title">
+            Votre compte
+          </p>
+        
+          <a id="addaboid" href="boprices.php">Ajouter un abonnement</a>
 
-      <a id="addaboid" href="boprices.php">Ajouter un abonnement</a>
+          <h3>Abonnements</h3>
+          <div id="bouticlinks">
 
-      <h2>Abonnements</h2>
-      <div id="bouticlinks">
+          </div>
+          <br>
 
+          <div id="subscriptions">
+            <!-- see account.js to see how this div is populated -->
+          </div>
+          <!-- ADD A LOGOUT BUTTON -->
+        </main>
       </div>
-      <br>
-
-      <div id="subscriptions">
-        <!-- see account.js to see how this div is populated -->
-      </div>
-      <!-- ADD A LOGOUT BUTTON -->
-    </main>
-    <script type="text/javascript" defer>
-    </script>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+    </div>
   </body>
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter l'espace client de la boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
+    }
+  </script>
 </html>
-
