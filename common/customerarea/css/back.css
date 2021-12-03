@@ -228,7 +228,7 @@ table tbody td {
 	margin-bottom: 30px;
 }
 
-.modal-title
+.modal-title-cb
 {
 	text-align: center;
 	margin-left: auto;
@@ -239,12 +239,7 @@ table tbody td {
   line-height: 2.5 !important;
 }
 
-.modal { 
-   /*background-color: #ECEDED !important; */
-   background-color: transparent !important;
-}
-
-.modal-dialog {
+.modal-dialog-cb {
     width: 800px;
     margin: 30px auto;
       margin-left: auto;
@@ -253,42 +248,60 @@ table tbody td {
 
 }
 
-.modal-content 
+.modal-header-cb
 {
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #595858 !important; 
-  padding: 100px;
-}
-
-
-.modal-header
-{
+  height: 100px;
 	background-color: #595858;
 	color: white;
 	border-bottom: 0px !important;
   margin-left: auto;
 	margin-right: auto;
   flex-flow: column;
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  flex-direction: column;
 }
 
-.modal-body
+.modal-body-cb
 {
+  justify-content: space-evenly;
+  display: flex;
+  height: 100px;
+  flex-flow: column;
+  align-items: center;
 	background-color: #595858;
 	color: white;
 	border-top: 0px !important;
 	border-bottom: 0px !important;
-  margin-left: auto;
-	margin-right: auto;
-	padding: 100px;
 }
 
-.modal-footer
+.modal-footer-mainmenu
 {
 	background-color: #595858;
 	color: white;
-	border-top: 0px !important;
-	width: 100%;
+	/*border-top: 0px !important;
+	width: 100%;*/
+	display: flex;
+	flex-flow: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 120px;
+}
+
+
+.modal-footer-cb
+{
+	background-color: #595858;
+	color: white;
+	/*border-top: 0px !important;
+	width: 100%;*/
+	display: flex;
+	flex-flow: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 100px;
 }
 
 .btn-primary
@@ -579,7 +592,7 @@ margin: 1rem;
   font-weight: 500;
 }
 
-.form-control-file
+.cb-form-control-file
 {
   background-color: white;
   font-family: 'Montserrat';
@@ -846,11 +859,11 @@ div
     cursor: pointer;
 }
 
-.modal-backdrop {
+/*.modal-backdrop {
    background-color: white !important;
-}
+}*/
 
-.form-group
+.cb-form-group
 {
   margin-top: 0rem !important;
   margin-bottom: 0rem !important;
@@ -864,21 +877,23 @@ div
 .modal-content-mainmenu
 {
   border-radius: 25px !important;
-  padding-top: 25px !important;
-  padding-bottom: 25px !important;
-  width: 90% !important;
-  padding-left: 25px !important;
-  padding-right: 25px !important;
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+  /*width: 90% !important;*/
+  padding-left: 65px !important;
+  padding-right: 65px !important;
+  /*margin-left: auto;
+  margin-right: auto;*/
+  background-color: #595858 !important;
 }
 
 .modal-body-mainmenu
 {
-  justify-content: space-between;
+  justify-content: space-evenly;
   display: flex;
   height: 145px;
   flex-flow: column;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  align-items: center;
 }
 
 .modal-dialog-mainmenu
@@ -893,13 +908,16 @@ div
 
 .modal-mainmenu
 {
-  top: 2.5% !important;
+  background-color: transparent !important;
+  /*top: 2.5% !important;*/
+  top: 10.36vw !important;
+  bottom: 6.29vw !important;
 }
 
 .forgotpwd
 {
-  margin-top: 12px !important;
-  margin-bottom: 50px !important;
+  /*margin-top: 12px !important;
+  margin-bottom: 50px !important;*/
 }
 
 .btn-valider
@@ -926,6 +944,7 @@ div
 .bigform-content {
     overflow: hidden;
     position:relative;
+    z-index: 0;
 }
 
 #bandeauh
@@ -988,17 +1007,12 @@ div
 
 #illus1
 {
-  height: 62vh;
-  margin-left: 50%;
-  margin-right: 0%;
+  height: 60vh;
 }
 
 #illus2
 {
   height: 46vh;
-  margin-left: 20%;
-  margin-right: 10%;
-  margin-top: 3%;
 }
 
 #illus3
@@ -1115,4 +1129,23 @@ div.blocsysmoney
 .enlarged
 {
   width: 100%;
+}
+
+.spacemodal
+{
+  display: flex;
+  justify-content: center;
+  flex-flow: row;
+  align-items: center;
+}
+
+.elemcb
+{
+  margin: 60px;
+}
+
+.grecaptcha
+{
+  margin-top: 25px;
+  margin-bottom: 0px;
 }

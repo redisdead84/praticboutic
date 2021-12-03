@@ -55,8 +55,8 @@
               <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
               <br />
               <div class="ifgrpbtn">
-                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="Annulation" />
-                <button class="btn-ifprimary" type="submit">Subscribe</button>
+                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+                <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
               </div>
             </form>
           </div>
@@ -190,6 +190,15 @@
     function cancel() 
     {
       window.location.href = './prices.php';
+    }
+  </script>
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter le constructeur de la boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
     }
   </script>
 </html>

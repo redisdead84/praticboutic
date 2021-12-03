@@ -373,7 +373,7 @@
                 <br>
                 <div class="" id="bloclogoid">
                   <label for="artlogofile">Logo : </label>
-                  <input data-lbl="Logo" class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
+                  <input data-lbl="Logo" class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file bo-form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
                 <form autocomplete="off">

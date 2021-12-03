@@ -16,146 +16,130 @@
   <body>
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace">
-        <img id='illus2' src='img/illustration_2.png' />
-        <div class="bigform-content">
-          <div class="modal" tabindex="-1" role="dialog" data-backdrop="false">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-reg" role="document">
-              <div class="modal-content modal-content-mainmenu">
-                <div class="modal-header">
-                  <h5 class="modal-title">INFORMATION</h5>
-                </div>
-                <div class="modal-body">
-                  <?php
-                    session_start();
-      
-                    // Import PHPMailer classes into the global namespace
-                    // These must be at the top of your script, not inside a function
-                    use PHPMailer\PHPMailer\PHPMailer;
-                    use PHPMailer\PHPMailer\Exception;
-      
-                    //Load composer's autoloader
-                    require '../../vendor/autoload.php';
-                    include "../config/common_cfg.php";
-                    include "../param.php";
-      
-                    $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-                    try 
+      <div id="workspace" class="spacemodal">
+        <img id='illus2' src='img/illustration_2.png' class="elemcb" />
+        <div class="modal-content-mainmenu elemcb">
+          <div class="modal-header-cb">
+            <h5 class="modal-title-cb">INFORMATION</h5>
+          </div>
+          <div class="modal-body-cb">
+            <?php
+              session_start();
+
+              // Import PHPMailer classes into the global namespace
+              // These must be at the top of your script, not inside a function
+              use PHPMailer\PHPMailer\PHPMailer;
+              use PHPMailer\PHPMailer\Exception;
+
+              //Load composer's autoloader
+              require '../../vendor/autoload.php';
+              include "../config/common_cfg.php";
+              include "../param.php";
+
+              $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+              try 
+              {
+                $sent = 0;
+                $email = $_SESSION['email'];
+                $hash = md5(microtime(TRUE)*100000);
+
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $bdd);
+
+                // Check connection
+                if ($conn->connect_error) 
+                {
+                  die("Connection failed: " . $conn->connect_error);
+                }
+
+                $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $email . "'";
+  
+                $result = $conn->query($subquery);
+                $row = $result->fetch_row();
+                if (intval($row[0])>0)
+                {
+                  echo 'Le courriel ' . $email . ' est déjà attribué à un client. Impossible de continuer.';
+                }
+                else if (strcmp($_SESSION['reg_mailsent'], 'oui') == 0)
+                {
+                  header('LOCATION: reg.php');
+                }
+                else
+                {
+                  $q1 = "INSERT INTO identifiant(email, hash, actif) VALUES ('$email','$hash', '0')";
+                  //error_log($q1);
+                  if ($r1 = $conn->query($q1)) 
+                  {
+                    if ($r1 === FALSE) 
                     {
-                      $sent = 0;
-                      $email = $_SESSION['email'];
-                      $hash = md5(microtime(TRUE)*100000);
-      
-                      // Create connection
-                      $conn = new mysqli($servername, $username, $password, $bdd);
-      
-                      // Check connection
-                      if ($conn->connect_error) 
-                      {
-                        die("Connection failed: " . $conn->connect_error);
-                      }
-      
-                      $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $email . "'";
-        
-                      $result = $conn->query($subquery);
-                      $row = $result->fetch_row();
-                      if (intval($row[0])>0)
-                      {
-                        echo 'Le courriel ' . $email . ' est déjà attribué à un client. Impossible de continuer.';
-                      }
-                      else if (strcmp($_SESSION['reg_mailsent'], 'oui') == 0)
-                      {
-                        header('LOCATION: reg.php');
-                      }
-                      else
-                      {
-                        $q1 = "INSERT INTO identifiant(email, hash, actif) VALUES ('$email','$hash', '0')";
-                        //error_log($q1);
-                        if ($r1 = $conn->query($q1)) 
-                        {
-                          if ($r1 === FALSE) 
-                          {
-                            echo "Error: " . $q1 . "<br>" . $conn->error;
-                          }
-                        }
-      
-                        $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-                        $mail->isSMTP();                                      // Set mailer to use SMTP
-      
-                        $mail->Host = $host;  // Specify main and backup SMTP servers
-                        $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
-                        $mail->Username = $user;                 // SMTP username
-                        $mail->Password = $pwd;                               // SMTP password
-                        $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
-                        $mail->Port = $port;                                    // TCP port to connect to
-                        $mail->CharSet = $chars;
-                        $mail->setFrom($sendmail, $sendnom);
-                        $rcvmail = $email; //GetValeurParam("Receivermail_mail", $conn);
-                        $rcvnom = ""; //GetValeurParam("Receivernom_mail", $conn);
-                        $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
-                        $isHTML = "TRUE";
-                        $mail->isHTML($isHTML);
-      
-                        $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
-                        $subject = "Confidentiel"; //GetValeurParam("Subject_mail", $conn);
-                        $mail->Subject = $subject;
-      
-                        $text = '<!DOCTYPE html>';
-                        $text = $text . '<html>';
-                        $text = $text . '<head>';
-                        $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
-                        $text = $text . '</head>';
-                        $text = $text . '<body>';
-                        $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
-                        $text = $text . $email . '<br><br>';    
-                        $text = $text . 'Vous pouvez valider votre courriel avec le lien suivant : ';
-                        $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/verify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
-                        $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
-                        $text = $text . '</body>';
-                        $text = $text . '</html>';
-      
-                        $mail->Body = $text;
-                        //error_log($mail->Body);
-                        $mail->send();
-                        $sent = 1;
-                        $_SESSION['reg_mailsent'] = 'oui';
-      
-                        echo "Un email contenant un lien pour finaliser votre inscription vous a été envoyé.<br />";
-      
-                        $conn->close();
-                      }
+                      echo "Error: " . $q1 . "<br>" . $conn->error;
                     }
-                    catch (Exception $e) 
-                    {
-                      echo 'Mailer Error: ' . $mail->ErrorInfo;
-                      echo 'Erreur Le message n a pu être envoyé<br />';
-                    }
-                  ?>
-                </div>
-                <div class="modal-footer">
-                  <?php 
-                    if ($sent== 0)
-                      echo '<a href="reg.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>';      
-                  ?>
-                </div>
-              </div>
-            </div>
+                  }
+
+                  $mail->SMTPDebug = 0;                                 // Enable verbose debug output
+                  $mail->isSMTP();                                      // Set mailer to use SMTP
+
+                  $mail->Host = $host;  // Specify main and backup SMTP servers
+                  $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
+                  $mail->Username = $user;                 // SMTP username
+                  $mail->Password = $pwd;                               // SMTP password
+                  $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
+                  $mail->Port = $port;                                    // TCP port to connect to
+                  $mail->CharSet = $chars;
+                  $mail->setFrom($sendmail, $sendnom);
+                  $rcvmail = $email; //GetValeurParam("Receivermail_mail", $conn);
+                  $rcvnom = ""; //GetValeurParam("Receivernom_mail", $conn);
+                  $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
+                  $isHTML = "TRUE";
+                  $mail->isHTML($isHTML);
+
+                  $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
+                  $subject = "Confidentiel"; //GetValeurParam("Subject_mail", $conn);
+                  $mail->Subject = $subject;
+
+                  $text = '<!DOCTYPE html>';
+                  $text = $text . '<html>';
+                  $text = $text . '<head>';
+                  $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+                  $text = $text . '</head>';
+                  $text = $text . '<body>';
+                  $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
+                  $text = $text . $email . '<br><br>';    
+                  $text = $text . 'Vous pouvez valider votre courriel avec le lien suivant : ';
+                  $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/verify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
+                  $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
+                  $text = $text . '</body>';
+                  $text = $text . '</html>';
+
+                  $mail->Body = $text;
+                  //error_log($mail->Body);
+                  $mail->send();
+                  $sent = 1;
+                  $_SESSION['reg_mailsent'] = 'oui';
+
+                  echo "Un email contenant un lien pour finaliser votre inscription vous a été envoyé.<br />";
+
+                  $conn->close();
+                }
+              }
+              catch (Exception $e) 
+              {
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+                echo 'Erreur Le message n a pu être envoyé<br />';
+              }
+            ?>
+          </div>
+          <div class="modal-footer-cb">
+            <?php 
+              if ($sent== 0)
+                echo '<a href="reg.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>';      
+            ?>
           </div>
         </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
   </body>
-  <script type="text/javascript" >
-    $('.modal').modal({keyboard: false});
-    $('.modal').modal('show');
-    //appending modal background inside the bigform-content
-    $('.modal-backdrop').appendTo('.bigform-content');
-    //removing body classes to able click events
-    $('body').removeClass();
-    $('body').removeAttr('class');
-    $('body').removeAttr('style');
-  </script>
   <script type="text/javascript" >
     function quitterbuildboutic()
     {

@@ -30,35 +30,23 @@ $dotenv->load();
   <body class="custombody">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace">
-        <img id='illus2' src='img/illustration_2.png' />
-        <div class="bigform-content">
-          <div class="modal modal-mainmenu" tabindex="-1" role="dialog" data-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-reg" role="document">
-              <div class="modal-content modal-content-mainmenu">
-                <main class="fcb">
-                  <div class="customform">
-                    <form id="signup-form" onsubmit="bakinfo()" method="post" action="valrecapi.php" autocomplete="on">
-                      <div class="modal-header modal-header-mainmenu">
-                        <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
-                        <h6 class="modal-title">INSCRIPTION</h6>
-                      </div>
-                      <div class="modal-body modal-body-mainmenu">
-                        <div class="form-group">
-                          <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required /><br>
-                        </div>
-                        <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
-                      </div>
-                      <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary btn-block btn-valider g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="INSCRIPTION" />
-                        <input class="btn btn-secondary btn-block btn-annuler" type="button" onclick="window.location='./index.php'" value="RETOUR" />
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </main>
+      <div id="workspace" class="spacemodal">
+        <img id='illus2' src='img/illustration_2.png' class='elemcb'/>
+        <div class="modal-content-mainmenu">
+          <form id="signup-form" onsubmit="bakinfo()" method="post" action="valrecapi.php" autocomplete="on">
+            <div class="modal-header-cb">
+              <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
+              <h6 class="modal-title modal-title-cb">INSCRIPTION</h6>
             </div>
-          </div>
+            <div class="modal-body-mainmenu modal-body-cb">
+              <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
+              <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
+            </div>
+            <input type="submit" class="btn btn-primary enlarged btn-valider g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="INSCRIPTION" />
+            <div class="modal-footer-cb">
+              <input class="btn btn-secondary enlarged btn-annuler" type="button" onclick="window.location='./index.php'" value="RETOUR" />
+            </div>
+          </form>
         </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
@@ -85,16 +73,6 @@ $dotenv->load();
       document.getElementById("gRecaptchaResponse").value = token;
       document.getElementById("signup-form").submit();
     }
-  </script>
-  <script type="text/javascript" >
-    $('.modal').modal({keyboard: false});
-    $('.modal').modal('show');
-    //appending modal background inside the bigform-content
-    $('.modal-backdrop').appendTo('.bigform-content');
-    //removing body classes to able click events
-    $('body').removeClass();
-    $('body').removeAttr('class');
-    $('body').removeAttr('style');
   </script>
   <script type="text/javascript" >
     function quitterbuildboutic()

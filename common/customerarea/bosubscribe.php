@@ -55,8 +55,8 @@
               <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
               <br />
               <div class="ifgrpbtn">
-                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="Annulation" />
-                <button class="btn-ifprimary" type="submit">Subscribe</button>
+                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+                <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
               </div>
             </form>
           </div>
