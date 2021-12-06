@@ -9,6 +9,7 @@ if (empty($_SESSION['verify_email']) == TRUE)
 }
 
 require_once '../../vendor/autoload.php';
+require_once '../config/common_cfg.php';
 
 ?>
 
@@ -41,24 +42,24 @@ require_once '../../vendor/autoload.php';
             <p class="center middle title">
               Choix de paiement
             </p>
-            <form id="moneysys-form" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="on">
+            <form id="moneysys-form" name="mainform" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="off">
               <input id="moneysystemid" type="hidden" value="NONE" />
               <input id="caisseid" type="hidden" value="NONE" />
               <div class="chxpaisys">
                 <div class="blocsysmoney">
-                  <img id="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
+                  <img id="stripeico" name="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
                   <div id="idparamstripe" style="display: none;">
                     <div id="iddivpubkey" class="param">
-                      <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" placeholder="Clé Public Stripe"/>
+                      <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" placeholder="Clé Public Stripe" maxlength="255" />
                     </div>
                     <div id="iddivseckey" class="param">
-                      <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" placeholder="Clé Privé Stripe" />
+                      <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" placeholder="Clé Privé Stripe" maxlength="255" />
                     </div>
                     <a id="idlienstripe" href="https://www.stripe.com/" target="_blank">Stripe (site officiel) - Standard du paiement en ligne</a>
                   </div>
                 </div>
                 <div class="blocsysmoney">
-                  <img id="paypalico" class="paieico" src="img/paypal_unselected.png" onclick="toggle(this)" data-state="off">
+                  <img id="paypalico" name="paypalico" class="paieico" src="img/paypal_unselected.png" onclick="toggle(this)" data-state="off">
                   <div id="idparampaypal" style="display: none;">
                     <div id="iddivppakey" class="param">
                       <input class="paramfieldc" id="idcltpaypalid" type='text' maxlength="255" name="idcltpaypal" autocomplete="off" placeholder="ID Client Paypal"/>
@@ -67,12 +68,12 @@ require_once '../../vendor/autoload.php';
                   </div>
                 </div>
                 <div class="blocsysmoney">
-                  <img id="caisseico" class="paieico" src="img/caisse_unselected.png" onclick="toggle(this)" data-state="off">
+                  <img id="caisseico" name="caisseico" class="paieico" src="img/caisse_unselected.png" onclick="toggle(this)" data-state="off">
                 </div>
               </div>
               <div class="param rwc margetop">
                 <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <input class="butc btn-msprimary" id="msvalid" type="submit" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
+                <input class="butc btn-msprimary" id="msvalid" type="button" onclick="javascript:bakinfo()" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
               </div>
             </form>
           </div>
@@ -85,12 +86,44 @@ require_once '../../vendor/autoload.php';
   <script type="text/javascript">
     function bakinfo()
     {
+      checkinfo();
       sessionStorage.setItem('pb_initb_moneysys', document.getElementById("moneysystemid").value);
       sessionStorage.setItem('pb_initb_caisseid', document.getElementById("caisseid").value);
       sessionStorage.setItem('pb_initb_publickeyid', document.getElementById("publickeyid").value);
       sessionStorage.setItem('pb_initb_secretkeyid', document.getElementById("secretkeyid").value);
       sessionStorage.setItem('pb_initb_idcltpaypalid', document.getElementById("idcltpaypalid").value);
     }
+    
+    function checkinfo()
+    {
+      var failed = false;
+      var astk = ('<?php echo $allowstripetestkey; ?>' === 'oui');
+      
+      if (document.forms["mainform"]["stripeico"].getAttribute("data-state") == "on")
+      {
+        var pubkey = document.forms["mainform"]["publickey"].value;
+        var seckey = document.forms["mainform"]["secretkey"].value;
+        if ((pubkey.startsWith('pk_live') == false) && (pubkey.startsWith('pk_test') == false))
+        {
+          failed = true;
+          if ((astk == false) && (pubkey.startsWith('pk_test')))
+            alert("La clé public Stripe doit commencer par 'pk_live'");
+          else
+            alert("La clé public Stripe doit commencer par 'pk_test' ou 'pk_live'");
+        }
+        else if ((seckey.startsWith('sk_live') == false) && (seckey.startsWith('sk_test') == false))
+        {
+          failed = true;
+          if ((astk == false) && (seckey.startsWith('sk_test')))
+            alert("La clé secrète Stripe doit commencer par 'sk_live'");
+          else
+            alert("La clé secrète Stripe doit commencer par 'sk_test' ou 'sk_live'");
+        }
+      }
+      if (failed == false)
+        document.forms["mainform"].submit();
+    }
+    
     window.onload=function()
     {
       if (sessionStorage.getItem('pb_initb_moneysys') !== null)

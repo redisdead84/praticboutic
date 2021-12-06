@@ -768,12 +768,11 @@ margin: 1rem;
   height: 15px;
 }
 
-/*.customform
+.customform
 {
-  margin-left: 25%;
-  margin-right: 25%;
-  width: 50%;
-}*/
+  margin: 20px;
+}
+
 .butc
 {
   /*margin-left: 150px;
@@ -790,20 +789,9 @@ margin: 1rem;
   flex-flow: column wrap;
 }
 
-.fcb
-{
-	margin: 4%;
-	float: right;
-}
-
-/*#subscribe-form
-{
-width: 50%;
-}*/
 .inpprix
 {
   text-align: right;
-
 }
 
 div
@@ -985,10 +973,19 @@ div
   bottom: 6.29vw !important;
   left: 0px;
   right: 0px;
-  overflow-y: auto;
   /*display: flex;
   align-items: center;
   justify-content : center;*/
+}
+
+.vscroll
+{
+  overflow-y: auto;
+}
+
+.novscroll
+{
+  overflow-y: hidden;
 }
 
 .spaceflex
@@ -998,6 +995,12 @@ div
   justify-content: center;
 }
 
+.spaceflexnb
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
 .spacegrid
 {
   display: grid;
@@ -1017,50 +1020,38 @@ div
 
 #illus3
 {
-  height: 38vh;
-  margin-left: 0%;
-  margin-right: 0%;
-  margin-top: 3%;
+  height: 48vh;
+  margin: 20px;
 }
 
 #illus4
 {
-  height: 38vh;
-  margin-left: 0%;
-  margin-right: 0%;
-  margin-top: 3%;
+  height: 48vh;
+  margin: 20px;
 }
 
 #illus5
 {
-  height: 38vh;
-  margin-left: 0%;
-  margin-right: 0%;
-  margin-top: 3%;
+  height: 48vh;
+  margin: 20px;
 }
 
 #illus6
 {
-  height: 38vh;
-  margin-left: 0%;
-  margin-right: 0%;
-  margin-top: 3%;
+  height: 54vh;
+  margin: 20px;
 }
 
 #illus7
 {
-  height: 30vh;
-  margin-left: 0%;
-  margin-right: 0%;
-  margin-top: 3%;
+  height: 58vh;
+  margin: 20px;
 }
 
 #illus8
 {
-  height: 38vh;
-  margin-left: 0%;
-  margin-right: 0%;
-  margin-top: 3%;
+  height: 52vh;
+  margin: 20px;
 }
 
 .title
@@ -1100,8 +1091,7 @@ div.blocsysmoney
 
 .paieico
 {
-  height: 15vh;
-  width: 15vw;
+  height: 16vh;
 }
 
 .lblmnyparam
@@ -1111,7 +1101,8 @@ div.blocsysmoney
 
 .formuleico
 {
-  height: 16vh;
+  height: 24vh;
+  margin: 20px;
 }
 
 .formulespace
@@ -1148,4 +1139,9 @@ div.blocsysmoney
 {
   margin-top: 25px;
   margin-bottom: 0px;
+}
+
+.grpbtnfor
+{
+  margin: 20px;
 }

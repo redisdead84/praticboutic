@@ -43,25 +43,23 @@
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
         <img id='illus8' src='img/illustration_8.png' />
-        <main class="fcb">
-          <div class="customform">
-            <p class="center middle title">
-              Informations de Paiement
-            </p>
-            <form id="subscribe-form">
-              <div class="stripeelem" id="card-element">
-                <!-- Elements will create input elements here -->
-              </div>
-              <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
-              <br />
-              <div class="ifgrpbtn">
-                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
-              </div>
-            </form>
-          </div>
-          <div id="messages"></div>
-        </main>
+        <div class="customform">
+          <p class="center middle title">
+            Informations de Paiement
+          </p>
+          <form id="subscribe-form">
+            <div class="stripeelem" id="card-element">
+              <!-- Elements will create input elements here -->
+            </div>
+            <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
+            <br />
+            <div class="ifgrpbtn">
+              <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+              <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
+            </div>
+          </form>
+        </div>
+        <div id="messages"></div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>

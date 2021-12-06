@@ -53,9 +53,7 @@
   <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" >
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace" class="spacegrid">
-        <main class="fcb enlarged">
-    
+      <div id="workspace" class="spacegrid fcb enlarged vscroll">
           <a href="logout.php">Déconnexion</a>
       
           <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
@@ -75,7 +73,6 @@
             <!-- see account.js to see how this div is populated -->
           </div>
           <!-- ADD A LOGOUT BUTTON -->
-        </main>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>

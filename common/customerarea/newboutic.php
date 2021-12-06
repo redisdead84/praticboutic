@@ -35,50 +35,48 @@ require_once '../../vendor/autoload.php';
   <body class="custombody">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace" class="spaceflex">
-        <main class="fcb">
-          <div class="customform">
-            <p class="center middle title">
-              Initialisation de la boutic
-            </p>
-            <form id="signup-form" onsubmit="bakinfo()" method="post" action="initboutic.php" autocomplete="on">
-              <div class="twocol">
-                <div class="param">
-                  <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" /><br>
-                </div>
-                <div class="param">
-                  <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
-                </div>
-                <div class="param">
-                  <input class="paramfieldc" id="adresse1" maxlength="150" name="adresse1" type="text" placeholder="Adresse (ligne1) de la boutic" value="" /><br>
-                </div>
-                <div class="param">
-                  <input class="paramfieldc" id="adresse2" maxlength="150" name="adresse2" type="text" placeholder="Adresse (ligne2) de la boutic" value="" /><br>
-                </div>
-                <div class="param">
-                  <input class="paramfieldc" id="codepostal" maxlength="5" name="codepostal" pattern="[0-9]{5}" type="text" placeholder="Code postal de la boutic" value="" /><br>
-                </div>
-                <div class="param">
-                  <input class="paramfieldc" id="ville" maxlength="50" name="ville" type="text" placeholder="Ville de la boutic" value="" /><br>
-                </div>
-                <div class="param">
-                  <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
-                </div>
-                <div id="bloclogoid">
-                  <label class="paramfieldlf">Logo de la boutic : </label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
-                  <div class="frameimg">
-                    <img id="artlogo" class="imgart" src="" alt="">
-                    <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
-                  </div>
-                </div>
-                <div class="param rwc2">
-                  <input class="btn-nbsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                  <input class="btn-nbprimary" type="submit" name="continuer" value="CONFIRMATION" autofocus />
+      <div id="workspace" class="spaceflexnb">
+        <div class="customform">
+          <p class="center middle title">
+            Initialisation de la boutic
+          </p>
+          <form id="signup-form" onsubmit="bakinfo()" method="post" action="initboutic.php" autocomplete="on">
+            <div class="twocol">
+              <div class="param">
+                <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" /><br>
+              </div>
+              <div class="param">
+                <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
+              </div>
+              <div class="param">
+                <input class="paramfieldc" id="adresse1" maxlength="150" name="adresse1" type="text" placeholder="Adresse (ligne1) de la boutic" value="" /><br>
+              </div>
+              <div class="param">
+                <input class="paramfieldc" id="adresse2" maxlength="150" name="adresse2" type="text" placeholder="Adresse (ligne2) de la boutic" value="" /><br>
+              </div>
+              <div class="param">
+                <input class="paramfieldc" id="codepostal" maxlength="5" name="codepostal" pattern="[0-9]{5}" type="text" placeholder="Code postal de la boutic" value="" /><br>
+              </div>
+              <div class="param">
+                <input class="paramfieldc" id="ville" maxlength="50" name="ville" type="text" placeholder="Ville de la boutic" value="" /><br>
+              </div>
+              <div class="param">
+                <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
+              </div>
+              <div id="bloclogoid">
+                <label class="paramfieldlf">Logo de la boutic : </label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
+                <div class="frameimg">
+                  <img id="artlogo" class="imgart" src="" alt="">
+                  <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
                 </div>
               </div>
-            </form>
-          </div>
-        </main>
+              <div class="param rwc2">
+                <input class="btn-nbsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+                <input class="btn-nbprimary" type="submit" name="continuer" value="CONFIRMATION" autofocus />
+              </div>
+            </div>
+          </form>
+        </div>
         <img id='illus4' src='img/illustration_4.png' />
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>

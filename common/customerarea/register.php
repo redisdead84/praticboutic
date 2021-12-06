@@ -39,7 +39,6 @@
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
         <img id='illus3' src='img/illustration_3.png' />
-        <main class="fcb">
           <div class="customform">
             <p class="center middle title">
               Formulaire d'inscription client
@@ -90,7 +89,6 @@
               </div>
             </form>
           </div>
-        </main>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
