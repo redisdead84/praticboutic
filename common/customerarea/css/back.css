@@ -1008,6 +1008,14 @@ div
   justify-content: center;
 }
 
+.spaceflexcols
+{
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: column;
+}
+
 #illus1
 {
   height: 60vh;
@@ -1145,4 +1153,13 @@ div.blocsysmoney
 .grpbtnfor
 {
   margin: 20px;
+}
+
+.titleac
+{
+  font-size: 200%;
+  font-weight: bolder;
+  font-family: 'Montserrat', sans-serif !important;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }

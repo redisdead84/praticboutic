@@ -53,26 +53,19 @@
   <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" >
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace" class="spacegrid fcb enlarged vscroll">
-          <a href="logout.php">Déconnexion</a>
-      
-          <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
-          <p class="center middle title">
-            Votre compte
-          </p>
-        
-          <a id="addaboid" href="boprices.php">Ajouter un abonnement</a>
-
-          <h3>Abonnements</h3>
-          <div id="bouticlinks">
-
+      <div id="workspace" class="spaceflex fcb enlarged vscroll">
+        <div class="spaceflexcols">
+          <div class="spaceflexcols">
+            <a href="logout.php">Déconnexion</a>
+            <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
+            <p class="center titleac">Votre compte</p>
+            <a id="addaboid" href="boprices.php">Ajouter un abonnement</a>
+            <h3>Abonnements</h3>
           </div>
-          <br>
-
-          <div id="subscriptions">
+          <div id="bouticlinks">
             <!-- see account.js to see how this div is populated -->
           </div>
-          <!-- ADD A LOGOUT BUTTON -->
+        </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
