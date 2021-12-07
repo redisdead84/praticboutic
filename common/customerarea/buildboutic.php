@@ -48,6 +48,7 @@
                 $dotenv->load();
                 
                 $output ="";
+                $raz = 0;
 
                 $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['verify_email'] . "'";
 
@@ -56,7 +57,10 @@
                   if ($row = $result->fetch_row()) 
                   {
                     if (intval($row[0])>0)
+                    {
+                      $raz = 1;
                       throw new Error("Impossible d'avoir plusieurs fois le même courriel " . $_SESSION['verify_email']);
+                    }
                   }
                   $result->close();
                 }

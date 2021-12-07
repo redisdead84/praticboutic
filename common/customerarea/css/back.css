@@ -1085,13 +1085,14 @@ div.blocsysmoney
   display: flex;
   justify-content: space-between;
   flex-flow: column;
-  flex: 0 0 40%;
   align-items: center;
+  margin: 20px;
 }
 
 .paieico
 {
   height: 16vh;
+  margin: 20px;
 }
 
 .lblmnyparam

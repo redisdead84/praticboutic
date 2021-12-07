@@ -37,47 +37,45 @@ require_once '../config/common_cfg.php';
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
-        <main class="fcb">
-          <div class="customform">
-            <p class="center middle title">
-              Choix de paiement
-            </p>
-            <form id="moneysys-form" name="mainform" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="off">
-              <input id="moneysystemid" type="hidden" value="NONE" />
-              <input id="caisseid" type="hidden" value="NONE" />
-              <div class="chxpaisys">
-                <div class="blocsysmoney">
-                  <img id="stripeico" name="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
-                  <div id="idparamstripe" style="display: none;">
-                    <div id="iddivpubkey" class="param">
-                      <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" placeholder="Clé Public Stripe" maxlength="255" />
-                    </div>
-                    <div id="iddivseckey" class="param">
-                      <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" placeholder="Clé Privé Stripe" maxlength="255" />
-                    </div>
-                    <a id="idlienstripe" href="https://www.stripe.com/" target="_blank">Stripe (site officiel) - Standard du paiement en ligne</a>
+        <div class="customform">
+          <p class="center middle title">
+            Choix de paiement
+          </p>
+          <form id="moneysys-form" name="mainform" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="off">
+            <input id="moneysystemid" type="hidden" value="NONE" />
+            <input id="caisseid" type="hidden" value="NONE" />
+            <div class="chxpaisys">
+              <div class="blocsysmoney">
+                <img id="stripeico" name="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
+                <div id="idparamstripe" style="display: none;">
+                  <div id="iddivpubkey" class="param">
+                    <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" placeholder="Clé Public Stripe" maxlength="255" />
                   </div>
-                </div>
-                <div class="blocsysmoney">
-                  <img id="paypalico" name="paypalico" class="paieico" src="img/paypal_unselected.png" onclick="toggle(this)" data-state="off">
-                  <div id="idparampaypal" style="display: none;">
-                    <div id="iddivppakey" class="param">
-                      <input class="paramfieldc" id="idcltpaypalid" type='text' maxlength="255" name="idcltpaypal" autocomplete="off" placeholder="ID Client Paypal"/>
-                    </div>
-                    <a id="idlienpaypal" href="https://www.paypal.com/" target="_blank">Paiements en ligne - Transferts d'argent | PayPal FR</a>
+                  <div id="iddivseckey" class="param">
+                    <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" placeholder="Clé Privé Stripe" maxlength="255" />
                   </div>
-                </div>
-                <div class="blocsysmoney">
-                  <img id="caisseico" name="caisseico" class="paieico" src="img/caisse_unselected.png" onclick="toggle(this)" data-state="off">
+                  <a id="idlienstripe" href="https://www.stripe.com/" target="_blank">Stripe (site officiel) - Standard du paiement en ligne</a>
                 </div>
               </div>
-              <div class="param rwc margetop">
-                <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <input class="butc btn-msprimary" id="msvalid" type="button" onclick="javascript:bakinfo()" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
+              <div class="blocsysmoney">
+                <img id="paypalico" name="paypalico" class="paieico" src="img/paypal_unselected.png" onclick="toggle(this)" data-state="off">
+                <div id="idparampaypal" style="display: none;">
+                  <div id="iddivppakey" class="param">
+                    <input class="paramfieldc" id="idcltpaypalid" type='text' maxlength="255" name="idcltpaypal" autocomplete="off" placeholder="ID Client Paypal"/>
+                  </div>
+                  <a id="idlienpaypal" href="https://www.paypal.com/" target="_blank">Paiements en ligne - Transferts d'argent | PayPal FR</a>
+                </div>
               </div>
-            </form>
-          </div>
-        </main>
+              <div class="blocsysmoney">
+                <img id="caisseico" name="caisseico" class="paieico" src="img/caisse_unselected.png" onclick="toggle(this)" data-state="off">
+              </div>
+            </div>
+            <div class="param rwc margetop">
+              <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+              <input class="butc btn-msprimary" id="msvalid" type="button" onclick="javascript:bakinfo()" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
+            </div>
+          </form>
+        </div>
         <img id='illus5' src='img/illustration_5.png' />
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
@@ -132,7 +130,8 @@ require_once '../config/common_cfg.php';
       document.getElementById("secretkeyid").value = sessionStorage.getItem('pb_initb_secretkeyid');
       document.getElementById("idcltpaypalid").value = sessionStorage.getItem('pb_initb_idcltpaypalid');
       document.getElementById("caisseid").value = sessionStorage.getItem('pb_initb_caisseid');
-
+      document.getElementById("msvalid").disabled = true;
+      document.getElementById("msvalid").style = "opacity: 0.5";
       var elemc = document.getElementById("caisseid");
       if (elemc.value == 'NONE')
       {
@@ -176,6 +175,8 @@ require_once '../config/common_cfg.php';
         document.getElementById("paypalico").src = "img/paypal_selected.png";
         document.getElementById("idparamstripe").style.display = "none";
         document.getElementById("idparampaypal").style.display = "block";
+        document.getElementById("msvalid").disabled = false;
+        document.getElementById("msvalid").style = "opacity: 1";
       }
       else if (elemms.value == 'STRIPE')
       {
@@ -185,6 +186,8 @@ require_once '../config/common_cfg.php';
         document.getElementById("paypalico").src = "img/paypal_unselected.png";
         document.getElementById("idparamstripe").style.display = "block";
         document.getElementById("idparampaypal").style.display = "none";
+        document.getElementById("msvalid").disabled = false;
+        document.getElementById("msvalid").style = "opacity: 1";
       }
     }
   
