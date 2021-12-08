@@ -47,16 +47,21 @@
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
         <div class="modal-content-mainmenu modal-content-cb elemcb">
-          <p class="center middle title">
-            Annulation
-          </p>
-          <Label>Voulez-vous annuler cet abonnement ?</label><br>
-          <div class="param rwc grpbtnfor ffr">
-            <input class="butc btn-nbsecondary" type="button" onclick="javascript:revenir()" value="Non" />
-            <button class="btn-nbprimary" id="cancel-btn">Oui</button>
+          <div class="modal-header-cb">
+            <h6 class="modal-title-cb">
+              ANNULATION
+            </h6>
           </div>
-          <div id="messages"></div>
+          <Label style="color:white;">Voulez-vous annuler cet abonnement ?</label><br>
+          <div class="modal-body-cb">
+            <div class="param rwc grpbtnfor ffr">
+              <input class="butc btn-nbsecondary" type="button" onclick="javascript:revenir()" value="Non" />
+              <button class="btn-nbprimary" id="cancel-btn">Oui</button>
+            </div>
+            <div id="messages"></div>
+          </div>
         </div>
+      </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
   </body>
@@ -76,5 +81,4 @@
       }
     }
   </script>
-
 </html>
