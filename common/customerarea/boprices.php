@@ -49,7 +49,7 @@
             </div>
             <div class="param rwc">
               <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="allow()" />
-              <label for="cgv"> En cochant cette case vous accpetez <a href="cgv.html">les conditions générales de vente</a></label>
+              <label for="cgv"> En cochant cette case vous accpetez <a href="javascript:bakinfo();window.location='bocgv.php'">les conditions générales de vente</a></label>
             </div>
             <div class="param rwc grpbtnfor">
               <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="ANNULATION" />

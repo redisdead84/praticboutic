@@ -46,18 +46,17 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
-        <main class="fcb">
+        <div class="modal-content-mainmenu modal-content-cb elemcb">
           <p class="center middle title">
             Annulation
           </p>
-
-          <input class="butc regbutton" type="button" onclick="javascript:revenir()" value="Revenir" />
-
-          <button id="cancel-btn">Confirmer</button>
-
+          <Label>Voulez-vous annuler cet abonnement ?</label><br>
+          <div class="param rwc grpbtnfor ffr">
+            <input class="butc btn-nbsecondary" type="button" onclick="javascript:revenir()" value="Non" />
+            <button class="btn-nbprimary" id="cancel-btn">Oui</button>
+          </div>
           <div id="messages"></div>
-        </main>
-      </div>
+        </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
   </body>
