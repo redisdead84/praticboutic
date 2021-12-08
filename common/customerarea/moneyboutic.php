@@ -104,7 +104,7 @@ require_once '../config/common_cfg.php';
         if ((pubkey.startsWith('pk_live') == false) && (pubkey.startsWith('pk_test') == false))
         {
           failed = true;
-          if ((astk == false) && (pubkey.startsWith('pk_test')))
+          if ((astk == false) && (!pubkey.startsWith('pk_live')))
             alert("La clé public Stripe doit commencer par 'pk_live'");
           else
             alert("La clé public Stripe doit commencer par 'pk_test' ou 'pk_live'");
@@ -112,7 +112,7 @@ require_once '../config/common_cfg.php';
         else if ((seckey.startsWith('sk_live') == false) && (seckey.startsWith('sk_test') == false))
         {
           failed = true;
-          if ((astk == false) && (seckey.startsWith('sk_test')))
+          if ((astk == false) && (!seckey.startsWith('sk_live')))
             alert("La clé secrète Stripe doit commencer par 'sk_live'");
           else
             alert("La clé secrète Stripe doit commencer par 'sk_test' ou 'sk_live'");
