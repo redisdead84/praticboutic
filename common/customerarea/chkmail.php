@@ -83,6 +83,14 @@
                   };
                   
                   $mail->isSMTP();                                      // Set mailer to use SMTP
+                  
+                  $mail->SMTPOptions = array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                      )
+                  );
 
                   $mail->Host = $host;  // Specify main and backup SMTP servers
                   $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
@@ -119,7 +127,7 @@
                   $mail->Body = $text;
                   //error_log($mail->Body);
                   $mail->send();
-                  error_log($debug);
+
                   $sent = 1;
                   $_SESSION['reg_mailsent'] = 'oui';
 
@@ -132,6 +140,7 @@
               {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
                 echo 'Erreur Le message n a pu être envoyé<br />';
+                echo $debug;
               }
             ?>
           </div>
