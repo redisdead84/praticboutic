@@ -76,7 +76,7 @@
                     }
                   }
 
-                  $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+                  $mail->SMTPDebug = 4;                                 // Enable verbose debug output
                   $debug = '';
                   $mail->Debugoutput = function($str, $level) {
                     $GLOBALS['debug'] .= "$level: $str\n";
