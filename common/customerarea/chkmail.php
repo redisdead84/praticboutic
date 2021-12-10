@@ -76,7 +76,12 @@
                     }
                   }
 
-                  $mail->SMTPDebug = 0;                                 // Enable verbose debug output
+                  $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+                  $debug = '';
+                  $mail->Debugoutput = function($str, $level) {
+                    $GLOBALS['debug'] .= "$level: $str\n";
+                  };
+                  
                   $mail->isSMTP();                                      // Set mailer to use SMTP
 
                   $mail->Host = $host;  // Specify main and backup SMTP servers
@@ -114,6 +119,7 @@
                   $mail->Body = $text;
                   //error_log($mail->Body);
                   $mail->send();
+                  error_log($debug);
                   $sent = 1;
                   $_SESSION['reg_mailsent'] = 'oui';
 
