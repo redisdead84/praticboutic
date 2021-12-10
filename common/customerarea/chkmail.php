@@ -76,11 +76,11 @@
                     }
                   }
 
-                  $mail->SMTPDebug = 4;                                 // Enable verbose debug output
-                  $debug = '';
-                  $mail->Debugoutput = function($str, $level) {
-                    $GLOBALS['debug'] .= "$level: $str\n";
-                  };
+                  //$mail->SMTPDebug = 4;                                 // Enable verbose debug output
+                  // $debug = '';
+                  //$mail->Debugoutput = function($str, $level) {
+                  //  $GLOBALS['debug'] .= "$level: $str\n";
+                  //};
                   
                   $mail->isSMTP();                                      // Set mailer to use SMTP
                   
@@ -140,7 +140,7 @@
               {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
                 echo 'Erreur Le message n a pu être envoyé<br />';
-                echo $debug;
+                // error_log($debug);
               }
             ?>
           </div>
