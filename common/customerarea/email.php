@@ -14,15 +14,15 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-
-    </script>';
-    <div class="modal" tabindex="-1" role="dialog" data-backdrop="false">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">INFORMATION</h5>
+    <div id="screen">
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <div id="workspace" class="spacemodal">
+        <img id='illus2' src='img/illustration_2.png' class="elemcb" />
+        <div class="modal-content-mainmenu elemcb">
+          <div class="modal-header-cb">
+            <h5 class="modal-title-cb">INFORMATION</h5>
           </div>
-          <div class="modal-body">
+          <div class="modal-body-cb">
             <script type="text/javascript">
               var modal = $('.modal');
               function changetitle(title) {
@@ -32,59 +32,59 @@
             <?php
               session_start();
 
-            // Import PHPMailer classes into the global namespace
-            // These must be at the top of your script, not inside a function
-            use PHPMailer\PHPMailer\PHPMailer;
-            use PHPMailer\PHPMailer\Exception;
+              // Import PHPMailer classes into the global namespace
+              // These must be at the top of your script, not inside a function
+              use PHPMailer\PHPMailer\PHPMailer;
+              use PHPMailer\PHPMailer\Exception;
 
-            //Load composer's autoloader
-            require '../../vendor/autoload.php';
+              //Load composer's autoloader
+              require '../../vendor/autoload.php';
+              include "../config/common_cfg.php";
+              include "../param.php";
 
-            include "../config/common_cfg.php";
-            include "../param.php";
-
-            function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')
-            {
-              $sets = array();
-              if(strpos($available_sets, 'l') !== false)
-                $sets[] = 'abcdefghjkmnpqrstuvwxyz';
-              if(strpos($available_sets, 'u') !== false)
-                $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
-              if(strpos($available_sets, 'd') !== false)
-                $sets[] = '23456789';
-              if(strpos($available_sets, 's') !== false)
+              function generateStrongPassword($length = 9, $add_dashes = false, $available_sets = 'luds')
+              {
+                $sets = array();
+                if(strpos($available_sets, 'l') !== false)
+                  $sets[] = 'abcdefghjkmnpqrstuvwxyz';
+                if(strpos($available_sets, 'u') !== false)
+                  $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+               if(strpos($available_sets, 'd') !== false)
+                  $sets[] = '23456789';
+               if(strpos($available_sets, 's') !== false)
                 $sets[] = '!@#$%&*?';
 
-              $all = '';
-              $password = '';
-              foreach($sets as $set)
-              {
-                $password .= $set[array_rand(str_split($set))];
-                $all .= $set;
+                $all = '';
+                $password = '';
+                foreach($sets as $set)
+                { 
+                  $password .= $set[array_rand(str_split($set))];
+                  $all .= $set;
+                }
+
+                $all = str_split($all);
+                for($i = 0; $i < $length - count($sets); $i++)
+                  $password .= $all[array_rand($all)];
+
+                $password = str_shuffle($password);
+
+                if(!$add_dashes)
+                  return $password;
+
+                $dash_len = floor(sqrt($length));
+                $dash_str = '';
+                while(strlen($password) > $dash_len)
+                {
+                  $dash_str .= substr($password, 0, $dash_len) . '-';
+                  $password = substr($password, $dash_len);
+                }
+                $dash_str .= $password;
+                return $dash_str;
               }
 
-              $all = str_split($all);
-              for($i = 0; $i < $length - count($sets); $i++)
-                $password .= $all[array_rand($all)];
-
-              $password = str_shuffle($password);
-
-              if(!$add_dashes)
-                return $password;
-
-              $dash_len = floor(sqrt($length));
-              $dash_str = '';
-              while(strlen($password) > $dash_len)
+              $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+              try 
               {
-                $dash_str .= substr($password, 0, $dash_len) . '-';
-                $password = substr($password, $dash_len);
-              }
-              $dash_str .= $password;
-              return $dash_str;
-            }
-
-            $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
-            try {
                 $email = isset($_POST['email']) ? $_POST['email'] : '';
                 $conn = new mysqli($servername, $username, $password, $bdd);
                 if ($conn->connect_error) 
@@ -116,8 +116,17 @@
                    }
                 }
 
-                $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-                $mail->isSMTP();                                      // Set mailer to use SMTP
+                //$mail->SMTPDebug = 0;                                 // Enable verbose debug output
+                $mail->isSMTP();
+
+                // Set mailer to use SMTP
+                $mail->SMTPOptions = array(
+                  'ssl' => array(
+                      'verify_peer' => false,
+                      'verify_peer_name' => false,
+                      'allow_self_signed' => true
+                    )
+                );
 
                 $mail->Host = $host;  // Specify main and backup SMTP servers
                 $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
@@ -205,14 +214,21 @@
               }
             ?>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer-cb">
               <a href="index.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
             </div>
          </div>
       </div>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
   </body>
   <script type="text/javascript" >
-    $('.modal').modal('show');
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter la récupération du mot de passe ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
+    }
   </script>
 </html>
