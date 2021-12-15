@@ -53,7 +53,7 @@
             </div>
             <div class="param rwc grpbtnfor">
               <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="ANNULATION" />
-              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5"/>
+              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" data-ready="2"/>
             </div>
           </div>
         </main>
@@ -74,6 +74,8 @@
     }
     window.onload=function()
     {
+      document.getElementById("cfvalid").disabled = true;
+      document.getElementById("cfvalid").style = "opacity: 0.5";
       changelink();
       if (sessionStorage.getItem('pb_chxfor_engagement') !== null)
         document.getElementById("engagementico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_engagement'));
@@ -120,6 +122,8 @@
         params.append('subscriptionId', data.subscriptionId);
         params.append('clientSecret', data.clientSecret);
         document.getElementById("cfvalid").setAttribute("data-linkfixe", params.toString() );
+        document.getElementById("cfvalid").setAttribute("data-ready", String(parseInt(document.getElementById("cfvalid").getAttribute("data-ready")) - 1) );
+        allow();
       }
     })
   }
@@ -152,6 +156,8 @@
           params.append('customerId', data.customerId);
           params.append('priceId', data.priceId);
           document.getElementById("cfvalid").setAttribute("data-linkconso", params.toString() );
+          document.getElementById("cfvalid").setAttribute("data-ready", String(parseInt(document.getElementById("cfvalid").getAttribute("data-ready")) - 1) );
+          allow();
         }
       })
     }
@@ -209,7 +215,7 @@
     
     function allow() 
     {
-      if (document.getElementById("cgvid").checked == true)
+      if ((document.getElementById("cgvid").checked == true) && (document.getElementById("cfvalid").getAttribute("data-ready") == "0"))
       {
         if (document.getElementById("engagementico").getAttribute("data-state") == "on")
         {

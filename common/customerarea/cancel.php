@@ -58,9 +58,9 @@
               <input class="butc btn-nbsecondary" type="button" onclick="javascript:revenir()" value="Non" />
               <button class="btn-nbprimary" id="cancel-btn">Oui</button>
             </div>
-            <div id="messages"></div>
           </div>
         </div>
+        <div id="messages"></div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
