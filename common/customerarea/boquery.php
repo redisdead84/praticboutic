@@ -624,7 +624,7 @@ try {
   {
     $conn->autocommit(false);
 
-    $output ="";
+    $arr ="";
     $raz = 0;
 
     $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['verify_email'] . "'";
