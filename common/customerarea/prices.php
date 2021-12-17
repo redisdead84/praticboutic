@@ -37,9 +37,12 @@
   <body class="custombody">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace" class="spaceflex">
-        <main class="fcb">
-          <div class="customform">
+      <div id="workspace" class="spaceflex" data-ready="2">
+        <div id="loadid" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <main id="mainid" class="fcb" style="display: none;">
+          <div id="cfid" class="customform">
             <p class="center middle title">
               Choississez la formule d'abonnement
             </p>
@@ -53,11 +56,11 @@
             </div>
             <div class="param rwc grpbtnfor">
               <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="ANNULATION" />
-              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" data-ready="2"/>
+              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" />
             </div>
           </div>
+          <img id='illus7' src='img/illustration_7.png' />
         </main>
-        <img id='illus7' src='img/illustration_7.png' />
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
@@ -122,7 +125,7 @@
         params.append('subscriptionId', data.subscriptionId);
         params.append('clientSecret', data.clientSecret);
         document.getElementById("cfvalid").setAttribute("data-linkfixe", params.toString() );
-        document.getElementById("cfvalid").setAttribute("data-ready", String(parseInt(document.getElementById("cfvalid").getAttribute("data-ready")) - 1) );
+        document.getElementById("workspace").setAttribute("data-ready", String(parseInt(document.getElementById("workspace").getAttribute("data-ready")) - 1) );
         allow();
       }
     })
@@ -156,7 +159,7 @@
           params.append('customerId', data.customerId);
           params.append('priceId', data.priceId);
           document.getElementById("cfvalid").setAttribute("data-linkconso", params.toString() );
-          document.getElementById("cfvalid").setAttribute("data-ready", String(parseInt(document.getElementById("cfvalid").getAttribute("data-ready")) - 1) );
+          document.getElementById("workspace").setAttribute("data-ready", String(parseInt(document.getElementById("workspace").getAttribute("data-ready")) - 1) );
           allow();
         }
       })
@@ -215,38 +218,43 @@
     
     function allow() 
     {
-      if ((document.getElementById("cgvid").checked == true) && (document.getElementById("cfvalid").getAttribute("data-ready") == "0"))
+      if (document.getElementById("workspace").getAttribute("data-ready") == "0")
       {
-        if (document.getElementById("engagementico").getAttribute("data-state") == "on")
+        document.getElementById("loadid").style.display = "none";
+        document.getElementById("mainid").style.display = "flex";
+        if (document.getElementById("cgvid").checked == true)
         {
-          document.getElementById("cfvalid").disabled = false;
-          document.getElementById("cfvalid").style = "opacity: 1";
-          document.getElementById("cfvalid").onclick = function()
+          if (document.getElementById("engagementico").getAttribute("data-state") == "on")
           {
-            bakinfo();
-            window.location.href = 'subscribe.php?' + document.getElementById("cfvalid").getAttribute("data-linkfixe");
-          };
-        }
-        else if (document.getElementById("commissionico").getAttribute("data-state") == "on")
-        {
-          document.getElementById("cfvalid").disabled = false;
-          document.getElementById("cfvalid").style = "opacity: 1";
-          document.getElementById("cfvalid").onclick = function()
+            document.getElementById("cfvalid").disabled = false;
+            document.getElementById("cfvalid").style = "opacity: 1";
+            document.getElementById("cfvalid").onclick = function()
+            {
+              bakinfo();
+              window.location.href = 'subscribe.php?' + document.getElementById("cfvalid").getAttribute("data-linkfixe");
+            };
+          }
+          else if (document.getElementById("commissionico").getAttribute("data-state") == "on")
           {
-            bakinfo();
-            window.location.href = 'conso.php?' + document.getElementById("cfvalid").getAttribute("data-linkconso");
-          };
+            document.getElementById("cfvalid").disabled = false;
+            document.getElementById("cfvalid").style = "opacity: 1";
+            document.getElementById("cfvalid").onclick = function()
+            {
+              bakinfo();
+              window.location.href = 'conso.php?' + document.getElementById("cfvalid").getAttribute("data-linkconso");
+            };
+          }
+          else 
+          {
+            document.getElementById("cfvalid").disabled = true;
+            document.getElementById("cfvalid").style = "opacity: 0.5";
+          }
         }
         else 
         {
           document.getElementById("cfvalid").disabled = true;
           document.getElementById("cfvalid").style = "opacity: 0.5";
         }
-      }
-      else 
-      {
-        document.getElementById("cfvalid").disabled = true;
-        document.getElementById("cfvalid").style = "opacity: 0.5";
       }
     }
     

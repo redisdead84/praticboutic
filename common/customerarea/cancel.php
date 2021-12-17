@@ -40,13 +40,13 @@
     <meta http-equiv="Expires" content="0" />
     <script src="https://js.stripe.com/v3/"></script>
     <script> var login = <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>; </script>
-    <script src="cancel.js" defer></script>
+    <script src="cancel.js?v=1.103" defer></script>
   </head>
   <body class="custombody">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
-        <div class="modal-content-mainmenu modal-content-cb elemcb">
+        <div id="modalid" class="modal-content-mainmenu modal-content-cb elemcb">
           <div class="modal-header-cb">
             <h6 class="modal-title-cb">
               ANNULATION
@@ -60,7 +60,9 @@
             </div>
           </div>
         </div>
-        <div id="messages"></div>
+        <div id="loadid" class="spinner-border" role="status" style="display: none;">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>

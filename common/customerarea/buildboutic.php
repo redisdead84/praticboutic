@@ -1,7 +1,26 @@
+<?php
+  session_start();
+  
+  if (empty($_SESSION['verify_email']) == TRUE)
+  {
+    header("LOCATION: index.php");
+    exit();
+  }
+  
+  require_once '../../vendor/autoload.php';
+  include "../config/common_cfg.php";
+  include "../param.php";
+?>
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/back.css?v=1.12">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -13,179 +32,62 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-    <div class="modal" tabindex="-1" role="dialog" data-backdrop="false">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">ERREUR</h5>
+    <div id="screen">
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()"/>
+      <div id="workspace" class="spacemodal">
+        <div id="loadid" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id="modalid" class="modal-content-mainmenu modal-content-cb elemcb" style="display: none;">
+          <div class="modal-header-cb">
+            <h5 class="modal-title-cb">ERREUR</h5>
           </div>
-          <div class="modal-body">
-            <?php 
-              session_start();
-              
-              if (empty($_SESSION['verify_email']) == TRUE)
-              {
-                header("LOCATION: index.php");
-                exit();
-              }
-                
-              require_once '../../vendor/autoload.php';
-              include "../config/common_cfg.php";
-              include "../param.php";
-              try
-              {
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $bdd);
-                
-                $conn->autocommit(false);
-                // Check connection
-                if ($conn->connect_error) 
-                {
-                  throw new Error("Connection failed: " . $conn->connect_error);
-                }
-                
-                $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-                $dotenv->load();
-                
-                $output ="";
-                $raz = 0;
-
-                $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['verify_email'] . "'";
-
-                if ($result = $conn->query($subquery)) 
-                {
-                  if ($row = $result->fetch_row()) 
-                  {
-                    if (intval($row[0])>0)
-                    {
-                      $raz = 1;
-                      throw new Error("Impossible d'avoir plusieurs fois le même courriel " . $_SESSION['verify_email']);
-                    }
-                  }
-                  $result->close();
-                }
-
-                $cpwd = password_hash($_SESSION['registration_pass'], PASSWORD_DEFAULT);
-                $query = "INSERT INTO client(email, pass, qualite, nom, prenom, adr1, adr2, cp, ville, tel, stripe_customer_id, actif) VALUES ";
-                $query = $query . "('" . $_SESSION['verify_email']  . "','" . $cpwd. "','" . $_SESSION['registration_qualite'] . "','" . addslashes($_SESSION['registration_nom']) . "','";
-                $query = $query . addslashes($_SESSION['registration_prenom']) . "','" . addslashes($_SESSION['registration_adr1']) . "','" . addslashes($_SESSION['registration_adr2']) . "','" . addslashes($_SESSION['registration_cp']) . "','";
-                $query = $query . addslashes($_SESSION['registration_ville']) . "','" . $_SESSION['registration_tel'] . "','" . $_SESSION['registration_stripe_customer_id'] . "','1')";
-                
-                //error_log($query);
-
-                if ($conn->query($query) === FALSE)
-                {
-                  throw new Error($conn->error);
-                }
-                
-                $cltid = $conn->insert_id;
-                
-                if (empty($_SESSION['initboutic_aliasboutic'])==TRUE ) {
-                  throw new Error("Identifiant vide");
-                }
-                
-                $notid = array('admin', 'common', 'route', 'upload', 'vendor');
-                if(in_array($_SESSION['initboutic_aliasboutic'], $notid)) //Si l'extension n'est pas dans le tableau
-                {
-                  throw new Error('Identifiant interdit');
-                }
-                
-                $q = "INSERT INTO customer (cltid, customer, nom, adresse1, adresse2, codepostal, ville, logo, courriel) ";
-                $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . addslashes($_SESSION['initboutic_nom']) . "', '" .  addslashes($_SESSION['initboutic_adresse1']) . "', '";
-                $q = $q . addslashes($_SESSION['initboutic_adresse2']) . "', '" . $_SESSION['initboutic_codepostal'] . "', '" . addslashes($_SESSION['initboutic_ville']) . "', '";
-                $q = $q . $_SESSION['initboutic_logo'] . "', '" . $_SESSION['initboutic_email'] . "')";
-                //error_log($q);
-                
-                if ($conn->query($q) === FALSE) 
-                {
-                  throw new Error("erreur lors de l insertion: " . $conn->connect_error);
-                }
-                
-                $bouticid = $conn->insert_id;
-                
-                $query = "INSERT INTO abonnement(cltid, creationboutic, bouticid, stripe_subscription_id, actif) VALUES ";
-                $query = $query . "('$cltid', '0', '$bouticid', '" . $_SESSION['creationabonnement_stripe_subscription_id'] . "', '1')";
-            
-                //error_log($query);
-            
-                if ($conn->query($query) === FALSE)
-                {
-                  throw new Error($conn->error);
-                }
-                
-                $parametres = array (
-                  array("isHTML_mail", "1", "HTML activé pour l'envoi de mail"),
-                  array("Subject_mail","Commande PraticBoutic","Sujet du courriel pour l'envoi de mail"),
-                  array("VALIDATION_SMS", $_SESSION['confboutic_validsms'], "Commande validée par sms ?"),
-                  array("VerifCP", "0", "Activation de la verification des codes postaux"),
-                  array("Choix_Paiement", $_SESSION['confboutic_chxpaie'], "COMPTANT ou LIVRAISON ou TOUS"),
-                  array("MP_Comptant", "Par carte bancaire", "Texte du paiement comptant"),
-                  array("MP_Livraison", "Moyens conventionnels", "Texte du paiement à la livraison"),
-                  array("Choix_Method", $_SESSION['confboutic_chxmethode'], "TOUS ou EMPORTER ou LIVRER"),
-                  array("CM_Livrer", "Vente avec livraison", "Texte de la vente à la livraison"),
-                  array("CM_Emporter", "Vente avec passage à la caisse", "Texte de la vente à emporter"),
-                  array("MntCmdMini", $_SESSION['confboutic_mntmincmd'], "Montant commande minimal"),
-                  array("SIZE_IMG", "smallimg", "bigimg ou smallimg"),
-                  array("CMPT_CMD", "0", "Compteur des références des commandes"),
-                  array("MONEY_SYSTEM", $_SESSION['moneysys_moneysys'], "STRIPE ou PAYPAL"),
-                  array("PublicKey", $_SESSION['moneysys_stripepubkey'], "Clé public stripe"),
-                  array("SecretKey", $_SESSION['moneysys_stripeseckey'], "Clé privé stripe"),
-                  array("ID_CLT_PAYPAL", $_SESSION['moneysys_paypalid'], "ID Client PayPal"),
-                );
-
-                for($i=0; $i<count($parametres); $i++)
-                {
-                  $q = ' INSERT INTO parametre (customid, nom, valeur, commentaire) ';
-                  $q = $q . 'VALUES ("' . $bouticid . '","' . $parametres[$i][0] . '","' . addslashes($parametres[$i][1]) . '","' . $parametres[$i][2] . '")';
-                  //error_log($q);
-                  if ($conn->query($q) === FALSE) 
-                  {
-                    throw new Error("Erreur lors de l'insertion d'un parametre : " . $conn->error);
-                  }
-                }
-
-                $statuts = array (
-                  array("Commande à faire", "#E2001A", "Bonjour, votre commande à été transmise. %boutic% vous remercie et vous tiendra informé de son avancé. ", 1, 1),
-                  array("En cours de préparation", "#EB690B","Votre commande est en cours de préparation. ", 0, 1),
-                  array("En cours de livraison", "#E2007A", "Votre commande est en cours de livraison, ", 0, 1),
-                  array("Commande à disposition", "#009EE0", "Votre commande est à disposition", 0, 1),
-                  array("Commande terminée", "#009036", "%boutic% vous remercie pour votre commande. À très bientôt. ", 0, 1),
-                  array("Commande anulée", "#1A171B", "Nous ne pouvons donner suite à votre commande. Pour plus d\'informations, merci de nous contacter. ", 0, 1),
-                );
-
-                for($i=0; $i<count($statuts); $i++)
-                {
-                  $q = "INSERT INTO statutcmd (customid, etat, couleur, message, defaut, actif) ";
-                  $q = $q . "VALUES ('" . $bouticid . "','" . $statuts[$i][0] . "','" . $statuts[$i][1] . "','" . $statuts[$i][2] . "','" . $statuts[$i][3] . "','" . $statuts[$i][4] . "')";
-                  //error_log($q);
-                  if ($conn->query($q) === FALSE) 
-                  {
-                    throw new Error("Erreur lors de l'insertion d'un statut de commande : " . $conn->error);
-                  }
-                }
-                $conn->commit();
-                $_SESSION['bo_stripe_customer_id'] = $_SESSION['registration_stripe_customer_id'];
-                $_SESSION['bo_id'] = $bouticid;
-                $_SESSION['bo_email'] = $_SESSION['verify_email'];
-                $_SESSION['bo_auth'] = 'oui';
-                $_SESSION['bo_init'] = 'oui';
-                header("LOCATION: admin.php");
-              }
-              catch (Error $e)
-              {
-                echo $e->getMessage();
-                $conn->rollback();
-              }
-            ?>
-            </div>
-            <div class="modal-footer">
-              <a href="register.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
-            </div>
-         </div>
+          <div class="modal-body-cb">
+            <!-- msg error here -->
+          </div>
+          <div class="modal-footer-cb">
+            <a href="register.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
+          </div>
+        </div>
       </div>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()"/>
     </div>
   </body>
   <script type="text/javascript">
-    $('.modal').modal('show');
+    var obj = { action: "buildboutic", table: ""};
+    fetch('boquery.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj)
+    })
+    .then(function(result) {
+      return result.json();
+    }) 
+    .then(function(data) {
+      if (typeof (data.error) !== "undefined")
+      {
+        document.getElementById("loadid").style.display = "none";
+        document.getElementById("modalid").style.display = "block";
+        var modal = $('.modal-content-mainmenu');
+        //$('.modal-title').html('Erreur');
+        modal.find('.modal-body-cb').text(data.error);
+        //$('.modal').modal('show');
+      }
+      else 
+      {
+        window.location = "admin.php";
+      }
+    })
+  </script>
+  <script type="text/javascript" >
+    function quitterbuildboutic()
+    {
+      if (confirm("Voulez-vous quitter le constructeur de boutic ?") == true)
+      {
+        window.location ='https://pratic-boutic.fr';
+      }
+    }
   </script>
 </html>

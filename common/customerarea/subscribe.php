@@ -42,22 +42,27 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
-        <img id='illus8' src='img/illustration_8.png' />
-        <div class="customform">
-          <p class="center middle title">
-            Informations de Paiement
-          </p>
-          <form id="subscribe-form">
-            <div class="stripeelem" id="card-element">
-              <!-- Elements will create input elements here -->
-            </div>
-            <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
-            <br />
-            <div class="ifgrpbtn">
-              <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-              <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
-            </div>
-          </form>
+        <div id="loadid" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id="spaceid" class="spaceflex" style="display: none;">
+          <img id='illus8' src='img/illustration_8.png' />
+          <div class="customform">
+            <p class="center middle title">
+              Informations de Paiement
+            </p>
+            <form id="subscribe-form">
+              <div class="stripeelem" id="card-element">
+                <!-- Elements will create input elements here -->
+              </div>
+              <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
+              <br />
+              <div class="ifgrpbtn">
+                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
+                <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
+              </div>
+            </form>
+          </div>
         </div>
         <div id="messages"></div>
       </div>
@@ -65,6 +70,8 @@
     </div>
   </body>
   <script type="text/javascript" >
+    document.getElementById("loadid").style.display = "none";
+    document.getElementById("spaceid").style.display = "flex";
   // helper method for displaying a status message.
     const setMessage = (message) => {
       const messageDiv = document.querySelector('#messages');
@@ -140,6 +147,8 @@
     // - Complete the subscription flow when the payment succeeds
     const form = document.querySelector('#subscribe-form');
     form.addEventListener('submit', async (e) => {
+      document.getElementById("loadid").style.display = "flex";
+      document.getElementById("spaceid").style.display = "none";
       e.preventDefault();
       const nameInput = document.getElementById('name');
     

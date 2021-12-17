@@ -23,7 +23,9 @@ $conn = new mysqli($servername, $username, $password, $bdd);
 if ($conn->connect_error) 
   die("Connection failed: " . $conn->connect_error); 
 
- 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+     
 
 header('Content-Type: application/json');
 
@@ -617,7 +619,135 @@ try {
       throw new Error($conn->error);
     }
   }
+  
+  if (strcmp($input->action,"buildboutic") == 0)
+  {
+    $conn->autocommit(false);
 
+    $output ="";
+    $raz = 0;
+
+    $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['verify_email'] . "'";
+
+    if ($result = $conn->query($subquery)) 
+    {
+      if ($row = $result->fetch_row()) 
+      {
+        if (intval($row[0])>0)
+        {
+          $raz = 1;
+          throw new Error("Impossible d'avoir plusieurs fois le même courriel " . $_SESSION['verify_email']);
+        }
+      }
+      $result->close();
+    }
+
+    $cpwd = password_hash($_SESSION['registration_pass'], PASSWORD_DEFAULT);
+    $query = "INSERT INTO client(email, pass, qualite, nom, prenom, adr1, adr2, cp, ville, tel, stripe_customer_id, actif) VALUES ";
+    $query = $query . "('" . $_SESSION['verify_email']  . "','" . $cpwd. "','" . $_SESSION['registration_qualite'] . "','" . addslashes($_SESSION['registration_nom']) . "','";
+    $query = $query . addslashes($_SESSION['registration_prenom']) . "','" . addslashes($_SESSION['registration_adr1']) . "','" . addslashes($_SESSION['registration_adr2']) . "','" . addslashes($_SESSION['registration_cp']) . "','";
+    $query = $query . addslashes($_SESSION['registration_ville']) . "','" . $_SESSION['registration_tel'] . "','" . $_SESSION['registration_stripe_customer_id'] . "','1')";
+    
+    //error_log($query);
+
+    if ($conn->query($query) === FALSE)
+    {
+      throw new Error($conn->error);
+    }
+    
+    $cltid = $conn->insert_id;
+    
+    if (empty($_SESSION['initboutic_aliasboutic'])==TRUE ) {
+      throw new Error("Identifiant vide");
+    }
+    
+    $notid = array('admin', 'common', 'route', 'upload', 'vendor');
+    if(in_array($_SESSION['initboutic_aliasboutic'], $notid)) //Si l'extension n'est pas dans le tableau
+    {
+      throw new Error('Identifiant interdit');
+    }
+    
+    $q = "INSERT INTO customer (cltid, customer, nom, adresse1, adresse2, codepostal, ville, logo, courriel) ";
+    $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . addslashes($_SESSION['initboutic_nom']) . "', '" .  addslashes($_SESSION['initboutic_adresse1']) . "', '";
+    $q = $q . addslashes($_SESSION['initboutic_adresse2']) . "', '" . $_SESSION['initboutic_codepostal'] . "', '" . addslashes($_SESSION['initboutic_ville']) . "', '";
+    $q = $q . $_SESSION['initboutic_logo'] . "', '" . $_SESSION['initboutic_email'] . "')";
+    //error_log($q);
+    
+    if ($conn->query($q) === FALSE) 
+    {
+      throw new Error("erreur lors de l insertion: " . $conn->connect_error);
+    }
+    
+    $bouticid = $conn->insert_id;
+    
+    $query = "INSERT INTO abonnement(cltid, creationboutic, bouticid, stripe_subscription_id, actif) VALUES ";
+    $query = $query . "('$cltid', '0', '$bouticid', '" . $_SESSION['creationabonnement_stripe_subscription_id'] . "', '1')";
+
+    //error_log($query);
+
+    if ($conn->query($query) === FALSE)
+    {
+      throw new Error($conn->error);
+    }
+    
+    $parametres = array (
+      array("isHTML_mail", "1", "HTML activé pour l'envoi de mail"),
+      array("Subject_mail","Commande PraticBoutic","Sujet du courriel pour l'envoi de mail"),
+      array("VALIDATION_SMS", $_SESSION['confboutic_validsms'], "Commande validée par sms ?"),
+      array("VerifCP", "0", "Activation de la verification des codes postaux"),
+      array("Choix_Paiement", $_SESSION['confboutic_chxpaie'], "COMPTANT ou LIVRAISON ou TOUS"),
+      array("MP_Comptant", "Par carte bancaire", "Texte du paiement comptant"),
+      array("MP_Livraison", "Moyens conventionnels", "Texte du paiement à la livraison"),
+      array("Choix_Method", $_SESSION['confboutic_chxmethode'], "TOUS ou EMPORTER ou LIVRER"),
+      array("CM_Livrer", "Vente avec livraison", "Texte de la vente à la livraison"),
+      array("CM_Emporter", "Vente avec passage à la caisse", "Texte de la vente à emporter"),
+      array("MntCmdMini", $_SESSION['confboutic_mntmincmd'], "Montant commande minimal"),
+      array("SIZE_IMG", "smallimg", "bigimg ou smallimg"),
+      array("CMPT_CMD", "0", "Compteur des références des commandes"),
+      array("MONEY_SYSTEM", $_SESSION['moneysys_moneysys'], "STRIPE ou PAYPAL"),
+      array("PublicKey", $_SESSION['moneysys_stripepubkey'], "Clé public stripe"),
+      array("SecretKey", $_SESSION['moneysys_stripeseckey'], "Clé privé stripe"),
+      array("ID_CLT_PAYPAL", $_SESSION['moneysys_paypalid'], "ID Client PayPal"),
+    );
+
+    for($i=0; $i<count($parametres); $i++)
+    {
+      $q = ' INSERT INTO parametre (customid, nom, valeur, commentaire) ';
+      $q = $q . 'VALUES ("' . $bouticid . '","' . $parametres[$i][0] . '","' . addslashes($parametres[$i][1]) . '","' . $parametres[$i][2] . '")';
+      //error_log($q);
+      if ($conn->query($q) === FALSE) 
+      {
+        throw new Error("Erreur lors de l'insertion d'un parametre : " . $conn->error);
+      }
+    }
+
+    $statuts = array (
+      array("Commande à faire", "#E2001A", "Bonjour, votre commande à été transmise. %boutic% vous remercie et vous tiendra informé de son avancé. ", 1, 1),
+      array("En cours de préparation", "#EB690B","Votre commande est en cours de préparation. ", 0, 1),
+      array("En cours de livraison", "#E2007A", "Votre commande est en cours de livraison, ", 0, 1),
+      array("Commande à disposition", "#009EE0", "Votre commande est à disposition", 0, 1),
+      array("Commande terminée", "#009036", "%boutic% vous remercie pour votre commande. À très bientôt. ", 0, 1),
+      array("Commande anulée", "#1A171B", "Nous ne pouvons donner suite à votre commande. Pour plus d\'informations, merci de nous contacter. ", 0, 1),
+    );
+
+    for($i=0; $i<count($statuts); $i++)
+    {
+      $q = "INSERT INTO statutcmd (customid, etat, couleur, message, defaut, actif) ";
+      $q = $q . "VALUES ('" . $bouticid . "','" . $statuts[$i][0] . "','" . $statuts[$i][1] . "','" . $statuts[$i][2] . "','" . $statuts[$i][3] . "','" . $statuts[$i][4] . "')";
+      //error_log($q);
+      if ($conn->query($q) === FALSE) 
+      {
+        throw new Error("Erreur lors de l'insertion d'un statut de commande : " . $conn->error);
+      }
+    }
+    $conn->commit();
+    $_SESSION['bo_stripe_customer_id'] = $_SESSION['registration_stripe_customer_id'];
+    $_SESSION['bo_id'] = $bouticid;
+    $_SESSION['bo_email'] = $_SESSION['verify_email'];
+    $_SESSION['bo_auth'] = 'oui';
+    $_SESSION['bo_init'] = 'oui';
+
+  }
 
   $conn->close();
 

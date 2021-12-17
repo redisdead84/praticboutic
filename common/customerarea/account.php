@@ -48,13 +48,16 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="account.js?v=1.09" defer></script>
+    <script src="account.js?v=1.091" defer></script>
   </head>
   <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" >
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex fcb enlarged vscroll">
-        <div class="spaceflexcols">
+        <div id="loadid" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id="spaceid" class="spaceflexcols" style="display: none;">
           <div class="spaceflexcols">
             <a href="logout.php">Déconnexion</a>
             <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>

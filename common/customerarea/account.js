@@ -55,5 +55,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('quitlienid').style.display = "block";
   else
     document.getElementById('quitlienid').style.display = "none";
-  
+
+  document.getElementById("loadid").style.display = "none";
+  document.getElementById("spaceid").style.display = "flex";
+
 })
