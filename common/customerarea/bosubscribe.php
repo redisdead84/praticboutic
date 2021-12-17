@@ -62,9 +62,9 @@
                 <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
               </div>
             </form>
+            <div id="messages"></div>
           </div>
         </div>
-        <div id="messages"></div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
@@ -162,6 +162,8 @@
         }
       }).then((result) => {
         if(result.error) {
+          document.getElementById("loadid").style.display = "none";
+          document.getElementById("spaceid").style.display = "flex";
           setMessage(`Payment failed: ${result.error.message}`);
         } else {
           var obj = { action: "boactivationabonnement", login: <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>, subscriptionId:subscriptionId};

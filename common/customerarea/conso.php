@@ -147,6 +147,8 @@
     
     function displayError(event) 
     {
+      document.getElementById("loadid").style.display = "none";
+      document.getElementById("spaceid").style.display = "flex";
       //changeLoadingStatePrices(false);
       let displayError = document.getElementById('card-element-errors');
       if (event) {
