@@ -695,7 +695,7 @@ try {
       array("Subject_mail","Commande PraticBoutic","Sujet du courriel pour l'envoi de mail"),
       array("VALIDATION_SMS", $_SESSION['confboutic_validsms'], "Commande validée par sms ?"),
       array("VerifCP", "0", "Activation de la verification des codes postaux"),
-      array("Choix_Paiement", $_SESSION['confboutic_chxpaie'], "COMPTANT ou LIVRAISON ou TOUS"),
+      array("Choix_Paiement", $_SESSION['moneysys_caisse'], "COMPTANT ou LIVRAISON ou TOUS"),
       array("MP_Comptant", "Par carte bancaire", "Texte du paiement comptant"),
       array("MP_Livraison", "Moyens conventionnels", "Texte du paiement à la livraison"),
       array("Choix_Method", $_SESSION['confboutic_chxmethode'], "TOUS ou EMPORTER ou LIVRER"),

@@ -36,6 +36,7 @@
               {
                 
                 $_SESSION['moneysys_moneysys'] = isset($_POST['moneysystem']) ? $_POST ['moneysystem'] : '';
+                $_SESSION['moneysys_caisse'] = isset($_POST['caisse']) ? $_POST ['caisse'] : '';
                 $_SESSION['moneysys_stripepubkey'] = isset($_POST['publickey']) ? $_POST ['publickey'] : '';
                 $_SESSION['moneysys_stripeseckey'] = isset($_POST['secretkey']) ? $_POST ['secretkey'] : '';
                 $_SESSION['moneysys_paypalid'] = isset($_POST['idcltpaypal']) ? $_POST ['idcltpaypal'] : '';

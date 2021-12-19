@@ -42,8 +42,8 @@ require_once '../config/common_cfg.php';
             Choix de paiement
           </p>
           <form id="moneysys-form" name="mainform" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="off">
-            <input id="moneysystemid" type="hidden" value="NONE" />
-            <input id="caisseid" type="hidden" value="NONE" />
+            <input id="moneysystemid" name="moneysystem" type="hidden" value="NONE" />
+            <input id="caisseid" name="caisse" type="hidden" value="NONE" />
             <div class="chxpaisys">
               <div class="blocsysmoney">
                 <img id="stripeico" name="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
