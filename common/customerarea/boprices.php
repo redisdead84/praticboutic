@@ -56,7 +56,7 @@
             </div>
             <div class="param rwc grpbtnfor">
               <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="ANNULATION" />
-              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" data-ready="2"/>
+              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" />
             </div>
           </div>
           <img id='illus7' src='img/illustration_7.png' />
@@ -73,7 +73,6 @@
     {
       sessionStorage.setItem('pb_bochxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
       sessionStorage.setItem('pb_bochxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
-      sessionStorage.setItem('pb_bochxfor_cgv', document.getElementById("cgvid").checked);
     }
     window.onload=function()
     {
@@ -84,7 +83,6 @@
         document.getElementById("engagementico").setAttribute("data-state", sessionStorage.getItem('pb_bochxfor_engagement'));
       if (sessionStorage.getItem('pb_bochxfor_commission') !== null)
         document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_bochxfor_commission'));
-      document.getElementById("cgvid").checked = (sessionStorage.getItem('pb_bochxfor_cgv') === 'true');
       if (document.getElementById("engagementico").getAttribute("data-state") == "on")
         document.getElementById("engagementico").src = "img/engagement_selected.png";
       else 

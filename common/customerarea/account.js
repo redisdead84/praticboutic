@@ -58,5 +58,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById("loadid").style.display = "none";
   document.getElementById("spaceid").style.display = "flex";
+  document.getElementById("spaceid").style.justifyContent = "center";
 
 })

@@ -73,7 +73,6 @@
     {
       sessionStorage.setItem('pb_chxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
       sessionStorage.setItem('pb_chxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
-      sessionStorage.setItem('pb_chxfor_cgv', document.getElementById("cgvid").checked);
     }
     window.onload=function()
     {
@@ -84,7 +83,6 @@
         document.getElementById("engagementico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_engagement'));
       if (sessionStorage.getItem('pb_chxfor_commission') !== null)
         document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_commission'));
-      document.getElementById("cgvid").checked = (sessionStorage.getItem('pb_chxfor_cgv') === 'true');
       if (document.getElementById("engagementico").getAttribute("data-state") == "on")
         document.getElementById("engagementico").src = "img/engagement_selected.png";
       else 

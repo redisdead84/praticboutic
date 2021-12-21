@@ -1173,3 +1173,11 @@ div.blocsysmoney
 {
   margin: 10px;
 }
+
+.flcentered
+{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100%
+}

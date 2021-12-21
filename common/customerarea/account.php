@@ -53,20 +53,22 @@
   <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" >
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace" class="spaceflex fcb enlarged vscroll">
-        <div id="loadid" class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+      <div id="workspace" class="fcb enlarged vscroll">
+        <div id="loadid" class="flcentered">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
         </div>
-        <div id="spaceid" class="spaceflexcols" style="display: none;">
-          <div class="spaceflexcols">
+        <div id="spaceid" style="display: none;">
+          <div class="">
             <a href="logout.php">Déconnexion</a>
             <a id="quitlienid" href="admin.php">Revenir à l'arrière boutic</a>
-            <p class="center titleac">Votre compte</p>
+            <p class="titleac">Votre compte</p>
             <a id="addaboid" href="boprices.php">Ajouter un abonnement</a>
             <h3>Abonnements</h3>
-          </div>
-          <div id="bouticlinks">
-            <!-- see account.js to see how this div is populated -->
+            <div id="bouticlinks">
+              <!-- Account list is placed here -->
+            </div>
           </div>
         </div>
       </div>
