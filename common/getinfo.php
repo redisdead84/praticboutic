@@ -215,7 +215,7 @@
 	      }  
       }
       echo '<div class="panneau" id="cgv">';
-      echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv" onchange="memcgv()">';
+      echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv">';
       echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>';
       echo '</div>';
     ?>
@@ -385,7 +385,6 @@
 
       }
       document.getElementById("infosup").value = sessionStorage.getItem("infosup");
-      document.getElementById("chkcgv").checked = (sessionStorage.getItem("cgv") === 'true');
     </script>
     <script type="text/javascript">
     	// Défini la zone scrollable
@@ -493,14 +492,6 @@
         
         if (failed == false)
           document.forms["mainform"].submit();
-      }
-    </script>
-    <script type="text/javascript" >
-    	// Mémorise que les conditions générales de vente ont été approuvés
-      function memcgv() 
-      {
-        var valcgv = document.getElementById("chkcgv").checked;
-        sessionStorage.setItem("cgv", valcgv);
       }
     </script>
   </body>
