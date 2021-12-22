@@ -115,6 +115,7 @@
                      $count2 = $row2[0];
                    }
                 }
+                
 
                 //$mail->SMTPDebug = 0;                                 // Enable verbose debug output
                 $mail->isSMTP();
@@ -188,20 +189,17 @@
                   }
                   else
                   {
-                    $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
-                    if ($r1 = $conn->query($q1)) 
+                    echo '<script type="text/javascript">changetitle("ERREUR") </script>';
+                    echo "Courriel non-trouvé<br />";
+                  }
+                  $q1 = "INSERT INTO connexion (ip, ts) VALUES ('$ip',CURRENT_TIMESTAMP)";
+                  if ($r1 = $conn->query($q1)) 
+                  {
+                    if ($r1 === FALSE) 
                     {
-                      if ($r1 === FALSE) 
-                       {
-                         echo '<script type="text/javascript">changetitle(title)("ERREUR") </script>';
-                         echo "Error: " . $q1 . "<br>" . $conn->error;
-                       }
-                       else 
-                       {
-                         echo '<script type="text/javascript">changetitle("ERREUR") </script>';
-                         echo "Courriel non-trouvé<br />";
-                       }
-                     }
+                      echo '<script type="text/javascript">changetitle(title)("ERREUR") </script>';
+                      echo "Error: " . $q1 . "<br>" . $conn->error;
+                    }
                   }
                 }
                 $conn->close();
