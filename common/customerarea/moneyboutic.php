@@ -101,18 +101,18 @@ require_once '../config/common_cfg.php';
       {
         var pubkey = document.forms["mainform"]["publickey"].value;
         var seckey = document.forms["mainform"]["secretkey"].value;
-        if ((pubkey.startsWith('pk_live') == false) && (pubkey.startsWith('pk_test') == false))
+        if (!((pubkey.startsWith('pk_live')==true)||((pubkey.startsWith('pk_test') == true)&&(astk == true))))
         {
           failed = true;
-          if ((astk == false) && (!pubkey.startsWith('pk_live')))
+          if (astk == false)
             alert("La clé public Stripe doit commencer par 'pk_live'");
           else
             alert("La clé public Stripe doit commencer par 'pk_test' ou 'pk_live'");
         }
-        else if ((seckey.startsWith('sk_live') == false) && (seckey.startsWith('sk_test') == false))
+        if (!((seckey.startsWith('sk_live')==true)||((seckey.startsWith('sk_test') == true)&&(astk == true))))
         {
           failed = true;
-          if ((astk == false) && (!seckey.startsWith('sk_live')))
+          if (astk == false)
             alert("La clé secrète Stripe doit commencer par 'sk_live'");
           else
             alert("La clé secrète Stripe doit commencer par 'sk_test' ou 'sk_live'");
