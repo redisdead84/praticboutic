@@ -55,7 +55,7 @@
   <script type="text/javascript" >
     function quittermenu() 
     {
-      if (confirm("Voulez-vous quitter et tout annuler ?") == true)
+      if (confirm("Voulez-vous quitter ?") == true)
       {
         window.location.href ='exit.php';
       }
