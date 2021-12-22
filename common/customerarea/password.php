@@ -48,7 +48,7 @@
   <script type="text/javascript" >
     function quittermenu() 
     {
-      if (confirm("Voulez-vous quitter la récupération du mot de passe ?") == true)
+      if (confirm("Voulez-vous quitter et tout annuler ?") == true)
       {
         window.location.href ='exit.php';
       }

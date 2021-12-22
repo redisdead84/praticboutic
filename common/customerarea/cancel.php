@@ -77,7 +77,7 @@
   <script type="text/javascript" >
     function quitterbuildboutic()
     {
-      if (confirm("Voulez-vous quitter l'esapce client de la boutic ?") == true)
+      if (confirm("Voulez-vous quitter et tout annuler ?") == true)
       {
         window.location.href ='exit.php';
       }
