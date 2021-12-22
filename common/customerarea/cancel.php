@@ -79,7 +79,7 @@
     {
       if (confirm("Voulez-vous quitter l'esapce client de la boutic ?") == true)
       {
-        window.location ='https://pratic-boutic.fr';
+        window.location.href ='exit.php';
       }
     }
   </script>

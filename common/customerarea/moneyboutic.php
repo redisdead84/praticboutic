@@ -327,7 +327,7 @@ require_once '../config/common_cfg.php';
     {
       if (confirm("Voulez-vous quitter le consructeur de boutic ?") == true)
       {
-        window.location ='https://pratic-boutic.fr';
+        window.location.href ='exit.php';
       }
     }
   </script>

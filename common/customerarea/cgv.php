@@ -221,7 +221,7 @@
     {
       if (confirm("Voulez-vous quitter le constructeur de boutic ?") == true)
       {
-        window.location ='https://pratic-boutic.fr';
+        window.location.href ='exit.php';
       }
     }
   </script>

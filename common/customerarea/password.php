@@ -50,7 +50,7 @@
     {
       if (confirm("Voulez-vous quitter la récupération du mot de passe ?") == true)
       {
-        window.location ='https://pratic-boutic.fr';
+        window.location.href ='exit.php';
       }
     }
   </script>

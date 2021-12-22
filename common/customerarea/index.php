@@ -57,7 +57,7 @@
     {
       if (confirm("Voulez-vous quitter le menu principal ?") == true)
       {
-        window.location ='https://pratic-boutic.fr';
+        window.location.href ='exit.php';
       }
     }
   </script>

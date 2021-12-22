@@ -208,7 +208,7 @@ require_once '../../vendor/autoload.php';
     {
       if (confirm("Voulez-vous quitter le consructeur de boutic ?") == true)
       {
-        window.location ='https://pratic-boutic.fr';
+        window.location.href ='exit.php';
       }
     }
   </script>
