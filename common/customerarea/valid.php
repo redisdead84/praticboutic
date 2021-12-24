@@ -22,6 +22,7 @@
           </div>
            <div class="modal-body">
             <?php
+              session_id("customerarea");
               session_start();
               
               

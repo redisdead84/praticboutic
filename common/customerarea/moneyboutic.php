@@ -1,5 +1,6 @@
 <?php
 
+session_id("customerarea");
 session_start();
 
 if (empty($_SESSION['verify_email']) == TRUE)

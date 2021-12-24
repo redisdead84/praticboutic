@@ -20,7 +20,8 @@
             <h5 class="modal-title">ERREUR</h5>
           </div>
           <div class="modal-body">
-            <?php 
+            <?php
+              session_id("customerarea");
               session_start();
 
               if (empty($_SESSION['verify_email']) == TRUE)

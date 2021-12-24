@@ -24,6 +24,7 @@
           </div>
           <div class="modal-body-cb">
             <?php
+              session_id("customerarea");
               session_start();
 
               // Import PHPMailer classes into the global namespace

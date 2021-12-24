@@ -1,5 +1,6 @@
 <?php
 
+session_id("customerarea");
 session_start();
 
 $_SESSION['reg_mailsent'] = 'non';

@@ -1,6 +1,8 @@
 <?php
+  session_id("customerarea");
   session_start();
   session_destroy();
+  session_id("customerarea");
   session_start();
 ?>
 <!DOCTYPE html>

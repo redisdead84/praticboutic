@@ -1,5 +1,5 @@
 <?php
-
+  session_id("boutic");
   session_start();
   $customer = $_SESSION['customer'];
   $method = $_SESSION['method'];

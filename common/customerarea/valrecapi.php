@@ -1,5 +1,5 @@
 <?php
-
+  session_id("customerarea");
   session_start();
   
   $_SESSION['email'] = isset($_POST['email']) ? $_POST ['email'] : '';
