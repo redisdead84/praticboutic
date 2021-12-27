@@ -7,10 +7,12 @@
   ini_set('session.gc_maxlifetime', $maxdureesessionclt);
   
   session_id("boutic");
-	session_start();
-	session_destroy();
-	session_id("boutic");
-	session_start();
+  session_start();
+  session_destroy();
+  session_id("boutic");
+  session_start();
+  
+	
 	if (empty($_GET['customer']) != 0)
 	{
     header('LOCATION: 404.html');
@@ -71,6 +73,7 @@
 	$_SESSION['method'] = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '3');
   $_SESSION['table'] = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
   
+  session_write_close();
 ?>
 <!DOCTYPE html>
 <html>

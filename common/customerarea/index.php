@@ -4,6 +4,7 @@
   session_destroy();
   session_id("customerarea");
   session_start();
+  session_write_close();
 ?>
 <!DOCTYPE html>
 <html>
