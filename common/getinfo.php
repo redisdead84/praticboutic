@@ -484,7 +484,7 @@
           }
         }
         
-        if ((sessionStorage.getItem("cgv") !== 'true') && (failed == false))
+        if ((document.getElementById("chkcgv").checked == false ) && (failed == false))
         {
           alert("Vous devez accepter les conditions générales de vente pour continuer");
           failed = true;        

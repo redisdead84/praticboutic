@@ -140,7 +140,7 @@
   var w;
   var memnbcommande = 0;
 
-  $(function() {
+  window.addEventListener("load", function(event) {
     inittable("table0", "table0", "categorie");
     inittable("table1", "table1", "article");
     inittable("table3", "table3", "groupeopt");
@@ -661,8 +661,7 @@
 				vue.appendChild(titre);
 				var br = document.createElement('br');
 				vue.appendChild(br);
-				var formoff = document.createElement("form");
-				formoff.autocomplete = "off";
+				var formoff = document.createElement("div");
 				var labels = [];
 				var input = [];
 				for(i=0; i<champs.length; i++)				
@@ -671,14 +670,14 @@
 					{
 						if (champs[i].nom != selcol)
 						{						
-						
+							var forminp = document.createElement('form');
+							forminp.autocomplete = "off";
 							var lbl = document.createElement('label');
 							lbl.id = 'itable'+ numtable +'lbl' + i;
 							lbl.htmlFor = 'itable'+ numtable + 'inp' + i;
 							if (champs[i].typ != "fk")
 							{
 								lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
-								
 								var inp = document.createElement('input');
 								inp.autocomplete = "off";
 								if (champs[i].typ == "text")
@@ -771,8 +770,8 @@
 										this.style.display = 'none';
 									});
 									divp.appendChild(imgclose); 
-									formoff.appendChild(divp);
-									formoff.appendChild(document.createElement("BR"));
+									forminp.appendChild(divp);
+									forminp.appendChild(document.createElement("BR"));
 								}
 								else if (champs[i].typ == "pass")
 								{
@@ -802,12 +801,13 @@
 									inp.required = true;
 								}
 								
-								formoff.appendChild(lbl);
+								forminp.appendChild(lbl);
 								inp.name = 'itable' + numtable + '_' + champs[i].nom;
 								inp.id = 'itable' + numtable + '_' + 'inp' + i;
 								inp.setAttribute("data-table",tables[numtable].nom);
 								inp.setAttribute("data-champ",champs[i].nom);
-								formoff.appendChild(inp);
+								forminp.appendChild(inp);
+								formoff.appendChild(forminp);
 							}
 							else
 							{
@@ -822,8 +822,9 @@
 									if ((liens[j].srctbl == tables[numtable].nom) && (liens[j].srcfld == champs[i].nom ))
 									{	
 										lbl.innerHTML = liens[j].desc + '&nbsp;:&nbsp;';
-										formoff.appendChild(lbl);
-										formoff.appendChild(lien);
+										forminp.appendChild(lbl);
+										forminp.appendChild(lien);
+										formoff.appendChild(forminp);
 										for (var k=0; k<tables.length; k++)
 										{
 											if (tables[k].nom == liens[j].dsttbl)
@@ -955,8 +956,7 @@
 				vue.appendChild(titre);
 				var br = document.createElement('br');
 				vue.appendChild(br);				
-				var formoff = document.createElement("form");
-				formoff.autocomplete = "off";
+				var formoff = document.createElement("div");
 				var obj = { bouticid: bouticid, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
 
         fetch("boquery.php", {
@@ -987,14 +987,16 @@
 							if (champs[i].typ != "pk")
 							{
 								if (champs[i].nom != selcol)
-								{						
+								{
+								  var forminp = document.createElement("div");
+				          forminp.autocomplete = "off";
 									var lbl = document.createElement('label');
 									lbl.id = 'utable'+ numtable +'lbl' + i;
 									lbl.htmlFor = 'utable'+ numtable + 'inp' + i;
 									if (champs[i].typ != "fk")
 									{
 										lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
-										formoff.appendChild(lbl);
+										forminp.appendChild(lbl);
 										var inp = document.createElement('input');
 										inp.autocomplete = "off";
 										if (champs[i].typ == "text")
@@ -1092,8 +1094,8 @@
 												this.style.display = 'none';
 											});
 											divp.appendChild(imgclose);
-											formoff.appendChild(divp);
-											formoff.appendChild(document.createElement("BR"));
+											forminp.appendChild(divp);
+											forminp.appendChild(document.createElement("BR"));
 										}
 										else if (champs[i].typ == "pass")
 										{
@@ -1130,7 +1132,8 @@
 										
 										inp.setAttribute("data-table",tables[numtable].nom);
 										inp.setAttribute("data-champ",champs[i].nom);
-										formoff.appendChild(inp);
+										forminp.appendChild(inp);
+										formoff.appendChild(forminp);
 									}
 									else 
 									{
@@ -1145,13 +1148,14 @@
 											if ((liens[j].srctbl == tables[numtable].nom) && (liens[j].srcfld == champs[i].nom ))
 											{	
 												lbl.innerHTML = liens[j].desc + '&nbsp;:&nbsp;';
-												formoff.appendChild(lbl);
+												forminp.appendChild(lbl);
 												
 												for (k=0; k<tables.length; k++)
 													if (tables[k].nom == liens[j].dsttbl)
 														getoptions('utable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs, data[i]) ;
 												
-												formoff.appendChild(lien);
+												forminp.appendChild(lien);
+												formoff.appendChild(forminp);
 											}
 										}
 									}
@@ -1187,10 +1191,10 @@
 							rgp.id = "tablesub" + subnumtable;
 							rgp.hidden = false;
 							formoff.appendChild(rgp);
-
-							inittable( "maj" + numtable, "tablesub" + subnumtable, tables[subnumtable].nom, jpk, idtoup);							
+              inittable("maj" + numtable, "tablesub" + subnumtable, tables[subnumtable].nom, jpk, idtoup);
 						
 						}
+						
 						var okbtn = document.createElement('button');
 						okbtn.id = "okbtn" + numtable;
 						okbtn.type = "button";
@@ -1307,7 +1311,7 @@
 				
 				lumi = (r + g + b) / 3;
 
-				return lumi			
+				return lumi;			
 			}			
 			  
  			function displaytable(vue, place, tablestr, donnees, total, pagination, limite, offset, selcol="", selid=0)
@@ -1324,9 +1328,16 @@
 			  	buttonins.classList.add("btn");
 			  	buttonins.classList.add("btn-primary");
 			  	buttonins.classList.add("btn-insert");
+			  	buttonins.setAttribute("data-table", tablestr);
+			  	buttonins.setAttribute("data-limite", limite);
+			  	buttonins.setAttribute("data-offset", offset);
+			  	buttonins.setAttribute("data-vue", vue);
+			  	buttonins.setAttribute("data-place", place);
+			  	buttonins.setAttribute("data-selcol", selcol);
+			  	buttonins.setAttribute("data-selid", selid);
 			  	buttonins.onclick = function () {
-			  		nummtable = getnumtable(tablestr);
-			  		insert(numtable,limite,offset,vue,place,selcol,selid);
+			  		var nummtable = getnumtable(this.getAttribute("data-table"));
+			  		insert(numtable, this.getAttribute("data-limite"), this.getAttribute("data-offset"), this.getAttribute("data-vue"), this.getAttribute("data-place"), this.getAttribute("data-selcol"), this.getAttribute("data-selid"));
 			  	}
 			  	buttonins.innerHTML = "Insérer";
 			  	document.getElementById(place).appendChild(buttonins);
