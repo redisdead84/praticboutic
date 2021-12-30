@@ -1746,6 +1746,7 @@
 												lien.setAttribute("data-champ", champs[i].nom);
 												lien.onchange = function()
 												{
+												  this.disabled = true;
 													var row = [];
 													var col = {nom:"statid", valeur:lien.value, type:champs[i].typ};
 													row.push(col);
@@ -1758,13 +1759,14 @@
 	         									this.style.color = 'black';
 	         								else 
 	         									this.style.color = 'white';
+	         								this.disabled = false;
 												};
 												cmdhead.appendChild(lien);
 												
 												for (k=0; k<tables.length; k++)
 													if (tables[k].nom == liens[j].dsttbl)
 														getoptions('dtable' + numtable + '_' + 'lien' + i, tables[k].nom, tables[k].cs + ", couleur ", data[i], true);
-											}											
+											}
 											else 
 											{
 												var lien = document.createElement('P');
@@ -1815,7 +1817,7 @@
 							vuep = document.getElementById(this.getAttribute("data-vuep"));
 							vue = document.getElementById(this.getAttribute("data-vue"));
 				
-  						vuep.hidden = false
+  						vuep.hidden = false;
 	  					vue.hidden = true;
 							vue.innerHTML = '';
 						};
