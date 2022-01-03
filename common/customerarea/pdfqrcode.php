@@ -70,12 +70,12 @@ while ($num< $nbex * $nbtable )
 			if ($methv == 2)
 			{
 			  $pdf->Cell( 10, 20, "Table " . strval($notable));
-				$qrcode = new QRcode($protocol . $server . '/common/carte.php?method=2&table=' . strval($num) . '&customer=' . $boutic, 'H'); // error level : L, M, Q, H
+				$qrcode = new QRcode($protocol . $server . '/common/index.php?method=2&table=' . strval($num) . '&customer=' . $boutic, 'H'); // error level : L, M, Q, H
 			}
 			if ($methv == 3)
 			{
 				$pdf->Cell( 10, 20, "Qlick n Collect");
-				$qrcode = new QRcode($protocol . $server . '/common/carte.php?method=3&table=0&customer=' . $boutic, 'H'); // error level : L, M, Q, H
+				$qrcode = new QRcode($protocol . $server . '/common/index.php?method=3&table=0&customer=' . $boutic, 'H'); // error level : L, M, Q, H
 			}
 			
 			
