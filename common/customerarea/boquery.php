@@ -691,6 +691,25 @@ try {
       throw new Error($conn->error);
     }
     
+    $aboid = $conn->insert_id;
+    
+    \Stripe\Stripe::setAppInfo(
+      "pratic-boutic/registration  ",
+      "0.0.2",
+      "https://praticboutic.fr"
+    );
+
+    $stripe = new \Stripe\StripeClient([
+    // TODO replace hardcoded apikey by env variable
+      'api_key' => $_ENV['STRIPE_SECRET_KEY'],
+      'stripe_version' => '2020-08-27',
+    ]);
+
+    $stripe->subscriptions->update(
+      $_SESSION['creationabonnement_stripe_subscription_id'],
+      ['metadata' => ['pbabonumref' => 'ABOPB' . str_pad($aboid, 10, "0", STR_PAD_LEFT)]]
+    );
+    
     $parametres = array (
       array("isHTML_mail", "1", "HTML activé pour l'envoi de mail"),
       array("Subject_mail","Commande PraticBoutic","Sujet du courriel pour l'envoi de mail"),

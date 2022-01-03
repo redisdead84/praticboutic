@@ -149,7 +149,14 @@ try
     {
       throw new Error($conn->error);
     }
-                
+    
+    $aboid = $conn->insert_id;
+    
+    $stripe->subscriptions->update(
+      $subscription->id,
+      ['metadata' => ['pbabonumref' => 'ABOPB' . str_pad($aboid, 10, "0", STR_PAD_LEFT)]]
+    );
+    
     $_SESSION['bocreationabonnement_stripe_subscription_id'] = $subscription->id;
     
     $output = array(
@@ -298,6 +305,14 @@ try
     {
       throw new Error($conn->error);
     }
+    
+    $aboid = $conn->insert_id;
+    
+    $stripe->subscriptions->update(
+      $subscription->id,
+      ['metadata' => ['pbabonumref' => 'ABOPB' . str_pad($aboid, 10, "0", STR_PAD_LEFT)]]
+    );
+    
     $_SESSION['bocreationabonnement_stripe_subscription_id'] = $subscription->id;
     
     $output = $subscription;
