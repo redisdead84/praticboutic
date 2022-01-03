@@ -321,7 +321,7 @@
 
       var method = sessionStorage.getItem("method");
       var method_txt = "";
-      if (method == 1)
+      if (method == 2)
       {
         method_txt = "Consomation sur place";
         document.getElementById("methodid").innerHTML = "<p class='pres'>" + method_txt + "</p>";
@@ -329,30 +329,30 @@
 /*      if (method >= 2) 
         method_txt = "Vente à emporter ou à livrer";*/
 
-      if (method == 1) 
+      if (method == 2) 
       {
         document.getElementById("tableid").innerHTML = "<p class='pres'>Table numéro " + sessionStorage.getItem("table") + "</p>";
       }      
       document.getElementById("commandediv").innerHTML = str;
       var frliv = 0;
-      if (method >= 2) 
+      if (method > 2) 
 				frliv = parseFloat(sessionStorage.getItem("fraislivr"));
 			var tota = frliv + somme;      
       
-			if ((sessionStorage.getItem("choicel") == "LIVRER") && (method >= 2))
+			if ((sessionStorage.getItem("choicel") == "LIVRER") && (method > 2))
 			{
 	      document.getElementById("sstotalid").innerHTML = "<p class='fleft'>Sous-total : </p><p class='fright'>" + somme.toFixed(2) + " € </p><br>";
 	 	    document.getElementById("fraislivid").innerHTML = "<p class='fleft'>Frais de livraison : </p><p class='fright'>" + frliv.toFixed(2) + " € </p><br>";
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + tota.toFixed(2) + " € </p><br>";
 
 			}
-			else if ((sessionStorage.getItem("choicel") == "EMPORTER") || (method == 1))
+			else if ((sessionStorage.getItem("choicel") == "EMPORTER") || (method == 2))
 			{
 				document.getElementById("sstotalid").style.display = "none";
 				document.getElementById("fraislivid").style.display = "none";
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + somme.toFixed(2) + " € </p><br>";
 			}      
-			if ((sessionStorage.getItem("method")>=2) && (sessionStorage.getItem("choice")=="COMPTANT"))
+			if ((sessionStorage.getItem("method")>2) && (sessionStorage.getItem("choice")=="COMPTANT"))
 				document.getElementById("payid").innerHTML = "<p class='mntpay'>MONTANT &Agrave; PAYER : " + tota.toFixed(2) + " € </p>";
 			else {
 				document.getElementById("payid").style.display = "none";

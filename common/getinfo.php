@@ -314,7 +314,7 @@
       sessionStorage.setItem("fraislivr", 0);
       var verifcp = document.getElementById("main").getAttribute("data-verifcp");
       document.getElementById("letel").value = sessionStorage.getItem("telephone");
-      if (sessionStorage.getItem("method")>=2)
+      if (sessionStorage.getItem("method")>2)
       {
         document.getElementById("lenom").value = sessionStorage.getItem("nom");    
         document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
@@ -411,7 +411,7 @@
       function bakInfo()
       {
       	sessionStorage.setItem("telephone", document.getElementById("letel").value);
-        if (sessionStorage.getItem("method")>=2)
+        if (sessionStorage.getItem("method")>2)
         {
           sessionStorage.setItem("nom", document.getElementById("lenom").value);
           sessionStorage.setItem("prenom", document.getElementById("leprenom").value);
@@ -457,7 +457,7 @@
         var failed = false;
         
         bakInfo();        
-        if (sessionStorage.getItem("method")>=2)
+        if (sessionStorage.getItem("method")>2)
         {
 	        if (sessionStorage.getItem("choicel") == "LIVRER") {
 	          if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
