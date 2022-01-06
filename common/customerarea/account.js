@@ -44,10 +44,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       bouticlinksDiv.appendChild(tarif);
       if (lienscreation[i].stripe_subscription.status == 'active')
       {
-        var acl = document.createElement("A");
-        acl.href = "cancel.php?subscription=" + lienscreation[i].stripe_subscription.id;
-        acl.innerHTML = "Annulation";
-        bouticlinksDiv.appendChild(acl);
+        if (lienscreation[i].stripe_subscription.cancel_at_period_end == false)
+        {
+          var acl = document.createElement("A");
+          acl.href = "cancel.php?subscription=" + lienscreation[i].stripe_subscription.id;
+          acl.innerHTML = "Annulation";
+          bouticlinksDiv.appendChild(acl);
+        }
       }
     }
   }

@@ -320,8 +320,12 @@ try
   
   if (strcmp($input->action,"boannulerabonnement") == 0)
   {
-
-    $subscription = $stripe->subscriptions->cancel($input->subscriptionid);
+    
+    $stripe->subscriptions->update($input->subscriptionid, 
+      [
+        'cancel_at_period_end' => true,
+      ]
+    );
     
     $req = $conn->prepare("SELECT aboid FROM abonnement WHERE stripe_subscription_id = ? ");
     $req->bind_param("s", $input->subscriptionid);

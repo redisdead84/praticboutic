@@ -41,7 +41,7 @@
     <meta http-equiv="Expires" content="0" />
     <script src="https://js.stripe.com/v3/"></script>
     <script> var login = <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>; </script>
-    <script src="cancel.js?v=1.103" defer></script>
+    <script src="cancel.js?v=1.104" defer></script>
   </head>
   <body class="custombody">
     <div id="screen">
