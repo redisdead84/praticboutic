@@ -82,9 +82,7 @@
       var login = "<?php echo $_SESSION['bo_email']; ?>";
       var init = "<?php echo $_SESSION['bo_init']; ?>";
       var initdone = "<?php $_SESSION['bo_init'] = 'non'; ?>";
-      //var proto = "<?php echo $_SERVER['SERVER_PROTOCOL']; ?>";
-      
-      //"<?php echo isset($_SERVER['HTTPS']); ?>";
+
       var protocole = "<?php if (isset($_SERVER['HTTPS']))
       {
         echo 'https://';
@@ -95,14 +93,6 @@
       }
       ?>";
       
-      /*proto = proto.toLowerCase();
-      var protocole;
-
-      if (proto.indexOf('https') != -1)
-        protocole = 'https://';
-      else
-        protocole = 'http://';*/
-
       var server = "<?php echo $_SERVER['SERVER_NAME']; ?>";
       var pathimg = '../../upload/';
 

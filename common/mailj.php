@@ -102,12 +102,35 @@ try
   $mail->Subject = $subject;
   
   $tel_mobile = $json_obj->telephone;
+  
+  $compt = 0;
+	// todo insertion 
+	$qcpt = 'SELECT valeur FROM parametre WHERE customid = "' . $customid . '" AND nom = "CMPT_CMD" FOR UPDATE';
+	if ($result = $conn->query($qcpt)) 
+	{
+		$row = $result->fetch_row();
+  	if ($row != NULL) 
+  		$compt = $row[0] + 1;
+ 	  else
+			throw new Exception("Problème compteur commande");
+	}
+
+	$qcptu = "UPDATE parametre SET valeur = '$compt' WHERE customid = '$customid' AND nom = 'CMPT_CMD'";
+	if ($conn->query($qcptu) == FALSE) 
+		throw new Exception("Problème maj compteur commande");
+
+	// Remplir avec des zeros
+	$compt = str_pad($compt, 10, "0", STR_PAD_LEFT);
+  
   $text = '<!DOCTYPE html>';
   $text = $text . '<html>';
   $text = $text . '<head>';
   $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
   $text = $text . '</head>';
   $text = $text . '<body>';
+  $text = $text . '<p style="font-family: \'Sans\'"><b>Référence commande: </b> ' . $compt . '<br></p>';
+  $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
+  
   if ($json_obj->method == '2') 
   {
     $text = $text . '<p style="font-family: \'Sans\'"><b>Vente : </b>Consomation sur place<br></p>';
@@ -203,25 +226,6 @@ try
     throw new Exception('Message could not be sent. Mailer Error: ' . $mail->ErrorInfo);
   }
    
-	$compt = 0;
-	// todo insertion 
-	$qcpt = 'SELECT valeur FROM parametre WHERE customid = "' . $customid . '" AND nom = "CMPT_CMD" FOR UPDATE';
-	if ($result = $conn->query($qcpt)) 
-	{
-		$row = $result->fetch_row();
-  	if ($row != NULL) 
-  		$compt = $row[0] + 1;
- 	  else
-			throw new Exception("Problème compteur commande");
-	}
-
-	$qcptu = "UPDATE parametre SET valeur = '$compt' WHERE customid = '$customid' AND nom = 'CMPT_CMD'";
-	if ($conn->query($qcptu) == FALSE) 
-		throw new Exception("Problème maj compteur commande");
-
-	// Remplir avec des zeros
-	$compt = str_pad($compt, 10, "0", STR_PAD_LEFT);
-	
 	$methodstr = "INCONNU";	
 	
 	if ($json_obj->method == 1)
