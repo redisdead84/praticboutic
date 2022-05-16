@@ -27,7 +27,11 @@ if ($conn->connect_error)
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
      
-
+header('Access-Control-Allow-Origin: *');
+header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
+header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
+header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json');
 
 try {
@@ -37,8 +41,10 @@ try {
 
 	
 	//$rcvnom = GetValeurParam("Receivernom_mail", $conn, $input->bouticid);
-
-	//error_log($input->action);
+  
+  //error_log($json_str);
+	//error_log(var_dump($input));
+	//error_log($input->table);
 	
 	if (strcmp($input->table,"")!=0)
 	{
@@ -68,7 +74,7 @@ try {
 	  if (strcmp($input->selcol, "")!=0)
 			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 			
-		//error_log($query);
+		error_log($query);
 		
 		$arr=array();	
 		
@@ -773,7 +779,7 @@ try {
 
   $output = $arr;
 
-  //error_log(json_encode($output));	
+  error_log(json_encode($output));	
 
   echo json_encode($output);
 } catch (Error $e) {
