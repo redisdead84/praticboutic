@@ -10,8 +10,10 @@ $postdata = file_get_contents("php://input");
 if (isset($postdata))
   $request = json_decode($postdata);
 
+
 error_log("toto");
 error_log($postdata);
+
 
 $servername = "localhost";
 $username = "qruser";
@@ -25,33 +27,30 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT c.pass, cu.customid FROM client c, customer cu WHERE c.email = '" . $request->email . "' AND c.cltid = cu.cltid LIMIT 1"; 
-//AND pass = '" . password_hash($request->password, PASSWORD_DEFAULT ) . "'";
-error_log($sql);
-$result = $conn->query($sql);
+$arr=array();	
 
-  // output data of each row
-  if($row = $result->fetch_row())
+$sql = "SELECT a.nom, a.prix, a.visible, c.nom FROM article a,categorie c WHERE c.customid = '" . $request->customid . "' AND c.customid = a.customid"; 
+
+error_log($sql);
+
+
+
+  if ($result = $conn->query($sql))
   {
-    error_log($row[0]);
-    error_log($request->password);
-    if (password_verify($request->password, $row[0]) )
+    while ($row = $result->fetch_row())
     {
-      echo ($row[1]);
-      error_log("1");
-    }
-    else 
-    {
-      echo ("-1");
-      error_log("0");
-    }
-  }
-  else 
-  {
-    echo ("-1");
-    error_log("0");
+      $arm = array('nom' => $row[0], 'prix' => $row[1], 'visible' => $row[2], 'categorie' => $row[3] );
+    		  	
+   		array_push( $arr, $arm);
+ 		}
   }
   $result->close();
+  
   $conn->close();
+  
+  $output = $arr;
 
+  //error_log(json_encode($output));	
+
+  echo json_encode($output);
 ?>
