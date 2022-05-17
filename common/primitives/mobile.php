@@ -13,10 +13,10 @@ if (isset($postdata))
 error_log("toto");
 error_log($postdata);
 
-$servername = "localhost";
-$username = "qruser";
-$password = "A1u4qr!=gg";
-$dbname = "merge_test_fusion2";
+require '../../vendor/autoload.php';
+
+include "../config/common_cfg.php";
+include "../param.php";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
