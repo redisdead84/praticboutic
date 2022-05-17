@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
 header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
 header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
-header('Access-Control-Max-Age: 86400');
+// header('Access-Control-Max-Age: 86400');
 
 $postdata = file_get_contents("php://input");
 if (isset($postdata))
@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 
 $sql = "SELECT c.pass, cu.customid FROM client c, customer cu WHERE c.email = '" . $request->email . "' AND c.cltid = cu.cltid LIMIT 1"; 
 //AND pass = '" . password_hash($request->password, PASSWORD_DEFAULT ) . "'";
-error_log($sql);
+// error_log($sql);
 $result = $conn->query($sql);
 
   // output data of each row

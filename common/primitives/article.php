@@ -4,15 +4,15 @@ header('Access-Control-Allow-Origin: *');
 header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
 header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
 header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
-header('Access-Control-Max-Age: 86400');
+// header('Access-Control-Max-Age: 86400');
 
 $postdata = file_get_contents("php://input");
 if (isset($postdata))
   $request = json_decode($postdata);
 
 
-error_log("toto");
-error_log($postdata);
+// error_log("toto");
+// error_log($postdata);
 
 include "../config/common_cfg.php";
 
