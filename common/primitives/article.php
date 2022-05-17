@@ -14,13 +14,10 @@ if (isset($postdata))
 error_log("toto");
 error_log($postdata);
 
-require '../../vendor/autoload.php';
-
 include "../config/common_cfg.php";
-include "../param.php";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $bdd);
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
