@@ -15,8 +15,12 @@ if ($conn->connect_error)
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
   
+header('Access-Control-Allow-Origin: *');
+header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
+header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
+header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json');
-
 try {
 
   $json_str = file_get_contents('php://input');
@@ -26,14 +30,14 @@ try {
 
   $customid = $json_obj->bouticid;
   
-  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
+  /*$reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $json_obj->customer);
   $reqci->execute();
   $reqci->bind_result($customid);
   $resultatci = $reqci->fetch();
-  $reqci->close();
+  $reqci->close();*/
 
-  //error_log($customid);
+  error_log($customid);
 	
 	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
 	
@@ -71,12 +75,13 @@ try {
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: application/json', 'Authorization: Bearer ' . $_ENV['TOKEN_SMS']));
     $response = curl_exec($ch);
     curl_close($ch);
+    //error_log($response);
 	   
 	}
   $conn->close();
   
 	$output = "SMS OK";  
-  
+  //error_log($output);
   echo json_encode($output);
 } catch (Error $e) {
   http_response_code(500);
