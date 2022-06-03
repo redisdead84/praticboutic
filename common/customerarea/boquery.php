@@ -38,13 +38,13 @@ try {
 
   $json_str = file_get_contents('php://input');
   $input = json_decode($json_str);
-
+  $arr = "";
 	
 	//$rcvnom = GetValeurParam("Receivernom_mail", $conn, $input->bouticid);
   
   //error_log($json_str);
 	//error_log(var_dump($input));
-	//error_log($input->table);
+	//error_log($input->action);
 	
 	if (strcmp($input->table,"")!=0)
 	{
@@ -74,7 +74,7 @@ try {
 	  if (strcmp($input->selcol, "")!=0)
 			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
 			
-		error_log($query);
+		//error_log($query);
 		
 		$arr=array();	
 		
@@ -779,7 +779,7 @@ try {
 
   $output = $arr;
 
-  error_log(json_encode($output));	
+  //error_log(json_encode($output));	
 
   echo json_encode($output);
 } catch (Error $e) {
