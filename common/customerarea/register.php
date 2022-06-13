@@ -41,7 +41,7 @@
         <img id='illus3' src='img/illustration_3.png' />
           <div class="customform">
             <p class="center middle title">
-              Formulaire d'inscription client
+              Formulaire d'inscription
             </p>
             <form id="signup-form" onsubmit="bakinfo()" method="post" action="registration.php" autocomplete="on">
               <div class="twocol">

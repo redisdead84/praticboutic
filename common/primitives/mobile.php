@@ -19,7 +19,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT c.pass, cu.customid, cu.customer FROM client c, customer cu WHERE c.email = '" . $request->email . "' AND c.cltid = cu.cltid LIMIT 1"; 
+$sql = "SELECT c.pass, cu.customid, cu.customer FROM client c, customer cu WHERE c.email = '" . $request->email . "' AND c.cltid = cu.cltid LIMIT 1";
 
 // error_log($sql);
 $result = $conn->query($sql);
@@ -34,15 +34,15 @@ $result = $conn->query($sql);
       array_push($arr, $row[1]);
       array_push($arr, $row[2]);
       $output = $arr;
-      //error_log(json_encode($output));	
+      //error_log(json_encode($output));
       echo json_encode($output);
     }
-    else 
+    else
     {
       echo ("-1");
     }
   }
-  else 
+  else
   {
     echo ("-1");
   }

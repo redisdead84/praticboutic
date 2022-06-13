@@ -108,7 +108,7 @@
                   $mail->isHTML($isHTML);
 
                   $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
-                  $subject = "Confidentiel"; //GetValeurParam("Subject_mail", $conn);
+                  $subject = "Lien pour la création de votre praticboutic";
                   $mail->Subject = $subject;
 
                   $text = '<!DOCTYPE html>';

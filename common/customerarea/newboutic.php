@@ -39,12 +39,12 @@ require_once '../../vendor/autoload.php';
       <div id="workspace" class="spaceflexnb">
         <div class="customform">
           <p class="center middle title">
-            Initialisation de la boutic
+            Création de votre <span style="color:#e2007a">pratic</span><span style="color:#6c757d">boutic</span>
           </p>
           <form id="signup-form" onsubmit="bakinfo()" method="post" action="initboutic.php" autocomplete="on">
             <div class="twocol">
               <div class="param">
-                <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" /><br>
+                <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" required /><br>
               </div>
               <div class="param">
                 <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
@@ -65,7 +65,7 @@ require_once '../../vendor/autoload.php';
                 <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
               </div>
               <div id="bloclogoid">
-                <label class="paramfieldlf">Logo de la boutic : </label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
+                <label class="paramfieldlf" title="facultatif">Logo de la boutic :</label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" title="Si aucun le nom de la boutic sera affiché" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
                 <div class="frameimg">
                   <img id="artlogo" class="imgart" src="" alt="">
                   <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
@@ -104,7 +104,7 @@ require_once '../../vendor/autoload.php';
       document.getElementById("adresse2").value = sessionStorage.getItem('pb_initb_adresse2');
       document.getElementById("codepostal").value = sessionStorage.getItem('pb_initb_codepostal');
       document.getElementById("ville").value = sessionStorage.getItem('pb_initb_ville');
-      if (sessionStorage.getItem('pb_initb_logo') !== null)
+      if ((sessionStorage.getItem('pb_initb_logo') !== "") && (sessionStorage.getItem('pb_initb_logo') !== null))
       {
         document.getElementById("artlogo").src = sessionStorage.getItem('pb_initb_logo');
         document.getElementById("logofermer").style.display = 'block';

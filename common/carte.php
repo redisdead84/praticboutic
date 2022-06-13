@@ -47,10 +47,10 @@
     if ($conn->connect_error) 
  	    die("Connection failed: " . $conn->connect_error);
  	    
-    $reqci = $conn->prepare('SELECT customid, logo FROM customer WHERE customer = ?');
+    $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
  	  $reqci->bind_param("s", $customer);
  	  $reqci->execute();
- 	  $reqci->bind_result($customid, $logo);
+ 	  $reqci->bind_result($customid, $logo, $nom);
  	  $resultatci = $reqci->fetch();
  	  $reqci->close();
  	  
@@ -70,7 +70,10 @@
 		echo '</div>';		
 		
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-customer="' . $customer .'">';
-    echo '<img id="logo" src="../upload/' . $logo . '">';
+    if (strcmp($logo,"") != 0)
+      echo '<img id="logo" src="../upload/' . $logo . '">';
+    else
+      echo '<p class="marque">' . $nom . '</p>';
 
     echo '<form name="mainform" autocomplete="off" method="post" action="valrecap.php">';
     

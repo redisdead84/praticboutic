@@ -35,3 +35,10 @@ a.msg {
     background: url(../img/fermer2.png);
 }
 
+.marque
+{
+  font-size: 300%;
+  text-align: center;
+  word-break: break-word;
+}
+

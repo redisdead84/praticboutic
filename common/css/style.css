@@ -961,4 +961,9 @@ text-align: justify;
   cursor: default;
 }
 
-
+.marque
+{
+  font-size: 300%;
+  text-align: center;
+  word-break: break-word;
+}

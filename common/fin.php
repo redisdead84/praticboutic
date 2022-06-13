@@ -33,10 +33,10 @@
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);
 
-  $reqci = $conn->prepare('SELECT customid, logo FROM customer WHERE customer = ?');
+  $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
-  $reqci->bind_result($customid, $logo);
+  $reqci->bind_result($customid, $logo, $nom);
   $resultatci = $reqci->fetch();
   $reqci->close();
 
@@ -68,7 +68,10 @@
 
     <div id="finmain">
       <?php
-        echo '<img id="logo" src="../upload/' . $logo . '">';
+        if (strcmp($logo,"") != 0)
+          echo '<img id="logo" src="../upload/' . $logo . '">';
+        else
+          echo '<p class="marque">' . $nom . '</p>';
       ?>
       <div class="fsub">
      		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>

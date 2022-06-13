@@ -1,0 +1,121 @@
+<?php
+
+  header('Access-Control-Allow-Origin: *');
+  header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
+  header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+  header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
+  header('Access-Control-Max-Age: 86400');
+
+  $postdata = file_get_contents("php://input");
+  if (isset($postdata))
+    $request = json_decode($postdata);
+
+  // Import PHPMailer classes into the global namespace
+  // These must be at the top of your script, not inside a function
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
+
+  //Load composer's autoloader
+  require '../../vendor/autoload.php';
+  include "../config/common_cfg.php";
+  include "../param.php";
+
+  $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+  try 
+  {
+    $sent = 0;
+    $hash = md5(microtime(TRUE)*100000);
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $bdd);
+
+    // Check connection
+    if ($conn->connect_error) 
+    {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
+    $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $request->email . "'";
+
+    $result = $conn->query($subquery);
+    $row = $result->fetch_row();
+    if (intval($row[0])>0)
+    {
+      echo 'Le courriel ' . $request->email . ' est déjà attribué à un client. Impossible de continuer.';
+    }
+    else
+    {
+      $q1 = "INSERT INTO identifiant(email, hash, actif) VALUES ('$email','$hash', '0')";
+      //error_log($q1);
+      if ($r1 = $conn->query($q1)) 
+      {
+        if ($r1 === FALSE) 
+        {
+          echo "Error: " . $q1 . "<br>" . $conn->error;
+        }
+      }
+
+      //$mail->SMTPDebug = 4;                                 // Enable verbose debug output
+      // $debug = '';
+      //$mail->Debugoutput = function($str, $level) {
+      //  $GLOBALS['debug'] .= "$level: $str\n";
+      //};
+      
+      $mail->isSMTP();                                      // Set mailer to use SMTP
+      
+      $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+          )
+      );
+
+      $mail->Host = $host;  // Specify main and backup SMTP servers
+      $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
+      $mail->Username = $user;                 // SMTP username
+      $mail->Password = $pwd;                               // SMTP password
+      $mail->SMTPSecure = $ssec;                            // Enable TLS encryption, `ssl` also accepted
+      $mail->Port = $port;                                    // TCP port to connect to
+      $mail->CharSet = $chars;
+      $mail->setFrom($sendmail, $sendnom);
+      $rcvmail = $request->email; //GetValeurParam("Receivermail_mail", $conn);
+      $rcvnom = ""; //GetValeurParam("Receivernom_mail", $conn);
+      $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
+      $isHTML = "TRUE";
+      $mail->isHTML($isHTML);
+
+      $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
+      $subject = "Votre code confidentiel";
+      $mail->Subject = $subject;
+
+      $text = '<!DOCTYPE html>';
+      $text = $text . '<html>';
+      $text = $text . '<head>';
+      $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+      $text = $text . '</head>';
+      $text = $text . '<body>';
+      $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
+      $text = $text . $request->email . '<br><br>';    
+      $text = $text . 'Voici le code de vérification : ' . $request->code;
+      $text = $text . '<br>';
+      $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
+      $text = $text . '</body>';
+      $text = $text . '</html>';
+
+      $mail->Body = $text;
+      //error_log($mail->Body);
+      $mail->send();
+
+      //echo "Un email contenant un lien pour finaliser votre inscription vous a été envoyé.<br />";
+
+      $conn->close();
+    }
+  }
+  catch (Exception $e) 
+  {
+    echo 'Mailer Error: ' . $mail->ErrorInfo;
+    echo 'Erreur Le message n a pu être envoyé<br />';
+    // error_log($debug);
+  }
+?>

@@ -72,7 +72,10 @@
       
       echo '<form name="mainform" autocomplete="on" method="post" action="paiement.php">';
 
-      echo '<img id="logo" src="../upload/' . $logo . '">';
+      if (strcmp($logo,"") != 0)
+        echo '<img id="logo" src="../upload/' . $logo . '">';
+      else
+        echo '<p class="marque">' . $nom . '</p>';
       
       if ($method > 0)
       {      
