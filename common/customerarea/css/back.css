@@ -1181,3 +1181,8 @@ div.blocsysmoney
   align-items: center;
   height: 100%
 }
+
+.grecaptcha-badge 
+{ 
+  visibility: hidden;
+}

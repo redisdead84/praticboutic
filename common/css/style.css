@@ -967,3 +967,8 @@ text-align: justify;
   text-align: center;
   word-break: break-word;
 }
+
+.grecaptcha-badge 
+{ 
+  visibility: hidden;
+}
