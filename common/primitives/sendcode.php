@@ -1,4 +1,10 @@
 <?php
+  session_id("customerarea");
+  session_start();
+  
+  ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
@@ -45,7 +51,7 @@
     }
     else
     {
-      $q1 = "INSERT INTO identifiant(email, hash, actif) VALUES ('$email','$hash', '0')";
+      $q1 = "INSERT INTO identifiant(email, hash, actif) VALUES ('$request->email','$hash', '0')";
       //error_log($q1);
       if ($r1 = $conn->query($q1)) 
       {

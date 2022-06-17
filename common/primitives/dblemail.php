@@ -1,4 +1,6 @@
 <?php
+  session_id("customerarea");
+  session_start();
 
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
@@ -28,6 +30,12 @@
   if($row = $result->fetch_row())
   {
     echo ($row[0]);
+    if ($row[0] == 0)
+    {
+      $_SESSION['verify_email'] = $request->email;
+
+      error_log('output : ' . $_SESSION['verify_email']);
+    }
   }
   else
   {
