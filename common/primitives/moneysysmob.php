@@ -2,18 +2,17 @@
     session_id("customerarea");
     session_start();
 
-    /*if (empty($_SESSION['verify_email']) == TRUE)
-    {
-    header("LOCATION: index.php");
-    exit();
-    }*/
-
     require_once '../../vendor/autoload.php';
     include "../config/common_cfg.php";
     include "../param.php";
 
     try
     {
+        if (empty($_SESSION['verify_email']) == TRUE)
+        {
+          throw new Error('Courriel non vérifié');
+        }
+
         $json_str = file_get_contents('php://input');
         $input = json_decode($json_str);
         $output ="";

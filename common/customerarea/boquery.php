@@ -635,7 +635,7 @@ try {
     $raz = 0;
 
     $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['verify_email'] . "'";
-
+    //error_log($subquery);
     if ($result = $conn->query($subquery)) 
     {
       if ($row = $result->fetch_row()) 
@@ -772,7 +772,7 @@ try {
     $_SESSION['bo_email'] = $_SESSION['verify_email'];
     $_SESSION['bo_auth'] = 'oui';
     $_SESSION['bo_init'] = 'oui';
-
+    //error_log('ok');
   }
 
   $conn->close();

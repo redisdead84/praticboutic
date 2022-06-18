@@ -22,6 +22,12 @@ error_reporting(E_ALL);
 
   try
   {
+
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
+    
     //error_log($_SESSION['verify_email']);
     $json_str = file_get_contents('php://input');
     $input = json_decode($json_str);

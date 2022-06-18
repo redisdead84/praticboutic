@@ -34,7 +34,7 @@
     {
       $_SESSION['verify_email'] = $request->email;
 
-      error_log('output : ' . $_SESSION['verify_email']);
+      //error_log('output : ' . $_SESSION['verify_email']);
     }
   }
   else

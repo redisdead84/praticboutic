@@ -35,6 +35,33 @@
               include "../param.php";
               try
               {
+
+                $output ="";
+                
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $bdd);
+                // Check connection
+                if ($conn->connect_error)
+                {
+                  throw new Error("Connection failed: " . $conn->connect_error);
+                }
+            
+                $sql = "SELECT count(*) FROM customer cu WHERE cu.customer = '" . $_POST ['aliasboutic'] . "' LIMIT 1";
+            
+                //error_log($sql);
+                $result = $conn->query($sql);
+            
+                // output data of each row
+                if($row = $result->fetch_row())
+                {
+                  if ($row[0] > 0)
+                  {
+                    throw new Error('Alias de boutic déjà utilisé');
+                  }
+                }
+            
+                $result->close();
+                $conn->close();
                 
                 $_SESSION['initboutic_aliasboutic'] = isset($_POST['aliasboutic']) ? $_POST ['aliasboutic'] : '';
                 $_SESSION['initboutic_nom'] = isset($_POST['nom']) ? $_POST ['nom'] : '';
