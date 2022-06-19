@@ -8,40 +8,50 @@
   header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
   header('Access-Control-Max-Age: 86400');
 
-  $postdata = file_get_contents("php://input");
-  if (isset($postdata))
-    $request = json_decode($postdata);
-
   include "../config/common_cfg.php";
 
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $bdd);
-  // Check connection
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  }
-
-  $sql = "SELECT COUNT(*) FROM client c WHERE c.email = '" . $request->email . "' LIMIT 1";
-
-   error_log($sql);
-  $result = $conn->query($sql);
-
-  // output data of each row
-  if($row = $result->fetch_row())
+  try
   {
-    echo ($row[0]);
-    if ($row[0] == 0)
-    {
-      $_SESSION['verify_email'] = $request->email;
+    $json_str = file_get_contents('php://input');
+    $input = json_decode($json_str);
+    $output ="";
 
-      //error_log('output : ' . $_SESSION['verify_email']);
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $bdd);
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
     }
-  }
-  else
-  {
-    echo ("-1");
-  }
-  $result->close();
-  $conn->close();
 
+    $sql = "SELECT COUNT(*) FROM client c WHERE c.email = '" . $input->email . "' LIMIT 1";
+
+    //error_log($sql);
+    $result = $conn->query($sql);
+
+    // output data of each row
+    if($row = $result->fetch_row())
+    {
+      if ($row[0] == 0)
+      {
+        $_SESSION['verify_email'] = $input->email;
+        //error_log($_SESSION['verify_email']);
+      }
+      else
+      {
+        throw new error('Courriel déjà utilisé');
+      }
+    }
+    else
+    {
+      throw new error('Erreur lors de la vérification du courriel');
+    }
+    $result->close();
+    $conn->close();
+    echo json_encode("OK");
+  }
+  catch (Error $e)
+  {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
+  }
 ?>
