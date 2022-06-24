@@ -23,6 +23,11 @@ $conn = new mysqli($servername, $username, $password, $bdd);
 if ($conn->connect_error) 
  	  die("Connection failed: " . $conn->connect_error);
 
+$bouticid = intval($_GET['bouticid']); 	
+$methv = intval($_GET['methv']);
+$nbtable = intval($_GET['nbtable']);
+$nbex = intval($_GET['nbex']);
+
 $reqci = $conn->prepare('SELECT customer FROM customer WHERE customid = ?');
 $reqci->bind_param("s", $bouticid);
 $reqci->execute();
@@ -30,10 +35,7 @@ $reqci->bind_result($boutic);
 $resultatci = $reqci->fetch();
 $reqci->close();
  	
-$bouticid = intval($_GET['bouticid']); 	
-$methv = intval($_GET['methv']);
-$nbtable = intval($_GET['nbtable']);
-$nbex = intval($_GET['nbex']);
+
 
 if ($methv == 3)
 	$nbtable = 1;
