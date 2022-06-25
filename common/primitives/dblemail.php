@@ -20,7 +20,7 @@
     $conn = new mysqli($servername, $username, $password, $bdd);
     // Check connection
     if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
+      throw new error("Connection failed: " . $conn->connect_error);
     }
 
     $sql = "SELECT COUNT(*) FROM client c WHERE c.email = '" . $input->email . "' LIMIT 1";
