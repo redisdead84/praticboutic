@@ -20,7 +20,7 @@
     $conn = new mysqli($servername, $username, $password, $bdd);
     // Check connection
     if ($conn->connect_error) {
-      throw new error("Connection failed: " . $conn->connect_error);
+      throw new Error("Connection failed: " . $conn->connect_error);
     }
 
     $sql = "SELECT COUNT(*) FROM client c WHERE c.email = '" . $input->email . "' LIMIT 1";
@@ -38,12 +38,12 @@
       }
       else
       {
-        throw new error('Courriel déjà utilisé');
+        throw new Error('Courriel déjà utilisé');
       }
     }
     else
     {
-      throw new error('Erreur lors de la vérification du courriel');
+      throw new Error('Erreur lors de la vérification du courriel');
     }
     $result->close();
     $conn->close();
