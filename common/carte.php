@@ -78,16 +78,28 @@
     echo '<form name="mainform" autocomplete="off" method="post" action="valrecap.php">';
     
     //echo "Connected successfully";
-    $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' ORDER BY catid';
+    $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' OR catid = 0 ORDER BY catid';
 
 		if ($result = $conn->query($query)) {
     		while ($row = $result->fetch_row()) {
-    			if ($row[2] > 0 )
+    			if (($row[2] > 0 ) || ($row[0] == 0))
     			{
-    			  echo '<button type="button" class="accordion">';
-    				echo html_entity_decode($row[1]);
-    				echo '</button>';
-    				echo '<div class="panel">';
+    			  if ($row[0] > 0)
+    			  {
+    			    echo '<button type="button" class="accordion">';
+    				  echo html_entity_decode($row[1]);
+    				  echo '</button>';
+    				  echo '<div class="panel">';
+    				}
+    				else
+    				{
+    			    echo '<button type="button" class="accordion" style="display:none">';
+    				  echo html_entity_decode($row[1]);
+    				  echo '</button>';
+   				    echo '<div class="panel" style="max-height:max-content">';
+
+    				}
+    				
 		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND catid = ' . $row[0] . ' ORDER BY artid';
 		      	if ($result2 = $conn->query($query2)) 
 	  				{

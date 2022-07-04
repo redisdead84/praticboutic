@@ -236,7 +236,7 @@ try {
 				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
 
   	$query = 'SELECT ' . $clep . ', ' . $input->colonne . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
-  	$query = $query . ' WHERE customid = ' . $input->bouticid;
+  	$query = $query . ' WHERE customid = ' . $input->bouticid . ' OR ' . $clep . ' = 0';
   	
 		if (strcmp($input->tables[$numtable]->nom, "statutcmd") == 0 ) 
 	  	$query = $query . ' AND actif = 1';
