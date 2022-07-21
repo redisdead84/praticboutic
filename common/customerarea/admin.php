@@ -354,26 +354,6 @@
                   <input data-lbl="Nom de l'entreprise" class="fieldperso" id="pbnomid" type='text' maxlength="100" oninput="persoenblbtnvc(this)" />
                 </div>
                 <br>
-                <div class="param">
-                  <label>Adresse (ligne1) : </label>
-                  <input data-lbl="Adresse (ligne1)" class="fieldperso" id="pbadr1id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
-                </div>
-                <br>
-                <div class="param">
-                  <label>Adresse (ligne2) : </label>
-                  <input data-lbl="Adresse (ligne2)" class="fieldperso" id="pbadr2id" type='text' maxlength="150" oninput="persoenblbtnvc(this)" />
-                </div>
-                <br>
-                <div class="param">
-                  <label>Code Postal : </label>
-                  <input data-lbl="Code Postal" class="fieldperso" id="pbcpid" type='text' maxlength="5" pattern="[0-9]{5}" oninput="persoenblbtnvc(this)" />
-                </div>
-                <br>
-                <div class="param">
-                  <label>Ville : </label>
-                  <input data-lbl="Ville" class="fieldperso" id="pbvilleid" type='text' maxlength="50" oninput="persoenblbtnvc(this)" />
-                </div>
-                <br>
                 <div class="" id="bloclogoid">
                   <label for="artlogofile">Logo : </label>
                   <input data-lbl="Logo" class="fieldperso" id="artlogofile" name="artlogofile" class="form-control-file bo-form-control-file" type="file" accept="image/png, image/jpeg" oninput="persoenblbtnvc(this)" />

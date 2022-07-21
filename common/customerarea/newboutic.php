@@ -42,24 +42,12 @@ require_once '../../vendor/autoload.php';
             Création de votre <span style="color:#e2007a">pratic</span><span style="color:#6c757d">boutic</span>
           </p>
           <form id="signup-form" onsubmit="bakinfo()" method="post" action="initboutic.php" autocomplete="on">
-            <div class="twocol">
+            <div class="">
               <div class="param">
                 <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" required /><br>
               </div>
               <div class="param">
                 <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="adresse1" maxlength="150" name="adresse1" type="text" placeholder="Adresse (ligne1) de la boutic" value="" /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="adresse2" maxlength="150" name="adresse2" type="text" placeholder="Adresse (ligne2) de la boutic" value="" /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="codepostal" maxlength="5" name="codepostal" pattern="[0-9]{5}" type="text" placeholder="Code postal de la boutic" value="" /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="ville" maxlength="50" name="ville" type="text" placeholder="Ville de la boutic" value="" /><br>
               </div>
               <div class="param">
                 <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
@@ -213,4 +201,5 @@ require_once '../../vendor/autoload.php';
       }
     }
   </script>
+  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

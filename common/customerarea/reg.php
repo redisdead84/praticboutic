@@ -32,15 +32,22 @@ $dotenv->load();
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spacemodal">
-        <img id='illus2' src='img/illustration_2.png' class='elemcb'/>
+        <div class='elemcb'>
+          <p class='midle center title welcome'>Bienvenue</p>
+          <p class='center midle subtitle'>Envie de commencer l'expérience</p>
+          <p class='center midle headerlist'>Avant de débuter l'aventure assurez vous de disposer :</p>
+          <li>D'un courriel</li>
+          <li>D'une carte bancaire</li>
+        </div>
         <div class="modal-content-mainmenu">
-          <form id="signup-form" onsubmit="bakinfo()" method="post" action="valrecapi.php" autocomplete="on">
+          <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
             <div class="modal-header-cb">
               <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
               <h6 class="modal-title modal-title-cb">INSCRIPTION</h6>
             </div>
             <div class="modal-body-mainmenu modal-body-cb">
               <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
+              <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
               <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
             </div>
             <input type="submit" class="btn btn-primary enlarged btn-valider g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="INSCRIPTION" />
@@ -49,6 +56,7 @@ $dotenv->load();
             </div>
           </form>
         </div>
+        <img id='illus2' src='img/illustration_2.png' class='elemcb'/>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
@@ -56,7 +64,20 @@ $dotenv->load();
   <script type="text/javascript" >
     function bakinfo()
     {
+      var erron = false;
+      for (var fld of document.forms['signup-form'].elements)
+      {
+        if (fld.validity.valid == false)
+        {
+          const el = document.querySelector('[data-errinpid="' + fld.id + '"]');
+          el.style.display = 'block';
+          erron = true;
+        }
+      }
+      if (erron == true)
+        return false;
       sessionStorage.setItem('pb_reg_email', document.getElementById("email").value);
+      return true;
     }
     window.onload=function()
     {
@@ -71,6 +92,8 @@ $dotenv->load();
   <script>
     function onSubmit(token) 
     {
+      if (bakinfo() == false)
+        return;
       document.getElementById("gRecaptchaResponse").value = token;
       document.getElementById("signup-form").submit();
     }
@@ -84,4 +107,5 @@ $dotenv->load();
       }
     }
   </script>
+  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

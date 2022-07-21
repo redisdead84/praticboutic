@@ -34,7 +34,7 @@
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);  
     
-  $reqci = $conn->prepare('SELECT customid, nom, adresse1, adresse2, codepostal, ville, logo FROM customer WHERE customer = ?');
+  $reqci = $conn->prepare('SELECT CU.customid, CU.nom, CL.adresse1, CL.adresse2, CL.codepostal, CL.ville, CU.logo FROM customer CU, client CL WHERE CU.customer = ? AND CL.cltid = CU.cltid LIMIT 1');
   $reqci->bind_param("s", $customer);
   $reqci->execute();
   $reqci->bind_result($customid, $nom, $adresse1, $adresse2, $codepostal, $ville,  $logo);

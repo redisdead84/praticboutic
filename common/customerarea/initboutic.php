@@ -65,10 +65,6 @@
                 
                 $_SESSION['initboutic_aliasboutic'] = isset($_POST['aliasboutic']) ? $_POST ['aliasboutic'] : '';
                 $_SESSION['initboutic_nom'] = isset($_POST['nom']) ? $_POST ['nom'] : '';
-                $_SESSION['initboutic_adresse1'] = isset($_POST['adresse1']) ? $_POST ['adresse1'] : '';
-                $_SESSION['initboutic_adresse2'] = isset($_POST['adresse2']) ? $_POST ['adresse2'] : '';
-                $_SESSION['initboutic_codepostal'] = isset($_POST['codepostal']) ? $_POST ['codepostal'] : '';
-                $_SESSION['initboutic_ville'] = isset($_POST['ville']) ? $_POST ['ville'] : '';
                 $_SESSION['initboutic_email'] = isset($_POST['email']) ? $_POST ['email'] : '';
 
                 if (empty($_SESSION['initboutic_aliasboutic'])==TRUE ) {

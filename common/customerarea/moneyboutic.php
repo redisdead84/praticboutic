@@ -1,16 +1,20 @@
 <?php
 
-session_id("customerarea");
-session_start();
-
-if (empty($_SESSION['verify_email']) == TRUE)
-{
-  header("LOCATION: index.php");
-  exit();
-}
-
-require_once '../../vendor/autoload.php';
-require_once '../config/common_cfg.php';
+  session_id("customerarea");
+  session_start();
+  
+  if (empty($_SESSION['verify_email']) == TRUE)
+  {
+    header("LOCATION: index.php");
+    exit();
+  }
+  
+  require_once '../../vendor/autoload.php';
+  require_once '../config/common_cfg.php';
+  require_once "../param.php";
+  
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
 
 ?>
 
@@ -40,7 +44,7 @@ require_once '../config/common_cfg.php';
       <div id="workspace" class="spaceflex">
         <div class="customform">
           <p class="center middle title">
-            Choix de paiement
+            Comment encaisser vos ventes ?
           </p>
           <form id="moneysys-form" name="mainform" onsubmit="bakinfo()" method="post" action="moneysys.php" autocomplete="off">
             <input id="moneysystemid" name="moneysystem" type="hidden" value="NONE" />
@@ -48,13 +52,7 @@ require_once '../config/common_cfg.php';
             <div class="chxpaisys">
               <div class="blocsysmoney">
                 <img id="stripeico" name="stripeico" class="paieico" src="img/stripe_unselected.png" onclick="toggle(this)" data-state="off">
-                <div id="idparamstripe" style="display: none;">
-                  <div id="iddivpubkey" class="param">
-                    <input class="paramfieldc" id="publickeyid" maxlength="255" name="publickey" type="text" value="" autocomplete="off" placeholder="Clé Public Stripe" maxlength="255" />
-                  </div>
-                  <div id="iddivseckey" class="param">
-                    <input class="paramfieldc" id="secretkeyid" maxlength="255" name="secretkey" type='password' value="" autocomplete="one-time-code" placeholder="Clé Privé Stripe" maxlength="255" />
-                  </div>
+                <div id="idparamstripe"  style="display: block;">
                   <a id="idlienstripe" href="https://www.stripe.com/" target="_blank">Stripe (site officiel) - Standard du paiement en ligne</a>
                 </div>
               </div>
@@ -64,6 +62,25 @@ require_once '../config/common_cfg.php';
                   <div id="iddivppakey" class="param">
                     <input class="paramfieldc" id="idcltpaypalid" type='text' maxlength="255" name="idcltpaypal" autocomplete="off" placeholder="ID Client Paypal"/>
                   </div>
+                  <span id='lippButton'></span>
+                  <script src='https://www.paypalobjects.com/js/external/api.js'></script>
+                  <script>
+                    paypal.use( ['login'], function (login) {
+                      login.render ({
+                        "appid":"AQTFxFjirZ4jnrHFeik5AQFuFJuSvhPe0n274XMjK1ogWD1W7HOsyZWy_rKrN4NJY7jHZYHWKp0MeBtO",
+                        "authend":"sandbox",
+                        "scopes":"openid",
+                        "containerid":"lippButton",
+                        "responseType":"code",
+                        "locale":"fr-fr",
+                        "buttonType":"LWP",
+                        "buttonShape":"pill",
+                        "buttonSize":"lg",
+                        "fullPage":"true",
+                        "returnurl":"http://127.0.0.1/common/customerarea/moneyboutic.php"
+                      });
+                    });
+                  </script>
                   <a id="idlienpaypal" href="https://www.paypal.com/" target="_blank">Paiements en ligne - Transferts d'argent | PayPal FR</a>
                 </div>
               </div>
@@ -85,50 +102,14 @@ require_once '../config/common_cfg.php';
   <script type="text/javascript">
     function bakinfo()
     {
-      checkinfo();
-      sessionStorage.setItem('pb_initb_moneysys', document.getElementById("moneysystemid").value);
+-     sessionStorage.setItem('pb_initb_moneysys', document.getElementById("moneysystemid").value);
       sessionStorage.setItem('pb_initb_caisseid', document.getElementById("caisseid").value);
-      sessionStorage.setItem('pb_initb_publickeyid', document.getElementById("publickeyid").value);
-      sessionStorage.setItem('pb_initb_secretkeyid', document.getElementById("secretkeyid").value);
+      sessionStorage.setItem('pb_initb_stripeaccid', <?php echo "'" . $_SESSION['STRIPE_ACCOUNT_ID'] . "'" ?> );
       sessionStorage.setItem('pb_initb_idcltpaypalid', document.getElementById("idcltpaypalid").value);
-    }
-    
-    function checkinfo()
-    {
-      var failed = false;
-      var astk = ('<?php echo $allowstripetestkey; ?>' === 'oui');
-      
-      if (document.forms["mainform"]["stripeico"].getAttribute("data-state") == "on")
-      {
-        var pubkey = document.forms["mainform"]["publickey"].value;
-        var seckey = document.forms["mainform"]["secretkey"].value;
-        if (!((pubkey.startsWith('pk_live')==true)||((pubkey.startsWith('pk_test') == true)&&(astk == true))))
-        {
-          failed = true;
-          if (astk == false)
-            alert("La clé public Stripe doit commencer par 'pk_live'");
-          else
-            alert("La clé public Stripe doit commencer par 'pk_test' ou 'pk_live'");
-        }
-        if (!((seckey.startsWith('sk_live')==true)||((seckey.startsWith('sk_test') == true)&&(astk == true))))
-        {
-          failed = true;
-          if (astk == false)
-            alert("La clé secrète Stripe doit commencer par 'sk_live'");
-          else
-            alert("La clé secrète Stripe doit commencer par 'sk_test' ou 'sk_live'");
-        }
-      }
-      if (failed == false)
-        document.forms["mainform"].submit();
     }
     
     window.onload=function()
     {
-      if (sessionStorage.getItem('pb_initb_moneysys') !== null)
-        document.getElementById("moneysystemid").value = sessionStorage.getItem('pb_initb_moneysys');
-      document.getElementById("publickeyid").value = sessionStorage.getItem('pb_initb_publickeyid');
-      document.getElementById("secretkeyid").value = sessionStorage.getItem('pb_initb_secretkeyid');
       document.getElementById("idcltpaypalid").value = sessionStorage.getItem('pb_initb_idcltpaypalid');
       document.getElementById("caisseid").value = sessionStorage.getItem('pb_initb_caisseid');
       document.getElementById("msvalid").disabled = true;
@@ -158,17 +139,11 @@ require_once '../config/common_cfg.php';
         document.getElementById("msvalid").disabled = false;
         document.getElementById("msvalid").style = "opacity: 1";
       }
-      var elemms = document.getElementById("moneysystemid");
-      if (elemms.value == 'NONE')
-      {
-        document.getElementById("stripeico").setAttribute("data-state", "off");
-        document.getElementById("paypalico").setAttribute("data-state", "off");
-        document.getElementById("stripeico").src = "img/stripe_unselected.png";
-        document.getElementById("paypalico").src = "img/paypal_unselected.png";
-        document.getElementById("idparamstripe").style.display = "none";
-        document.getElementById("idparampaypal").style.display = "none";
-      }
-      else if (elemms.value == 'PAYPAL')
+      document.getElementById("stripeico").setAttribute("data-state", "off");
+      document.getElementById("paypalico").setAttribute("data-state", "off");
+      document.getElementById("idparampaypal").style.display = "none";
+
+      /*if (elemms.value == 'PAYPAL')
       {
         document.getElementById("stripeico").setAttribute("data-state", "off");
         document.getElementById("paypalico").setAttribute("data-state", "on");
@@ -178,17 +153,20 @@ require_once '../config/common_cfg.php';
         document.getElementById("idparampaypal").style.display = "block";
         document.getElementById("msvalid").disabled = false;
         document.getElementById("msvalid").style = "opacity: 1";
-      }
-      else if (elemms.value == 'STRIPE')
+      }*/
+      var stripeaccid = <?php echo "'" . $_SESSION['STRIPE_ACCOUNT_ID'] . "'" ?>;
+      if (stripeaccid == '')
       {
-        document.getElementById("paypalico").setAttribute("data-state", "off");
+        document.getElementById("stripeico").setAttribute("data-state", "off");
+        document.getElementById("stripeico").src = "img/stripe_unselected.png";
+      }
+      else 
+      {
         document.getElementById("stripeico").setAttribute("data-state", "on");
         document.getElementById("stripeico").src = "img/stripe_selected.png";
-        document.getElementById("paypalico").src = "img/paypal_unselected.png";
-        document.getElementById("idparamstripe").style.display = "block";
-        document.getElementById("idparampaypal").style.display = "none";
         document.getElementById("msvalid").disabled = false;
         document.getElementById("msvalid").style = "opacity: 1";
+        document.getElementById("moneysystemid").value = 'STRIPE MARKETPLACE';
       }
     }
   
@@ -212,7 +190,7 @@ require_once '../config/common_cfg.php';
     {
       if (elem.id == "paypalico")
       {
-        if (elem.getAttribute("data-state") == "off")
+        /*if (elem.getAttribute("data-state") == "off")
         {
           document.getElementById("stripeico").setAttribute("data-state", "off");
           document.getElementById("stripeico").src = "img/stripe_unselected.png";
@@ -248,34 +226,20 @@ require_once '../config/common_cfg.php';
             document.getElementById("msvalid").disabled = true;
             document.getElementById("msvalid").style = "opacity: 0.5";
           }
-        }
+        }*/
       }
       else if (elem.id == "stripeico")
       {
         if (elem.getAttribute("data-state") == "off")
         {
-          document.getElementById("paypalico").setAttribute("data-state", "off");
-          document.getElementById("paypalico").src = "img/paypal_unselected.png";
-          elem.setAttribute("data-state", "on");
-          elem.src = "img/stripe_selected.png";
-          document.getElementById("moneysystemid").value = "STRIPE";
-          document.getElementById("idparamstripe").style.display = "block";
-          document.getElementById("idparampaypal").style.display = "none";
-          if (document.getElementById("caisseico").getAttribute("data-state") == "on")
-             document.getElementById("caisseid").value = "TOUS";
-          else if (document.getElementById("caisseico").getAttribute("data-state") == "off")
-             document.getElementById("caisseid").value = "COMPTANT";
-          document.getElementById("msvalid").disabled = false;
-          document.getElementById("msvalid").style = "opacity: 1";
+          document.location = 'stripe.php';
         }
-        else if (elem.getAttribute("data-state") == "on")
+        /*else if (elem.getAttribute("data-state") == "on")
         {
+          <?php $_SESSION['STRIPE_ACCOUNT_ID'] = '' ?>;
           elem.setAttribute("data-state", "off");
           elem.src = "img/stripe_unselected.png";
-          document.getElementById("moneysystemid").value = "NONE";
           document.getElementById("caisseid").value = "LIVRAISON";
-          document.getElementById("idparamstripe").style.display = "none";
-          document.getElementById("idparampaypal").style.display = "none";
           if (document.getElementById("caisseico").getAttribute("data-state") == "on")
           {
             document.getElementById("caisseid").value = "LIVRAISON";
@@ -288,7 +252,7 @@ require_once '../config/common_cfg.php';
             document.getElementById("msvalid").disabled = true;
             document.getElementById("msvalid").style = "opacity: 0.5";
           }
-        }
+        }*/
       }
       else if (elem.id == "caisseico")
       {
@@ -332,4 +296,10 @@ require_once '../config/common_cfg.php';
       }
     }
   </script>
+  <!--<script type="text/javascript" >
+    const img = '/to-do-notifications/img/icon-128.png';
+    const text = 'Coucou ! Votre tâche toto arrive maintenant à échéance.';
+    const notification = new Notification('Liste de trucs à faire', { body: text, icon: img });
+  </script>-->
+  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

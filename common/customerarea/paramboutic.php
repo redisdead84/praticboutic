@@ -42,7 +42,7 @@ require_once '../../vendor/autoload.php';
         <main class="fcb">
           <div class="customform">
             <p class="center middle title">
-              Initialisation de la Boutic
+              Paramétrage de l'achat
             </p>
             <form id="signup-form" onsubmit="bakinfo()" method="post" action="confboutic.php" autocomplete="on">
               <div class="">
@@ -75,41 +75,41 @@ require_once '../../vendor/autoload.php';
     </div>
   </body>
   <script type="text/javascript" >
-  function bakinfo()
-  {
-    sessionStorage.setItem('pb_paramb_chxmethodeid', document.getElementById("chxmethodeid").value);
-    sessionStorage.setItem('pb_paramb_mntmincmdid', document.getElementById("mntmincmdid").value);
-    if (document.getElementById("smson").checked == true)
-      sessionStorage.setItem('pb_reg_validsms', "on");
-    if (document.getElementById("smsoff").checked == true)
-      sessionStorage.setItem('pb_reg_validsms', "off");
-
-  }
-  window.onload=function()
-  {
-    if (sessionStorage.getItem('pb_paramb_chxmethodeid') !== null)
-      document.getElementById("chxmethodeid").value = sessionStorage.getItem('pb_paramb_chxmethodeid');
-    if (sessionStorage.getItem('pb_paramb_mntmincmdid') !== null)
-      document.getElementById("mntmincmdid").value = sessionStorage.getItem('pb_paramb_mntmincmdid');
-    if (sessionStorage.getItem('pb_reg_validsms')  == "on")
+    function bakinfo()
     {
-      document.getElementById("smson").checked = true;
-      document.getElementById("smsoff").checked = false;
-    }
-    if (sessionStorage.getItem('pb_reg_validsms')  == "off")
-    {
-      document.getElementById("smson").checked = false;
-      document.getElementById("smsoff").checked = true;
-    }
-  }
-
-  function cancel() 
-  {
-    bakinfo();
-    window.location.href = './moneyboutic.php';
-  }
+      sessionStorage.setItem('pb_paramb_chxmethodeid', document.getElementById("chxmethodeid").value);
+      sessionStorage.setItem('pb_paramb_mntmincmdid', document.getElementById("mntmincmdid").value);
+      if (document.getElementById("smson").checked == true)
+        sessionStorage.setItem('pb_reg_validsms', "on");
+      if (document.getElementById("smsoff").checked == true)
+        sessionStorage.setItem('pb_reg_validsms', "off");
   
-</script>
+    }
+    window.onload=function()
+    {
+      if (sessionStorage.getItem('pb_paramb_chxmethodeid') !== null)
+        document.getElementById("chxmethodeid").value = sessionStorage.getItem('pb_paramb_chxmethodeid');
+      if (sessionStorage.getItem('pb_paramb_mntmincmdid') !== null)
+        document.getElementById("mntmincmdid").value = sessionStorage.getItem('pb_paramb_mntmincmdid');
+      if (sessionStorage.getItem('pb_reg_validsms')  == "on")
+      {
+        document.getElementById("smson").checked = true;
+        document.getElementById("smsoff").checked = false;
+      }
+      if (sessionStorage.getItem('pb_reg_validsms')  == "off")
+      {
+        document.getElementById("smson").checked = false;
+        document.getElementById("smsoff").checked = true;
+      }
+    }
+  
+    function cancel() 
+    {
+      bakinfo();
+      window.location.href = './moneyboutic.php';
+    }
+    
+  </script>
   <script type="text/javascript" >
     function quitterbuildboutic()
     {
@@ -119,4 +119,5 @@ require_once '../../vendor/autoload.php';
       }
     }
   </script>
+  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

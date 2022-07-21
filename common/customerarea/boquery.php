@@ -674,11 +674,10 @@ try {
       throw new Error('Identifiant interdit');
     }
     
-    $q = "INSERT INTO customer (cltid, customer, nom, adresse1, adresse2, codepostal, ville, logo, courriel) ";
-    $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . addslashes($_SESSION['initboutic_nom']) . "', '" .  addslashes($_SESSION['initboutic_adresse1']) . "', '";
-    $q = $q . addslashes($_SESSION['initboutic_adresse2']) . "', '" . $_SESSION['initboutic_codepostal'] . "', '" . addslashes($_SESSION['initboutic_ville']) . "', '";
+    $q = "INSERT INTO customer (cltid, customer, nom, logo, courriel) ";
+    $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . addslashes($_SESSION['initboutic_nom']) . "', '";
     $q = $q . $_SESSION['initboutic_logo'] . "', '" . $_SESSION['initboutic_email'] . "')";
-    //error_log($q);
+    error_log($q);
     
     if ($conn->query($q) === FALSE) 
     {
@@ -734,6 +733,7 @@ try {
       array("PublicKey", $_SESSION['moneysys_stripepubkey'], "Clé public stripe"),
       array("SecretKey", $_SESSION['moneysys_stripeseckey'], "Clé privé stripe"),
       array("ID_CLT_PAYPAL", $_SESSION['moneysys_paypalid'], "ID Client PayPal"),
+      array("STRIPE_ACCOUNT_ID", $_SESSION['STRIPE_ACCOUNT_ID'], "ID Compte connecté Stripe"),
     );
 
     for($i=0; $i<count($parametres); $i++)
