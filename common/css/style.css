@@ -251,7 +251,8 @@ body
   vertical-align:middle;
 }
 
-#main {
+#main 
+{
   margin: 0 auto;
   width: 100%;
   height: auto;
@@ -259,15 +260,13 @@ body
   overflow-x: hidden;
 }
 
-#finmain {
+#finmain 
+{
   margin: 0 auto;
   width: 100%;
-  display: flex;
-  flex-flow: column wrap; 
+  overflow-y: scroll;
+
 }
-
-
-
 
 .lcont
 {
@@ -833,7 +832,7 @@ text-align: justify;
 	display: flex;
 	align-items: center;
   justify-content: center;
-  flex: 0 0 50%;
+  flex: 0 0 100%;
   flex-flow: column wrap;
 }
 

@@ -21,6 +21,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -29,7 +30,10 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()"/>
       <div id="workspace" class="spacemodal">
-        <div class="modal-content-mainmenu modal-content-cb elemcb">
+        <div id="loadid" class="spinner-border" role="status" style="display: none;">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id="mainmenu" class="modal-content-mainmenu modal-content-cb elemcb" style="display: block;">
           <form method="post" action="valid.php">
             <div class="modal-header-mainmenu modal-header-cb">
               <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
@@ -50,7 +54,7 @@
             </div>
           </form>
         </div>
-        <img id='illus1' src='img/illustration_1.png' class='elemcb' />
+        <img id='illus1' src='img/illustration_1.png' class='elemcb' style="display: block;"/>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()"/>
     </div>
@@ -60,9 +64,11 @@
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("mainmenu").style.display = "none";
+        document.getElementById("illus1").style.display = "none";
         window.location.href ='exit.php';
       }
     }
   </script>
-  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

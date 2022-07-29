@@ -35,11 +35,11 @@
               include "../param.php";
               try
               {
-                $_SESSION['confboutic_chxpaie'] = isset($_POST['chxpaie']) ? $_POST ['chxpaie'] : '';
+                $_SESSION['confboutic_chxpaie'] = strcmp($_POST ['caisse'], "CAISSE") == 0 ? "TOUS" : "COMPTANT";
                 $_SESSION['confboutic_chxmethode'] = isset($_POST['chxmethode']) ? $_POST ['chxmethode'] : '';
                 $_SESSION['confboutic_mntmincmd'] = isset($_POST['mntmincmd']) ? $_POST ['mntmincmd'] : '';
                 $_SESSION['confboutic_validsms'] = isset($_POST['validsms']) ? ((strcmp($_POST ['validsms'], "on")==0) ? "1" : "0") : '';
-                
+
                 header("LOCATION: prices.php");
               }
               catch (Error $e)

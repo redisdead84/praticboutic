@@ -29,7 +29,7 @@ $arr=array();
 
 $sql = "SELECT a.nom, a.prix, a.visible, c.nom FROM article a,categorie c WHERE c.customid = '" . $request->customid . "' AND c.customid = a.customid"; 
 
-error_log($sql);
+//error_log($sql);
 
 
 

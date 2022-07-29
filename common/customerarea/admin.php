@@ -72,6 +72,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -148,10 +149,6 @@
     inittable("table3", "table3", "groupeopt");
     fldCustomProp("pbaliasid", "customer", "url");
     fldCustomProp("pbnomid", "nom", "text");
-    fldCustomProp("pbadr1id", "adresse1", "text");
-    fldCustomProp("pbadr2id", "adresse2", "text");
-    fldCustomProp("pbcpid", "codepostal", "text");
-    fldCustomProp("pbvilleid", "ville", "text");
     fldCustomProp("artlogofile", "logo", "image");
     fldCustomProp("pbemailid", "courriel", "email");
     fldParam("subjectmailid", "Subject_mail", "text");
@@ -166,9 +163,6 @@
     fldParam("mntmincmdid", "MntCmdMini", "prix");
     fldParam("sizeimgid", "SIZE_IMG", "select");
     fldParam("moneysystemid", "MONEY_SYSTEM", "select");
-    fldParam("publickeyid", "PublicKey", "text");
-    fldParam("secretkeyid", "SecretKey", "text");
-    fldParam("idcltpaypalid", "ID_CLT_PAYPAL", "text");
     fldClientProp("clpassid", "pass", "pass");
     fldClientProp("clhommeid", "qualite", "radio");
     fldClientProp("clfemmeid", "qualite", "radio");
@@ -189,7 +183,7 @@
       initdone;
       var modal = $('.modal');
       $('.modal-title').html('Félicitations');
-      modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer une catégorie puis un article pour commencer l\'expérience.');
+      modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
       $('.modal').modal('show');
     }
     startWorkerCommande();
@@ -205,22 +199,24 @@
         <li class="nav-item">
           <a class="nav-link active" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
         </li>
-         <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
-        </li>  
+        </li>
         <div class="demiinter">
         </div>
+        <li class="nav-item">
+          <?php 
+            $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $bouticid);
+            $loglink = $stripe->accounts->createLoginLink($sca);
+            echo "<a class='nav-link' href='" . $loglink->url . "' target='_blank'><p class='nopicto'>Mon Argent</p></a>";
+          ?>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Esapce Client</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="account.php"><p class="nopicto">Abonnement</p></a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" href="https://pratic-boutic.fr/#faq"><p class="nopicto">Aide</p></a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" href="https://pratic-boutic.fr/praticboutic"><p class="nopicto">Marketing</p></a>
         </li>
          <li class="nav-item">
           <a class="nav-link" href="logout.php"><p class="nopicto">Deconnexion</p></a>
@@ -249,22 +245,22 @@
         <p class="title">Produits</p>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="true">CATEGORIES</a>
+            <a class="nav-link" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="false">CATEGORIES</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="false">ARTICLES</a>
+            <a class="nav-link active" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="true">ARTICLES</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">OPTIONS</a>
           </li>
         </ul>
         <div class="tab-content" id="myTabProdContent">
-          <div class="tab-pane active" id="categorie" role="tabpanel" aria-labelledby="categorie-tab">
+          <div class="tab-pane" id="categorie" role="tabpanel" aria-labelledby="categorie-tab">
             <div class='tbl' id="table0"></div>
             <div class='tbl form-group' id="ins0" data-vuep="table0" hidden></div>
             <div class='tbl form-group' id="maj0" data-vuep="table0" hidden></div>
           </div>
-          <div class="tab-pane" id="article" role="tabpanel" aria-labelledby="article-tab">
+          <div class="tab-pane active" id="article" role="tabpanel" aria-labelledby="article-tab">
             <div class='tbl' id='ihm1'>
               <div id="table1"></div>
             </div>  
@@ -328,9 +324,6 @@
           <li class="nav-item">
             <a class="nav-link" id="client-tab" data-toggle="tab" href="#client" role="tab" aria-controls="client" aria-selected="false">CLIENT</a>
           </li>
-          <!--<li class="nav-item">
-            <a class="nav-link" id="abo-tab" data-toggle="tab" href="#abo" role="tab" aria-controls="abo" aria-selected="false">ABONNEMENT</a>
-          </li>-->
         </ul>
         <div class="tab-content" id="myTabAdminContent">
           <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
@@ -402,7 +395,6 @@
                   <label for="choixpaiementid">Choix de paiement : </label>
                   <select data-lbl="Choix de paiement" class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
                     <option value='COMPTANT'>En ligne par CB</option>
-                    <option value='LIVRAISON'>En direct par vos moyens</option>
                     <option value='TOUS'>En ligne & En direct</option>
                   </select>
                 </div>
@@ -452,26 +444,8 @@
                 <div class="param">
                   <label for="moneysystemid">Système de paiement : </label>
                   <select data-lbl="Système de paiement" class="fieldparam" id="moneysystemid" oninput="paramenblbtnvc(this)" >
-                    <option value='STRIPE'>STRIPE</option>
-                    <option value='PAYPAL'>PAYPAL</option>
+                    <option value='STRIPE MARKETPLACE'>STRIPE</option>
                   </select>
-                </div>
-                <br>
-                <div class="param">
-                  <label for="publickeyid">Clé Public Stripe : </label>
-                  <input data-lbl="Clé Public Stripe" class="fieldparam" id="publickeyid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
-                </div>
-                <br>
-                <form autocomplete="off">
-                  <div class="param">
-                      <label for="secretkeyid">Clé Privé Stripe : </label>
-                      <input data-lbl="Clé Privé Stripe" class="fieldparam" id="secretkeyid" type='password' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="one-time-code" />
-                  </div>
-                </form>
-                <br>
-                <div class="param">
-                  <label for="idcltpaypalid">ID Client Paypal : </label>
-                  <input data-lbl="ID Client Paypal" class="fieldparam" id="idcltpaypalid" type='text' maxlength="255" oninput="paramenblbtnvc(this)" autocomplete="off" />
                 </div>
                 <br>
               </div>

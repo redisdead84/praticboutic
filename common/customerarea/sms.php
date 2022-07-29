@@ -37,7 +37,7 @@ try {
   $resultatci = $reqci->fetch();
   $reqci->close();*/
 
-  error_log($customid);
+  //error_log($customid);
 	
 	$validsms = GetValeurParam("VALIDATION_SMS", $conn, $customid, "0");
 	

@@ -77,7 +77,7 @@
                   throw new Error('Identifiant interdit');
                 }
 
-                header("LOCATION: moneyboutic.php");
+                header("LOCATION: stripe.php");
               }
               catch (Error $e)
               {

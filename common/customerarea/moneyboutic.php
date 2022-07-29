@@ -90,7 +90,7 @@
             </div>
             <div class="param rwc margetop">
               <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-              <input class="butc btn-msprimary" id="msvalid" type="button" onclick="javascript:bakinfo()" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
+              <input class="butc btn-msprimary" id="msvalid" type="submit" onclick="javascript:bakinfo()" value="CONFIRMATION" autofocus style="opacity: 0.5" /><br><br>
             </div>
           </form>
         </div>

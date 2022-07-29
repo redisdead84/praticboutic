@@ -677,7 +677,7 @@ try {
     $q = "INSERT INTO customer (cltid, customer, nom, logo, courriel) ";
     $q = $q . "VALUES ('" . $cltid . "', '" . $_SESSION['initboutic_aliasboutic'] . "', '" . addslashes($_SESSION['initboutic_nom']) . "', '";
     $q = $q . $_SESSION['initboutic_logo'] . "', '" . $_SESSION['initboutic_email'] . "')";
-    error_log($q);
+    //error_log($q);
     
     if ($conn->query($q) === FALSE) 
     {
@@ -720,7 +720,7 @@ try {
       array("Subject_mail","Commande PraticBoutic","Sujet du courriel pour l'envoi de mail"),
       array("VALIDATION_SMS", $_SESSION['confboutic_validsms'], "Commande validée par sms ?"),
       array("VerifCP", "0", "Activation de la verification des codes postaux"),
-      array("Choix_Paiement", $_SESSION['moneysys_caisse'], "COMPTANT ou LIVRAISON ou TOUS"),
+      array("Choix_Paiement", $_SESSION['confboutic_chxpaie'], "COMPTANT ou LIVRAISON ou TOUS"),
       array("MP_Comptant", "Par carte bancaire", "Texte du paiement comptant"),
       array("MP_Livraison", "Moyens conventionnels", "Texte du paiement à la livraison"),
       array("Choix_Method", $_SESSION['confboutic_chxmethode'], "TOUS ou EMPORTER ou LIVRER"),
@@ -729,10 +729,7 @@ try {
       array("MntCmdMini", $_SESSION['confboutic_mntmincmd'], "Montant commande minimal"),
       array("SIZE_IMG", "smallimg", "bigimg ou smallimg"),
       array("CMPT_CMD", "0", "Compteur des références des commandes"),
-      array("MONEY_SYSTEM", $_SESSION['moneysys_moneysys'], "STRIPE ou PAYPAL"),
-      array("PublicKey", $_SESSION['moneysys_stripepubkey'], "Clé public stripe"),
-      array("SecretKey", $_SESSION['moneysys_stripeseckey'], "Clé privé stripe"),
-      array("ID_CLT_PAYPAL", $_SESSION['moneysys_paypalid'], "ID Client PayPal"),
+      array("MONEY_SYSTEM", "STRIPE MARKETPLACE", ""),
       array("STRIPE_ACCOUNT_ID", $_SESSION['STRIPE_ACCOUNT_ID'], "ID Compte connecté Stripe"),
     );
 

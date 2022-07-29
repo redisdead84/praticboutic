@@ -17,8 +17,11 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spacemodal">
-        <img id='illus2' src='img/illustration_2.png' class="elemcb" />
-        <div class="modal-content-mainmenu elemcb">
+        <div id="loadid" class="spinner-border" role="status" style="display: none;">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <img id='illus2' src='img/illustration_2.png' class="elemcb" style="display: block;"/>
+        <div id='mainmenu' class="modal-content-mainmenu elemcb" style="display: block;">
           <div class="modal-header-cb">
             <h5 class="modal-title-cb">INFORMATION</h5>
           </div>
@@ -161,6 +164,9 @@
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("mainmenu").style.display = "none";
+        document.getElementById("illus2").style.display = "none";
         window.location.href ='exit.php';
       }
     }

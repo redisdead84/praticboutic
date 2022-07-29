@@ -24,7 +24,7 @@
     header('LOCATION: index.php?customer=' . $customer . '');
     exit();
   }
-
+  require "../vendor/autoload.php";
   include "config/common_cfg.php";
   include "param.php";
 
@@ -41,8 +41,10 @@
   $resultatci = $reqci->fetch();
   $reqci->close();
   
-  $mnysys = GetValeurParam("MONEY_SYSTEM", $conn, $customid, "STRIPE");
+  $mnysys = GetValeurParam("MONEY_SYSTEM", $conn, $customid, "STRIPE MARKETPLACE");
   $idcpp = GetValeurParam("ID_CLT_PAYPAL", $conn, $customid);
+  
+
   //error_log($idcpp);
 ?>
 
@@ -60,15 +62,15 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
 		<?php    
-    	if (strcmp($mnysys, "STRIPE") == 0)
-    	{
+    	//if (strcmp($mnysys, "STRIPE") == 0)
+    	//{
     		echo '<script src="https://js.stripe.com/v3/"></script>' . "\n";
-				echo '<script src="js/client.js?v=1.26" defer></script>' . "\n";
-			}
-    	if (strcmp($mnysys, "PAYPAL") == 0)
-    	{
-    		echo '<script src="https://www.paypal.com/sdk/js?client-id=' . $idcpp . '&currency=EUR"></script>' . "\n";
-			}
+				echo '<script src="js/client.js?v=1.27" defer></script>' . "\n";
+			//}
+    	//if (strcmp($mnysys, "PAYPAL") == 0)
+    	//{
+    	//	echo '<script src="https://www.paypal.com/sdk/js?client-id=' . $idcpp . '&currency=EUR"></script>' . "\n";
+			//}
     ?>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -76,13 +78,17 @@
   </head>
   <body>
     <?php
- 	    
-    $pkey = GetValeurParam("PublicKey", $conn, $customid);
+ 	  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    
+    $pkey = $_ENV['STRIPE_PUBLISHABLE_KEY'];
+    $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $customid);
+    
     echo '<div id="header">';
 		echo '<img id="mainlogo" src="img/logo-pratic-boutic.png">';
 		echo '</div>';		
 
-    echo '<div id="main" data-publickey="' . $pkey . '">';
+    echo '<div id="main" data-publickey="' . $pkey . '" data-connaccid="' . $sca . '">';
     
     if (strcmp($logo,"") != 0)
       echo '<img id="logo" src="../upload/' . $logo . '">';
@@ -109,7 +115,7 @@
       var idcpp = "<?php echo $idcpp;?>";
     	var mnysys = "<?php echo $mnysys;?>";
       if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
-    		if (mnysys == "STRIPE")
+    		if (mnysys == "STRIPE MARKETPLACE")
     		{
     			document.write('<div id="payementfooter" style="height:225px">');
           document.write('<form class="frm" id="payment-form">');
@@ -127,13 +133,13 @@
           document.write('</div>');
           document.write('</form>');
      		}
-     		else if (mnysys == "PAYPAL")
+     		/*else if (mnysys == "PAYPAL")
      		{
      			document.write('<div id="payementfooter" style="height:140px">');
      			document.write('<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">');
       		document.write('<div id="paypal-button-container"></div>');
       		document.write('</form>');
-      	}
+      	}*/
         document.write('<div class="solobn">');
         document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php\'">');
 				document.write('Revenir sur les informations');
@@ -153,7 +159,7 @@
         document.write('</div>');
       }
     </script>
-	  <script>
+	  <!--<script>
 	    var mnysys = "<?php echo $mnysys;?>";
 	    if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
 	    	if (mnysys == "PAYPAL") 
@@ -276,7 +282,7 @@
 					}
 				}
 			}
-	  </script>
+	  </script>-->
     <script type="text/javascript">
       var cart = JSON.parse(sessionStorage.getItem("commande"));
       var str = "";

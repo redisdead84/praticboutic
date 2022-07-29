@@ -34,7 +34,8 @@
   if ($conn->connect_error) 
     die("Connection failed: " . $conn->connect_error);  
     
-  $reqci = $conn->prepare('SELECT CU.customid, CU.nom, CL.adresse1, CL.adresse2, CL.codepostal, CL.ville, CU.logo FROM customer CU, client CL WHERE CU.customer = ? AND CL.cltid = CU.cltid LIMIT 1');
+  $reqci = $conn->prepare('SELECT CU.customid, CU.nom, CL.adr1, CL.adr2, CL.cp, CL.ville, CU.logo FROM customer CU, client CL WHERE CU.customer = ? AND CL.cltid = CU.cltid LIMIT 1');
+  //error_log($customer);
   $reqci->bind_param("s", $customer);
   $reqci->execute();
   $reqci->bind_result($customid, $nom, $adresse1, $adresse2, $codepostal, $ville,  $logo);
@@ -112,13 +113,13 @@
 	        if ($chm == "TOUS")
 	        { 
 	          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">';
-	          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
+	          echo '<label class="lblpaiers" for="lemporter">Je viens récupérer ma commande</label><br>';
 	          echo '<div class="spcpandetail"></div>';
 	          echo '<label class="pandetail">';
 	          echo $cmemp; 
 	          echo '</label><br>';
 	          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">';
-	          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
+	          echo '<label class="lblpaiers" for="llivrer">Je me fais livrer</label><br>';
 	          echo '<div class="spcpandetail"></div>';
 	          echo '<label class="pandetail">';
 	          echo $cmlivr;
@@ -126,14 +127,14 @@
 	        }
 	        if ($chm == "EMPORTER")
 	        {
-	          echo '<label class="lblpaiers" for="lemporter">&Agrave; Emporter </label><br>';
+	          echo '<label class="lblpaiers" for="lemporter">Je viens récupérer ma commande</label><br>';
 	          echo '<label class="pandetail">';
 	          echo $cmemp; 
 	          echo '</label><br>';
 	        }  
 	        if ($chm == "LIVRER")
 	        {
-	          echo '<label class="lblpaiers" for="llivrer">En Livraison </label><br>';
+	          echo '<label class="lblpaiers" for="llivrer">Je me fais livrer</label><br>';
 	          echo '<label class="pandetail">';
 	          echo $cmlivr;
 	          echo '</label><br>';
@@ -187,13 +188,13 @@
 	        if ($chp == "TOUS")
 	        { 
 	          echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
-	          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
+	          echo '<label class="lblpaiers" for="pcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>';
 	          echo '<div class="spcpandetail"></div>';
 	          echo '<label class="pandetail">';
 	          echo $cmpt; 
 	          echo '</label><br>';
 	          echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
-	          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
+	          echo '<label class="lblpaiers" for="plivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>';
 	          echo '<div class="spcpandetail"></div>';
 	          echo '<label class="pandetail">';
 	          echo $livr;
@@ -201,14 +202,14 @@
 	        }
 	        if ($chp == "COMPTANT")
 	        {
-	          echo '<label class="lblpaiers" for="pcomptant">Au&nbsp;Comptant&nbsp;</label><br>';
+	          echo '<label class="lblpaiers" for="pcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>';
 	          echo '<label class="pandetail">';
 	          echo $cmpt; 
 	          echo '</label><br>';
 	        }  
 	        if ($chp == "LIVRAISON")
 	        {
-	          echo '<label class="lblpaiers" for="plivraison">A&nbsp;La&nbsp;Livraison&nbsp;</label><br>';
+	          echo '<label class="lblpaiers" for="plivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>';
 	          echo '<label class="pandetail">';
 	          echo $livr;
 	          echo '</label><br>';

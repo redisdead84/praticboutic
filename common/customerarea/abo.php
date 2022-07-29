@@ -29,7 +29,7 @@ try
   $input = json_decode($json_str);
   $output ="";
 
-  error_log($json_str);
+  //error_log($json_str);
 
   /* Initialize the Stripe client */
   // For sample support and debugging. Not required for production:

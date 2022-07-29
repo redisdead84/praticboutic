@@ -29,6 +29,7 @@ require_once '../../vendor/autoload.php';
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -37,7 +38,10 @@ require_once '../../vendor/autoload.php';
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflexnb">
-        <div class="customform">
+        <div id="loadid" class="spinner-border" role="status" style="display: block;">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id='mainform' class="customform" style="display: none;">
           <p class="center middle title">
             Création de votre <span style="color:#e2007a">pratic</span><span style="color:#6c757d">boutic</span>
           </p>
@@ -59,6 +63,10 @@ require_once '../../vendor/autoload.php';
                   <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
                 </div>
               </div>
+              <div class="param">
+                <input class="" id="autologo" name="autologo" type="checkbox" title="Logo automatique" autocomplete="on" />
+                <label class="paramlabellf" for="autologo" title="facultatif">Je n'ai pas de logo, création automatique de logo</label>
+              </div>
               <div class="param rwc2">
                 <input class="btn-nbsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
                 <input class="btn-nbprimary" type="submit" name="continuer" value="CONFIRMATION" autofocus />
@@ -66,7 +74,7 @@ require_once '../../vendor/autoload.php';
             </div>
           </form>
         </div>
-        <img id='illus4' src='img/illustration_4.png' />
+        <img id='illus4' src='img/illustration_4.png' style="display: none;" />
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
@@ -74,34 +82,35 @@ require_once '../../vendor/autoload.php';
   <script type="text/javascript" >
     function bakinfo()
     {
+      document.getElementById("loadid").style.display = "block";
+      document.getElementById("mainform").style.display = "none";
+      document.getElementById("illus4").style.display = "none";
       sessionStorage.setItem('pb_initb_aliasboutic', document.getElementById("aliasboutic").value);
       sessionStorage.setItem('pb_initb_nom', document.getElementById("nom").value);
-      sessionStorage.setItem('pb_initb_adresse1', document.getElementById("adresse1").value);
-      sessionStorage.setItem('pb_initb_adresse2', document.getElementById("adresse2").value);
-      sessionStorage.setItem('pb_initb_codepostal', document.getElementById("codepostal").value);
-      sessionStorage.setItem('pb_initb_ville', document.getElementById("ville").value);
       sessionStorage.setItem('pb_initb_logo', document.getElementById("artlogo").src);
       sessionStorage.setItem('pb_initb_email', document.getElementById("email").value);
-
     }
+
     window.onload=function()
     {
       document.getElementById("aliasboutic").value = sessionStorage.getItem('pb_initb_aliasboutic');
       document.getElementById("nom").value = sessionStorage.getItem('pb_initb_nom');
-      document.getElementById("adresse1").value = sessionStorage.getItem('pb_initb_adresse1');
-      document.getElementById("adresse2").value = sessionStorage.getItem('pb_initb_adresse2');
-      document.getElementById("codepostal").value = sessionStorage.getItem('pb_initb_codepostal');
-      document.getElementById("ville").value = sessionStorage.getItem('pb_initb_ville');
       if ((sessionStorage.getItem('pb_initb_logo') !== "") && (sessionStorage.getItem('pb_initb_logo') !== null))
       {
         document.getElementById("artlogo").src = sessionStorage.getItem('pb_initb_logo');
         document.getElementById("logofermer").style.display = 'block';
       }
       document.getElementById("email").value = sessionStorage.getItem('pb_initb_email');
+      document.getElementById("loadid").style.display = "none";
+      document.getElementById("mainform").style.display = "block";
+      document.getElementById("illus4").style.display = "block";
     }
 
     function cancel() 
     {
+      document.getElementById("loadid").style.display = "block";
+      document.getElementById("mainform").style.display = "none";
+      document.getElementById("illus4").style.display = "none";
       sessionStorage.removeItem('pb_initb_aliasboutic');
       // Supprimer le client ?
       window.location.href = './register.php';
@@ -197,9 +206,11 @@ require_once '../../vendor/autoload.php';
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("mainform").style.display = "none";
+        document.getElementById("illus4").style.display = "none";
         window.location.href ='exit.php';
       }
     }
   </script>
-  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

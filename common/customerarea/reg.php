@@ -24,6 +24,7 @@ $dotenv->load();
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <script src="https://www.google.com/recaptcha/enterprise.js?render=<?php echo $_ENV['RECAPTCHA_KEY']; ?>"></script>
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -32,14 +33,20 @@ $dotenv->load();
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spacemodal">
-        <div class='elemcb'>
+        <div id="loadid" class="spinner-border" role="status" style="display: none;">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div id="welcome" class='elemcb' style="display: none;">
           <p class='midle center title welcome'>Bienvenue</p>
           <p class='center midle subtitle'>Envie de commencer l'expérience</p>
           <p class='center midle headerlist'>Avant de débuter l'aventure assurez vous de disposer :</p>
           <li>D'un courriel</li>
           <li>D'une carte bancaire</li>
+          <li>D'un relevé d'identité bancaire</li>
+          <li>D'une pièce d'identité</li>
+          <li>D'un justificatif de domicile</li>
         </div>
-        <div class="modal-content-mainmenu">
+        <div id="mainmenu" class="modal-content-mainmenu" style="display: none;">
           <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
             <div class="modal-header-cb">
               <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
@@ -56,7 +63,7 @@ $dotenv->load();
             </div>
           </form>
         </div>
-        <img id='illus2' src='img/illustration_2.png' class='elemcb'/>
+        <img id='illus2' src='img/illustration_2.png' class='elemcb' style="display: none;"/>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
     </div>
@@ -82,9 +89,17 @@ $dotenv->load();
     window.onload=function()
     {
       document.getElementById("email").value = sessionStorage.getItem('pb_reg_email');
+      document.getElementById("loadid").style.display = "none";
+      document.getElementById("welcome").style.display = "block";
+      document.getElementById("mainmenu").style.display = "block";
+      document.getElementById("illus2").style.display = "block";
     }
     function cancel() 
     {
+      document.getElementById("loadid").style.display = "block";
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("mainmenu").style.display = "none";
+      document.getElementById("illus2").style.display = "none";
       sessionStorage.removeItem('pb_reg_email');
       window.location.href = './index.php';
     }
@@ -92,6 +107,10 @@ $dotenv->load();
   <script>
     function onSubmit(token) 
     {
+      document.getElementById("loadid").style.display = "block";
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("mainmenu").style.display = "none";
+      document.getElementById("illus2").style.display = "none";
       if (bakinfo() == false)
         return;
       document.getElementById("gRecaptchaResponse").value = token;
@@ -103,9 +122,13 @@ $dotenv->load();
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("mainmenu").style.display = "none";
+        document.getElementById("illus2").style.display = "none";
         window.location.href ='exit.php';
       }
     }
   </script>
-  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+  
 </html>

@@ -75,7 +75,7 @@
       ?>
       <div class="fsub">
      		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
-     	</div> 
+     	</div>
     </div>
     <div id="footer">
       <?php

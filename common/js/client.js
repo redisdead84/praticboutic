@@ -3,9 +3,12 @@ if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")==
 {
   
   var pkey = document.getElementById("main").getAttribute("data-publickey");
+  var caid = document.getElementById("main").getAttribute("data-connaccid");
   
   // A reference to Stripe.js initialized with your real test publishable API key.
-  var stripe = Stripe(pkey);
+  var stripe = Stripe(pkey, {
+    stripeAccount: caid,
+  });
   
   var obj = JSON.parse(sessionStorage.getItem("commande"));
   var customer = sessionStorage.getItem("customer");

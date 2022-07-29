@@ -279,6 +279,8 @@
   }
   function cancel() 
   {
+    document.getElementById("loadid").style.display = "block";
+    document.getElementById("spaceid").style.display = "none";
     window.location.href = './prices.php';
   }
   </script>
@@ -287,6 +289,8 @@
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("spaceid").style.display = "none";
         window.location.href ='exit.php';
       }
     }

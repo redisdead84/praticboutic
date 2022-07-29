@@ -30,6 +30,7 @@ require_once '../../vendor/autoload.php';
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -38,14 +39,21 @@ require_once '../../vendor/autoload.php';
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">
-        <img id='illus6' src='img/illustration_6.png' />
+        <div id="loadid" class="spinner-border" role="status" style="display: block;">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <img id='illus6' src='img/illustration_6.png' style="display: none;"/>
         <main class="fcb">
-          <div class="customform">
+          <div id='mainform' class="customform" style="display: none;">
             <p class="center middle title">
               Paramétrage de l'achat
             </p>
             <form id="signup-form" onsubmit="bakinfo()" method="post" action="confboutic.php" autocomplete="on">
               <div class="">
+                <div class="param">
+                  <input class="" id="surplaceid" name="surplace" type="checkbox" title="Logo automatique" autocomplete="on" checked />
+                  <label class="paramlabellf" for="surplaceid" title="facultatif">Je dispose de tables pour la restauration sur place</label>
+                </div>
                 <div class="param">
                   <label for="chxmethodeid">Méthode de vente : </label>
                     <select class="paramfieldc" id="chxmethodeid" name="chxmethode" value="Emporter & Livrer">
@@ -53,6 +61,10 @@ require_once '../../vendor/autoload.php';
                       <option value='LIVRER'>Livrer</option>
                       <option value='TOUS' selected>Emporter & Livrer</option>
                     </select><br>
+                </div>
+                <div class="param">
+                  <input class="" id="caisseid" name="caisse" type="checkbox" title="Caisse" autocomplete="on" value="CAISSE" />
+                  <label class="paramlabellf" for="caisseid" title="">Je propose également de payer au comptant (espèces, tickets restaurant, chèques ...)</label>
                 </div>
                 <div class="param">
                   <label id="mntmincmdidlbl" for="mntmincmd">Montant Commande Minimum : </label>
@@ -77,6 +89,9 @@ require_once '../../vendor/autoload.php';
   <script type="text/javascript" >
     function bakinfo()
     {
+      document.getElementById("loadid").style.display = "block";
+      document.getElementById("mainform").style.display = "none";
+      document.getElementById("illus6").style.display = "none";
       sessionStorage.setItem('pb_paramb_chxmethodeid', document.getElementById("chxmethodeid").value);
       sessionStorage.setItem('pb_paramb_mntmincmdid', document.getElementById("mntmincmdid").value);
       if (document.getElementById("smson").checked == true)
@@ -101,12 +116,15 @@ require_once '../../vendor/autoload.php';
         document.getElementById("smson").checked = false;
         document.getElementById("smsoff").checked = true;
       }
+      document.getElementById("loadid").style.display = "none";
+      document.getElementById("mainform").style.display = "block";
+      document.getElementById("illus6").style.display = "block";
     }
   
     function cancel() 
     {
       bakinfo();
-      window.location.href = './moneyboutic.php';
+      window.location.href = './newboutic.php';
     }
     
   </script>
@@ -115,9 +133,11 @@ require_once '../../vendor/autoload.php';
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("mainform").style.display = "none";
+        document.getElementById("illus6").style.display = "none";
         window.location.href ='exit.php';
       }
     }
   </script>
-  <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="c21f7fea-9f56-47ca-af0c-f8978eff4c9b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
 </html>

@@ -24,7 +24,12 @@ if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
   exit();
 }
 
-require '../vendor/autoload.php';
+require "../vendor/autoload.php";
+include "config/common_cfg.php";
+include "param.php";
+  
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr): int 
 {
@@ -94,11 +99,7 @@ try {
   $json_obj = json_decode($json_str);
 
   $customer = htmlspecialchars($json_obj->boutic);	
-  
-	include "config/common_cfg.php";
-  include "param.php";
 
-	
 	// Create connection
 	$conn = new mysqli($servername, $username, $password, $bdd);
 	// Check connection
@@ -112,16 +113,18 @@ try {
 	$resultatci = $reqci->fetch();
 	$reqci->close();
 	
-	$skey = GetValeurParam("SecretKey", $conn, $customid);
+	$skey = $_ENV['STRIPE_SECRET_KEY'];
+	
+	$stripe_connected_account = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $customid);
 	
 	// This is your real test secret API key.
 	\Stripe\Stripe::setApiKey($skey);
 	
-	//error_log($json_obj->fraislivr);
-	
   $paymentIntent = \Stripe\PaymentIntent::create([
     'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr),
     'currency' => 'eur',
+    'automatic_payment_methods' => ['enabled' => 'true']
+  ], ['stripe_account' => $stripe_connected_account,
   ]);
 
   $output = [
