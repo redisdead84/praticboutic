@@ -58,7 +58,8 @@
   }
 
   $bouticid = $_SESSION['bo_id'];
-
+  
+  $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $bouticid);
 ?>
 
 <!DOCTYPE html>
@@ -177,14 +178,26 @@
     inittable("table8", "table8", "barlivr");
     inittable("ihm9", "table9", "commande");
     inittable("table11", "table11", "statutcmd");
-    if (init == "oui")
+    
+    var charge = <?php if ($stripe->accounts->retrieve($sca, [])->charges_enabled == true) echo 'true'; else echo 'false'; ?>;
+    if (charge == false)
     {
-      init = "non";
-      initdone;
       var modal = $('.modal');
-      $('.modal-title').html('Félicitations');
-      modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
+      $('.modal-title').html('Attention');
+      modal.find('.modal-body').text('Le paiement par Carte Bancaire Stripe n\'est pas actif ! Vous ne pourrez pas recevoir de paiement par Carte bancaire. Il manque peut-être des pièces complémentaires à fournir. Pour finir l\'activation rendez-vous dans l\'onglet Mon Argent de l\'arrière Boutic et effectuez les actions nécessaires.');
       $('.modal').modal('show');
+    }
+    else 
+    {
+      if (init == "oui")
+      {
+        init = "non";
+        initdone;
+        var modal = $('.modal');
+        $('.modal-title').html('Félicitations');
+        modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
+        $('.modal').modal('show');
+      }
     }
     startWorkerCommande();
   });
@@ -588,7 +601,6 @@
   	    </div>
   	  </div>
   	</div>
-
 	<script type="text/javascript" >
 			function getnumtable(nom)
 			{
