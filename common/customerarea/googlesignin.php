@@ -59,15 +59,14 @@ try
     $_SESSION['bo_email'] = $input->courriel;
     $_SESSION['bo_auth'] = 'oui';
     $_SESSION['bo_init'] = 'non';
+    $output = 'admin.php';
     echo json_encode($output);
-    header("LOCATION: admin.php");
   }
   else
   {
     $_SESSION['verify_email'] = $input->courriel;
+    $output = 'register.php';
     echo json_encode($output);
-    header("LOCATION: register.php");
-    
   }
 }
 catch (Error $e)
