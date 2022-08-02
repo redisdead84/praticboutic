@@ -281,13 +281,11 @@ table tbody td {
 {
 	background-color: #595858;
 	color: white;
-	/*border-top: 0px !important;
-	width: 100%;*/
 	display: flex;
 	flex-flow: column;
 	justify-content: space-evenly;
 	align-items: center;
-	height: 120px;
+	height: 170px;
 }
 
 
