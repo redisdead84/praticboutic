@@ -169,6 +169,10 @@ $dotenv->load();
           }
           else 
           {
+            document.getElementById("loadid").style.display = "block";
+            document.getElementById("welcome").style.display = "none";
+            document.getElementById("mainmenu").style.display = "none";
+            document.getElementById("illus2").style.display = "none";
             window.location = data;
           }
         })

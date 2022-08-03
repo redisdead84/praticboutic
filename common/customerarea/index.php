@@ -115,6 +115,9 @@
           }
           else 
           {
+            document.getElementById("loadid").style.display = "block";
+            document.getElementById("mainmenu").style.display = "none";
+            document.getElementById("illus1").style.display = "none";
             window.location = data;
           }
         })
