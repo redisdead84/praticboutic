@@ -7,7 +7,8 @@
     header("LOCATION: index.php");
     exit();
   }
-
+  
+  require_once '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
 

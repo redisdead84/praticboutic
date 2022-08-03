@@ -9,6 +9,7 @@
     exit();
   }
 
+  require_once '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
 
@@ -77,9 +78,12 @@
 
     function bakinfo()
     {
+      document.getElementById("loadid").style.display = "block";
+      document.getElementById("mainid").style.display = "none";
       sessionStorage.setItem('pb_bochxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
       sessionStorage.setItem('pb_bochxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
     }
+    
     window.onload=function()
     {
       document.getElementById("cfvalid").disabled = true;
@@ -304,6 +308,8 @@
     {
       if (confirm("Voulez-vous quitter ?") == true)
       {
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("mainid").style.display = "none";
         window.location.href ='exit.php';
       }
     }

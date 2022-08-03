@@ -54,7 +54,7 @@
                 <input class="paramfieldc" id="courriel" name="courriel" type="email" value="<?php echo $_SESSION['verify_email'];?>" placeholder="Courriel" maxlength="255" required /><br>
               </div>
               <div class="param">
-                <input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
+                <input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Créez votre mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
                 <i class="bi bi-eye-slash bi-eye eyeico" id="togglepass"></i><br>
               </div>
               <div class="param">
