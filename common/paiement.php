@@ -76,7 +76,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
     <?php
  	  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();

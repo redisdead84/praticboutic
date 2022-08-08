@@ -28,7 +28,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()"/>
       <div id="workspace" class="spacemodal">

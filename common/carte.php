@@ -38,7 +38,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
 
     <?php
 

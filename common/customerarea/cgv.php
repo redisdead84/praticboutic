@@ -38,7 +38,7 @@
     <title>Conditions Générales de vente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-  <body class="custombody">
+  <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="vscroll">

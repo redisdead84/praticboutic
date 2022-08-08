@@ -43,7 +43,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
   <?php
     echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">';
   ?>

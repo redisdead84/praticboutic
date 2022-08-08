@@ -41,7 +41,7 @@
     <title>Souscription</title>
     <script src="https://js.stripe.com/v3/"></script>
   </head>
-  <body class="custombody">
+  <body class="custombody"  ondragstart="return false;" ondrop="return false;">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="spaceflex">

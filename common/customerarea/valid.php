@@ -12,7 +12,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
     <div class="modal" tabindex="-1" role="dialog" data-backdrop="false">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

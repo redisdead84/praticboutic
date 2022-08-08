@@ -1,6 +1,14 @@
 <?php
+  
   session_id("customerarea");
   session_start();
+  $lifetime=141209600;
+  setcookie(session_name(),session_id(),time()+$lifetime);
+  if ($_SESSION["active"] == 1)
+  {
+    header("LOCATION: admin.php");
+    exit();
+  }
   session_destroy();
   session_id("customerarea");
   session_start();
@@ -32,7 +40,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()"/>
       <div id="workspace" class="spacemodal">
@@ -97,8 +105,8 @@
       fetch("googlesignin.php", {
         method: "POST",
           headers: {
-        		'Content-Type': 'application/json',
-        		'Accept': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
           body: JSON.stringify(obj)
         })

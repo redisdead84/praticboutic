@@ -61,7 +61,7 @@
     <meta http-equiv="Expires" content="0" />
   </head>
 
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
   	<div id="header">
 			<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
 		</div>		

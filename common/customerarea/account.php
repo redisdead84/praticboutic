@@ -56,7 +56,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="account.js?v=1.091" defer></script>
   </head>
-  <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" >
+  <body id="bodyid" class="custombody" data-login="<?php echo $_SESSION['bo_email']?>" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
       <div id="workspace" class="fcb enlarged vscroll">

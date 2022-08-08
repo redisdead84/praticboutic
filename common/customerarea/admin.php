@@ -1,24 +1,28 @@
 <?php
+  
   session_id("customerarea");
   session_start();
 
   if (empty($_SESSION['bo_id']) == TRUE)
   {
-    header("LOCATION: index.php");
+    header("LOCATION: logout.php");
     exit();
   }
 
   if (empty($_SESSION['bo_auth']) == TRUE)
   {
-    header("LOCATION: index.php");
+    header("LOCATION: logout.php");
     exit();
   }
   
   if (strcmp($_SESSION['bo_auth'],'oui') != 0)
   {
-    header("LOCATION: index.php");
+    header("LOCATION: logout.php");
     exit();
   }
+  
+  $_SESSION["active"] = 1;
+  
   require '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
@@ -78,7 +82,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
-  <body id="backbody">
+  <body id="backbody" ondragstart="return false;" ondrop="return false;">
     <script>
       var bouticid = "<?php echo $bouticid;?>" ;
       var login = "<?php echo $_SESSION['bo_email']; ?>";
@@ -143,8 +147,11 @@
   var stackvue = [];
   var w;
   var memnbcommande = 0;
+  var cmdfirst = true;
 
-  window.addEventListener("load", function(event) {
+  window.addEventListener("load", function(event) 
+  {
+    initmenu();
     inittable("table0", "table0", "categorie");
     inittable("table1", "table1", "article");
     inittable("table3", "table3", "groupeopt");
@@ -210,7 +217,7 @@
           <a class="nav-link" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
+          <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
@@ -258,13 +265,13 @@
         <p class="title">Produits</p>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="false">CATEGORIES</a>
+            <a class="nav-link" id="categorie-tab" data-toggle="tab" href="#categorie" role="tab" aria-controls="categorie" aria-selected="false" onclick="baktab('produit-tab', this)">CATEGORIES</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="true">ARTICLES</a>
+            <a class="nav-link" id="article-tab" data-toggle="tab" href="#article" role="tab" aria-controls="article" aria-selected="true" onclick="baktab('produit-tab', this)">ARTICLES</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false">OPTIONS</a>
+            <a class="nav-link" id="groupeopt-tab" data-toggle="tab" href="#groupeopt" role="tab" aria-controls="groupeopt" aria-selected="false" onclick="baktab('produit-tab', this)">OPTIONS</a>
           </li>
         </ul>
         <div class="tab-content" id="myTabProdContent">
@@ -273,7 +280,7 @@
             <div class='tbl form-group' id="ins0" data-vuep="table0" hidden></div>
             <div class='tbl form-group' id="maj0" data-vuep="table0" hidden></div>
           </div>
-          <div class="tab-pane active" id="article" role="tabpanel" aria-labelledby="article-tab">
+          <div class="tab-pane" id="article" role="tabpanel" aria-labelledby="article-tab">
             <div class='tbl' id='ihm1'>
               <div id="table1"></div>
             </div>  
@@ -295,14 +302,14 @@
         <p class="title">Livraison</p>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false">ZONES DE LIVRAISON</a>
+            <a class="nav-link" id="cpzone-tab" data-toggle="tab" href="#cpzone" role="tab" aria-controls="cpzone" aria-selected="false" onclick="baktab('livraison-tab', this)">ZONES DE LIVRAISON</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false">BAREME DE LIVRAISON</a>
+            <a class="nav-link" id="barlivr-tab" data-toggle="tab" href="#barlivr" role="tab" aria-controls="barlivr" aria-selected="false" onclick="baktab('livraison-tab', this)">BAREME DE LIVRAISON</a>
           </li>
         </ul>
         <div class="tab-content" id="myTabLivrContent">
-          <div class="tab-pane active" id="cpzone" role="tabpanel" aria-labelledby="cpzone-tab">
+          <div class="tab-pane" id="cpzone" role="tabpanel" aria-labelledby="cpzone-tab">
             <div class='tbl' id="table7"></div>  
              <div class='tbl form-group' id="ins7" data-vuep="table7" hidden></div>
              <div class='tbl form-group' id="maj7" data-vuep="table7" hidden></div>  
@@ -318,28 +325,28 @@
         <p class="title">Espace Client</p>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="perso-tab" data-toggle="tab" href="#perso" role="tab" aria-controls="perso" aria-selected="false">BOUTIC</a>
+            <a class="nav-link" id="perso-tab" data-toggle="tab" href="#perso" role="tab" aria-controls="perso" aria-selected="false" onclick="baktab('administration-tab', this)">BOUTIC</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false">REGLAGES</a>
+            <a class="nav-link" id="reglage-tab" data-toggle="tab" href="#reglage" role="tab" aria-controls="reglage" aria-selected="false" onclick="baktab('administration-tab', this)">REGLAGES</a>
           </li>
           <?php if (strcmp($statutcmd, "n")==0) echo "<!--" ?>
           <li class="nav-item">
-            <a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false">STATUTS DES COMMANDES</a>
+            <a class="nav-link" id="statutcmd-tab" data-toggle="tab" href="#statutcmd" role="tab" aria-controls="statutcmd" aria-selected="false" onclick="baktab('administration-tab', this)">STATUTS DES COMMANDES</a>
           </li>
           <?php if (strcmp($statutcmd, "n")==0) echo "-->" ?>
           <li class="nav-item">
-            <a class="nav-link" id="backoffice-tab" data-toggle="tab" href="#backoffice" role="tab" aria-controls="backoffice" aria-selected="false">BACK-OFFICE</a>
+            <a class="nav-link" id="backoffice-tab" data-toggle="tab" href="#backoffice" role="tab" aria-controls="backoffice" aria-selected="false" onclick="baktab('administration-tab', this)">BACK-OFFICE</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="qrcode-tab" data-toggle="tab" href="#qrcode" role="tab" aria-controls="qrcode" aria-selected="false">GENERATEUR QRCODE</a>
+            <a class="nav-link" id="qrcode-tab" data-toggle="tab" href="#qrcode" role="tab" aria-controls="qrcode" aria-selected="false" onclick="baktab('administration-tab', this)">GENERATEUR QRCODE</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="client-tab" data-toggle="tab" href="#client" role="tab" aria-controls="client" aria-selected="false">CLIENT</a>
+            <a class="nav-link" id="client-tab" data-toggle="tab" href="#client" role="tab" aria-controls="client" aria-selected="false" onclick="baktab('administration-tab', this)">CLIENT</a>
           </li>
         </ul>
         <div class="tab-content" id="myTabAdminContent">
-          <div class="tab-pane active" id="perso" role="tabpanel" aria-labelledby="perso-tab">
+          <div class="tab-pane" id="perso" role="tabpanel" aria-labelledby="perso-tab">
           <form autocomplete="off">
             <div class='tbl'>
               <div class='twocol'>
@@ -542,6 +549,8 @@
           <div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
             <div class='tbl'>
               <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
+              <br><br>
+              <button class="btn btn-secondary" onclick="notifyMe()">Demander à autoriser les notifications</button>
             </div>
           </div>
           <div class="tab-pane" id="qrcode" role="tabpanel" aria-labelledby="qrcode-tab">
@@ -602,6 +611,34 @@
   	  </div>
   	</div>
 	<script type="text/javascript" >
+	
+  	function notifyMe() 
+  	{
+      // Let's check if the browser supports notifications
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+      }
+    
+      // Let's check whether notification permissions have already been granted
+      else if (Notification.permission === "granted") {
+        // If it's okay let's create a notification
+        const notification = new Notification("Les notifcations sont déjà activés.");
+      }
+    
+      // Otherwise, we need to ask the user for permission
+      else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            const notification = new Notification("Les notifcations ont été activés.");
+          }
+        });
+      }
+    
+      // At last, if the user has denied notifications, and you
+      // want to be respectful there is no need to bother them any more.
+    }
+
 			function getnumtable(nom)
 			{
 				for (var i=0; i<tables.length; i++)
@@ -1794,6 +1831,36 @@
       	})
 			}
 			
+			function initmenu()
+			{
+        if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_menu"))
+        {
+          localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_menu", "produit-tab");
+          document.getElementById("produit-tab").click();
+        }
+        else 
+        {
+          var activemenu = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_menu");
+          document.getElementById(activemenu).click();
+        }
+        var menutab = [{nom:'produit-tab', tab:'article-tab'}, {nom:'livraison-tab', tab:'cpzone-tab'}, {nom:'administration-tab', tab:'perso-tab'}];
+        for (var mtab of menutab)
+        {
+          if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_tab_" + mtab.nom))
+          {
+            localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_tab_" + mtab.nom, mtab.tab);
+            document.getElementById(mtab.tab).click();
+          }
+          else 
+          {
+            var activetab = localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_tab_" + mtab.nom);
+            document.getElementById(activetab).click();
+          }
+        }
+        
+			}
+			
+			
       function inittable(vue, place, table, selcol="", selid=0)      
       {
      		if(!localStorage.getItem("praticboutic_ctrl_" + server + "_" + login + "_rppid" + getnumtable(table))) {
@@ -1846,7 +1913,27 @@
 			    {
 			    	var total = parseInt(data[0]);
 			    	if (table == "commande")
-			    		memnbcommande = total;
+			    	{
+			    	  if (cmdfirst == true)
+              {
+                memnbcommande = total;
+                cmdfirst = false;  
+              }
+              else
+              {
+                if (memnbcommande < total)
+                {
+                  // Notifify new order
+                  const img = 'img/LOGO_PRATIC_BOUTIC.png';
+                  const text = 'Nouvelle(s) commande(s) en attente de traitement de votre part.';
+                  const notification = new Notification('Arrivage de Commande Client', { body: text, icon: img });
+                  // then
+                  memnbcommande = total;
+                }
+              }
+			    	  memnbcommande = total;
+			    	}
+			    		
 			    	var pagination = true;
        			if (total <= deflimite)
 		        {
@@ -2149,6 +2236,7 @@
 			
 			function cancel(caller)
 			{
+			  localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_menu", caller.id);
 				if (caller.classList.contains('active'))
 				{
 					var cancel = document.getElementsByClassName("btn-cancel");
@@ -2161,6 +2249,11 @@
 						}
 					}
 				}
+			}
+
+			function baktab(tabname, caller)
+			{
+        localStorage.setItem("praticboutic_ctrl_" + server + "_" + login + "_tab_" + tabname, caller.id);
 			}
 
 			function fldParam( elem, param, typ)
