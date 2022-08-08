@@ -48,7 +48,7 @@
           <p class="center middle title">
             Formulaire d'inscription
           </p>
-          <form id="signup-form" onsubmit="bakinfo()" method="post" action="registration.php" autocomplete="on">
+          <form id="signup-form" onsubmit="return bakinfo()" method="post" action="registration.php" autocomplete="on">
             <div class="twocol">
               <div style="display: none;" class="param">
                 <input class="paramfieldc" id="courriel" name="courriel" type="email" value="<?php echo $_SESSION['verify_email'];?>" placeholder="Courriel" maxlength="255" required /><br>
@@ -59,10 +59,10 @@
               </div>
               <div class="param">
                 <input class="paramfieldc inputeye" id="passconf" maxlength="255" name="passconf" type="password" placeholder="Mot de passe(confirmation)" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
-                <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br><br>
+                <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br>
               </div>
               <div class="param rwse">
-                <div class="param center"><input class="paramfieldc center" type="radio" id="homme" name="qualite" value="Monsieur" required><label class="paramfieldr" for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label class="paramfieldr">&nbsp;Madame&nbsp;</label></div><br>
+                <div class="param center"><input class="paramfieldr center" type="radio" id="homme" name="qualite" value="Monsieur" required><label class="paramfieldr" for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label class="paramfieldr">&nbsp;Madame&nbsp;</label></div><br>
               </div>
               <div class="param">
                 <input class="paramfieldc" id="nom" name="nom" type="text" placeholder="Nom" value="" maxlength="60" required /><br>
@@ -89,7 +89,7 @@
                 <input class="paramfieldc" id="tel" name="tel" type="text" placeholder="Téléphone" value="" autocomplete="tel" maxlength="60" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Il faut un numéro de téléphone français valide" /><br>
               </div>
               <div class="param rwc">
-                <input class="butc regsubmit" type="submit" value="INSCRIPTION" autofocus /><br><br>
+                <input class="butc regsubmit" type="submit" value="INSCRIPTION" autofocus /><br>
               </div>
             </div>
           </form>
@@ -123,6 +123,12 @@
   <script type="text/javascript" >
     function bakinfo()
     {
+      if (document.getElementById("pass").value !== document.getElementById("passconf").value)
+      {
+        alert("Les mots de passe ne sont pas identique. Impossible de continuer.");
+        return false;
+      }
+        
       document.getElementById("loadid").style.display = "block";
       document.getElementById("mainform").style.display = "none";
       document.getElementById("illus3").style.display = "none";
@@ -138,6 +144,7 @@
       sessionStorage.setItem('pb_reg_cp', document.getElementById("cp").value);
       sessionStorage.setItem('pb_reg_ville', document.getElementById("ville").value);
       sessionStorage.setItem('pb_reg_tel', document.getElementById("tel").value);
+      return true;
     }
     window.onload=function()
     {
