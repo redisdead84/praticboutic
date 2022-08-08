@@ -1924,7 +1924,7 @@
                 if (memnbcommande < total)
                 {
                   // Notifify new order
-                  const img = 'img/LOGO_PRATIC_BOUTIC.png';
+                  const img = 'img/pb_notificon.png';
                   const text = 'Nouvelle(s) commande(s) en attente de traitement de votre part.';
                   const notification = new Notification('Arrivage de Commande Client', { body: text, icon: img });
                   // then
