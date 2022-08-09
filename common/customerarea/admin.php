@@ -233,7 +233,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Esapce Client</a>
+          <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Espace Client</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="account.php"><p class="nopicto">Abonnement</p></a>
