@@ -41,7 +41,8 @@
   $req->close();
   if (strcmp($stripe_customer_id, "") == 0 )
   {
-    header("LOCATION: index.php");
+    error_log("Id compte stripe client manquant");
+    header("LOCATION: logout.php");
     exit();
   }
 
@@ -64,6 +65,12 @@
   $bouticid = $_SESSION['bo_id'];
   
   $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $bouticid);
+  if (strcmp($sca, "") == 0 )
+  {
+    error_log("Id compte stripe connecté manquant");
+    header("LOCATION: logout.php");
+    exit();
+  }
 ?>
 
 <!DOCTYPE html>
