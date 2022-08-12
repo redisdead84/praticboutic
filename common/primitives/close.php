@@ -1,3 +1,3 @@
-<?php
-header('LOCATION : praticboutic://');
-?>
+<script>
+window.close();
+</script>
