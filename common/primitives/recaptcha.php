@@ -84,7 +84,6 @@
     putenv($_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
     // TODO(Developer): Replace the following before running the sample
     $output = create_assessment($_ENV['RECAPTCHA_KEY'], $input->token, $_ENV['GOOGLE_PROJECT']);
-
     echo json_encode($output);
   }
   catch (Error $e)

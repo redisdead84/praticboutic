@@ -1,10 +1,6 @@
 <?php
   session_id("customerarea");
   session_start();
-  
-  ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
@@ -38,7 +34,7 @@ error_reporting(E_ALL);
     // Check connection
     if ($conn->connect_error) 
     {
-      die("Connection failed: " . $conn->connect_error);
+      throw new Error("Connection failed: " . $conn->connect_error);
     }
 
     $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $request->email . "'";
@@ -47,7 +43,7 @@ error_reporting(E_ALL);
     $row = $result->fetch_row();
     if (intval($row[0])>0)
     {
-      echo 'Le courriel ' . $request->email . ' est déjà attribué à un client. Impossible de continuer.';
+      throw new Error('Le courriel ' . $request->email . ' est déjà attribué à un client. Impossible de continuer.');
     }
     else
     {
@@ -57,7 +53,7 @@ error_reporting(E_ALL);
       {
         if ($r1 === FALSE) 
         {
-          echo "Error: " . $q1 . "<br>" . $conn->error;
+          throw new Error("Error: " . $q1 . "<br>" . $conn->error);
         }
       }
 
@@ -110,18 +106,15 @@ error_reporting(E_ALL);
       $text = $text . '</html>';
 
       $mail->Body = $text;
-      //error_log($mail->Body);
-      $mail->send();
 
-      //echo "Un email contenant un lien pour finaliser votre inscription vous a été envoyé.<br />";
+      $mail->send();
 
       $conn->close();
     }
   }
   catch (Exception $e) 
   {
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
-    echo 'Erreur Le message n a pu être envoyé<br />';
-    // error_log($debug);
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
   }
 ?>
