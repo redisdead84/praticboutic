@@ -53,10 +53,6 @@
 
     $_SESSION['initboutic_aliasboutic'] = $input->aliasboutic;
     $_SESSION['initboutic_nom'] = $input->nom;
-    $_SESSION['initboutic_adresse1'] = $input->adresse1;
-    $_SESSION['initboutic_adresse2'] = $input->adresse2;
-    $_SESSION['initboutic_codepostal'] = $input->codepostal;
-    $_SESSION['initboutic_ville'] = $input->ville;
     $_SESSION['initboutic_logo'] = $input->logo;
     $_SESSION['initboutic_email'] = $input->email;
 
@@ -107,8 +103,8 @@
     
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
-      'refresh_url' => 'praticboutic://',
-      'return_url' => 'praticboutic://',
+      'refresh_url' => $protocole . $server . '/common/404.php',
+      'return_url' => $protocole . $server . '/common/primitives/close.php',
       'type' => 'account_onboarding',
     ]);
 
