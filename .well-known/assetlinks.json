@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "io.praticboutic.merchant",
+               "sha256_cert_fingerprints": ["4E:6E:30:8D:83:16:EC:FD:C9:5D:67:07:19:83:30:5D:C1:89:63:CD:36:A3:12:78:46:DA:09:A4:0B:F5:2B:8A"] }
+}]
