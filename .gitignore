@@ -14,3 +14,4 @@
 /common/.env
 /common/._admin/qrcode/*
 /common/customerarea/qrcode/*
+/test.php
