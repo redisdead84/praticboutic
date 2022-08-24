@@ -235,18 +235,17 @@
           <?php 
             $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $bouticid);
             $loglink = $stripe->accounts->createLoginLink($sca);
-            echo "<a class='nav-link' href='" . $loglink->url . "' target='_blank'><p class='nopicto'>Mon Argent</p></a>";
+            echo "<a class='nav-link' href='" . $loglink->url . "' target='_blank'><img class='picto' src='img/picto_argent.png' />Mon Argent</a>";
           ?>
         </li>
-
         <li class="nav-item">
           <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Espace Client</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="account.php"><p class="nopicto">Abonnement</p></a>
+          <a class="nav-link" href="account.php"><img class='picto' src='img/picto_abonnement.png' />Abonnement</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" href="logout.php"><p class="nopicto">Deconnexion</p></a>
+          <a class="nav-link" href="logout.php"><img class='picto' src='img/picto_deconnexion.png' />Deconnexion</a>
         </li>
       </ul>
     </div>
