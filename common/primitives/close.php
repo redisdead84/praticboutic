@@ -9,7 +9,6 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body ondragstart="return false;" ondrop="return false;">
-	<h1>Fin de la procédure</h1>
-	<a href="/common/primitives/close.php">Lien de test</a>
+	<h1>L'inscription sur Stripe est terminée fermer le navigateur et continuer votre inscription</h1>
   </body>
 </html>
