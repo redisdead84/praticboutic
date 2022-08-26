@@ -45,9 +45,9 @@
     {
       $loglink = $stripe->accounts->createLoginLink($sca);
     }
-    catch  (Exception $e) 
+    catch  (Error $err) 
     {
-      error_log($e);
+      error_log($err);
       
       if (isset($_SERVER['HTTPS']))
       {
