@@ -35,14 +35,42 @@
       "0.0.2",
       "https://praticboutic.fr"
     );
-  
+
     $stripe = new \Stripe\StripeClient([
       'api_key' => $_ENV['STRIPE_SECRET_KEY'],
       'stripe_version' => '2020-08-27',
     ]);
-    
-    $loglink = $stripe->accounts->createLoginLink($sca);
-    
+
+    try
+    {
+      $loglink = $stripe->accounts->createLoginLink($sca);
+    }
+    catch  (Exception $e) 
+    {
+      error_log($e);
+      
+      if (isset($_SERVER['HTTPS']))
+      {
+        $protocole = 'https://';
+      }
+      else
+      {
+        $protocole = 'http://';
+      }
+      
+      $server = $_SERVER['SERVER_NAME'];
+      
+      $accountlink = $stripe->accountLinks->create([
+        'account' => $sca,
+        'refresh_url' => $protocole . $server . '/common/404.php',
+        'return_url' => $protocole . $server . '/common/primitives/close.php',
+        'type' => 'account_onboarding',
+      ]);
+
+      $loglink = $stripe->accounts->createLoginLink($sca);
+
+    }
+
     echo json_encode($loglink);
 
   }
