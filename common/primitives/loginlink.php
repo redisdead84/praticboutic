@@ -59,8 +59,18 @@
       
       $server = $_SERVER['SERVER_NAME'];
       
+      $account = $stripe->accounts->create([
+        'type' => 'express',
+        'country' => 'FR',
+        'email' => $_SESSION['bo_email'],
+        'capabilities' => [
+          'card_payments' => ['requested' => true],
+          'transfers' => ['requested' => true],
+        ],
+      ]);
+      
       $accountlink = $stripe->accountLinks->create([
-        'account' => $sca,
+        'account' => $account->id,
         'refresh_url' => $protocole . $server . '/common/404.php',
         'return_url' => $protocole . $server . '/common/primitives/close.php',
         'type' => 'account_onboarding',
