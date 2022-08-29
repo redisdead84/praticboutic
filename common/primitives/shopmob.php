@@ -104,7 +104,7 @@
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
-      'return_url' => $protocole . $server . '/common/primitives/close.php',
+      'return_url' => 'io.praticboutic.merchant://',
       'type' => 'account_onboarding',
     ]);
 
