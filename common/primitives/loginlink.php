@@ -41,13 +41,12 @@
       'stripe_version' => '2020-08-27',
     ]);
 
-    try
+    if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
     {
       $loglink = $stripe->accounts->createLoginLink($sca);
     }
-    catch  (Error $err) 
+    else
     {
-      error_log($err);
       
       if (isset($_SERVER['HTTPS']))
       {
