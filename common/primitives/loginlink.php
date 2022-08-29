@@ -76,6 +76,8 @@
         'type' => 'account_onboarding',
       ]);
       
+      SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $input->bouticid);
+      
       $url = $accountlink->url;
     }
 
