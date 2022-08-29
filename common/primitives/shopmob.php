@@ -104,7 +104,7 @@
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
-      'return_url' => 'localhost/shopsettings',
+      'return_url' => 'http://localhost/shopsettings',
       'type' => 'account_onboarding',
     ]);
 
