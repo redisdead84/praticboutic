@@ -43,7 +43,7 @@
 
     if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
     {
-      $loglink = $stripe->accounts->createLoginLink($sca);
+      $url = $stripe->accounts->createLoginLink($sca);
     }
     else
     {
@@ -65,12 +65,11 @@
         'return_url' => $protocole . $server . '/common/primitives/close.php',
         'type' => 'account_onboarding',
       ]);
-
-      $loglink = $stripe->accounts->createLoginLink($sca);
-
+      
+      $url = $accountlink->url;
     }
 
-    echo json_encode($loglink);
+    echo json_encode($url);
 
   }
   catch (Error $e)
