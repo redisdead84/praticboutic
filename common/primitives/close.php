@@ -11,7 +11,7 @@
   <body ondragstart="return false;" ondrop="return false;">
 	<h1>L'inscription sur Stripe est terminée fermer le navigateur et continuer votre inscription</h1>
 	<script type="text/javascript" >
-	 window.location.href="io.praticboutic.merchant://"
+	 window.location.href="io.praticboutic.merchant://";
 	</script>
   </body>
 </html>
