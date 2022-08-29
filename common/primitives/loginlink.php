@@ -44,7 +44,7 @@
     if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
     {
       $loginlink = $stripe->accounts->createLoginLink($sca);
-      $url = $loginlink->url
+      $url = $loginlink->url;
     }
     else
     {
