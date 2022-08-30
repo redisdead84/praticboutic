@@ -38,8 +38,6 @@
     
     SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $bouticid);
     
-    $loginlink = $stripe->accounts->createLoginLink($account->id);
-    
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
