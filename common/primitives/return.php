@@ -44,6 +44,7 @@
     if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
     {
       $loginlink = $stripe->accounts->createLoginLink($sca);
+      error_log($loginlink->url);
       header('LOCATION : ' .  $loginlink->url);
     }
   }
