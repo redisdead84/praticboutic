@@ -65,7 +65,7 @@
     {
       throw new Error('Identifiant interdit');
     }
-
+/*
     // For sample support and debugging. Not required for production:
     \Stripe\Stripe::setAppInfo(
       "pratic-boutic/registration  ",
@@ -88,7 +88,7 @@
       ],
     ]);
     
-    $_SESSION['STRIPE_ACCOUNT_ID'] = $account->id;
+    
     
     if (isset($_SERVER['HTTPS']))
     {
@@ -107,8 +107,11 @@
       'return_url' => 'http://localhost/shopsettings',
       'type' => 'account_onboarding',
     ]);
+*/
 
-    echo json_encode($accountlink->url);
+    $_SESSION['STRIPE_ACCOUNT_ID'] = 0;
+    
+    echo json_encode("OK";
   }
   catch (Error $e)
   {
