@@ -38,6 +38,8 @@
     
     SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $bouticid);
     
+    $_SESSION['bo_id'] = $bouticid;
+    
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',

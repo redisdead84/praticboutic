@@ -25,7 +25,7 @@
   $input = json_decode($json_str);
   $output ="";
   
-  $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $input->bouticid);
+  $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $_SESSION['bo_id']);
   
   // For sample support and debugging. Not required for production:
   \Stripe\Stripe::setAppInfo(
