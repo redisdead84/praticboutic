@@ -13,7 +13,7 @@
   include "../param.php";
   
   
-  function inscription($bouticid)
+  function inscription($stripe, $bouticid)
   {
     if (isset($_SERVER['HTTPS']))
     {
@@ -87,12 +87,12 @@
       }
       else 
       {
-        $url = inscription($input->bouticid);
+        $url = inscription($stripe, $input->bouticid);
       }
     }
     else
     {
-      $url = inscription($input->bouticid);
+      $url = inscription($stripe, $input->bouticid);
     }
 
     echo json_encode($url);
