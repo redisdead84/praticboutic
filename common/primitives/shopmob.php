@@ -111,7 +111,7 @@
 
     $_SESSION['STRIPE_ACCOUNT_ID'] = 0;
     
-    echo json_encode("OK";
+    echo json_encode("OK");
   }
   catch (Error $e)
   {
