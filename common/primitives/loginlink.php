@@ -43,7 +43,7 @@
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
-      'return_url' => $loginlink->url,
+      'return_url' => $protocole . $server . '/common/primitives/return.php',
       'type' => 'account_onboarding',
     ]);
     
