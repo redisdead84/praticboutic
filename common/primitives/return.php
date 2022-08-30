@@ -39,7 +39,7 @@
     'stripe_version' => '2020-08-27',
   ]);
   
-  if ($sca != 0)
+  if (strcmp($sca,'') != 0)
   {
     if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
     {

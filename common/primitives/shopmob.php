@@ -109,7 +109,7 @@
     ]);
 */
 
-    $_SESSION['STRIPE_ACCOUNT_ID'] = 0;
+    $_SESSION['STRIPE_ACCOUNT_ID'] = '';
     
     echo json_encode("OK");
   }
