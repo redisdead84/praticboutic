@@ -36,14 +36,16 @@
       ],
     ]);
     
+    SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $bouticid);
+    
+    $loginlink = $stripe->accounts->createLoginLink($account->id);
+    
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
-      'return_url' => $protocole . $server . '/common/primitives/loginlink.php',
+      'return_url' => $loginlink->url,
       'type' => 'account_onboarding',
     ]);
-    
-    SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $bouticid);
     
     return $accountlink->url;
   }
