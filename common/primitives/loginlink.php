@@ -11,6 +11,43 @@
   require '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
+  
+  
+  function inscription($bouticid)
+  {
+    if (isset($_SERVER['HTTPS']))
+    {
+      $protocole = 'https://';
+    }
+    else
+    {
+      $protocole = 'http://';
+    }
+    
+    $server = $_SERVER['SERVER_NAME'];
+    
+    $account = $stripe->accounts->create([
+      'type' => 'express',
+      'country' => 'FR',
+      'email' => $_SESSION['bo_email'],
+      'capabilities' => [
+        'card_payments' => ['requested' => true],
+        'transfers' => ['requested' => true],
+      ],
+    ]);
+    
+    $accountlink = $stripe->accountLinks->create([
+      'account' => $account->id,
+      'refresh_url' => $protocole . $server . '/common/404.php',
+      'return_url' => $protocole . $server . '/common/primitives/loginlink.php',
+      'type' => 'account_onboarding',
+    ]);
+    
+    SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $bouticid);
+    
+    return $accountlink->url;
+  }
+  
   try
   {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -40,46 +77,22 @@
       'api_key' => $_ENV['STRIPE_SECRET_KEY'],
       'stripe_version' => '2020-08-27',
     ]);
-
-    if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
+    
+    if ($sca != 0)
     {
-      $loginlink = $stripe->accounts->createLoginLink($sca);
-      $url = $loginlink->url;
+      if ($stripe->accounts->retrieve($sca, [])->details_submitted == true)
+      {
+        $loginlink = $stripe->accounts->createLoginLink($sca);
+        $url = $loginlink->url;
+      }
+      else 
+      {
+        $url = inscription($input->bouticid);
+      }
     }
     else
     {
-      
-      if (isset($_SERVER['HTTPS']))
-      {
-        $protocole = 'https://';
-      }
-      else
-      {
-        $protocole = 'http://';
-      }
-      
-      $server = $_SERVER['SERVER_NAME'];
-      
-      $account = $stripe->accounts->create([
-        'type' => 'express',
-        'country' => 'FR',
-        'email' => $_SESSION['bo_email'],
-        'capabilities' => [
-          'card_payments' => ['requested' => true],
-          'transfers' => ['requested' => true],
-        ],
-      ]);
-      
-      $accountlink = $stripe->accountLinks->create([
-        'account' => $account->id,
-        'refresh_url' => $protocole . $server . '/common/404.php',
-        'return_url' => $protocole . $server . '/common/primitives/loginlink.php',
-        'type' => 'account_onboarding',
-      ]);
-      
-      SetValeurParam("STRIPE_ACCOUNT_ID", $account->id, $conn, $input->bouticid);
-      
-      $url = $accountlink->url;
+      $url = inscription($input->bouticid);
     }
 
     echo json_encode($url);
