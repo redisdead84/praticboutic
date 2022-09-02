@@ -23,6 +23,7 @@
     $output ="";
     
     $_SESSION['confboutic_chxmethode'] = $input->chxmethode;
+    $_SESSION['confboutic_caisse'] = $input->caisse ? "TOUS" : "COMPTANT";
     $_SESSION['confboutic_mntmincmd'] = $input->mntmincmd;
     $_SESSION['confboutic_validsms'] = $input->validsms;
 
