@@ -67,7 +67,6 @@
                 $input = json_decode($json_str);
   
                 $email = $input->email;
-                error_log($email);
                 $conn = new mysqli($servername, $username, $password, $bdd);
                 if ($conn->connect_error) 
                 {
