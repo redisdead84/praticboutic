@@ -91,7 +91,7 @@
     $subscriptions = $stripe->subscriptions->all(['customer' => $stripe_customer_id,
                                  'status' => 'active'
     ]);
-    if ($subscriptions->count() > 0)
+    if ($subscriptions->count() == 0)
     {
       throw new Error("Pas d'abonnement actif");
     }
