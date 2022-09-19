@@ -83,7 +83,7 @@
     // Fetch public key and initialize Stripe.
     let stripe, cardElement;
     
-    var obj = { action: "configuration", login: <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>};
+    var obj = { action: "boconfiguration", login: <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>};
     fetch('abo.php', {
       method: "POST",
       headers: {

@@ -17,6 +17,16 @@
   try 
   {
     
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+  
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
+    
     $json_str = file_get_contents('php://input');
     $input = json_decode($json_str);
 

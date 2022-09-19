@@ -8,7 +8,12 @@
   header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
   header('Access-Control-Max-Age: 86400');
 
+  require '../../vendor/autoload.php';
   include "../config/common_cfg.php";
+  include "../param.php";
+  
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
 
   function incTentative($conn, $ip)
   {
@@ -67,10 +72,28 @@
           $_SESSION['bo_email'] = $request->email;
           $_SESSION['bo_auth'] = 'oui';
           $_SESSION['bo_init'] = 'non';
+          $stripe = new \Stripe\StripeClient([
+            'api_key' => $_ENV['STRIPE_SECRET_KEY'],
+            'stripe_version' => '2020-08-27',
+          ]);
+          $subscriptions = $stripe->subscriptions->all(['customer' => $row[3],
+                                       'status' => 'active'
+          ]);
+          if ($subscriptions->count() > 0)
+          {
+            $_SESSION['bo_abo'] = 'oui';
+            $abo = "OK";
+          }
+          else 
+          {
+            $_SESSION['bo_abo'] = 'non';
+            $abo = "KO";
+          }
           $arr=array();
           array_push($arr, $row[1]);
           array_push($arr, $row[2]);
           array_push($arr, $row[3]);
+          array_push($arr, $abo);
           $output = $arr;
         }
         else

@@ -12,6 +12,17 @@ use Fpdf\Fpdf;
 session_id("customerarea");
 session_start();
 
+if (empty($_SESSION['bo_auth']) == TRUE)
+{
+  exit();
+}
+
+if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+{
+  exit();
+}
+
+
 if (empty($_SERVER['HTTPS']))
 	$protocol = "http://";
 else 

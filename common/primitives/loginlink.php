@@ -52,14 +52,48 @@
   
   try
   {
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+  
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
+
+    $stripe = new \Stripe\StripeClient([
+      'api_key' => $_ENV['STRIPE_SECRET_KEY'],
+      'stripe_version' => '2020-08-27',
+    ]);
+    
     // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
     // Check connection
     if ($conn->connect_error)
     {
       throw new Error("Connection failed: " . $conn->connect_error);
+    }
+    
+    $req = $conn->prepare('SELECT stripe_customer_id FROM client WHERE email = ? AND actif = 1 ');
+    $req->bind_param("s", $_SESSION['bo_email']);
+    $req->execute();
+    $req->bind_result($stripe_customer_id);
+    $resultat = $req->fetch();
+    $req->close();
+    if (strcmp($stripe_customer_id, "") == 0 )
+    {
+      throw new Error("Id compte stripe client manquant");
+    }
+    
+    $subscriptions = $stripe->subscriptions->all(['customer' => $stripe_customer_id,
+                                 'status' => 'active'
+    ]);
+    if ($subscriptions->count() > 0)
+    {
+      throw new Error("Pas d'abonnement actif");
     }
 
     $json_str = file_get_contents('php://input');

@@ -47,6 +47,14 @@ try
 
   if (strcmp($input->action,"lienscreationboutic") == 0)
   {
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     # Simulates an authenticated user. In practice, you'll
     # use the Stripe Customer ID of the authenticated user.
     $req = $conn->prepare('SELECT stripe_customer_id, cltid FROM client WHERE email = ? AND actif = 1 ');
@@ -77,8 +85,13 @@ try
     $output = $lienscreation;
 
   }
+
   if (strcmp($input->action,"configuration") == 0)
   {
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
     $pub_key = $_ENV['STRIPE_PUBLISHABLE_KEY'];
     
     $prices = $stripe->prices->all(['lookup_keys' => ['pb_fixe','pb_conso']]);
@@ -86,11 +99,34 @@ try
     $output = array('publishableKey' => $pub_key,
                     'prices' => $prices->data);
     //error_log(print_r($output, true));
-
   }
+
+  if (strcmp($input->action,"boconfiguration") == 0)
+  {
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
+    $pub_key = $_ENV['STRIPE_PUBLISHABLE_KEY'];
+    
+    $prices = $stripe->prices->all(['lookup_keys' => ['pb_fixe','pb_conso']]);
+    
+    $output = array('publishableKey' => $pub_key,
+                    'prices' => $prices->data);
+    //error_log(print_r($output, true));
+  }
+
   
   if (strcmp($input->action,"creationabonnement") == 0)
   {
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
     //error_log($input->priceid);
     $_SESSION['creationabonnement_priceid'] = $input->priceid;
     
@@ -122,7 +158,14 @@ try
   
   if (strcmp($input->action,"bocreationabonnement") == 0)
   {
-
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     $_SESSION['bocreationabonnement_priceid'] = $input->priceid;
     
     $stripe_customer_id = $_SESSION['bo_stripe_customer_id'];
@@ -175,7 +218,10 @@ try
   
   if (strcmp($input->action,"conso") == 0)
   {
-
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
     //error_log($input->priceid);
     $_SESSION['creationabonnement_priceid'] = $input->priceid;
     
@@ -191,7 +237,14 @@ try
   
   if (strcmp($input->action,"boconso") == 0)
   {
-
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     //error_log($input->priceid);
     $_SESSION['bocreationabonnement_priceid'] = $input->priceid;
     
@@ -207,6 +260,10 @@ try
   
   if (strcmp($input->action,"consocreationabonnement") == 0)
   {
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
     
     $stripe_customer_id = $input->customerId;
     
@@ -259,7 +316,14 @@ try
   
   if (strcmp($input->action,"boconsocreationabonnement") == 0)
   {
-    
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     $stripe_customer_id = $input->customerId;
     
     $req = $conn->prepare('SELECT cltid FROM client WHERE stripe_customer_id = ? AND actif = 1 ');
@@ -328,7 +392,14 @@ try
   
   if (strcmp($input->action,"boannulerabonnement") == 0)
   {
-    
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     $stripe->subscriptions->update($input->subscriptionid, 
       [
         'cancel_at_period_end' => true,
@@ -356,6 +427,14 @@ try
   
   if (strcmp($input->action,"boactivationabonnement") == 0)
   {
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
     $req = $conn->prepare("SELECT aboid FROM abonnement WHERE stripe_subscription_id = ? ");
     $req->bind_param("s", $input->subscriptionId);
     $req->execute();

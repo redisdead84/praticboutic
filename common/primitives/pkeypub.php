@@ -16,6 +16,17 @@
   $dotenv->load();
   try
   {
+    
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+  
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
+    
     echo json_encode($_ENV['STRIPE_PUBLISHABLE_KEY']);
   }
   catch (Error $e)

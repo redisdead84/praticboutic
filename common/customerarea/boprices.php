@@ -176,7 +176,7 @@
   <script type="text/javascript" >
     function changelink()
     {
-      var obj = { action: "configuration", login: <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>};
+      var obj = { action: "boconfiguration", login: <?php echo '"' . $_SESSION['bo_email'] . '"'; ?>};
 
       fetch("abo.php", {
         method: "POST",

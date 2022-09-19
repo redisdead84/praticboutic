@@ -45,7 +45,25 @@ try {
   //error_log($json_str);
 	//error_log(var_dump($input));
 	//error_log($input->action);
-	
+	if (strcmp($input->action,"buildboutic") == 0)
+  {
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
+  }
+  else 
+  {
+    if (empty($_SESSION['bo_auth']) == TRUE)
+    {
+      throw new Error("Non authentifié");
+    }
+    if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+    {
+      throw new Error("Non authentifié");
+    }
+  }
+  
 	if (strcmp($input->table,"")!=0)
 	{
 		for($i=0; $i<count($input->tables); $i++)
@@ -57,6 +75,7 @@ try {
 	
 	if (strcmp($input->action,"elemtable") == 0)
   {
+    
 	  $colonnes ="";
 	  $liens=array();
 
@@ -231,6 +250,7 @@ try {
     
   if (strcmp($input->action,"rempliroption") == 0)
   {
+    
  		for ($i=0;$i<count($input->tables[$numtable]->champs);$i++)
 			if (strcmp($input->tables[$numtable]->champs[$i]->typ, "pk")== 0)
 				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
@@ -261,7 +281,6 @@ try {
   
   if (strcmp($input->action,"insertrow") == 0)
   {
-
   	$query = 'INSERT INTO `' . $input->tables[$numtable]->nom . '`(';
   	$query = $query . 'customid, ';
 		for($i=0;$i<count($input->row);$i++) 
@@ -330,6 +349,7 @@ try {
   
   if (strcmp($input->action,"getvalues") == 0)
   {
+    
  		for ($i=0;$i<count($input->tables[$numtable]->champs);$i++)
 			if (strcmp($input->tables[$numtable]->champs[$i]->typ, "pk")== 0)
 				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
@@ -436,6 +456,7 @@ try {
 
 	if (strcmp($input->action,"colorrow") == 0)
   {
+    
   	$query = 'SELECT statutcmd.couleur FROM commande ';
   	$query = $query . 'INNER JOIN statutcmd ON commande.statid = statutcmd.statid '; 
   	$query = $query . 'WHERE commande.customid = ' . $input->bouticid;
@@ -579,6 +600,7 @@ try {
   }
 	if (strcmp($input->action,"getClientProp") == 0)
   {
+    
   	$query = "SELECT client." . stripcslashes($input->prop) . " FROM customer, client WHERE customer.customid = " . $input->bouticid . " AND customer.cltid = client.cltid LIMIT 1";			
 		
 		//error_log($query);
@@ -629,6 +651,7 @@ try {
   
   if (strcmp($input->action,"buildboutic") == 0)
   {
+    
     $conn->autocommit(false);
 
     $arr ="";
