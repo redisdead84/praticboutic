@@ -96,6 +96,7 @@
           array_push($arr, $row[3]);
           array_push($arr, $abo);
           array_push($arr, "OK");
+          array_push($arr, $row[0]);
           $output = $arr;
         //}
         //else
@@ -112,6 +113,7 @@
         array_push($arr, "");
         array_push($arr, "KO");
         array_push($arr, "KO");
+        array_push($arr, "");
         $output = $arr;
       }
     }
