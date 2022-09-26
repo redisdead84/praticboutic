@@ -570,7 +570,7 @@ try {
   if (strcmp($input->action,"setCustomProp") == 0)
   {
     $arr="";
-    $query = "SELECT COUNT(*) FROM customer WHERE " . $input->prop . " = '" . addslashes($input->valeur) . "' LIMIT 1";
+    $query = "SELECT COUNT(*) FROM customer WHERE " . $input->prop . " = '" . addslashes($input->valeur) . "' AND customid != '" . $input->bouticid . "' LIMIT 1";
     //error_log($query);
     if ($result = $conn->query($query)) 
     {

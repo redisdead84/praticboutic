@@ -34,11 +34,11 @@
       if ($row[0] == 0)
       {
         $_SESSION['verify_email'] = $input->email;
-        //error_log($_SESSION['verify_email']);
+        $output = "OK";
       }
       else
       {
-        throw new Error('Courriel déjà utilisé');
+        $output = "KO";
       }
     }
     else
@@ -47,7 +47,7 @@
     }
     $result->close();
     $conn->close();
-    echo json_encode("OK");
+    echo json_encode($output);
   }
   catch (Error $e)
   {

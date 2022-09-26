@@ -56,8 +56,9 @@
     {
       throw new Error('Il n\'y a pas de compte Stripe défini pour cette boutic');
     }
-   catch (Error $e)
-   {
-     echo $e->getMessage();
-   }
+  }
+  catch (Error $e)
+  {
+    echo $e->getMessage();
+  }
 ?>
