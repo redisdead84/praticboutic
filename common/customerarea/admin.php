@@ -139,7 +139,7 @@
                 ];
 
   var liens = [{nom:"categorie", desc:"Catégorie de l'article", srctbl:"article", srcfld:"catid", dsttbl:"categorie", dstfld:"catid", join:"ij"},
-               {nom:"groupeopt", desc:"Groupe d'option rélié", srctbl:"relgrpoptart", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
+               {nom:"groupeopt", desc:"Groupe d'option relié", srctbl:"relgrpoptart", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
                {nom:"article", desc:"Article relié", srctbl:"relgrpoptart", srcfld:"artid", dsttbl:"article", dstfld:"artid", join:"ij"},
                {nom:"groupeopt", desc:"Groupe de l'option", srctbl:"option", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
                {nom:"commande", desc:"Commande reliée", srctbl:"lignecmd", srcfld:"cmdid", dsttbl:"commande", dstfld:"cmdid", join:"ij"},

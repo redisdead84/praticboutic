@@ -260,7 +260,7 @@ try {
   	
 		if (strcmp($input->tables[$numtable]->nom, "statutcmd") == 0 ) 
 	  	$query = $query . ' AND actif = 1';
-  	
+  	//error_log($query);
 		$arr=array();	
 		
 		if ($result = $conn->query($query)) 
