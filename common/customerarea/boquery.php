@@ -45,6 +45,12 @@ try {
   //error_log($json_str);
 	//error_log(var_dump($input));
 	//error_log($input->action);
+	
+	if (!isset($_SESSION))
+  {
+    throw new Error('Session expirée');
+  }
+	
 	if (strcmp($input->action,"buildboutic") == 0)
   {
     if (empty($_SESSION['verify_email']) == TRUE)

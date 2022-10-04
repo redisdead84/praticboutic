@@ -44,6 +44,11 @@ try
     'api_key' => $_ENV['STRIPE_SECRET_KEY'],
     'stripe_version' => '2020-08-27',
   ]);
+  
+  if (!isset($_SESSION))
+  {
+    throw new Error('Session expirée');
+  }
 
   if (strcmp($input->action,"lienscreationboutic") == 0)
   {
