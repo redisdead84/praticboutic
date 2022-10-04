@@ -12,6 +12,11 @@ use Fpdf\Fpdf;
 session_id("customerarea");
 session_start();
 
+if (!isset($_SESSION))
+{
+  exit();
+}
+
 if (empty($_SESSION['bo_auth']) == TRUE)
 {
   exit();

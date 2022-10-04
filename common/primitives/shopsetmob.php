@@ -13,6 +13,12 @@
   include "../param.php";
   try
   {
+    
+    if (!isset($_SESSION))
+    {
+      throw new Error('Session expirée');
+    }
+    
     if (empty($_SESSION['verify_email']) == TRUE)
     {
       throw new Error('Courriel non vérifié');

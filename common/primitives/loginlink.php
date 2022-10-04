@@ -52,6 +52,11 @@
   
   try
   {
+    if (!isset($_SESSION))
+    {
+      throw new Error('Session expirée');
+    }
+
     if (empty($_SESSION['bo_auth']) == TRUE)
     {
       throw new Error("Non authentifié");
