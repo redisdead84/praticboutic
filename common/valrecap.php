@@ -69,6 +69,7 @@
         if ($response->getTokenProperties()->getValid() == false) {
             printf('The CreateAssessment() call failed because the token was invalid for the following reason: ');
             printf(InvalidReason::name($response->getTokenProperties()->getInvalidReason()));
+            header('LOCATION: carte.php');
         } 
         else 
         {
@@ -87,6 +88,7 @@
     } catch (exception $e) {
         printf('CreateAssessment() call failed with the following error: ');
         printf($e);
+        header('LOCATION: carte.php');
     }
   }
 
