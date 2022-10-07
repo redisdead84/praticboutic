@@ -1,6 +1,14 @@
 <?php
+
   session_id("boutic");
   session_start();
+
+  require '../vendor/autoload.php';
+  include "config/common_cfg.php";
+  include "param.php";
+
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
   
   if (empty($_SESSION['customer']) != 0)
 	{
@@ -25,16 +33,36 @@
     header('LOCATION: index.php?customer=' . $customer . '');
     exit();
   }
-  
-  require '../vendor/autoload.php';
-  include "config/common_cfg.php";
-  include "param.php";
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prise de commande</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" media="screen" href="css/style.css?v=<?php echo $ver_com_css;?>" />
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+  </head>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div id="header">
+		  <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
+		</div>
+    <div id='mainmenu' class="modal-content-mainmenu elemcb" style="display: block;">
+		  <div class="modal-header-cb">
+        <h5 class="modal-title-cb">INFORMATION</h5>
+      </div>
+      <div class="modal-body-cb">
+<?php
   
   use Google\Cloud\RecaptchaEnterprise\V1\RecaptchaEnterpriseServiceClient;
   use Google\Cloud\RecaptchaEnterprise\V1\Event;
   use Google\Cloud\RecaptchaEnterprise\V1\Assessment;
   use Google\Cloud\RecaptchaEnterprise\V1\TokenProperties\InvalidReason;
-  
     
    /**
   * Create an assessment to analyze the risk of a UI action.
@@ -63,13 +91,14 @@
             $projectName,
             $assessment
         );
- 
+
         // You can use the score only if the assessment is valid,
         // In case of failures like re-submitting the same token, getValid() will return false
         if ($response->getTokenProperties()->getValid() == false) {
-            printf('The CreateAssessment() call failed because the token was invalid for the following reason: ');
-            printf(InvalidReason::name($response->getTokenProperties()->getInvalidReason()));
-            header('LOCATION: carte.php');
+            //printf('The CreateAssessment() call failed because the token was invalid for the following reason: ');
+            //printf(InvalidReason::name($response->getTokenProperties()->getInvalidReason()));
+            echo('Problème avec le détecteur de script automatisé. ');
+            echo(InvalidReason::name($response->getTokenProperties()->getInvalidReason()));
         } 
         else 
         {
@@ -86,9 +115,10 @@
           // printf($response->getTokenProperties()->getHostname() . PHP_EOL);
         }
     } catch (exception $e) {
-        printf('CreateAssessment() call failed with the following error: ');
-        printf($e);
-        header('LOCATION: carte.php');
+        //printf('CreateAssessment() call failed with the following error: ');
+        //printf($e);
+        echo('Problème avec le détecteur de script automatisé. ');
+        echo($e);
     }
   }
 
@@ -99,3 +129,10 @@
   create_assessment($_ENV['RECAPTCHA_KEY'], $valrecap, $_ENV['GOOGLE_PROJECT']);
 
 ?>
+      </div>
+      <div class="modal-footer-cb">
+        <a href="carte.php"><button class="soloindic" type="button" value="Valider">Retour</button></a>
+      </div>
+    </div>
+  </body>
+</html>

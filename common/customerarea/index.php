@@ -4,10 +4,13 @@
   session_start();
   $lifetime=141209600;
   setcookie(session_name(),session_id(),time()+$lifetime);
-  if ($_SESSION["active"] == 1)
+  if (isset($_SESSION["active"]) == true)
   {
-    header("LOCATION: admin.php");
-    exit();
+    if ($_SESSION["active"] == 1)
+    {
+      header("LOCATION: admin.php");
+      exit();
+    }
   }
   session_destroy();
   session_id("customerarea");
