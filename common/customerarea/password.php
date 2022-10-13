@@ -30,7 +30,7 @@
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()" class='epure'/>
       <div id="workspace" class="spacemodal">
         <div id="loadid" class="spinner-border" role="status" style="display: none;">
           <span class="sr-only">Loading...</span>
@@ -53,7 +53,7 @@
 			    </form>
 		    </div>
 		  </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()" class='epure'/>
 		</div>
   </body>
   <script type="text/javascript" >

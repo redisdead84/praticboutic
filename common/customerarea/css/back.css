@@ -3,6 +3,86 @@
   touch-action: manipulation;
 }
   
+  
+@media ((orientation: portrait) and (width < 1280px)) or ((orientation: landscape) and (height < 640px)) 
+{
+  .epure
+  {
+    display:none !important;
+  }
+  
+  .twocol
+  {
+    column-count: 1 !important;
+  }
+  
+  .frameimg
+  {
+    width: 85vmin !important;
+    height: 47.8125vmin !important;
+  }
+  
+  .imgart
+  {
+    max-width: 85vmin !important;
+    max-height: 47.8125vmin !important;
+  }
+  
+  .btn-nbprimary
+  {
+    flex: 0 0 40% !important;
+  }
+  
+  .btn-nbsecondary
+  {
+    flex: 0 0 40% !important;
+  }
+  
+  .formulespace
+  {
+    flex-direction: column !important;
+  }
+  
+  .centerable
+  {
+    word-break: break-word !important;
+    text-align: center !important;
+  }
+  
+  .modal-content
+  {
+    width: 90vmin;
+  }
+  
+  .vertical-nav
+  {
+    overflow-x: hidden;
+    min-width: 0px !important;
+    transition: all 0.25s;
+    width: 0px;
+  }
+  
+  .page-content
+  {
+    width: 100% !important;
+    margin-left: 0px !important;
+  }
+
+  #sidebarico
+  {
+    display: block !important;
+    margin: 8px;
+    float: left;
+  }
+
+}
+
+#sidebarico
+{
+  display: none;
+}
+
+
 body {
   text-align: left;
   font-family: 'Public Sans' !important;

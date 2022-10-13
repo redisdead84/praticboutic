@@ -78,7 +78,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.13">
+    <link rel="stylesheet" href="css/back.css?v=1.60">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -250,6 +250,7 @@
       </ul>
     </div>
     <div class="tab-content page-content" id="myMenuContent">
+      <img id="sidebarico" src="img/sidebar.svg" alt="Menu latéral" height="32" width="32" style="display:none" onclick="openSidebar()" />
       <div class="tab-pane" id="commandes" role="tabpanel" aria-labelledby="commandes-tab">
         <p class="title">Commandes</p>
           <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -2255,6 +2256,7 @@
 						}
 					}
 				}
+				closeSidebar();
 			}
 
 			function baktab(tabname, caller)
@@ -3320,6 +3322,17 @@
 				}
 				location.reload();
 			}
+      
+      function openSidebar() 
+      {
+      	document.getElementById('sidebar').style.width = '300px';
+      }
+      
+      function closeSidebar() 
+      {
+      	document.getElementById('sidebar').style.width = '0px';
+      }
+      
       
     </script>
   </body>

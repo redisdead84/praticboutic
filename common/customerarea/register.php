@@ -25,7 +25,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/back.css?v=1.05">
+    <link rel="stylesheet" href="css/back.css?v=1.54">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -38,12 +38,12 @@
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure'/>
       <div id="workspace" class="spaceflex">
         <div id="loadid" class="spinner-border" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
-        <img id='illus3' src='img/illustration_3.png' style="display: none;" />
+        <img id='illus3' src='img/illustration_3.png' style="display: none;" class='epure'/>
         <div id='mainform' class="customform" style="display: none;">
           <p class="center middle title">
             Formulaire d'inscription
@@ -70,7 +70,7 @@
               <div class="param">
                 <input class="paramfieldc" id="prenom" name="prenom" type="text" placeholder="Prénom" value="" maxlength="60" required /><br>
               </div>
-              <div class="param">
+              <div class="param epure">
                 <div class="paramfieldb" id="blank" name="blank"></div><br>
               </div>
               <div class="param">
@@ -95,7 +95,7 @@
           </form>
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
     </div>
   </body>
   <script type="text/javascript" >
