@@ -65,12 +65,6 @@
   $bouticid = $_SESSION['bo_id'];
   
   $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $bouticid);
-  if (strcmp($sca, "") == 0 )
-  {
-    error_log("Id compte stripe connecté manquant");
-    header("LOCATION: logout.php");
-    exit();
-  }
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +72,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.60">
+    <link rel="stylesheet" href="css/back.css?v=1.606">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -95,6 +89,8 @@
       var login = "<?php echo $_SESSION['bo_email']; ?>";
       var init = "<?php echo $_SESSION['bo_init']; ?>";
       var initdone = "<?php $_SESSION['bo_init'] = 'non'; ?>";
+      var initstripe = "<?php echo $sca;?>" ;
+      
 
       var protocole = "<?php if (isset($_SERVER['HTTPS']))
       {
@@ -113,48 +109,27 @@
       var defoffset = 0;
       var offset = 0;
 
-      var tables = [
-                {nom:"categorie", desc:"Catégories", cs:"nom", champs:[{nom:"catid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-                {nom:"article", desc:"Articles", cs:"nom", champs:[{nom:"artid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"description", desc:"Description", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
-                {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"catid", desc:"Catégorie", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""},
-                {nom:"unite", desc:"Unité", typ:"text", defval:"€", vis:"n", ordre:"0", sens:""}, {nom:"image", desc:"Fichier Image", typ:"image", defval:"", vis:"n", ordre:"0", sens:""}]},
-                {nom:"relgrpoptart", desc:"Relations groupes d'option-articles", cs:"", champs:[{nom:"relgrpoartid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"grpoptid", desc:"", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"artid", defval:"", desc:"", typ:"fk", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-                {nom:"groupeopt", desc:"Groupes d'option", cs:"nom", champs:[{nom:"grpoptid",  desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}, {nom:"multiple", desc:"Choix Multiple", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}]},
-                {nom:"option", desc:"Options", cs:"nom", champs:[{nom:"optid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"grpoptid", desc:"Groupe d'option", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"visible", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-                {nom:"administrateur", desc:"Utilisateurs" , cs:"email", champs:[{nom:"adminid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"email", desc:"Courriel", typ:"email", defval:"", vis:"o", ordre:"0", sens:""},{nom:"pass", desc:"Mot de Passe", typ:"pass", defval:"", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-                {nom:"parametre", desc:"Paramètres", cs:"nom", champs:[{nom:"paramid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"nom", desc:"Nom", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""},{nom:"valeur", desc:"Valeur", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},{nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}]},
-                {nom:"cpzone", desc:"Zones de livraison", cs:"codepostal", champs:[{nom:"cpzoneid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"codepostal", desc:"Code Postal", defval:"", typ:"codepostal", vis:"o", ordre:"0", sens:""},{nom:"ville", desc:"Ville", defval:"", typ:"text", vis:"o", ordre:"0", sens:""},{nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-                {nom:"barlivr", desc:"Barêmes de livraison", cs:"", champs:[{nom:"barlivrid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""},{nom:"valminin", desc:"Fourchette Basse (Incl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"valmaxex", desc:"Fourchette Haute (Excl.)", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},{nom:"surcout", desc:"Surcoût", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""},
-                {nom:"actif", desc:"Active", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]},
-                {nom:"commande", desc:"Commandes Clients", cs:"numref", champs:[{nom:"cmdid", desc:"identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"numref", desc:"Référence", typ:"ref", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"nom", desc:"Nom", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"prenom", desc:"Prénom", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
-                {nom:"telephone", desc:"Téléphone", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"adresse1", desc:"Ligne d'adresse n°1", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"adresse2", desc:"Ligne d'adresse n°2", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"codepostal", desc:"Code Postal", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
-                {nom:"ville", desc:"Ville", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"vente", desc:"Type de Vente", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"paiement", desc:"Mode de Paiement", typ:"text", defval:"", vis:"n", ordre:"0", sens:""},
-                {nom:"sstotal", desc:"Sous-total", typ:"prix", defval:"0.00", vis:"n", ordre:"0", sens:""}, {nom:"fraislivraison", desc:"Frais de Livraison", typ:"prix", defval:"0.00", vis:"n", ordre:"0", sens:""}, {nom:"total", desc:"Total", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"method", desc:"Méthode de vente", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
-                {nom:"table", desc:"N° de la Table", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"datecreation", desc:"Date de Création", typ:"date", defval:"", vis:"o", ordre:"0", sens:""},
-                {nom:"statid", desc:"Statut", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}]},
-                {nom:"lignecmd", desc:"Lignes de commande", cs:"", champs:[{nom:"lignecmdid", desc:"Identifiant", typ:"pk", vis:"n", defval:"", ordre:"0", sens:""}, {nom:"cmdid", desc:"Commande", typ:"fk", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"ordre", desc:"Ordre", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"type", desc:"Type de Produit", typ:"text", defval:"", vis:"n", ordre:"0", sens:""}, 
-                {nom:"nom", desc:"Intitulé", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"prix", desc:"Prix", typ:"prix", defval:"0.00", vis:"o", ordre:"0", sens:""}, {nom:"quantite", desc:"Quantité", typ:"text", defval:"0", vis:"o", ordre:"0", sens:""}, {nom:"commentaire", desc:"Commentaire", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}]},
-                {nom:"statutcmd", desc:"Statuts de commande", cs:"etat", champs:[{nom:"statid", desc:"Identifiant", typ:"pk", defval:"", vis:"n", ordre:"0", sens:""}, {nom:"etat", desc:"Etat de la commande", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"couleur", desc:"Couleur du status", typ:"text", defval:"", vis:"o", ordre:"0", sens:""},
-                {nom:"message", desc:"SMS à Envoyer", typ:"text", defval:"", vis:"o", ordre:"0", sens:""}, {nom:"defaut", desc:"Defaut", typ:"bool", defval:"0", vis:"o", ordre:"0", sens:""}, {nom:"actif", desc:"Actif", typ:"bool", defval:"1", vis:"o", ordre:"0", sens:""}]}
-                ];
-
-  var liens = [{nom:"categorie", desc:"Catégorie de l'article", srctbl:"article", srcfld:"catid", dsttbl:"categorie", dstfld:"catid", join:"ij"},
-               {nom:"groupeopt", desc:"Groupe d'option relié", srctbl:"relgrpoptart", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
-               {nom:"article", desc:"Article relié", srctbl:"relgrpoptart", srcfld:"artid", dsttbl:"article", dstfld:"artid", join:"ij"},
-               {nom:"groupeopt", desc:"Groupe de l'option", srctbl:"option", srcfld:"grpoptid", dsttbl:"groupeopt", dstfld:"grpoptid", join:"ij"},
-               {nom:"commande", desc:"Commande reliée", srctbl:"lignecmd", srcfld:"cmdid", dsttbl:"commande", dstfld:"cmdid", join:"ij"},
-               {nom:"statut", desc:"Statut de la commande", srctbl:"commande", srcfld:"statid", dsttbl:"statutcmd", dstfld:"statid", join:"ij"}
-              ];
-
-  var rpp = [5,10,15,20,50,100];
-  var op = ["=",">","<",">=","<=","<>","LIKE"];
-  var filtres = [];
-  var maxfiltre = 10;
-  var arrrgoa = [];
-  var stackvue = [];
-  var w;
-  var memnbcommande = 0;
-  var cmdfirst = true;
+      var tables;
+      var liens; 
+      
+      const URLsrv = '../dbd/model.json';
+      fetch(URLsrv).then(function(result) {
+        return result.json();
+      })
+      .then(function(data) {
+        tables = data.tables;
+        liens = data.liens;
+      })
+      
+      var rpp = [5,10,15,20,50,100];
+      var op = ["=",">","<",">=","<=","<>","LIKE"];
+      var filtres = [];
+      var maxfiltre = 10;
+      var arrrgoa = [];
+      var stackvue = [];
+      var w;
+      var memnbcommande = 0;
+      var cmdfirst = true;
 
   window.addEventListener("load", function(event) 
   {
@@ -193,12 +168,12 @@
     inittable("ihm9", "table9", "commande");
     inittable("table11", "table11", "statutcmd");
     
-    var charge = <?php if ($stripe->accounts->retrieve($sca, [])->charges_enabled == true) echo 'true'; else echo 'false'; ?>;
+    var charge = <?php if (($sca !== "") && ($stripe->accounts->retrieve($sca, [])->charges_enabled == true)) echo 'true'; else echo 'false'; ?>;
     if (charge == false)
     {
       var modal = $('.modal');
       $('.modal-title').html('Attention');
-      modal.find('.modal-body').text('Le paiement par Carte Bancaire Stripe n\'est pas actif ! Vous ne pourrez pas recevoir de paiement par Carte bancaire. Il manque peut-être des pièces complémentaires à fournir. Pour finir l\'activation rendez-vous dans l\'onglet Mon Argent de l\'arrière Boutic et effectuez les actions nécessaires.');
+      modal.find('.modal-body').text('Le paiement par Carte Bancaire Stripe n\'est pas actif ! Vous ne pourrez pas recevoir de paiement par Carte bancaire. Pour l\'activer rendez-vous dans l\'onglet Mon Argent de l\'arrière Boutic et effectuez les actions nécessaires.');
       $('.modal').modal('show');
     }
     else 
@@ -214,37 +189,35 @@
       }
     }
     startWorkerCommande();
+    initswipe();
   });
 
   </script>
     <div class="vertical-nav" id="sidebar">
+      <img id='closemenu' src='img/close.svg' onclick="closeSidebar()" height="24px" width="24px" />
       <ul class="nav nav-menu flex-column">
         <img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' />
-        <li class="nav-item">
+        <li class="nav-item mobilehcenter">
           <a class="nav-link" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mobilehcenter">
           <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mobilehcenter">
           <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
         </li>
-        <div class="demiinter">
+        <div class="demiinter mobilehcenter">
         </div>
-        <li class="nav-item">
-          <?php 
-            $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $bouticid);
-            $loglink = $stripe->accounts->createLoginLink($sca);
-            echo "<a class='nav-link' href='" . $loglink->url . "' target='_blank'><img class='picto' src='img/picto_argent.png' />Mon Argent</a>";
-          ?>
+        <li class="nav-item mobilehcenter">
+          <a class='nav-link' href='loginlink.php' target='_blank'><img class='picto' src='img/picto_argent.png' />Mon Argent</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mobilehcenter">
           <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Espace Client</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mobilehcenter">
           <a class="nav-link" href="account.php"><img class='picto' src='img/picto_abonnement.png' />Abonnement</a>
         </li>
-         <li class="nav-item">
+         <li class="nav-item mobilehcenter">
           <a class="nav-link" href="logout.php"><img class='picto' src='img/picto_deconnexion.png' />Deconnexion</a>
         </li>
       </ul>
@@ -969,7 +942,7 @@
 				var br = document.createElement('br');
 				vue.appendChild(br);				
 				var formoff = document.createElement("div");
-				var obj = { bouticid: bouticid, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
+				var obj = { bouticid: bouticid, action:"getvalues", table:tables[numtable].nom, colonne:"", row:"", idtoup:idtoup };
 
         fetch("boquery.php", {
           method: "POST",
@@ -1594,7 +1567,7 @@
  				if (tablestr == "commande")
  				{
 					var j=0;
-					var obj3 = { bouticid: bouticid, action:"colorrow", tables:tables, table:"", liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
+					var obj3 = { bouticid: bouticid, action:"colorrow", table:"", colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:"", selid:0};
 
 	        fetch("boquery.php", {
 	          method: "POST",
@@ -1652,7 +1625,7 @@
 				var br = document.createElement('br');
 				vue.appendChild(br);				
 				
-				var obj = { bouticid: bouticid, action:"getvalues", tables:tables, table:tables[numtable].nom, liens:liens, colonne:"", row:"", idtoup:idtoup };
+				var obj = { bouticid: bouticid, action:"getvalues", table:tables[numtable].nom, colonne:"", row:"", idtoup:idtoup };
 
         fetch("boquery.php", {
           method: "POST",
@@ -1895,7 +1868,7 @@
       function gettable(vue, place, table, limite, offset, selcol="", selid=0)      
       {
       	
-      	var obj = { bouticid: bouticid, action:"elemtable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:selcol, selid:selid, filtres:filtres };
+      	var obj = { bouticid: bouticid, action:"elemtable", table:table, colonne:"", row:"", idtoup:"", limite:"", offset:"", selcol:selcol, selid:selid, filtres:filtres };
   	
         fetch("boquery.php", {
           method: "POST",
@@ -1952,7 +1925,7 @@
 		        	pagination = true;
 		        }
 
-			      var obj2 = { bouticid: bouticid, action:"vuetable", tables:tables, table:table, liens:liens, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
+			      var obj2 = { bouticid: bouticid, action:"vuetable", table:table, colonne:"", row:"", idtoup:"", limite:limite, offset:offset, selcol:selcol, selid:selid, filtres:filtres };
 			  	
 			      fetch("boquery.php", {
 			        method: "POST",
@@ -2032,7 +2005,7 @@
       {
         var retour;      
         
-      	var obj = { bouticid: bouticid, action:"rempliroption", tables:tables, table:table, liens:liens, colonne:colonne };
+      	var obj = { bouticid: bouticid, action:"rempliroption", table:table, colonne:colonne };
       	
         fetch("boquery.php", {
           method: "POST",
@@ -2063,7 +2036,7 @@
       {
         var retour;      
         
-      	var obj = { bouticid: bouticid, action:"insertrow", tables:tables, table:table, liens:liens, colonne:"", row:row };
+      	var obj = { bouticid: bouticid, action:"insertrow", table:table, colonne:"", row:row };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2099,7 +2072,7 @@
       {
         var retour;      
         
-      	var obj = { bouticid: bouticid, action:"updaterow", tables:tables, table:table, liens:liens, colonne:pknom, row:row, idtoup:idtoup };
+      	var obj = { bouticid: bouticid, action:"updaterow", table:table, colonne:pknom, row:row, idtoup:idtoup };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2165,7 +2138,7 @@
       {
         var retour;      
         
-      	var obj = { bouticid: bouticid, action:"getcomdata", tables:tables, table:"commande", liens:liens, cmdid:cmdid };
+      	var obj = { bouticid: bouticid, action:"getcomdata", table:"commande", cmdid:cmdid };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2268,7 +2241,7 @@
       {
         var retour;
  
-      	var obj = { bouticid: bouticid, action:"getparam", tables:tables, table:"parametre", param:param };
+      	var obj = { bouticid: bouticid, action:"getparam", table:"parametre", param:param };
 
         fetch("boquery.php", {
           method: "POST",
@@ -2389,7 +2362,7 @@
       {
         var retour;      
         
-      	var obj = { bouticid: bouticid, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      	var obj = { bouticid: bouticid, action:"getCustomProp", table:"", prop:prop };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2576,12 +2549,12 @@
 							if (el.getAttribute('data-paramtype') == "csp")
 							{
 			     			var prop = el.getAttribute("data-prop");
-			      		obj2 = { bouticid: bouticid, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
+			      		obj2 = { bouticid: bouticid, action:"setCustomProp", table:"", prop:prop, valeur:valeur };
 			      		
 			      	}
 			     		else {
 			     			var param = el.getAttribute("data-param");
-			     			obj2 = { bouticid: bouticid, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
+			     			obj2 = { bouticid: bouticid, action:"setparam", table:"parametre", param:param, valeur:valeur };
 			     		}
 	
 	 		      	el.setAttribute('data-modified', 'false');
@@ -2619,7 +2592,7 @@
       {
         var retour;      
         
-      	var obj = { bouticid: bouticid, action:"getClientProp", tables:tables, table:"", prop:prop };
+      	var obj = { bouticid: bouticid, action:"getClientProp", table:"", prop:prop };
      	
         fetch("boquery.php", {
           method: "POST",
@@ -2819,12 +2792,12 @@
 							if (el.getAttribute('data-paramtype') == "csp")
 							{
 			     			var prop = el.getAttribute("data-prop");
-			      		obj2 = { bouticid: bouticid, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur };
+			      		obj2 = { bouticid: bouticid, action:"setCustomProp", table:"", prop:prop, valeur:valeur };
 			      		
 			      	}
 			     		else {
 			     			var param = el.getAttribute("data-param");
-			     			obj2 = { bouticid: bouticid, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur };
+			     			obj2 = { bouticid: bouticid, action:"setparam", table:"parametre", param:param, valeur:valeur };
 			     		}
 	
 	 		      	el.setAttribute('data-modified', 'false');
@@ -2878,12 +2851,12 @@
 				{
      			var prop = elem.getAttribute("data-prop");
      			
-      		obj2 = { bouticid: bouticid, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      		obj2 = { bouticid: bouticid, action:"getCustomProp", table:"", prop:prop };
       	}
      		else 
      		{
      			var param = elem.getAttribute("data-param");
-     			obj2 = { bouticid: bouticid, action:"getparam", tables:tables, table:"parametre", param:param };
+     			obj2 = { bouticid: bouticid, action:"getparam", table:"parametre", param:param };
      		}
 				
 				fetch("boquery.php", {
@@ -2988,13 +2961,13 @@
                {
                  var prop = el.getAttribute("data-prop");
                  var typ = el.getAttribute("data-typ");
-                 obj2 = { bouticid: bouticid, action:"setCustomProp", tables:tables, table:"", prop:prop, valeur:valeur, typ:typ };
+                 obj2 = { bouticid: bouticid, action:"setCustomProp", table:"", prop:prop, valeur:valeur, typ:typ };
                }
                else 
                {
                  var param = el.getAttribute("data-param");
                  var typ = el.getAttribute("data-typ");
-                 obj2 = { bouticid: bouticid, action:"setparam", tables:tables, table:"parametre", param:param, valeur:valeur, typ:typ };
+                 obj2 = { bouticid: bouticid, action:"setparam", table:"parametre", param:param, valeur:valeur, typ:typ };
                }
   
                el.setAttribute('data-modified', 'false');
@@ -3057,12 +3030,12 @@
 				{
      			var prop = elem.getAttribute("data-prop");
      			
-      		obj2 = { bouticid: bouticid, action:"getCustomProp", tables:tables, table:"", prop:prop };
+      		obj2 = { bouticid: bouticid, action:"getCustomProp", table:"", prop:prop };
       	}
      		else 
      		{
      			var param = elem.getAttribute("data-param");
-     			obj2 = { bouticid: bouticid, action:"getparam", tables:tables, table:"parametre", param:param };
+     			obj2 = { bouticid: bouticid, action:"getparam", table:"parametre", param:param };
      		}
 				
 				fetch("boquery.php", {
@@ -3182,7 +3155,7 @@
                {
                  var prop = el.getAttribute("data-prop");
                  var typ = el.getAttribute("data-typ");
-                 obj2 = { bouticid: bouticid, action:"setClientProp", tables:tables, table:"", prop:prop, valeur:valeur, typ:typ };
+                 obj2 = { bouticid: bouticid, action:"setClientProp", table:"", prop:prop, valeur:valeur, typ:typ };
                }
                el.setAttribute('data-modified', 'false');
                fetch("boquery.php", {
@@ -3235,7 +3208,7 @@
 				{
      			var prop = elem.getAttribute("data-prop");
      			
-      		obj2 = { bouticid: bouticid, action:"getClientProp", tables:tables, table:"", prop:prop };
+      		obj2 = { bouticid: bouticid, action:"getClientProp", table:"", prop:prop };
       	}
 				
 				fetch("boquery.php", {
@@ -3325,7 +3298,7 @@
       
       function openSidebar() 
       {
-      	document.getElementById('sidebar').style.width = '300px';
+      	document.getElementById('sidebar').style.width = '100%';
       }
       
       function closeSidebar() 
@@ -3333,6 +3306,66 @@
       	document.getElementById('sidebar').style.width = '0px';
       }
       
+      function getSidebarStatus()
+      {
+        var sbwidth = document.getElementById('sidebar').style.width;
+        if (sbwidth == '100%')
+        {
+          return 'open';
+        }
+        else if (sbwidth == '0px')
+        {
+          return 'close';
+        }
+        else {
+        	return 'moving';
+        }
+
+      }
+      
+      function initswipe()
+      {
+        var startX = 0; // Position de départ
+        var distance = 100; // 100 px de swipe pour afficher le menu
+      
+        // Au premier point de contact
+        window.addEventListener("touchstart", function(evt) {
+          // Récupère les "touches" effectuées
+          var touches = evt.changedTouches[0];
+          startX = touches.pageX;
+          between = 0;
+        }, false);
+      
+        // Quand les points de contact sont en mouvement
+        window.addEventListener("touchmove", function(evt) {
+          // Limite les effets de bord avec le tactile...
+          evt.preventDefault();
+          evt.stopPropagation();
+        }, false);
+      
+        // Quand le contact s'arrête
+        window.addEventListener("touchend", function(evt) {
+          var touches = evt.changedTouches[0];
+          var between = touches.pageX - startX;
+      
+          // Détection de la direction
+          if(between > 0) {
+            var orientation = "ltr";
+          } else {
+            var orientation = "rtl";
+          }
+      
+          // Créé l'effet pour le menu slide (compatible partout)
+          if(Math.abs(between) >= distance && orientation == "ltr" && getSidebarStatus() == 'close') 
+          {
+            openSidebar();
+          }
+          if(Math.abs(between) >= distance && orientation == "rtl" && getSidebarStatus() == 'open') 
+          {
+            closeSidebar();
+          }
+        }, false);
+      }
       
     </script>
   </body>

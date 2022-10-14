@@ -77,7 +77,7 @@
                   throw new Error('Identifiant interdit');
                 }
 
-                header("LOCATION: stripe.php");
+                header("LOCATION: paramboutic.php");
               }
               catch (Error $e)
               {

@@ -70,11 +70,20 @@ try {
     }
   }
   
+  $dbdfile = fopen('../dbd/model.json', 'r');
+  $dbdjson = fread($dbdfile, filesize('../dbd/model.json'));
+  fclose($dbdfile);
+  
+  $dbd = json_decode($dbdjson);
+  
+  $mdtables = $dbd->tables;
+  $mdliens = $dbd->liens;
+  
 	if (strcmp($input->table,"")!=0)
 	{
-		for($i=0; $i<count($input->tables); $i++)
+		for($i=0; $i<count($mdtables); $i++)
 		{
-			if (strcmp($input->tables[$i]->nom, $input->table)==0)
+			if (strcmp($mdtables[$i]->nom, $input->table)==0)
 				$numtable = $i;		
 		}
 	}	  
@@ -85,16 +94,16 @@ try {
 	  $colonnes ="";
 	  $liens=array();
 
-		for($i=0; $i<count($input->tables[$numtable]->champs); $i++) 
+		for($i=0; $i<count($mdtables[$numtable]->champs); $i++) 
 		{
-			$str = $input->tables[$numtable]->champs[$i]->nom;
-			$typ = $input->tables[$numtable]->champs[$i]->typ;
+			$str = $mdtables[$numtable]->champs[$i]->nom;
+			$typ = $mdtables[$numtable]->champs[$i]->typ;
 			//$posp = strpos($str, ".");
 			if (strcmp($typ,"pk")==0)
 				$colonnes = "count(" . $str . ")"; 		
 		}
 		
-	  $query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
+	  $query = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '` T1';
 	  $query = $query . ' WHERE T1.customid = ' . $input->bouticid; 
 	  if (strcmp($input->selcol, "")!=0)
 			$query = $query . ' AND T1.' . $input->selcol . ' = ' . $input->selid;
@@ -120,12 +129,12 @@ try {
 	  $orderby = array();
 	  $pk="";
 
-		for($i=0; $i<count($input->tables[$numtable]->champs); $i++) 
+		for($i=0; $i<count($mdtables[$numtable]->champs); $i++) 
 		{
-			$str = $input->tables[$numtable]->champs[$i]->nom;
-			$typ = $input->tables[$numtable]->champs[$i]->typ;
-			$sens = $input->tables[$numtable]->champs[$i]->sens;
-			$ordre = $input->tables[$numtable]->champs[$i]->ordre;
+			$str = $mdtables[$numtable]->champs[$i]->nom;
+			$typ = $mdtables[$numtable]->champs[$i]->typ;
+			$sens = $mdtables[$numtable]->champs[$i]->sens;
+			$ordre = $mdtables[$numtable]->champs[$i]->ordre;
 			//$posp = strpos($str, ".");
 			if (strcmp($typ,"fk")!=0)
 			{
@@ -142,22 +151,22 @@ try {
 				}
 				if (strcmp($typ,"pk")==0)
 				{
-					$pk = $input->tables[$numtable]->champs[$i]->nom;				
+					$pk = $mdtables[$numtable]->champs[$i]->nom;				
 				}	
 			}
 		  else 
 			{
-				for($j=0; $j<count($input->liens); $j++) 
+				for($j=0; $j<count($mdliens); $j++) 
 				{
-					if ((strcmp($input->liens[$j]->srctbl, $input->tables[$numtable]->nom)==0) && (strcmp($input->liens[$j]->srcfld, $input->tables[$numtable]->champs[$i]->nom)==0))
+					if ((strcmp($mdliens[$j]->srctbl, $mdtables[$numtable]->nom)==0) && (strcmp($mdliens[$j]->srcfld, $mdtables[$numtable]->champs[$i]->nom)==0))
 					{
-						$nomlien = $input->liens[$j]->nom;
-						for ($k=0; $k<count($input->tables); $k++)
+						$nomlien = $mdliens[$j]->nom;
+						for ($k=0; $k<count($mdtables); $k++)
 						{
-							if (strcmp($input->tables[$k]->nom, $input->liens[$j]->dsttbl)==0)
-								$fld = $input->tables[$k]->cs;
+							if (strcmp($mdtables[$k]->nom, $mdliens[$j]->dsttbl)==0)
+								$fld = $mdtables[$k]->cs;
 						}
-						$tblsrclien = $input->liens[$j]->srctbl;
+						$tblsrclien = $mdliens[$j]->srctbl;
 						$lelien = new Lien($nomlien, $tblsrclien);
 					}
 				}
@@ -187,28 +196,28 @@ try {
 				} 		
 			}
 	  	$colonnes = $colonnes . $str;
-	  	if ($i != count($input->tables[$numtable]->champs)-1)
+	  	if ($i != count($mdtables[$numtable]->champs)-1)
 	  		$colonnes = $colonnes . ', ';
 		}
 		
-	  $query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1'; 
+	  $query = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '` T1'; 
 	  $addwhere ="";
 	  
 	  for ($i=0; $i<count($liens); $i++)
 		{
-			for ($j=0; $j<count($input->liens); $j++)
+			for ($j=0; $j<count($mdliens); $j++)
 			{
-				if (strcmp($input->liens[$j]->nom, $liens[$i]->nom)==0)
+				if (strcmp($mdliens[$j]->nom, $liens[$i]->nom)==0)
 				{
-					if(strcmp($input->liens[$j]->srctbl, $liens[$i]->srctbl)==0)
+					if(strcmp($mdliens[$j]->srctbl, $liens[$i]->srctbl)==0)
 					{
-						//$query = $query . ',`' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2);
-						if (strcmp($input->liens[$j]->join, "ij") == 0)
-							$addwhere = $addwhere . ' INNER JOIN `' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
-						else if (strcmp($input->liens[$j]->join, "rj") == 0)
-							$addwhere = $addwhere . ' RIGHT JOIN `' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
-						else if (strcmp($input->liens[$j]->join, "lj") == 0)
-							$addwhere = $addwhere . ' LEFT JOIN `' . $input->liens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $input->liens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $input->liens[$j]->dstfld;
+						//$query = $query . ',`' . $mdliens[$j]->dsttbl . '` T' . strval($i + 2);
+						if (strcmp($mdliens[$j]->join, "ij") == 0)
+							$addwhere = $addwhere . ' INNER JOIN `' . $mdliens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $mdliens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $mdliens[$j]->dstfld;
+						else if (strcmp($mdliens[$j]->join, "rj") == 0)
+							$addwhere = $addwhere . ' RIGHT JOIN `' . $mdliens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $mdliens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $mdliens[$j]->dstfld;
+						else if (strcmp($mdliens[$j]->join, "lj") == 0)
+							$addwhere = $addwhere . ' LEFT JOIN `' . $mdliens[$j]->dsttbl . '` T' . strval($i + 2) . ' ON T1.' . $mdliens[$j]->srcfld . '=T' . strval($i + 2) . '.' . $mdliens[$j]->dstfld;
 						
 					}
 				}
@@ -241,7 +250,7 @@ try {
 			while ($row = $result->fetch_row()) 
 		  {	
 		  	$arm = array();
-				for($i=0; $i<count($input->tables[$numtable]->champs); $i++) 
+				for($i=0; $i<count($mdtables[$numtable]->champs); $i++) 
 				{
 					array_push($arm, $row[$i]);
 				}
@@ -257,14 +266,14 @@ try {
   if (strcmp($input->action,"rempliroption") == 0)
   {
     
- 		for ($i=0;$i<count($input->tables[$numtable]->champs);$i++)
-			if (strcmp($input->tables[$numtable]->champs[$i]->typ, "pk")== 0)
-				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
+ 		for ($i=0;$i<count($mdtables[$numtable]->champs);$i++)
+			if (strcmp($mdtables[$numtable]->champs[$i]->typ, "pk")== 0)
+				$clep = $mdtables[$numtable]->champs[$i]->nom; 		
 
-  	$query = 'SELECT ' . $clep . ', ' . $input->colonne . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
+  	$query = 'SELECT ' . $clep . ', ' . $input->colonne . ' FROM `' . $mdtables[$numtable]->nom . '`'; 
   	$query = $query . ' WHERE customid = ' . $input->bouticid . ' OR ' . $clep . ' = 0';
   	
-		if (strcmp($input->tables[$numtable]->nom, "statutcmd") == 0 ) 
+		if (strcmp($mdtables[$numtable]->nom, "statutcmd") == 0 ) 
 	  	$query = $query . ' AND actif = 1';
   	//error_log($query);
 		$arr=array();	
@@ -287,14 +296,14 @@ try {
   
   if (strcmp($input->action,"insertrow") == 0)
   {
-  	$query = 'INSERT INTO `' . $input->tables[$numtable]->nom . '`(';
+  	$query = 'INSERT INTO `' . $mdtables[$numtable]->nom . '`(';
   	$query = $query . 'customid, ';
 		for($i=0;$i<count($input->row);$i++) 
 		{  	
 			if (strcmp($input->row[$i]->type,"ref")==0)
 			{
 				$colonnes = "count(*)"; 						
-			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '` T1';
 			  $subquery = $subquery . ' WHERE T1.customid = ' . $input->bouticid; 
 				$subquery = $subquery . ' AND T1.' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
 				//error_log($subquery);
@@ -311,7 +320,7 @@ try {
 			if (strcmp($input->row[$i]->type,"email")==0)
 			{
 				$colonnes = "count(*)"; 						
-			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '` T1';
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '` T1';
 				$subquery = $subquery . ' WHERE T1.' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
 				//error_log($subquery);
 				if ($result = $conn->query($subquery)) 
@@ -356,21 +365,21 @@ try {
   if (strcmp($input->action,"getvalues") == 0)
   {
     
- 		for ($i=0;$i<count($input->tables[$numtable]->champs);$i++)
-			if (strcmp($input->tables[$numtable]->champs[$i]->typ, "pk")== 0)
-				$clep = $input->tables[$numtable]->champs[$i]->nom; 		
+ 		for ($i=0;$i<count($mdtables[$numtable]->champs);$i++)
+			if (strcmp($mdtables[$numtable]->champs[$i]->typ, "pk")== 0)
+				$clep = $mdtables[$numtable]->champs[$i]->nom; 		
 
   	$colonnes ="";
 	  $liens=array();
-		for($i=0; $i<count($input->tables[$numtable]->champs); $i++) 
+		for($i=0; $i<count($mdtables[$numtable]->champs); $i++) 
 		{
-			$str = $input->tables[$numtable]->champs[$i]->nom;
+			$str = $mdtables[$numtable]->champs[$i]->nom;
 			$colonnes = $colonnes . '`' . $str . '`';
-			if ($i != count($input->tables[$numtable]->champs)-1)
+			if ($i != count($mdtables[$numtable]->champs)-1)
 	  		$colonnes = $colonnes . ', ';
 		}
   	
-  	$query = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`'; 
+  	$query = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '`'; 
   	$query = $query . ' WHERE ' . $clep . '=' . $input->idtoup . ' AND customid = ' . $input->bouticid;
   	
   	//error_log($query);
@@ -381,7 +390,7 @@ try {
 		{
 			if ($row = $result->fetch_row()) 
 		  {	
-		  	for($i=0; $i<count($input->tables[$numtable]->champs); $i++)
+		  	for($i=0; $i<count($mdtables[$numtable]->champs); $i++)
 		  	{
 					array_push($arr, html_entity_decode ($row[$i]));
 				}
@@ -393,13 +402,13 @@ try {
   
   if (strcmp($input->action,"updaterow") == 0)
   {
-  	$query = 'UPDATE `' . $input->tables[$numtable]->nom . '` SET ';
+  	$query = 'UPDATE `' . $mdtables[$numtable]->nom . '` SET ';
 		for($i=0;$i<count($input->row);$i++) 
 		{
 			if (strcmp($input->row[$i]->type,"ref")==0)
 			{
 				$colonnes = "count(*)"; 						
-			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`';
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '`';
 			  $subquery = $subquery . ' WHERE customid = ' . $input->bouticid;
 			  $subquery = $subquery . ' AND ' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"'; 
 		  	$subquery = $subquery . ' AND ' . $input->colonne . '!=' . $input->idtoup;
@@ -417,7 +426,7 @@ try {
 			if (strcmp($input->row[$i]->type,"email")==0)
 			{
 				$colonnes = "count(*)"; 						
-			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $input->tables[$numtable]->nom . '`';
+			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '`';
 			  $subquery = $subquery . ' WHERE ' . $input->row[$i]->nom . ' = "' . $input->row[$i]->valeur . '"';
 		  	$subquery = $subquery . ' AND ' . $input->colonne . '!=' . $input->idtoup;
 				//error_log($subquery);
@@ -759,7 +768,7 @@ try {
       array("SIZE_IMG", "smallimg", "bigimg ou smallimg"),
       array("CMPT_CMD", "0", "Compteur des références des commandes"),
       array("MONEY_SYSTEM", "STRIPE MARKETPLACE", ""),
-      array("STRIPE_ACCOUNT_ID", $_SESSION['STRIPE_ACCOUNT_ID'], "ID Compte connecté Stripe"),
+      array("STRIPE_ACCOUNT_ID", "", "ID Compte connecté Stripe"),
     );
 
     for($i=0; $i<count($parametres); $i++)

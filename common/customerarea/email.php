@@ -15,9 +15,9 @@
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure"/>
       <div id="workspace" class="spacemodal">
-        <img id='illus2' src='img/illustration_2.png' class="elemcb" />
+        <img id='illus2' src='img/illustration_2.png' class="elemcb epure" />
         <div class="modal-content-mainmenu elemcb">
           <div class="modal-header-cb">
             <h5 class="modal-title-cb">INFORMATION</h5>
@@ -218,7 +218,7 @@
             </div>
          </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class="epure"/>
     </div>
   </body>
   <script type="text/javascript" >

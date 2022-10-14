@@ -2,7 +2,19 @@
 * {
   touch-action: manipulation;
 }
+
+@media ((orientation: landscape) or (width > 1280px)) and ((orientation: portrait) or (height > 640px)) 
+{
+  .nav-tabs
+  {
+    padding-left: 60px !important;
+  }
   
+  #closemenu
+  {
+    display: none;
+  }
+}
   
 @media ((orientation: portrait) and (width < 1280px)) or ((orientation: landscape) and (height < 640px)) 
 {
@@ -60,6 +72,7 @@
     min-width: 0px !important;
     transition: all 0.25s;
     width: 0px;
+    white-space: nowrap;
   }
   
   .page-content
@@ -74,7 +87,29 @@
     margin: 8px;
     float: left;
   }
-
+  
+  .nav-tabs
+  {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  
+  .tbl
+  {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+  
+  .mobilehcenter
+  {
+    margin-left: 15%;
+  }
+  
+  #logopblid
+  {
+    margin-left: 26% !important;
+  }
+  
 }
 
 #sidebarico
@@ -432,8 +467,8 @@ table tbody td {
 
 .nav-tabs
 {
+  padding-left: 60px;
   border-bottom: 1px solid black !important;
-  padding-left: 60px !important;
 }
 
 .nav-menu > .nav-item > .nav-link.active
@@ -1312,4 +1347,11 @@ div.blocsysmoney
   margin-left: 12.5%;
   margin-right: 12.5%;
   width: 75%;
+}
+
+#closemenu
+{
+  float: right;
+  margin-right: 5%;
+  margin-top: 8px;
 }
