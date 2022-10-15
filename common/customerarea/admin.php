@@ -112,14 +112,16 @@
       var tables;
       var liens; 
       
-      const URLsrv = '../dbd/model.json';
-      fetch(URLsrv).then(function(result) {
-        return result.json();
-      })
-      .then(function(data) {
-        tables = data.tables;
-        liens = data.liens;
-      })
+      function reqListener () {
+        jsonresp = JSON.parse(this.responseText);
+        tables = jsonresp.tables;
+        liens = jsonresp.liens;
+      }
+      
+      const req = new XMLHttpRequest();
+      req.addEventListener("load", reqListener);
+      req.open("GET", "../dbd/model.json", false);
+      req.send();
       
       var rpp = [5,10,15,20,50,100];
       var op = ["=",">","<",">=","<=","<>","LIKE"];
@@ -198,27 +200,27 @@
       <ul class="nav nav-menu flex-column">
         <img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' />
         <li class="nav-item mobilehcenter">
-          <a class="nav-link" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' />Mes Commandes</a>
+          <a class="nav-link" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' height="25" width="25" />Mes Commandes</a>
         </li>
         <li class="nav-item mobilehcenter">
-          <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' />Mes Produits</a>
+          <a class="nav-link" id="produit-tab" data-toggle="tab" href="#produit" role="tab" aria-controls="produit" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-produits.png' height="25" width="25" />Mes Produits</a>
         </li>
         <li class="nav-item mobilehcenter">
-          <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' />Livraisons</a>
+          <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' height="25" width="25" />Livraisons</a>
         </li>
         <div class="demiinter mobilehcenter">
         </div>
         <li class="nav-item mobilehcenter">
-          <a class='nav-link' href='loginlink.php' target='_blank'><img class='picto' src='img/picto_argent.png' />Mon Argent</a>
+          <a class='nav-link' href='loginlink.php' target='_blank'><img class='picto' src='img/picto_argent.png' height="25" width="25" />Mon Argent</a>
         </li>
         <li class="nav-item mobilehcenter">
-          <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' />Espace Client</a>
+          <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' height="25" width="25" />Espace Client</a>
         </li>
         <li class="nav-item mobilehcenter">
-          <a class="nav-link" href="account.php"><img class='picto' src='img/picto_abonnement.png' />Abonnement</a>
+          <a class="nav-link" href="account.php"><img class='picto' src='img/picto_abonnement.png' height="25" width="25" />Abonnement</a>
         </li>
          <li class="nav-item mobilehcenter">
-          <a class="nav-link" href="logout.php"><img class='picto' src='img/picto_deconnexion.png' />Deconnexion</a>
+          <a class="nav-link" href="logout.php"><img class='picto' src='img/picto_deconnexion.png' height="25" width="25" />Deconnexion</a>
         </li>
       </ul>
     </div>
