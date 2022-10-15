@@ -531,8 +531,6 @@
           <div class="tab-pane" id="backoffice" role="tabpanel" aria-labelledby="backoffice-tab">
             <div class='tbl'>
               <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
-              <br><br>
-              <button class="btn btn-secondary" onclick="notifyMe()">Demander à autoriser les notifications</button>
             </div>
           </div>
           <div class="tab-pane" id="qrcode" role="tabpanel" aria-labelledby="qrcode-tab">
@@ -594,33 +592,6 @@
   	</div>
 	<script type="text/javascript" >
 	
-  	function notifyMe() 
-  	{
-      // Let's check if the browser supports notifications
-      if (!("Notification" in window)) {
-        alert("This browser does not support desktop notification");
-      }
-    
-      // Let's check whether notification permissions have already been granted
-      else if (Notification.permission === "granted") {
-        // If it's okay let's create a notification
-        const notification = new Notification("Les notifcations sont déjà activés.");
-      }
-    
-      // Otherwise, we need to ask the user for permission
-      else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(function (permission) {
-          // If the user accepts, let's create a notification
-          if (permission === "granted") {
-            const notification = new Notification("Les notifcations ont été activés.");
-          }
-        });
-      }
-    
-      // At last, if the user has denied notifications, and you
-      // want to be respectful there is no need to bother them any more.
-    }
-
 			function getnumtable(nom)
 			{
 				for (var i=0; i<tables.length; i++)
