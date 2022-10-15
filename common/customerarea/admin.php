@@ -120,7 +120,7 @@
       
       const req = new XMLHttpRequest();
       req.addEventListener("load", reqListener);
-      req.open("GET", "../dbd/model.json", false);
+      req.open("GET", "../dbd/model.json");
       req.send();
       
       var rpp = [5,10,15,20,50,100];
@@ -1905,11 +1905,17 @@
                 // Notifify new order
                 const img = 'img/pb_notificon.png';
                 const text = 'Nouvelle(s) commande(s) en attente de traitement de votre part.';
-                const notification = new Notification('Arrivage de Commande Client', { body: text, icon: img });
-                notification.onclick = function(event) 
-                {
-                  document.getElementById('commandes-tab').click();
-                }
+                navigator.serviceWorker.register('sw.js?v=1.06');
+                Notification.requestPermission(function(result) {
+                  if (result === 'granted') {
+                    navigator.serviceWorker.addEventListener('message', (event) => {
+                      document.getElementById('commandes-tab').click();
+                    });
+                    navigator.serviceWorker.ready.then(function(registration) {
+                      registration.showNotification('Arrivage de Commande Client', { body: text, icon: img });
+                    });
+                  }
+                });
                 sessionStorage.setItem('nb_commande', total);
               }
 			    	}
