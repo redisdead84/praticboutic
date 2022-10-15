@@ -143,4 +143,7 @@
         })
     }
   </script>
+  <script type="text/javascript" >
+    sessionStorage.clear();
+  </script>
 </html>

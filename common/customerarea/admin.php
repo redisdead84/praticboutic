@@ -1894,24 +1894,22 @@
 			    	var total = parseInt(data[0]);
 			    	if (table == "commande")
 			    	{
-			    	  if (cmdfirst == true)
+			    	  if (sessionStorage.getItem('nb_commande') === null)
               {
-                memnbcommande = total;
-                cmdfirst = false;  
+                sessionStorage.setItem('nb_commande', total);
               }
-              else
+              if (sessionStorage.getItem('nb_commande') < total)
               {
-                if (memnbcommande < total)
+                // Notifify new order
+                const img = 'img/pb_notificon.png';
+                const text = 'Nouvelle(s) commande(s) en attente de traitement de votre part.';
+                const notification = new Notification('Arrivage de Commande Client', { body: text, icon: img });
+                notification.onclick = function(event) 
                 {
-                  // Notifify new order
-                  const img = 'img/pb_notificon.png';
-                  const text = 'Nouvelle(s) commande(s) en attente de traitement de votre part.';
-                  const notification = new Notification('Arrivage de Commande Client', { body: text, icon: img });
-                  // then
-                  memnbcommande = total;
+                  document.getElementById('commandes-tab').click();
                 }
+                sessionStorage.setItem('nb_commande', total);
               }
-			    	  memnbcommande = total;
 			    	}
 			    		
 			    	var pagination = true;
