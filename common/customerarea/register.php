@@ -25,7 +25,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/back.css?v=1.54">
+    <link rel="stylesheet" href="css/back.css?v=1.702">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -43,56 +43,61 @@
         <div id="loadid" class="spinner-border" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
-        <img id='illus3' src='img/illustration_3.png' style="display: none;" class='epure'/>
-        <div id='mainform' class="customform" style="display: none;">
-          <p class="center middle title">
-            Formulaire d'inscription
-          </p>
-          <form id="signup-form" onsubmit="return bakinfo()" method="post" action="registration.php" autocomplete="on">
-            <div class="twocol">
-              <div style="display: none;" class="param">
-                <input class="paramfieldc" id="courriel" name="courriel" type="email" value="<?php echo $_SESSION['verify_email'];?>" placeholder="Courriel" maxlength="255" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Créez votre mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
-                <i class="bi bi-eye-slash bi-eye eyeico" id="togglepass"></i><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc inputeye" id="passconf" maxlength="255" name="passconf" type="password" placeholder="Mot de passe(confirmation)" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
-                <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br>
-              </div>
-              <div class="param rwse">
-                <div class="param center"><input class="paramfieldr center" type="radio" id="homme" name="qualite" value="Monsieur" required><label class="paramfieldr" for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label class="paramfieldr">&nbsp;Madame&nbsp;</label></div><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="nom" name="nom" type="text" placeholder="Nom" value="" maxlength="60" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="prenom" name="prenom" type="text" placeholder="Prénom" value="" maxlength="60" required /><br>
-              </div>
-              <div class="param epure">
-                <div class="paramfieldb" id="blank" name="blank"></div><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="adr1" name="adr1" type="text" placeholder="Adresse (ligne 1)" value="" maxlength="150" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="adr2" name="adr2" type="text" placeholder="Adresse (ligne 2)" value="" maxlength="150" /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="cp" name="cp" type="text" placeholder="Code Postal" value="" maxlength="5" pattern="[0-9]{5}" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="ville" name="ville" type="text" placeholder="Ville" value="" maxlength="50" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="tel" name="tel" type="text" placeholder="Téléphone" value="" autocomplete="tel" maxlength="60" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Il faut un numéro de téléphone français valide" /><br>
-              </div>
-              <div class="param rwc">
-                <input class="butc regsubmit" type="submit" value="INSCRIPTION" autofocus /><br>
-              </div>
+        <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id='filetape2' src="img/fil_Page_2.png" class="fileelem" />
+          <div class="filecontainer">
+            <img id='illus3' src='img/illustration_3.png' class='epure'/>
+            <div id='mainform' class="customform">
+              <p class="center middle title">
+                Formulaire d'inscription
+              </p>
+              <form id="signup-form" onsubmit="return bakinfo()" method="post" action="registration.php" autocomplete="on">
+                <div class="twocol">
+                  <div class="param rwse">
+                    <div class="param center"><input class="paramfieldr center" type="radio" id="homme" name="qualite" value="Monsieur" required><label class="paramfieldr" for="homme">&nbsp;Monsieur&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="femme" name="qualite" value="Madame"><label class="paramfieldr">&nbsp;Madame&nbsp;</label></div><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="nom" name="nom" type="text" placeholder="Nom" value="" maxlength="60" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="prenom" name="prenom" type="text" placeholder="Prénom" value="" maxlength="60" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="adr1" name="adr1" type="text" placeholder="Adresse (ligne 1)" value="" maxlength="150" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="adr2" name="adr2" type="text" placeholder="Adresse (ligne 2)" value="" maxlength="150" /><br>
+                  </div>
+                  <div class="param epure">
+                    <div class="paramfieldb" id="blank" name="blank"></div><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="cp" name="cp" type="text" placeholder="Code Postal" value="" maxlength="5" pattern="[0-9]{5}" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="ville" name="ville" type="text" placeholder="Ville" value="" maxlength="50" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="tel" name="tel" type="text" placeholder="Téléphone" value="" autocomplete="tel" maxlength="60" pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[0-9](?:[\.\-\s]?\d\d){4}$" title="Il faut un numéro de téléphone français valide" /><br>
+                  </div>
+                  <div style="display: none;" class="param">
+                    <input class="paramfieldc" id="courriel" name="courriel" type="email" value="<?php echo $_SESSION['verify_email'];?>" placeholder="Courriel" maxlength="255" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc inputeye" id="pass" maxlength="255" name="pass" type="password" placeholder="Créez votre mot de passe" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
+                    <i class="bi bi-eye-slash bi-eye eyeico" id="togglepass"></i><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc inputeye" id="passconf" maxlength="255" name="passconf" type="password" placeholder="Mot de passe(confirmation)" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
+                    <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br>
+                  </div>
+                  <div class="param rwc">
+                    <input class="butc regsubmit" type="submit" value="CONTINUER" autofocus /><br>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
@@ -130,8 +135,7 @@
       }
         
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("mainform").style.display = "none";
-      document.getElementById("illus3").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.setItem('pb_reg_courriel', document.getElementById("courriel").value);
       if (document.getElementById("homme").checked == true)
         sessionStorage.setItem('pb_reg_qualite', "Monsieur");
@@ -166,8 +170,7 @@
       document.getElementById("ville").value = sessionStorage.getItem('pb_reg_ville');
       document.getElementById("tel").value = sessionStorage.getItem('pb_reg_tel');
       document.getElementById("loadid").style.display = "none";
-      document.getElementById("mainform").style.display = "block";
-      document.getElementById("illus3").style.display = "block";
+      document.getElementById("pagecontainerid").style.display = "flex";
     }
   </script>
   <script type="text/javascript" >
@@ -176,8 +179,7 @@
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("mainform").style.display = "none";
-        document.getElementById("illus3").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "none";
         window.location.href ='exit.php';
       }
     }

@@ -18,7 +18,7 @@ $dotenv->load();
     <title>Inscription</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.51">
+    <link rel="stylesheet" href="css/back.css?v=1.705">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -37,36 +37,32 @@ $dotenv->load();
         <div id="loadid" class="spinner-border" role="status" style="display: none;">
           <span class="sr-only">Loading...</span>
         </div>
-        <div id="welcome" class='elemcb epure'>
-          <p class='midle center title welcome'>Bienvenue</p>
-          <p class='center midle subtitle'>Envie de commencer l'expérience</p>
-          <p class='center midle headerlist'>Avant de débuter l'aventure assurez vous de disposer :</p>
-          <li>D'un courriel</li>
-          <li>D'une carte bancaire</li>
-          <li>D'un relevé d'identité bancaire</li>
-          <li>D'une pièce d'identité</li>
-          <li>D'un justificatif de domicile</li>
+        <div class="pagecontainer">
+          <img id='filetape1' src="img/fil_Page_1.png" style="display: none;" class="fileelem" />
+          <div class="filecontainer">
+            <div id="mainmenu" class="modal-content-mainmenu" style="display: none;">
+              <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
+                <div class="modal-header-cb">
+                  <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
+                  <h6 class="modal-title modal-title-cb">BIENVENUE</h6>
+                </div>
+                <div class="modal-body-mainmenu modal-body-cb">
+                  <p class="txtintro">Pour débuter l'aventure, je saisie mon courriel.</p>
+                  <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
+                  <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
+                  <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
+                </div>
+                <input type="submit" class="btn btn-primary enlarged btn-valider g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="INSCRIPTION" />
+                <div class="modal-footer-cb">
+                  <a class="mr-auto mdfaddlink forgotpwd" href="./index.php">J'ai déjà un compte</a>
+                  <div id="g_id_onload" data-client_id="<?php echo $_ENV['GOOGLE_CLIENTID']; ?>" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+                  <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
+                </div>
+              </form>
+            </div>
+            <img id='illus2' src='img/illustration_2.png' class='elemcb epure'/>
+          </div>
         </div>
-        <div id="mainmenu" class="modal-content-mainmenu" style="display: none;">
-          <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
-            <div class="modal-header-cb">
-              <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
-              <h6 class="modal-title modal-title-cb">INSCRIPTION</h6>
-            </div>
-            <div class="modal-body-mainmenu modal-body-cb">
-              <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
-              <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
-              <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
-            </div>
-            <input type="submit" class="btn btn-primary enlarged btn-valider g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="INSCRIPTION" />
-            <div class="modal-footer-cb">
-              <input class="btn btn-secondary enlarged btn-annuler" type="button" onclick="window.location='./index.php'" value="RETOUR" />
-              <div id="g_id_onload" data-client_id="<?php echo $_ENV['GOOGLE_CLIENTID']; ?>" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-              <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
-            </div>
-          </form>
-        </div>
-        <img id='illus2' src='img/illustration_2.png' class='elemcb epure'/>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure' />
     </div>
@@ -93,14 +89,14 @@ $dotenv->load();
     {
       document.getElementById("email").value = sessionStorage.getItem('pb_reg_email');
       document.getElementById("loadid").style.display = "none";
-      document.getElementById("welcome").style.display = "block";
+      document.getElementById("filetape1").style.display = "block";
       document.getElementById("mainmenu").style.display = "block";
       document.getElementById("illus2").style.display = "block";
     }
     function cancel() 
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("welcome").style.display = "none";
+      document.getElementById("filetape1").style.display = "none";
       document.getElementById("mainmenu").style.display = "none";
       document.getElementById("illus2").style.display = "none";
       sessionStorage.removeItem('pb_reg_email');
@@ -111,7 +107,7 @@ $dotenv->load();
     function onSubmit(token) 
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("welcome").style.display = "none";
+      document.getElementById("filetape1").style.display = "none";
       document.getElementById("mainmenu").style.display = "none";
       document.getElementById("illus2").style.display = "none";
       if (bakinfo() == false)
@@ -126,7 +122,7 @@ $dotenv->load();
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("welcome").style.display = "none";
+        document.getElementById("filetape1").style.display = "none";
         document.getElementById("mainmenu").style.display = "none";
         document.getElementById("illus2").style.display = "none";
         window.location.href ='exit.php';
@@ -170,7 +166,6 @@ $dotenv->load();
           else 
           {
             document.getElementById("loadid").style.display = "block";
-            document.getElementById("welcome").style.display = "none";
             document.getElementById("mainmenu").style.display = "none";
             document.getElementById("illus2").style.display = "none";
             window.location = data;

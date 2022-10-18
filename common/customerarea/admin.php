@@ -169,7 +169,30 @@
     inittable("table8", "table8", "barlivr");
     inittable("ihm9", "table9", "commande");
     inittable("table11", "table11", "statutcmd");
-    
+    if (init == "oui")
+    {
+      init = "non";
+      initdone;
+      var modal = $('.modal');
+      $('.modal-title').html('Félicitations');
+      modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
+      $('.modal').modal('show');
+      $('.modal').on('hidden.bs.modal', function (event) {
+        $('.modal').off('hidden.bs.modal');
+        showStripeAlert();
+      })
+    }
+    else 
+    {
+      showStripeAlert();
+    }
+
+    startWorkerCommande();
+    initswipe();
+  });
+  
+  function showStripeAlert()
+  {
     var charge = <?php if (($sca !== "") && ($stripe->accounts->retrieve($sca, [])->charges_enabled == true)) echo 'true'; else echo 'false'; ?>;
     if (charge == false)
     {
@@ -178,21 +201,7 @@
       modal.find('.modal-body').text('Le paiement par Carte Bancaire Stripe n\'est pas actif ! Vous ne pourrez pas recevoir de paiement par Carte bancaire. Pour l\'activer rendez-vous dans l\'onglet Mon Argent de l\'arrière Boutic et effectuez les actions nécessaires.');
       $('.modal').modal('show');
     }
-    else 
-    {
-      if (init == "oui")
-      {
-        init = "non";
-        initdone;
-        var modal = $('.modal');
-        $('.modal-title').html('Félicitations');
-        modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
-        $('.modal').modal('show');
-      }
-    }
-    startWorkerCommande();
-    initswipe();
-  });
+  }
 
   </script>
     <div class="vertical-nav" id="sidebar">
@@ -397,6 +406,7 @@
                   <label for="choixpaiementid">Choix de paiement : </label>
                   <select data-lbl="Choix de paiement" class="fieldparam" id="choixpaiementid" oninput="paramenblbtnvc(this)"  >
                     <option value='COMPTANT'>En ligne par CB</option>
+                    <option value='LIVRAISON'>En direct par vos moyens</option>
                     <option value='TOUS'>En ligne & En direct</option>
                   </select>
                 </div>

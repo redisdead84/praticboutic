@@ -44,46 +44,60 @@
         <div id="loadid" class="spinner-border" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
-        <img id='illus6' src='img/illustration_6.png' style="display: none;" class='epure'/>
-        <main class="fcb">
-          <div id='mainform' class="customform" style="display: none;">
-            <p class="center middle title">
-              Paramétrage de l'achat
-            </p>
-            <form id="signup-form" onsubmit="bakinfo()" method="post" action="confboutic.php" autocomplete="on">
-              <div class="">
-                <div class="param">
-                  <input class="" id="surplaceid" name="surplace" type="checkbox" title="Logo automatique" autocomplete="on" checked />
-                  <label class="paramlabellf" for="surplaceid" title="facultatif">Je dispose de tables pour la restauration sur place</label>
-                </div>
-                <div class="param">
-                  <label for="chxmethodeid">Méthode de vente : </label>
-                    <select class="paramfieldc" id="chxmethodeid" name="chxmethode" value="Emporter & Livrer">
-                      <option value='EMPORTER'>Emporter</option>
-                      <option value='LIVRER'>Livrer</option>
-                      <option value='TOUS' selected>Emporter & Livrer</option>
-                    </select><br>
-                </div>
-                <div class="param">
-                  <input class="" id="caisseid" name="caisse" type="checkbox" title="Caisse" autocomplete="on" value="CAISSE" />
-                  <label class="paramlabellf" for="caisseid" title="">Je propose également de payer au comptant (espèces, tickets restaurant, chèques ...)</label>
-                </div>
-                <div class="param">
-                  <label id="mntmincmdidlbl" for="mntmincmd">Montant Commande Minimum : </label>
-                  <input class="paramfieldc inpprix" id="mntmincmdid" type='number' step='0.01' min='0' name="mntmincmd" placeholder="Montant minimum de commande" value="1.00" /><br>
-                </div>
-                <div class="param rwse">
-                  <label id="validsmslbl" for="validsms">Validation Commande par SMS : </label>
-                  <div class="param center"><div class="param center"><input class="paramfieldc center" type="radio" id="smson" name="validsms" value="on" required checked><label class="paramfieldr" for="validsmson">&nbsp;Activé&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="smsoff" name="validsms" value="off"><label class="paramfieldr">&nbsp;Désactivé&nbsp;</label></div></div><br>
-                </div>
+        <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id='filetape4' src="img/fil_Page_4.png" class="fileelem" />
+          <div class="filecontainer">
+            <img id='illus6' src='img/illustration_6.png' style="display: none;" class='epure'/>
+            <main class="fcb">
+              <div id='mainform' class="customform">
+                <p class="center middle title">
+                  Génial ! C'est créé <br> JE PARAMÈTRE MA <span style="color:#e2007a">PRATIC</span><span style="color:#6c757d">BOUTIC</span>
+                </p>
+                <form id="signup-form" onsubmit="bakinfo()" method="post" action="confboutic.php" autocomplete="on">
+                  <div class="">
+                    <div class="param">
+                      <label for="activiteid">Mon activité : </label>
+                      <select class="paramfieldc" id="activiteid" name="activite" value="">
+                        <option value='' selected></option>
+                        <option value='COMMERCE'>Commerce</option>
+                        <option value='RESTAURATION'>Restauration</option>
+                        <option value='AUTRES'>Autres</option>
+                      </select><br>
+                    </div>
+                    <div class="param">
+                      <label for="chxmethodeid">Ma méthode de vente : </label>
+                      <select class="paramfieldc" id="chxmethodeid" name="chxmethode" value="Emporter & Livrer">
+                        <option value='EMPORTER'>Emporter</option>
+                        <option value='LIVRER'>Livrer</option>
+                        <option value='TOUS' selected>Emporter & Livrer</option>
+                      </select><br>
+                    </div>
+                    <div class="param">
+                      <label for="chxpaieid">Ma méthode de paiement : </label>
+                      <select class="paramfieldc" id="chxpaieid" name="chxpaie" value="En ligne & En direct">
+                        <option value='COMPTANT'>En ligne par CB</option>
+                        <option value='LIVRAISON'>En direct par vos moyens</option>
+                        <option value='TOUS' selected>En ligne & En direct</option>
+                      </select><br>
+                    </div>
+                    <div class="param">
+                      <label id="mntmincmdidlbl" for="mntmincmd">Mon montant de commande minimum : </label>
+                      <input class="paramfieldc inpprix" id="mntmincmdid" type='number' step='0.01' min='0' name="mntmincmd" placeholder="Montant minimum de commande" value="1.00" /><br>
+                    </div>
+                    <div class="param rwse">
+                      <label id="validsmslbl" for="validsms">Ma validation de commande par SMS : </label>
+                      <div class="param center"><div class="param center"><input class="paramfieldc center" type="radio" id="smson" name="validsms" value="on" required checked><label class="paramfieldr" for="validsmson">&nbsp;Activé&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="smsoff" name="validsms" value="off"><label class="paramfieldr">&nbsp;Désactivé&nbsp;</label></div></div><br>
+                    </div>
+                  </div>
+                  <div class="param rwc margetop">
+                    <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="RETOUR" />
+                    <input class="butc btn-msprimary" id="msvalid" type="submit" value="CONTINUER" autofocus /><br><br>
+                  </div>
+                </form>
               </div>
-              <div class="param rwc margetop">
-                <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <input class="butc btn-msprimary" id="msvalid" type="submit" value="CONFIRMATION" autofocus /><br><br>
-              </div>
-            </form>
+            </main>
           </div>
-        </main>
+        </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
     </div>
@@ -92,9 +106,9 @@
     function bakinfo()
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("mainform").style.display = "none";
-      document.getElementById("illus6").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.setItem('pb_paramb_chxmethodeid', document.getElementById("chxmethodeid").value);
+      sessionStorage.setItem('pb_paramb_chxpaieid', document.getElementById("chxpaieid").value);
       sessionStorage.setItem('pb_paramb_mntmincmdid', document.getElementById("mntmincmdid").value);
       if (document.getElementById("smson").checked == true)
         sessionStorage.setItem('pb_reg_validsms', "on");
@@ -106,6 +120,8 @@
     {
       if (sessionStorage.getItem('pb_paramb_chxmethodeid') !== null)
         document.getElementById("chxmethodeid").value = sessionStorage.getItem('pb_paramb_chxmethodeid');
+      if (sessionStorage.getItem('pb_paramb_chxpaieid') !== null)
+        document.getElementById("chxpaieid").value = sessionStorage.getItem('pb_paramb_chxpaieid');
       if (sessionStorage.getItem('pb_paramb_mntmincmdid') !== null)
         document.getElementById("mntmincmdid").value = sessionStorage.getItem('pb_paramb_mntmincmdid');
       if (sessionStorage.getItem('pb_reg_validsms')  == "on")
@@ -119,8 +135,7 @@
         document.getElementById("smsoff").checked = true;
       }
       document.getElementById("loadid").style.display = "none";
-      document.getElementById("mainform").style.display = "block";
-      document.getElementById("illus6").style.display = "block";
+      document.getElementById("pagecontainerid").style.display = "flex";
     }
   
     function cancel() 
@@ -136,8 +151,7 @@
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("mainform").style.display = "none";
-        document.getElementById("illus6").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "none";
         window.location.href ='exit.php';
       }
     }

@@ -43,40 +43,45 @@
         <div id="loadid" class="spinner-border" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
-        <div id='mainform' class="customform" style="display: none;">
-          <p class="center middle title">
-            Création de votre <span style="color:#e2007a">pratic</span><span style="color:#6c757d">boutic</span>
-          </p>
-          <form id="signup-form" onsubmit="bakinfo()" method="post" action="initboutic.php" autocomplete="on">
-            <div class="">
-              <div class="param">
-                <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
-              </div>
-              <div class="param">
-                <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
-              </div>
-              <div id="bloclogoid">
-                <label class="paramfieldlf" title="facultatif">Logo de la boutic :</label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" title="Si aucun le nom de la boutic sera affiché" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
-                <div class="frameimg">
-                  <img id="artlogo" class="imgart" src="" alt="">
-                  <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
+        <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id='filetape3' src="img/fil_Page_3.png" class="fileelem" />
+          <div class="filecontainer">
+            <div id='mainform' class="customform">
+              <p class="center middle title">
+                Super ! C'est enregistré <br> JE CRÉE MA <span style="color:#e2007a">PRATIC</span><span style="color:#6c757d">BOUTIC</span>
+              </p>
+              <form id="signup-form" onsubmit="bakinfo()" method="post" action="initboutic.php" autocomplete="on">
+                <div class="twocol">
+                  <div class="param">
+                    <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
+                  </div>
+                  <div class="param">
+                    <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>
+                  </div>
+                  <div id="bloclogoid">
+                    <label class="paramfieldlf" title="facultatif">Logo de la boutic :</label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" title="Si aucun le nom de la boutic sera affiché" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
+                    <div class="frameimg">
+                      <img id="artlogo" class="imgart" src="" alt="">
+                      <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
+                    </div>
+                  </div>
+                  <div class="param">
+                    <input class="" id="autologo" name="autologo" type="checkbox" title="Logo automatique" autocomplete="on" />
+                    <label class="paramlabellf" for="autologo" title="facultatif">Je n'ai pas de logo, création automatique de logo</label>
+                  </div>
+                  <div class="param rwc2">
+                    <input class="btn-nbsecondary" type="button" onclick="javascript:cancel()" value="RETOUR" />
+                    <input class="btn-nbprimary" type="submit" name="CONTINUER" value="CONFIRMATION" autofocus />
+                  </div>
                 </div>
-              </div>
-              <div class="param">
-                <input class="" id="autologo" name="autologo" type="checkbox" title="Logo automatique" autocomplete="on" />
-                <label class="paramlabellf" for="autologo" title="facultatif">Je n'ai pas de logo, création automatique de logo</label>
-              </div>
-              <div class="param rwc2">
-                <input class="btn-nbsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <input class="btn-nbprimary" type="submit" name="continuer" value="CONFIRMATION" autofocus />
-              </div>
+              </form>
             </div>
-          </form>
+            <!--<img id='illus4' src='img/illustration_4.png' style="display: none;" class='epure'/>-->
+          </div>
         </div>
-        <img id='illus4' src='img/illustration_4.png' style="display: none;" class='epure'/>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
     </div>
@@ -85,8 +90,7 @@
     function bakinfo()
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("mainform").style.display = "none";
-      document.getElementById("illus4").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.setItem('pb_initb_aliasboutic', document.getElementById("aliasboutic").value);
       sessionStorage.setItem('pb_initb_nom', document.getElementById("nom").value);
       sessionStorage.setItem('pb_initb_logo', document.getElementById("artlogo").src);
@@ -104,15 +108,13 @@
       }
       document.getElementById("email").value = sessionStorage.getItem('pb_initb_email');
       document.getElementById("loadid").style.display = "none";
-      document.getElementById("mainform").style.display = "block";
-      document.getElementById("illus4").style.display = "block";
+      document.getElementById("pagecontainerid").style.display = "flex";
     }
 
     function cancel() 
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("mainform").style.display = "none";
-      document.getElementById("illus4").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.removeItem('pb_initb_aliasboutic');
       // Supprimer le client ?
       window.location.href = './register.php';
@@ -209,8 +211,7 @@
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("mainform").style.display = "none";
-        document.getElementById("illus4").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "none";
         window.location.href ='exit.php';
       }
     }

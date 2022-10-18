@@ -31,72 +31,74 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure'/>
       <div id="workspace" class="spacemodal">
-        <div id="loadid" class="spinner-border" role="status" style="display: none;">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <img id='illus2' src='img/illustration_2.png' class="elemcb epure" style="display: block;" />
-        <div id='mainmenu' class="modal-content-mainmenu elemcb" style="display: block;">
-          <div class="modal-header-cb">
-            <h5 class="modal-title-cb">INFORMATION</h5>
-          </div>
-          <div class="modal-body-cb">
-            <?php
-              
-              $email = isset($_GET['email']) ? $_GET['email'] : '';
-              $hash = isset($_GET['hash']) ? $_GET['hash'] : '';
-              
-              $activation = 0;
-              
-              $conn = new mysqli($servername, $username, $password, $bdd);
-              if ($conn->connect_error) 
-              {
-                die("Connection failed: " . $conn->connect_error);
-              }
-              //  Récupération de l'utilisateur et de son pass hashé
-              $req = $conn->prepare('SELECT idtid, actif FROM identifiant WHERE email = ? AND hash = ? ');
-              $req->bind_param("ss", $email, $hash);
-              $req->execute();
-              $req->bind_result($idtid, $actif);
-              $resultat = $req->fetch();
-              $req->close();
-              if (strcmp($idtid, "") == 0 )
-              {
-                echo "Erreur ! Votre courriel ne peut être validé...";
-              }
-              else if($actif == '1') // Si le compte est déjà actif on prévient
-              {
-                $activation = 1;
-                echo "Votre courriel est déjà actif !";
-                $_SESSION['verify_email'] = $email;
-              }
-              else // Si ce n'est pas le cas on passe aux comparaisons
-              {
-                echo "Votre courriel a bien été validé !";
-                $q1 = "UPDATE identifiant SET actif = 1 WHERE idtid = $idtid";
-                if ($r1 = $conn->query($q1)) 
-                {
-                  if ($r1 === FALSE) 
+        <div class="pagecontainer">
+          <img id='filetape1' src="img/fil_Page_1.png" style="display: block;" class="fileelem" />
+          <div class="filecontainer">
+            <div id="loadid" class="spinner-border" role="status" style="display: none;">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <img id='illus2' src='img/illustration_2.png' class="elemcb epure" style="display: block;" />
+            <div id='mainmenu' class="modal-content-mainmenu elemcb" style="display: block;">
+              <div class="modal-body-cb">
+                <?php
+                  
+                  $email = isset($_GET['email']) ? $_GET['email'] : '';
+                  $hash = isset($_GET['hash']) ? $_GET['hash'] : '';
+                  
+                  $activation = 0;
+                  
+                  $conn = new mysqli($servername, $username, $password, $bdd);
+                  if ($conn->connect_error) 
                   {
-                    echo "Error: " . $q1 . "<br>" . $conn->error;
+                    die("Connection failed: " . $conn->connect_error);
                   }
-                  else 
+                  //  Récupération de l'utilisateur et de son pass hashé
+                  $req = $conn->prepare('SELECT idtid, actif FROM identifiant WHERE email = ? AND hash = ? ');
+                  $req->bind_param("ss", $email, $hash);
+                  $req->execute();
+                  $req->bind_result($idtid, $actif);
+                  $resultat = $req->fetch();
+                  $req->close();
+                  if (strcmp($idtid, "") == 0 )
+                  {
+                    echo "<p class='txtbig'>Erreur ! Votre courriel ne peut être validé...</p>";
+                  }
+                  else if($actif == '1') // Si le compte est déjà actif on prévient
                   {
                     $activation = 1;
+                    echo "<p class='txtbig'>Votre courriel est déjà actif !</p>";
                     $_SESSION['verify_email'] = $email;
                   }
-                }
-              }
-            ?>
-          </div>
-          <div class="modal-footer-cb">
-           <?php 
-             if ($activation == 1)
-               echo '<a href="register.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>';
-			       else 
-			         echo '<a href="reg.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>';
-			     ?>
-   		    </div>
-  		  </div>
+                  else // Si ce n'est pas le cas on passe aux comparaisons
+                  {
+                    echo "<p class='txtbig'>Votre courriel a bien été validé !</p>";
+                    $q1 = "UPDATE identifiant SET actif = 1 WHERE idtid = $idtid";
+                    if ($r1 = $conn->query($q1)) 
+                    {
+                      if ($r1 === FALSE) 
+                      {
+                        echo "Error: " . $q1 . "<br>" . $conn->error;
+                      }
+                      else 
+                      {
+                        $activation = 1;
+                        $_SESSION['verify_email'] = $email;
+                      }
+                    }
+                  }
+                ?>
+              </div>
+              <div class="modal-footer-cb">
+               <?php 
+                 if ($activation == 1)
+                   echo '<a href="register.php"><button class="btn btn-primary btn-block" type="button" value="Valider">CONTINUER</button></a>';
+    			       else 
+    			         echo '<a href="reg.php"><button class="btn btn-primary btn-block" type="button" value="Valider">CONTINUER</button></a>';
+    			     ?>
+       		    </div>
+      		  </div>
+      		</div>
+    		</div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
     </div>

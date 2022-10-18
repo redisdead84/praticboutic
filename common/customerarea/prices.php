@@ -28,7 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.52">
+    <link rel="stylesheet" href="css/back.css?v=1.704">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -44,29 +44,33 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure'/>
       <div id="workspace" class="spaceflex" data-ready="2">
-        <div id="loadid" class="spinner-border" role="status">
+        <div id="loadid" class="spinner-border" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
-        <main id="mainid" class="fcb" style="display: none;">
-          <div id="cfid" class="customform">
-            <p class="center middle title">
-              Choississez la formule d'abonnement
-            </p>
-            <div class="formulespace">
-              <img id="commissionico" class="formuleico" src="img/commission_unselected.png" onclick="toggle(this)" data-state="off">
-              <img id="engagementico" class="formuleico" src="img/engagement_unselected.png" onclick="toggle(this)" data-state="off">
-            </div>
-            <div class="param rwc centerable">
-              <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="allow()" />
-              <label for="cgv"> En cochant cette case vous accpetez <a href="javascript:bakinfo();window.location='cgv.php'">les conditions générales de vente</a></label>
-            </div>
-            <div class="param rwc grpbtnfor">
-              <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="ANNULATION" />
-              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" />
-            </div>
+        <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id='filetape5' src="img/fil_Page_5.png" class="fileelem" />
+          <div class="filecontainer">
+            <main id="mainid" class="fcb">
+              <div id="cfid" class="customform">
+                <p class="center middle title">
+                  Extra ! C'est paramétré, je choisis ma formule d'abonnement
+                </p>
+                <div class="formulespace">
+                  <img id="commissionico" class="formuleico" src="img/commission_unselected.png?v=0.2" onclick="toggle(this)" data-state="off">
+                  <img id="engagementico" class="formuleico" src="img/engagement_unselected.png?v=0.2" onclick="toggle(this)" data-state="off">
+                </div>
+                <div class="param rwc centerable">
+                  <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="allow()" />
+                  <label for="cgv">J'accepte <a href="javascript:bakinfo();window.location='cgv.php'">les conditions générales de vente</a></label>
+                </div>
+                <div class="param rwc grpbtnfor">
+                  <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="RETOUR" />
+                  <input class="butc btn-cfprimary" type="button" id="cfvalid" value="JE VALIDE !" autofocus disabled style="opacity: 0.5" />
+                </div>
+              </div>
+            </main>
           </div>
-          <img id='illus7' src='img/illustration_7.png' class='epure'/>
-        </main>
+        </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
     </div>
@@ -78,7 +82,7 @@
     function bakinfo()
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("mainid").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.setItem('pb_chxfor_engagement', document.getElementById("engagementico").getAttribute("data-state"));
       sessionStorage.setItem('pb_chxfor_commission', document.getElementById("commissionico").getAttribute("data-state"));
     }
@@ -92,13 +96,13 @@
       if (sessionStorage.getItem('pb_chxfor_commission') !== null)
         document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_chxfor_commission'));
       if (document.getElementById("engagementico").getAttribute("data-state") == "on")
-        document.getElementById("engagementico").src = "img/engagement_selected.png";
+        document.getElementById("engagementico").src = "img/engagement_selected.png?v=0.2";
       else 
-        document.getElementById("engagementico").src = "img/engagement_unselected.png";
+        document.getElementById("engagementico").src = "img/engagement_unselected.png?v=0.2";
       if (document.getElementById("commissionico").getAttribute("data-state") == "on")
-        document.getElementById("commissionico").src = "img/commission_selected.png";
+        document.getElementById("commissionico").src = "img/commission_selected.png?v=0.2";
       else 
-        document.getElementById("commissionico").src = "img/commission_unselected.png";
+        document.getElementById("commissionico").src = "img/commission_unselected.png?v=0.2";
       allow();
     }
   </script>
@@ -227,7 +231,7 @@
       if (document.getElementById("workspace").getAttribute("data-ready") == "0")
       {
         document.getElementById("loadid").style.display = "none";
-        document.getElementById("mainid").style.display = "flex";
+        document.getElementById("pagecontainerid").style.display = "flex";
         if (document.getElementById("cgvid").checked == true)
         {
           if (document.getElementById("engagementico").getAttribute("data-state") == "on")
@@ -273,14 +277,14 @@
         if (elem.getAttribute("data-state") == "off")
         {
           document.getElementById("engagementico").setAttribute("data-state", "off");
-          document.getElementById("engagementico").src = "img/engagement_unselected.png";
+          document.getElementById("engagementico").src = "img/engagement_unselected.png?v=0.2";
           elem.setAttribute("data-state", "on");
-          elem.src = "img/commission_selected.png";
+          elem.src = "img/commission_selected.png?v=0.2";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
           elem.setAttribute("data-state", "off");
-          elem.src = "img/commission_unselected.png";
+          elem.src = "img/commission_unselected.png?v=0.2";
         }
       }
       else if (elem.id == "engagementico")
@@ -288,14 +292,14 @@
         if (elem.getAttribute("data-state") == "off")
         {
           document.getElementById("commissionico").setAttribute("data-state", "off");
-          document.getElementById("commissionico").src = "img/commission_unselected.png";
+          document.getElementById("commissionico").src = "img/commission_unselected.png?v=0.2";
           elem.setAttribute("data-state", "on");
-          elem.src = "img/engagement_selected.png";
+          elem.src = "img/engagement_selected.png?v=0.2";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
           elem.setAttribute("data-state", "off");
-          elem.src = "img/engagement_unselected.png";
+          elem.src = "img/engagement_unselected.png?v=0.2";
         }
       }
       allow();
@@ -307,7 +311,7 @@
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("mainid").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "none";
         window.location.href ='exit.php';
       }
     }

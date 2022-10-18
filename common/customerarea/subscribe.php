@@ -28,7 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/back.css?v=1.52">
+    <link rel="stylesheet" href="css/back.css?v=1.704">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -47,24 +47,29 @@
         <div id="loadid" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
-        <div id="spaceid" class="spaceflex" style="display: none;">
-          <img id='illus8' src='img/illustration_8.png' class='epure'/>
-          <div class="customform">
-            <p class="center middle title">
-              Informations de Paiement
-            </p>
-            <form id="subscribe-form">
-              <div class="stripeelem" id="card-element">
-                <!-- Elements will create input elements here -->
+        <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id='filetape5' src="img/fil_Page_6.png" class="fileelem" />
+          <div class="filecontainer">
+            <div id="spaceid" class="spaceflex">
+              <img id='illus8' src='img/illustration_8.png' class='epure'/>
+              <div class="customform tiersspacemax">
+                <p class="center middle title">
+                  On touche au but ! JE SAISIE MES INFORMATIONS DE PAIEMENT
+                </p>
+                <form id="subscribe-form">
+                  <div class="stripeelem" id="card-element">
+                    <!-- Elements will create input elements here -->
+                  </div>
+                  <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
+                  <br />
+                  <div class="ifgrpbtn">
+                    <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="RETOUR" />
+                    <button class="btn-ifprimary" type="submit">C'EST PARTI</button>
+                  </div>
+                </form>
+                <div id="messages"></div>
               </div>
-              <input type="text" id="name" class="paramfieldc enlarged" value="" placeholder="Nom complet" />
-              <br />
-              <div class="ifgrpbtn">
-                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
-              </div>
-            </form>
-            <div id="messages"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -73,7 +78,7 @@
   </body>
   <script type="text/javascript" >
     document.getElementById("loadid").style.display = "none";
-    document.getElementById("spaceid").style.display = "flex";
+    document.getElementById("pagecontainerid").style.display = "flex";
   // helper method for displaying a status message.
     const setMessage = (message) => {
       const messageDiv = document.querySelector('#messages');
@@ -150,7 +155,7 @@
     const form = document.querySelector('#subscribe-form');
     form.addEventListener('submit', async (e) => {
       document.getElementById("loadid").style.display = "flex";
-      document.getElementById("spaceid").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       e.preventDefault();
       const nameInput = document.getElementById('name');
     
@@ -165,7 +170,7 @@
       }).then((result) => {
         if(result.error) {
           document.getElementById("loadid").style.display = "none";
-          document.getElementById("spaceid").style.display = "flex";
+          document.getElementById("pagecontainerid").style.display = "flex";
           setMessage(`Payment failed: ${result.error.message}`);
         } else {
           var obj = { action: "activationabonnement", login: <?php echo '"' . $_SESSION['verify_email'] . '"'; ?>, subscriptionId:subscriptionId};
@@ -201,7 +206,7 @@
     function cancel() 
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("spaceid").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       window.location.href = './prices.php';
     }
   </script>
@@ -211,7 +216,7 @@
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("spaceid").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "none";
         window.location.href ='exit.php';
       }
     }
