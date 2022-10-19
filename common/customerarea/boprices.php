@@ -54,19 +54,18 @@
               Choississez la formule d'abonnement
             </p>
             <div class="formulespace">
-              <img id="commissionico" class="formuleico" src="img/commission_unselected.png" onclick="toggle(this)" data-state="off">
-              <img id="engagementico" class="formuleico" src="img/engagement_unselected.png" onclick="toggle(this)" data-state="off">
+              <img id="commissionico" class="formuleico" src="img/commission_unselected.png?v=0.2" onclick="toggle(this)" data-state="off">
+              <img id="engagementico" class="formuleico" src="img/engagement_unselected.png?v=0.2" onclick="toggle(this)" data-state="off">
             </div>
             <div class="param rwc">
               <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="allow()" />
               <label for="cgv"> En cochant cette case vous accpetez <a href="javascript:bakinfo();window.location='bocgv.php'">les conditions générales de vente</a></label>
             </div>
             <div class="param rwc grpbtnfor">
-              <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="ANNULATION" />
-              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONFIRMATION" autofocus disabled style="opacity: 0.5" />
+              <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="RETOUR" />
+              <input class="butc btn-cfprimary" type="button" id="cfvalid" value="CONTINUER" autofocus disabled style="opacity: 0.5" />
             </div>
           </div>
-          <img id='illus7' src='img/illustration_7.png' />
         </main>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
@@ -94,13 +93,13 @@
       if (sessionStorage.getItem('pb_bochxfor_commission') !== null)
         document.getElementById("commissionico").setAttribute("data-state", sessionStorage.getItem('pb_bochxfor_commission'));
       if (document.getElementById("engagementico").getAttribute("data-state") == "on")
-        document.getElementById("engagementico").src = "img/engagement_selected.png";
+        document.getElementById("engagementico").src = "img/engagement_selected.png?v=0.2";
       else 
-        document.getElementById("engagementico").src = "img/engagement_unselected.png";
+        document.getElementById("engagementico").src = "img/engagement_unselected.png?v=0.2";
       if (document.getElementById("commissionico").getAttribute("data-state") == "on")
-        document.getElementById("commissionico").src = "img/commission_selected.png";
+        document.getElementById("commissionico").src = "img/commission_selected.png?v=0.2";
       else 
-        document.getElementById("commissionico").src = "img/commission_unselected.png";
+        document.getElementById("commissionico").src = "img/commission_unselected.png?v=0.2";
       allow();
     }
   </script>
@@ -275,14 +274,14 @@
         if (elem.getAttribute("data-state") == "off")
         {
           document.getElementById("engagementico").setAttribute("data-state", "off");
-          document.getElementById("engagementico").src = "img/engagement_unselected.png";
+          document.getElementById("engagementico").src = "img/engagement_unselected.png?v=0.2";
           elem.setAttribute("data-state", "on");
-          elem.src = "img/commission_selected.png";
+          elem.src = "img/commission_selected.png?v=0.2";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
           elem.setAttribute("data-state", "off");
-          elem.src = "img/commission_unselected.png";
+          elem.src = "img/commission_unselected.png?v=0.2";
         }
       }
       else if (elem.id == "engagementico")
@@ -290,14 +289,14 @@
         if (elem.getAttribute("data-state") == "off")
         {
           document.getElementById("commissionico").setAttribute("data-state", "off");
-          document.getElementById("commissionico").src = "img/commission_unselected.png";
+          document.getElementById("commissionico").src = "img/commission_unselected.png?v=0.2";
           elem.setAttribute("data-state", "on");
-          elem.src = "img/engagement_selected.png";
+          elem.src = "img/engagement_selected.png?v=0.2";
         }
         else if (elem.getAttribute("data-state") == "on")
         {
           elem.setAttribute("data-state", "off");
-          elem.src = "img/engagement_unselected.png";
+          elem.src = "img/engagement_unselected.png?v=0.2";
         }
       }
       allow();

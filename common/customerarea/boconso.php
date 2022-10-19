@@ -63,8 +63,8 @@
               <!-- We'll put the error messages in this element -->
               <div id="card-element-errors" role="alert"></div>
               <div class="ifgrpbtn">
-                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="ANNULATION" />
-                <button class="btn-ifprimary" type="submit">CONFIRMATION</button>
+                <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="RETOUR" />
+                <button class="btn-ifprimary" type="submit">CONTINUER</button>
               </div>
             </form>
           </div>
