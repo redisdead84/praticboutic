@@ -21,7 +21,7 @@
           </div>
            <div class="modal-body">
             <?php
-              session_id("customerarea");
+
               session_start();
               
               include "../config/common_cfg.php";

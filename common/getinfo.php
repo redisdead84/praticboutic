@@ -1,5 +1,5 @@
 <?php
-  session_id("boutic");
+
   session_start();
   
 	if (empty($_SESSION['customer']) != 0)

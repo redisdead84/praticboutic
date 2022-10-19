@@ -6,12 +6,7 @@
   
   ini_set('session.gc_maxlifetime', $maxdureesessionclt);
   
-  session_id("boutic");
   session_start();
-  session_destroy();
-  session_id("boutic");
-  session_start();
-  
 	
 	if (empty($_GET['customer']) != 0)
 	{

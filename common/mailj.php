@@ -1,7 +1,6 @@
 
 <?php
 
-session_id("boutic");
 session_start();
 
 // Import PHPMailer classes into the global namespace

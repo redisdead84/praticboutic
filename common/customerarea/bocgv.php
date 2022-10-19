@@ -1,6 +1,5 @@
 <?php
 
-  session_id("customerarea");
   session_start();
 
   if (empty($_SESSION['bo_email']) == TRUE)

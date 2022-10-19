@@ -1,6 +1,4 @@
 <?php
-  
-  session_id("customerarea");
   session_start();
   $lifetime=141209600;
   setcookie(session_name(),session_id(),time()+$lifetime);
@@ -13,7 +11,6 @@
     }
   }
   session_destroy();
-  session_id("customerarea");
   session_start();
   session_write_close();
   
