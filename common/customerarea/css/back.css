@@ -1359,8 +1359,8 @@ div.blocsysmoney
 #closemenu
 {
   float: right;
-  margin-right: 5%;
-  margin-top: 8px;
+  margin-right: 3vmin;
+  margin-top: 3vmin;
 }
 
 .pagecontainer
