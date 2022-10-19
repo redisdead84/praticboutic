@@ -68,7 +68,7 @@
                     $row = $result->fetch_row();
                     if (intval($row[0])>0)
                     {
-                      echo 'Le courriel ' . $email . ' est déjà attribué à un client. Impossible de continuer.';
+                      echo '<p class="txtbig">Le courriel ' . $email . ' est déjà attribué à un client. Impossible de continuer.</p>';
                     }
                     else if (strcmp($_SESSION['reg_mailsent'], 'oui') == 0)
                     {

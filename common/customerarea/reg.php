@@ -105,12 +105,13 @@ $dotenv->load();
   <script>
     function onSubmit(token) 
     {
+
+      if (bakinfo() == false)
+        return;
       document.getElementById("loadid").style.display = "block";
       document.getElementById("filetape1").style.display = "none";
       document.getElementById("mainmenu").style.display = "none";
       document.getElementById("illus2").style.display = "none";
-      if (bakinfo() == false)
-        return;
       document.getElementById("gRecaptchaResponse").value = token;
       document.getElementById("signup-form").submit();
     }
