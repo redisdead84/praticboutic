@@ -1,6 +1,6 @@
 <?php
 
-  session_id("customerarea");
+
   session_start();
   
   header('Access-Control-Allow-Origin: *');

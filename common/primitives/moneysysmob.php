@@ -1,5 +1,5 @@
 <?php
-    session_id("customerarea");
+
     session_start();
 
     require_once '../../vendor/autoload.php';

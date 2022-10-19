@@ -9,7 +9,7 @@ include "../param.php";
 
 use Fpdf\Fpdf;
 
-session_id("customerarea");
+
 session_start();
 
 if (!isset($_SESSION))
