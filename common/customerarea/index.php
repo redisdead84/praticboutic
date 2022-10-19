@@ -1,7 +1,5 @@
 <?php
   session_start();
-  $lifetime=141209600;
-  setcookie(session_name(),session_id(),time()+$lifetime);
   if (isset($_SESSION["active"]) == true)
   {
     if ($_SESSION["active"] == 1)
