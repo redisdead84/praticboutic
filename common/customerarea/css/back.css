@@ -110,6 +110,11 @@
     margin-left: 33vw !important;
   }
   
+  .tiersspacemax
+  {
+    max-width: 100vw;
+  }
+  
 }
 
 #sidebarico

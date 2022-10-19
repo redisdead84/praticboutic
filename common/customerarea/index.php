@@ -43,6 +43,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <meta name="theme-color" content="#e2007a">
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
