@@ -188,7 +188,7 @@
     }
 
     startWorkerCommande();
-    initswipe();
+    //initswipe();
   });
   
   function showStripeAlert()
