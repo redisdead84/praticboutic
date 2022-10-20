@@ -43,7 +43,7 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure'/>
       <div id="workspace" class="spaceflex" data-ready="2">
-        <div id="loadid" class="spinner-border" role="status" style="display: block;">
+        <div id="loadid" class="spinner-border nospmd" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">

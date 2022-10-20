@@ -42,13 +42,13 @@
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure" />
       <div id="workspace" class="spaceflex">
-        <div id="loadid" class="spinner-border" role="status">
+        <div id="loadid" class="spinner-border nospmd" role="status">
           <span class="sr-only">Loading...</span>
         </div>
         <div id="spaceid" class="spaceflex" style="display: none;">
-          <img id='illus8' src='img/illustration_8.png' />
+          <img id='illus8' src='img/illustration_8.png' class="epure" />
           <div class="customform">
             <p class="center middle title">
               Informations de Paiement
@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class="epure"/>
     </div>
   </body>
   <script type="text/javascript" >
@@ -190,8 +190,7 @@
             else 
             {
               // Redirect the customer to their account page
-              setMessage('Congratulations! Nous vous redirigeons vers votre compte.');
-              window.location.href = 'admin.php';
+              window.location.href = 'account.php';
             }
           })
         }

@@ -27,7 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.53">
+    <link rel="stylesheet" href="css/back.css?v=1.704">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -44,7 +44,7 @@
         <div id="loadid" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
-        <div id="modalid" class="modal-content-mainmenu modal-content-cb elemcb" style="display: none;">
+        <div id="modalid" class="modal-content-error modal-content-cb elemcb">
           <div class="modal-header-cb">
             <h5 class="modal-title-cb">ERREUR</h5>
           </div>
@@ -74,8 +74,8 @@
     .then(function(data) {
       if (typeof (data.error) !== "undefined")
       {
-        document.getElementById("loadid").style.display = "none";
-        document.getElementById("modalid").style.display = "block";
+        document.getElementById("loadid").style.display = "block";
+        document.getElementById("modalid").style.display = "none";
         var modal = $('.modal-content-mainmenu');
         //$('.modal-title').html('Erreur');
         modal.find('.modal-body-cb').text(data.error);

@@ -49,8 +49,8 @@
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
-      <div id="workspace" class="spaceflex">
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure" />
+      <div id="workspace" class="spaceflex spv">
         <div id="modalid" class="modal-content-mainmenu modal-content-cb elemcb">
           <div class="modal-header-cb">
             <h6 class="modal-title-cb">
@@ -69,7 +69,7 @@
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class="epure" />
     </div>
   </body>
   <script type="text/javascript" >

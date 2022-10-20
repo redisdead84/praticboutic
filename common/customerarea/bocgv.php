@@ -40,7 +40,7 @@
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure"/>
       <div id="workspace" class="vscroll">
         <div class="customform">
           <input class="inpmove revenir" type="button" value="Revenir sur l'espace client" onclick="window.location.href = 'boprices.php'">
@@ -219,7 +219,7 @@
           <input class="inpmove revenir" type="button" value="Revenir sur l'espace client" onclick="window.location.href = 'boprices.php'">
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class="epure"/>
     </div>
   </body>
   <script type="text/javascript" >

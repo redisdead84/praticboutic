@@ -17,7 +17,7 @@ $dotenv->load();
     <title>Inscription</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.705">
+    <link rel="stylesheet" href="css/back.css?v=1.706">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -36,10 +36,10 @@ $dotenv->load();
         <div id="loadid" class="spinner-border" role="status" style="display: none;">
           <span class="sr-only">Loading...</span>
         </div>
-        <div class="pagecontainer">
-          <img id='filetape1' src="img/fil_Page_1.png" style="display: none;" class="fileelem" />
+        <div class="pagecontainer" id="pagecontainerid">
+          <img id='filetape1' src="img/fil_Page_1.png" class="fileelem" />
           <div class="filecontainer">
-            <div id="mainmenu" class="modal-content-mainmenu" style="display: none;">
+            <div id="mainmenu" class="modal-content-mainmenu">
               <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
                 <div class="modal-header-cb">
                   <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
@@ -88,16 +88,12 @@ $dotenv->load();
     {
       document.getElementById("email").value = sessionStorage.getItem('pb_reg_email');
       document.getElementById("loadid").style.display = "none";
-      document.getElementById("filetape1").style.display = "block";
-      document.getElementById("mainmenu").style.display = "block";
-      document.getElementById("illus2").style.display = "block";
+      document.getElementById("pagecontainerid").style.display = "flex";
     }
     function cancel() 
     {
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("filetape1").style.display = "none";
-      document.getElementById("mainmenu").style.display = "none";
-      document.getElementById("illus2").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.removeItem('pb_reg_email');
       window.location.href = './index.php';
     }
@@ -109,9 +105,7 @@ $dotenv->load();
       if (bakinfo() == false)
         return;
       document.getElementById("loadid").style.display = "block";
-      document.getElementById("filetape1").style.display = "none";
-      document.getElementById("mainmenu").style.display = "none";
-      document.getElementById("illus2").style.display = "none";
+      document.getElementById("pagecontainerid").style.display = "none";
       document.getElementById("gRecaptchaResponse").value = token;
       document.getElementById("signup-form").submit();
     }
@@ -122,9 +116,7 @@ $dotenv->load();
       if (confirm("Voulez-vous quitter ?") == true)
       {
         document.getElementById("loadid").style.display = "block";
-        document.getElementById("filetape1").style.display = "none";
-        document.getElementById("mainmenu").style.display = "none";
-        document.getElementById("illus2").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "none";
         window.location.href ='exit.php';
       }
     }
@@ -166,8 +158,7 @@ $dotenv->load();
           else 
           {
             document.getElementById("loadid").style.display = "block";
-            document.getElementById("mainmenu").style.display = "none";
-            document.getElementById("illus2").style.display = "none";
+            document.getElementById("pagecontainerid").style.display = "none";
             window.location = data;
           }
         })

@@ -220,7 +220,7 @@
         <div class="demiinter mobilehcenter">
         </div>
         <li class="nav-item mobilehcenter">
-          <a class='nav-link' href='loginlink.php' target='_blank'><img class='picto' src='img/picto_argent.png' height="25" width="25" />Mon Argent</a>
+          <a class='nav-link' href='loginlink.php' target='_blank' onclick="closeSidebar()"><img class='picto' src='img/picto_argent.png' height="25" width="25" />Mon Argent</a>
         </li>
         <li class="nav-item mobilehcenter">
           <a class="nav-link" id="administration-tab" data-toggle="tab" href="#administration" role="tab" aria-controls="administration" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mon_compte.png' height="25" width="25" />Espace Client</a>
