@@ -112,17 +112,6 @@
       var tables;
       var liens; 
       
-      function reqListener () {
-        jsonresp = JSON.parse(this.responseText);
-        tables = jsonresp.tables;
-        liens = jsonresp.liens;
-      }
-      
-      const req = new XMLHttpRequest();
-      req.addEventListener("load", reqListener);
-      req.open("GET", "../dbd/model.json");
-      req.send();
-      
       var rpp = [5,10,15,20,50,100];
       var op = ["=",">","<",">=","<=","<>","LIKE"];
       var filtres = [];
@@ -132,63 +121,73 @@
       var w;
       var memnbcommande = 0;
       var cmdfirst = true;
+      
+      function reqListener () {
+        jsonresp = JSON.parse(this.responseText);
+        tables = jsonresp.tables;
+        liens = jsonresp.liens;
+        initmenu();
+        inittable("table0", "table0", "categorie");
+        inittable("table1", "table1", "article");
+        inittable("table3", "table3", "groupeopt");
+        fldCustomProp("pbaliasid", "customer", "url");
+        fldCustomProp("pbnomid", "nom", "text");
+        fldCustomProp("artlogofile", "logo", "image");
+        fldCustomProp("pbemailid", "courriel", "email");
+        fldParam("subjectmailid", "Subject_mail", "text");
+        fldParam("validationsmsid", "VALIDATION_SMS", "bool");
+        fldParam("verifcpid", "VerifCP", "bool");
+        fldParam("choixpaiementid", "Choix_Paiement", "select");
+        fldParam("mpcomptantid", "MP_Comptant", "text");
+        fldParam("mplivraisonid", "MP_Livraison", "text");
+        fldParam("choixmethodid", "Choix_Method", "select");
+        fldParam("cmlivrerid", "CM_Livrer", "text");
+        fldParam("cmemporterid", "CM_Emporter", "text");
+        fldParam("mntmincmdid", "MntCmdMini", "prix");
+        fldParam("sizeimgid", "SIZE_IMG", "select");
+        fldParam("moneysystemid", "MONEY_SYSTEM", "select");
+        fldClientProp("clpassid", "pass", "pass");
+        fldClientProp("clhommeid", "qualite", "radio");
+        fldClientProp("clfemmeid", "qualite", "radio");
+        fldClientProp("clnomid", "nom", "text");
+        fldClientProp("clprenomid", "prenom", "text");
+        fldClientProp("cladr1id", "adr1", "text");
+        fldClientProp("cladr2id", "adr2", "text");
+        fldClientProp("clcpid", "cp", "text");
+        fldClientProp("clvilleid", "ville", "text");
+        fldClientProp("cltelid", "tel", "text");
+        inittable("table7", "table7", "cpzone");
+        inittable("table8", "table8", "barlivr");
+        inittable("ihm9", "table9", "commande");
+        inittable("table11", "table11", "statutcmd");
+        if (init == "oui")
+        {
+          init = "non";
+          initdone;
+          var modal = $('.modal');
+          $('.modal-title').html('Félicitations');
+          modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
+          $('.modal').modal('show');
+          $('.modal').on('hidden.bs.modal', function (event) {
+            $('.modal').off('hidden.bs.modal');
+            showStripeAlert();
+          })
+        }
+        else 
+        {
+          showStripeAlert();
+        }
+    
+        startWorkerCommande();
+        initswipe();
+      }
 
   window.addEventListener("load", function(event) 
   {
-    initmenu();
-    inittable("table0", "table0", "categorie");
-    inittable("table1", "table1", "article");
-    inittable("table3", "table3", "groupeopt");
-    fldCustomProp("pbaliasid", "customer", "url");
-    fldCustomProp("pbnomid", "nom", "text");
-    fldCustomProp("artlogofile", "logo", "image");
-    fldCustomProp("pbemailid", "courriel", "email");
-    fldParam("subjectmailid", "Subject_mail", "text");
-    fldParam("validationsmsid", "VALIDATION_SMS", "bool");
-    fldParam("verifcpid", "VerifCP", "bool");
-    fldParam("choixpaiementid", "Choix_Paiement", "select");
-    fldParam("mpcomptantid", "MP_Comptant", "text");
-    fldParam("mplivraisonid", "MP_Livraison", "text");
-    fldParam("choixmethodid", "Choix_Method", "select");
-    fldParam("cmlivrerid", "CM_Livrer", "text");
-    fldParam("cmemporterid", "CM_Emporter", "text");
-    fldParam("mntmincmdid", "MntCmdMini", "prix");
-    fldParam("sizeimgid", "SIZE_IMG", "select");
-    fldParam("moneysystemid", "MONEY_SYSTEM", "select");
-    fldClientProp("clpassid", "pass", "pass");
-    fldClientProp("clhommeid", "qualite", "radio");
-    fldClientProp("clfemmeid", "qualite", "radio");
-    fldClientProp("clnomid", "nom", "text");
-    fldClientProp("clprenomid", "prenom", "text");
-    fldClientProp("cladr1id", "adr1", "text");
-    fldClientProp("cladr2id", "adr2", "text");
-    fldClientProp("clcpid", "cp", "text");
-    fldClientProp("clvilleid", "ville", "text");
-    fldClientProp("cltelid", "tel", "text");
-    inittable("table7", "table7", "cpzone");
-    inittable("table8", "table8", "barlivr");
-    inittable("ihm9", "table9", "commande");
-    inittable("table11", "table11", "statutcmd");
-    if (init == "oui")
-    {
-      init = "non";
-      initdone;
-      var modal = $('.modal');
-      $('.modal-title').html('Félicitations');
-      modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
-      $('.modal').modal('show');
-      $('.modal').on('hidden.bs.modal', function (event) {
-        $('.modal').off('hidden.bs.modal');
-        showStripeAlert();
-      })
-    }
-    else 
-    {
-      showStripeAlert();
-    }
-
-    startWorkerCommande();
-    initswipe();
+    const req = new XMLHttpRequest();
+    req.addEventListener("load", reqListener);
+    req.open("GET", "../dbd/model.json");
+    req.send();
   });
   
   function showStripeAlert()
