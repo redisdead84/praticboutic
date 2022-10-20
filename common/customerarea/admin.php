@@ -188,7 +188,7 @@
     }
 
     startWorkerCommande();
-    //initswipe();
+    initswipe();
   });
   
   function showStripeAlert()
@@ -3317,6 +3317,9 @@
       
         // Au premier point de contact
         window.addEventListener("touchstart", function(evt) {
+          var tag = evt.targetTouches[0].target.tagName;
+          if ((tag == "TABLE") || (tag == "TR") || (tag == "TD") || (tag == "TBODY") || (tag == "THEAD") || (tag == "TH"))
+            return;
           // Récupère les "touches" effectuées
           var touches = evt.changedTouches[0];
           startX = touches.pageX;
@@ -3326,6 +3329,9 @@
         // Quand les points de contact sont en mouvement
         window.addEventListener("touchmove", function(evt) {
           // Limite les effets de bord avec le tactile...
+          var tag = evt.targetTouches[0].target.tagName;
+          if ((tag == "TABLE") || (tag == "TR") || (tag == "TD") || (tag == "TBODY") || (tag == "THEAD") || (tag == "TH"))
+            return;
           evt.preventDefault();
           evt.stopPropagation();
         }, false);
