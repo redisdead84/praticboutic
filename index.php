@@ -1,7 +1,9 @@
 <?php
 
 // Include router class
-include('route/Route.php');
+require_once 'vendor/autoload.php';
+
+use Steampixel\Route;
 
 // Add base route (startpage)
 Route::add('/',function(){
