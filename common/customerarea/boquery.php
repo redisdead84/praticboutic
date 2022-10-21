@@ -705,7 +705,7 @@ try {
       throw new Error("Identifiant vide");
     }
     
-    $notid = array('admin', 'common', 'route', 'upload', 'vendor');
+    $notid = array('admin', 'common', 'upload', 'vendor');
     if(in_array($_SESSION['initboutic_aliasboutic'], $notid)) //Si l'extension n'est pas dans le tableau
     {
       throw new Error('Identifiant interdit');
@@ -821,13 +821,4 @@ try {
   echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
-
-
-
-
-
-
-
-
-
 

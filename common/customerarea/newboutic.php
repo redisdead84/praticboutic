@@ -55,7 +55,7 @@
                     <input class="paramfieldc" id="nom" maxlength="100" name="nom" type="text" placeholder="Nom de la boutic" value="" required /><br>
                   </div>
                   <div class="param">
-                    <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="[a-z0-9]{3,}" title="Boutic Alias uniquement des minuscules et des chiffres" required /><br>
+                    <input class="paramfieldc" id="aliasboutic" maxlength="100" name="aliasboutic" type="text" placeholder="Alias de la Boutic" value="" pattern="(?!admin|common|upload|vendor)[a-z0-9]{3,}" title="Boutic Alias autorisé de trois chiffres contenant uniquement des minuscules et des chiffres" required /><br>
                   </div>
                   <div class="param">
                     <input class="paramfieldc" id="email" maxlength="255" name="email" type="email" placeholder="Courriel de la Boutic" title="Courriel où sera envoyé les commandes" autocomplete="on" required /><br>

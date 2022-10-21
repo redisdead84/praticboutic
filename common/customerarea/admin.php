@@ -343,7 +343,7 @@
                 <div class="blocurl">
                   <div class="param">
                     <label>Alias de la Boutic : </label>
-                    <input data-lbl="Alias de la Boutic" class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="[a-z0-9]{3,}" title="ne peut contenir que des chiffres ou des minuscules" oninput="persoenblbtnvc(this)" />
+                    <input data-lbl="Alias de la Boutic" class="fieldperso" id="pbaliasid" type='text' maxlength="100" pattern="(?!admin|common|upload|vendor)[a-z0-9]{3,}" title="doit être autorisé, ne peut contenir que des chiffres ou des minuscules et au moins de trois caractères" oninput="persoenblbtnvc(this)" />
                   </div>
                   <br>
                   <div class="param">
