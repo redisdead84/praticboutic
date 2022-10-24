@@ -21,7 +21,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.704">
+    <link rel="stylesheet" href="css/back.css?v=1.705">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -42,7 +42,7 @@
           <img id='filetape1' src="img/fil_Page_1.png" style="display: block;" class="fileelem" />
           <div class="filecontainer">
             <img id='illus2' src='img/illustration_2.png' class="elemcb epure" style="display: block;"/>
-            <div id='mainmenu' class="modal-content-mainmenu elemcb" style="display: block;">
+            <div id='mainmenu' class="modal-content-mainmenu elemcb notobig" style="display: block;">
               <div class="modal-body-cb">
                 <?php
     

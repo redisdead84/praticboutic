@@ -39,6 +39,11 @@
     align-items: center;
     height: 100%
   }
+  
+  .notobig
+  {
+    max-width: 33vw;
+  }
 
 }
   
@@ -282,6 +287,10 @@
     height:100vh;
   }
   
+  .notobig
+  {
+    max-width: auto;
+  }
 }
 
 #sidebarico
