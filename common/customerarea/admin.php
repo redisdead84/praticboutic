@@ -196,8 +196,14 @@
     if (charge == false)
     {
       var modal = $('.modal');
-      $('.modal-title').html('Attention');
-      modal.find('.modal-body').text('Le paiement par Carte Bancaire Stripe n\'est pas actif ! Vous ne pourrez pas recevoir de paiement par Carte bancaire. Pour l\'activer rendez-vous dans l\'onglet Mon Argent de l\'arrière Boutic et effectuez les actions nécessaires.');
+      $('.modal-title').html('Information');
+      $('.modal-body').empty();
+      modal.find('.modal-body').append('<p>Le paiement par Carte Bancaire Stripe n\'est pas actif ! Vous ne pourrez pas recevoir de paiement par Carte bancaire. Pour l\'activer rendez-vous ultérieurement dans la rubrique <b>\"Mon Argent\"</b> ou cliquez sur le bouton <b>\"Go to Stripe\"</b> ci-dessous</p>');
+      var stripe = $('<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="stripebtn" onclick="window.open(\'loginlink.php\',\'_blank\')">Go to Stripe</button>');
+      var ulte = $('<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close" id="ultebtn">Me le rappeller ultérieurement</button>');
+      $('.modal-footer').empty();
+      $('.modal-footer').append(ulte);
+      $('.modal-footer').append(stripe);
       $('.modal').modal('show');
     }
   }
