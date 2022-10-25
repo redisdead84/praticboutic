@@ -63,6 +63,8 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
         throw new Exception("Prix invalide");
     }
     
+    $surcout = 0;
+    
     // Calcul du cout de livraison
 		if(strcmp($model, "LIVRER") == 0) 
 		{

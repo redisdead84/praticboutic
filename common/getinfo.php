@@ -364,6 +364,7 @@
     <script type="text/javascript" >
       // Affiche la page avec les contrôles par defaut  
       sessionStorage.setItem("fraislivr", 0);
+      sessionStorage.setItem("remise", 0);
       var verifcp = document.getElementById("main").getAttribute("data-verifcp");
       document.getElementById("letel").value = sessionStorage.getItem("telephone");
       if (sessionStorage.getItem("method")>2)
@@ -437,6 +438,7 @@
 
       }
       document.getElementById("lecodepromo").value = sessionStorage.getItem("codepromo");
+      getRemise(sessionStorage.getItem("sstotal"), document.getElementById("lecodepromo"));
       document.getElementById("infosup").value = sessionStorage.getItem("infosup");
     </script>
     <script type="text/javascript">
