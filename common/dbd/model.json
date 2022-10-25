@@ -554,6 +554,15 @@
           "sens": ""
         },
         {
+          "nom": "remise",
+          "desc": "Remise",
+          "typ": "prix",
+          "defval": "0",
+          "vis": "n",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
           "nom": "fraislivraison",
           "desc": "Frais de Livraison",
           "typ": "prix",
@@ -742,6 +751,50 @@
           "nom": "defaut",
           "desc": "Defaut",
           "typ": "bool",
+          "defval": "0",
+          "vis": "o",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "actif",
+          "desc": "Actif",
+          "typ": "bool",
+          "defval": "1",
+          "vis": "o",
+          "ordre": "0",
+          "sens": ""
+        }
+      ]
+    },
+    {
+      "nom": "promotion",
+      "desc": "Promotions",
+      "cs": "taux",
+      "sstable": "n",
+      "champs": [
+        {
+          "nom": "promoid",
+          "desc": "Identifiant",
+          "typ": "pk",
+          "defval": "",
+          "vis": "n",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "code",
+          "desc": "Code",
+          "typ": "codepromo",
+          "defval": "",
+          "vis": "o",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "taux",
+          "desc": "Taux",
+          "typ": "percent",
           "defval": "0",
           "vis": "o",
           "ordre": "0",

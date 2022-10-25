@@ -81,7 +81,7 @@
       if ($method > 0)
       {      
       	echo '<div id="grpinfo">';
-        echo '<div class="panneau" id="livraison">Informations concernant la livraison</div>';
+        echo '<div class="panneau" id="livraison">Informations commande</div>';
         if ($method > 2)
 	      {      
 	        echo '<div class="underlined">';
@@ -218,6 +218,11 @@
 		    	echo '</div>';
 	      }  
       }
+      echo '<div class="underlined">';
+      echo '<label class="lcont">Code promotionnel&nbsp;:&nbsp;</label>';
+      echo '<input class="cont" type="string" id="lecodepromo" name="codepromo" maxlength="4" pattern="[0-9A-Z]{4}" onkeyup="getRemise(sessionStorage.getItem(\'sstotal\'), this)">';
+      echo '</div>';
+      echo '<div class="panneau" id="remiseid"></div>';
       echo '<div class="panneau" id="cgv">';
       echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv">';
       echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>';
@@ -299,8 +304,51 @@
         sessionStorage.setItem("fraislivr", 0);
       }          
     </script>
-    
-    
+    <script type="text/javascript">
+   		// Appel asynchrone pour connaitre le montant de la remise
+      function getRemise(sstotal, elem)      
+      {
+        var retour;
+
+        var customer = document.getElementById("main").getAttribute("data-customer");
+        if (elem.validity.valid == true)
+        {
+          var obj = { sstotal: sstotal, customer: customer, code: elem.value };
+          fetch("remise.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+          })
+            .then(function(result2) {
+              return result2.json();
+            })
+            .then(function(data) {
+            var ret = parseFloat(data);
+            if (ret > 0)
+            {
+              document.getElementById("remiseid").innerHTML = 'Montant de la remise : ' + ret.toFixed(2) + ' €';
+              sessionStorage.setItem("remise", data);
+            }
+            else {
+              removeRemise();
+            }
+          })
+        }
+        else {
+          removeRemise();
+        }
+      }
+    </script>
+    <script type="text/javascript">
+      function removeRemise()      
+      {
+        document.getElementById("remiseid").innerHTML = '';
+        sessionStorage.setItem("remise", 0);
+      }
+    </script>
+
     <script type="text/javascript" >
     	// Désactive la partie de formulaire utilisé pour la livraison
       function eraseAdrLivr(etat) 
@@ -359,7 +407,7 @@
             document.getElementById("laville").value = sessionStorage.getItem("ville");
             document.getElementById("lemporter").checked = false;
             document.getElementById("llivrer").checked = true;
-						getFraisLivraison(sessionStorage.getItem("sstotal"));
+            getFraisLivraison(sessionStorage.getItem("sstotal"));
             eraseAdrLivr(false);
           } 
           else
@@ -388,6 +436,7 @@
         }
 
       }
+      document.getElementById("lecodepromo").value = sessionStorage.getItem("codepromo");
       document.getElementById("infosup").value = sessionStorage.getItem("infosup");
     </script>
     <script type="text/javascript">
@@ -451,6 +500,7 @@
 	        else
   	      	removeFraisLivraison();
   	    }
+  	    sessionStorage.setItem("codepromo", document.getElementById("lecodepromo").value);
         sessionStorage.setItem("infosup", document.getElementById("infosup").value);
       }
     </script>

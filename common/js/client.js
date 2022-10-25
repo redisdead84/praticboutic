@@ -14,13 +14,15 @@ if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")==
   var customer = sessionStorage.getItem("customer");
   var choicel = sessionStorage.getItem("choicel");
   var coutlivr = sessionStorage.getItem("fraislivr");
+  var codepromo = sessionStorage.getItem("codepromo");
   
   // The items the customer wants to buy
   var purchase = {
     items: obj,
     boutic: customer,
     model: choicel,
-    fraislivr: coutlivr
+    fraislivr: coutlivr,
+    codepromo: codepromo
   };
   
   // Disable the button until we have Stripe set up on the page

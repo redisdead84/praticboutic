@@ -56,20 +56,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
     <link rel="stylesheet" href="css/global.css?v=<?php echo $ver_com_css;?>" />
-    <!--<link rel="stylesheet" href="css/style.css?v=1.22" />-->
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
 		<?php    
-    	//if (strcmp($mnysys, "STRIPE") == 0)
-    	//{
     		echo '<script src="https://js.stripe.com/v3/"></script>' . "\n";
-				echo '<script src="js/client.js?v=1.27" defer></script>' . "\n";
-			//}
-    	//if (strcmp($mnysys, "PAYPAL") == 0)
-    	//{
-    	//	echo '<script src="https://www.paypal.com/sdk/js?client-id=' . $idcpp . '&currency=EUR"></script>' . "\n";
-			//}
+				echo '<script src="js/client.js?v=1.271" defer></script>' . "\n";
     ?>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -100,6 +92,7 @@
 	      <div id="tableid"></div>
 	      <div id="commandediv"></div>
 	      <div class="fraistotal" id="sstotalid"></div>
+	      <div class="fraistotal" id="remiseid"></div>
 	      <div class="fraistotal" id="fraislivid"></div>
 				<div class="fraistotal mbot" id="totalid"></div>
 				<div class="fpay" id="payid"></div>
@@ -132,13 +125,6 @@
           document.write('</div>');
           document.write('</form>');
      		}
-     		/*else if (mnysys == "PAYPAL")
-     		{
-     			document.write('<div id="payementfooter" style="height:140px">');
-     			document.write('<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">');
-      		document.write('<div id="paypal-button-container"></div>');
-      		document.write('</form>');
-      	}*/
         document.write('<div class="solobn">');
         document.write('<button class="navindicsolo" id="retourcarte" onclick="window.location.href = \'getinfo.php\'">');
 				document.write('Revenir sur les informations');
@@ -158,130 +144,6 @@
         document.write('</div>');
       }
     </script>
-	  <!--<script>
-	    var mnysys = "<?php echo $mnysys;?>";
-	    if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
-	    	if (mnysys == "PAYPAL") 
-	    	{
-	    		if (sessionStorage.getItem("choicel")=="LIVRER")
-	    		{
-			      paypal.Buttons({
-			      	enableStandardCardFields: false,
-							style: {
-								layout: 'horizontal',
-	 							tagline: 'false'
-							},		      	
-			      	createOrder: function(data, actions) {
-						    return actions.order.create({
-						    	enableStandardCardFields: false,
-						      intent: 'CAPTURE',
-						      payer: {
-						        name: {
-						          given_name: sessionStorage.getItem("nom"),
-						          surname: sessionStorage.getItem("prenom")
-						        },
-						        address: {
-						          address_line_1: sessionStorage.getItem("adresse1"),
-						          address_line_2: sessionStorage.getItem("adresse2"),
-						          admin_area_2: sessionStorage.getItem("ville"),
-						          admin_area_1: '',
-						          postal_code: sessionStorage.getItem("codepostal"),
-						          country_code: 'FR'
-						        },
-						        //email_address: "",
-						        phone: {
-						          phone_type: "MOBILE",
-						          phone_number: {
-						            national_number: sessionStorage.getItem("telephone")
-						          }
-						        }
-						      },
-					      	purchase_units: [
-						        {
-						          amount: {
-						            value: (parseFloat(sessionStorage.getItem("sstotal")) + parseFloat(sessionStorage.getItem("fraislivr"))).toString(),
-						            currency_code: 'EUR'
-						          },
-						          shipping: {
-						            address: {
-							          address_line_1: sessionStorage.getItem("adresse1"),
-						  	        address_line_2: sessionStorage.getItem("adresse2"),
-						    	      admin_area_2: sessionStorage.getItem("ville"),
-						      	    admin_area_1: '',
-						        	  postal_code: sessionStorage.getItem("codepostal"),
-						          	country_code: 'FR'
-						            }
-						          },
-						          experience: {
-								        input_fields: {
-						    		      no_shipping: 1
-						        		}
-						      		}
-						        }
-					      	],
-					    	});
-					  	},
-					  	onApprove: function(data, actions) {
-			      	// This function captures the funds from the transaction.
-				 	    	return actions.order.capture().then(function(details) {
-		    	    		// This function shows a transaction success message to your buyer.
-		        			document.location.href = 'fin.php';
-				      	});
-				    	}
-						}).render('#paypal-button-container'); // Display payment options on your web page
-					}
-					else if (sessionStorage.getItem("choicel")=="EMPORTER")
-					{
-			      paypal.Buttons({
-			      	enableStandardCardFields: false,
-							style: {
-								layout: 'horizontal',
-	 							tagline: 'false'
-							},		      	
-			      	createOrder: function(data, actions) {
-						    return actions.order.create({
-						    	enableStandardCardFields: false,
-						      intent: 'CAPTURE',
-						      payer: {
-						        name: {
-						          given_name: sessionStorage.getItem("nom"),
-						          surname: sessionStorage.getItem("prenom")
-						        },
-						        //email_address: "",
-						        phone: {
-						          phone_type: "MOBILE",
-						          phone_number: {
-						            national_number: sessionStorage.getItem("telephone")
-						          }
-						        }
-						      },
-					      	purchase_units: [
-						        {
-						          amount: {
-						            value: sessionStorage.getItem("sstotal"),
-						            currency_code: 'EUR'
-						          },
-						          experience: {
-								        input_fields: {
-						    		      no_shipping: 1
-						        		}
-						      		}
-						        }
-					      	],
-					    	});
-					  	},
-					  	onApprove: function(data, actions) {
-			      	// This function captures the funds from the transaction.
-				 	    	return actions.order.capture().then(function(details) {
-		    	    		// This function shows a transaction success message to your buyer.
-		        			document.location.href = 'fin.php';
-				      	});
-				    	}
-						}).render('#paypal-button-container'); // Display payment options on your web page
-					}
-				}
-			}
-	  </script>-->
     <script type="text/javascript">
       var cart = JSON.parse(sessionStorage.getItem("commande"));
       var str = "";
@@ -340,16 +202,30 @@
       if (method == 2) 
       {
         document.getElementById("tableid").innerHTML = "<p class='pres'>Table numéro " + sessionStorage.getItem("table") + "</p>";
-      }      
+      }
       document.getElementById("commandediv").innerHTML = str;
+      
+      var remise;
+      if (sessionStorage.getItem("remise") == null)
+      {
+        remise = 0;
+      }
+      else
+        remise = parseFloat(sessionStorage.getItem("remise"));
+        
+      if (remise == 0)
+        document.getElementById("remiseid").style.display = "none";
+        
       var frliv = 0;
       if (method > 2) 
 				frliv = parseFloat(sessionStorage.getItem("fraislivr"));
-			var tota = frliv + somme;      
+			var tota = frliv + somme - remise;
       
 			if ((sessionStorage.getItem("choicel") == "LIVRER") && (method > 2))
 			{
 	      document.getElementById("sstotalid").innerHTML = "<p class='fleft'>Sous-total : </p><p class='fright'>" + somme.toFixed(2) + " € </p><br>";
+	      if (remise > 0)
+          document.getElementById("remiseid").innerHTML = "<p class='fleft'>Remise : </p><p class='fright'>" + (-remise).toFixed(2) + " € </p><br>";
 	 	    document.getElementById("fraislivid").innerHTML = "<p class='fleft'>Frais de livraison : </p><p class='fright'>" + frliv.toFixed(2) + " € </p><br>";
 	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + tota.toFixed(2) + " € </p><br>";
 
@@ -357,9 +233,10 @@
 			else if ((sessionStorage.getItem("choicel") == "EMPORTER") || (method == 2))
 			{
 				document.getElementById("sstotalid").style.display = "none";
+        document.getElementById("remiseid").innerHTML = "<p class='fleft'>Remise : </p><p class='fright'>" + (-remise).toFixed(2) + " € </p><br>";
 				document.getElementById("fraislivid").style.display = "none";
-	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + somme.toFixed(2) + " € </p><br>";
-			}      
+	      document.getElementById("totalid").innerHTML = "<p class='wbld fleft'>Total de la commande : </p><p class='wbld fright'>" + (somme-remise).toFixed(2) + " € </p><br>";
+			}
 			if ((sessionStorage.getItem("method")>2) && (sessionStorage.getItem("choice")=="COMPTANT"))
 				document.getElementById("payid").innerHTML = "<p class='mntpay'>MONTANT &Agrave; PAYER : " + tota.toFixed(2) + " € </p>";
 			else {

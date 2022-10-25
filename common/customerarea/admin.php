@@ -160,6 +160,7 @@
         inittable("table8", "table8", "barlivr");
         inittable("ihm9", "table9", "commande");
         inittable("table11", "table11", "statutcmd");
+        inittable("table12", "table12", "promotion");
         if (init == "oui")
         {
           init = "non";
@@ -186,7 +187,7 @@
   {
     const req = new XMLHttpRequest();
     req.addEventListener("load", reqListener);
-    req.open("GET", "../dbd/model.json");
+    req.open("GET", "../dbd/model.json?v=1.004");
     req.send();
   });
   
@@ -221,6 +222,9 @@
         </li>
         <li class="nav-item mobilehcenter">
           <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' height="25" width="25" />Livraisons</a>
+        </li>
+        <li class="nav-item mobilehcenter">
+          <a class="nav-link" id="promotions-tab" data-toggle="tab" href="#promotions" role="tab" aria-controls="promotions" aria-selected="false" onclick="cancel(this)"><img class='picto' src='' height="25" width="25" />Mes Promotions</a>
         </li>
         <div class="demiinter mobilehcenter">
         </div>
@@ -314,6 +318,21 @@
             <div class='tbl' id="table8"></div>  
              <div class='tbl form-group' id="ins8" data-vuep="table8" hidden></div>
              <div class='tbl form-group' id="maj8" data-vuep="table8" hidden></div>  
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="promotions" role="tabpanel" aria-labelledby="promotions-tab">
+        <p class="title">Mes Promotions</p>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="promotion-tab" data-toggle="tab" href="#promotion" role="tab" aria-controls="promotion" aria-selected="false" onclick="baktab('promotion-tab', this)">PROMOTIONS</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabPromoContent">
+          <div class="tab-pane active" id="promotion" role="tabpanel" aria-labelledby="promotion-tab">
+            <div class='tbl' id="table12"></div>
+             <div class='tbl form-group' id="ins12" data-vuep="table12" hidden></div>
+             <div class='tbl form-group' id="maj12" data-vuep="table12" hidden></div>  
           </div>
         </div>
       </div>
@@ -666,6 +685,15 @@
 									inp.required = true;
 									inp.value = champs[i].defval;
 								}
+								else if (champs[i].typ == "codepromo")
+								{
+									inp.classList.add('form-control');
+									inp.type = 'text';
+									inp.required = true;
+									inp.pattern = '[0-9A-Z]{4}';
+									inp.value = champs[i].defval;
+									inp.title = "Doit être composé de 4 chiffres ou lettres majuscule";
+								}
 								else if (champs[i].typ == "bool")
 								{
 									inp.type = 'checkbox';
@@ -683,6 +711,14 @@
 									inp.value = champs[i].defval;
 									inp.min = '0';
 									inp.title = "Doit être un nombre positif avec 2 chiffres après la virgule";
+								}
+								else if (champs[i].typ == "percent")
+								{
+									inp.classList.add('form-control');
+									inp.type = 'number';
+									inp.value = champs[i].defval;
+									inp.min = '0';
+									inp.title = "Doit être un nombre positif";
 								}
 								else if (champs[i].typ == "image")
 								{
@@ -985,6 +1021,15 @@
 											inp.value = data[i];
 											inp.required = true;
 										}
+										else if (champs[i].typ == "codepromo")
+    								{
+    									inp.classList.add('form-control');
+    									inp.type = 'text';
+    									inp.value = data[i];
+    									inp.required = true;
+    									inp.pattern = '[0-9A-Z]{4}';
+    									inp.title = "Doit être composé de 4 chiffres ou lettres majuscule";
+    								}
 										else if (champs[i].typ == "bool")
 										{
 											inp.type = 'checkbox';
@@ -1003,6 +1048,14 @@
 											inp.value = parseFloat(data[i]).toFixed(2);
 											inp.min = '0';
 											inp.title = "Doit être un nombre positif avec 2 chiffres après la virgule";
+										}
+										else if (champs[i].typ == "percent")
+										{
+											inp.classList.add('form-control');			
+											inp.type = 'number';
+											inp.value = parseFloat(data[i]).toFixed(2);
+											inp.min = '0';
+											inp.title = "Doit être un nombre positif";
 										}
 										else if (champs[i].typ == "image")
 										{
@@ -1214,8 +1267,16 @@
 									  val = fld.value;
  									  if (!fld.checkValidity())
 									  {
+									    if (fld.validity.patternMismatch)
+									    {
+									      errmsg = fld.getAttribute("data-champ")  + " : " + fld.title;
+									    }
+									    else 
+									    {
+									      errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
+									    }
 											error = true;	
-											errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
+											
 											break;				  	
 						  			}						  
 									}
@@ -1358,6 +1419,8 @@
 				     			var val = donnees[j][i];
 				     			if (table.champs[i].typ == "prix")
 				     				td.innerHTML = parseFloat(val).toFixed(2);
+				     			else if (table.champs[i].typ == "percent")
+				     				td.innerHTML = parseFloat(val) + ' %';
 				     			else if (table.champs[i].typ == "date")
 									{
 											const event = new Date(Date.parse(val));
@@ -1664,6 +1727,10 @@
 									{
 										dat.innerText = dat.innerText + data[i];
 									}
+									else if (champs[i].typ == "codepromo")
+									{
+										dat.innerText = dat.innerText + data[i];
+									}
 									else if (champs[i].typ == "bool")
 									{
 										if (data[0][i] == "1")
@@ -1675,6 +1742,10 @@
 									else if (champs[i].typ == "prix")
 									{
 										dat.innerText = dat.innerText + parseFloat(data[i]).toFixed(2) + " €";
+									}
+									else if (champs[i].typ == "percent")
+									{
+										dat.innerText = dat.innerText + parseFloat(data[i]) + " %";
 									}
 									else if (champs[i].typ == "image")
 									{
@@ -2267,6 +2338,10 @@
          		{
          	 		document.getElementById(elem).value = parseFloat(data).toFixed(2);
          		}
+         		else if (typ == "percent")
+         		{
+         	 		document.getElementById(elem).value = parseFloat(data);
+         		}
          		else if (typ == "bool")
          		{
          			if (data == "1")
@@ -2384,6 +2459,10 @@
          		document.getElementById(elem).setAttribute("data-modified", 'false');
          		document.getElementById(elem).setAttribute("data-paramtype", 'csp');
          		if (typ == "prix")
+         		{
+         	 		document.getElementById(elem).value = parseFloat(data).toFixed(2);
+         		}
+        		else if (typ == "percent")
          		{
          	 		document.getElementById(elem).value = parseFloat(data).toFixed(2);
          		}
@@ -2518,6 +2597,8 @@
 		     			var valeur;
 							if (el.getAttribute("data-typ") == "prix")
 		     				valeur = parseFloat(el.value).toFixed(2);
+		     			else if (el.getAttribute("data-typ") == "percent")
+		     				valeur = parseFloat(el.value);
 		     			else if (el.getAttribute("data-typ") == "bool")
 		         	{
 			 	      	if (el.checked == true)
@@ -2616,6 +2697,10 @@
          		if (typ == "prix")
          		{
          	 		document.getElementById(elem).value = parseFloat(data).toFixed(2);
+         		}
+            else if (typ == "percent")
+         		{
+         	 		document.getElementById(elem).value = parseFloat(data);
          		}
          		else if (typ == "bool")
          		{
@@ -2765,6 +2850,8 @@
 		     			var valeur;
 							if (el.getAttribute("data-typ") == "prix")
 		     				valeur = parseFloat(el.value).toFixed(2);
+		     			else if (el.getAttribute("data-typ") == "percent")
+		     				valeur = parseFloat(el.value);
 		     			else if (el.getAttribute("data-typ") == "bool")
 		         	{
 			 	      	if (el.checked == true)
@@ -2874,6 +2961,8 @@
 					{
          		if (elem.getAttribute('data-typ') == "prix")
          	 		elem.value = parseFloat(data).toFixed(2);
+         	 	else if (elem.getAttribute('data-typ') == "percent")
+         	 		elem.value = parseFloat(data);
        			if (elem.getAttribute('data-typ') == "bool")
        			{
  	       			if (data == "1")
@@ -2927,6 +3016,8 @@
                var valeur;
                if (el.getAttribute("data-typ") == "prix")
                  valeur = parseFloat(el.value).toFixed(2);
+               else if (el.getAttribute("data-typ") == "percent")
+                 valeur = parseFloat(el.value);
                else if (el.getAttribute("data-typ") == "bool")
                {
                  if (el.checked == true)
@@ -3053,6 +3144,8 @@
 					{
          		if (elem.getAttribute('data-typ') == "prix")
          	 		elem.value = parseFloat(data).toFixed(2);
+         	 	else if (elem.getAttribute('data-typ') == "percent")
+         	 		elem.value = parseFloat(data);
        			if (elem.getAttribute('data-typ') == "bool")
        			{
  	       			if (data == "1")
@@ -3122,6 +3215,8 @@
                var valeur;
                if (el.getAttribute("data-typ") == "prix")
                  valeur = parseFloat(el.value).toFixed(2);
+               else if (el.getAttribute("data-typ") == "percent")
+                 valeur = parseFloat(el.value);
                else if (el.getAttribute("data-typ") == "bool")
                {
                  if (el.checked == true)
@@ -3226,6 +3321,8 @@
 					{
          		if (elem.getAttribute('data-typ') == "prix")
          	 		elem.value = parseFloat(data).toFixed(2);
+         	 	if (elem.getAttribute('data-typ') == "percent")
+         	 		elem.value = parseFloat(data);
        			if (elem.getAttribute('data-typ') == "bool")
        			{
  	       			if (data == "1")

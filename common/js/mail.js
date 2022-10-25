@@ -13,7 +13,8 @@
     infosup: sessionStorage.getItem("infosup"),
     items: JSON.parse(sessionStorage.getItem("commande")),
     fraislivr: sessionStorage.getItem("fraislivr"),
-    customer: sessionStorage.getItem("customer")
+    customer: sessionStorage.getItem("customer"),
+    remise: sessionStorage.getItem("remise"),
   };
   if (commande.items.length > 0)
   { 

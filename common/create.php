@@ -31,7 +31,7 @@ include "param.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr): int 
+function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr, $codepromo): int 
 {
   $arrlength = count($items);
   $price = 0.0;
@@ -83,11 +83,33 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
         throw new Exception("erreur Frais de livraison");
   		}
   		
-  		$price = $price + $surcout;
     }
+    
+    $query = 'SELECT taux FROM promotion WHERE customid = ' . $customid . ' AND code = "' . $codepromo . '" AND actif = 1';
+    
+		if ($result = $conn->query($query)) 
+		{
+			if ($result->num_rows > 0)
+			{
+		  	if ($row = $result->fetch_row()) 
+	  			$taux = $row[0];
+	  	}
+	  	else
+	  		$taux = 0; 
+		}
+		
+		$remise = $price * -($taux/100);
+		
+		$total = $price + $remise + $surcout;
+		
+		$_SESSION['total_commande'] = $total;
+		$_SESSION['frais_livraison'] = $surcout;
+		$_SESSION['remise_commande'] = $remise;
+		$_SESSION['soustotal_commande'] = $price;
+		$_SESSION['articles_commande'] = $items;
   }
   // Envoi du cout de la commande
-  return (round($price * 100));
+  return (round($total * 100));
 }
 
 
@@ -121,7 +143,7 @@ try {
 	\Stripe\Stripe::setApiKey($skey);
 	
   $paymentIntent = \Stripe\PaymentIntent::create([
-    'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr),
+    'amount' => calculateOrderAmount($json_obj->items, $conn, $customid, $json_obj->model, $json_obj->fraislivr, $json_obj->codepromo),
     'currency' => 'eur',
     'automatic_payment_methods' => ['enabled' => 'true']
   ], ['stripe_account' => $stripe_connected_account,
