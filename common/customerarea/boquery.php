@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 
 class Lien {
   public $nom;
@@ -38,6 +38,10 @@ try {
   $json_str = file_get_contents('php://input');
   $input = json_decode($json_str);
   $arr = "";
+  
+  if (isset($input->sessionid))
+    session_id($input->sessionid);
+  session_start();
 	
 	//$rcvnom = GetValeurParam("Receivernom_mail", $conn, $input->bouticid);
   

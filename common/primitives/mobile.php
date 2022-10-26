@@ -94,6 +94,7 @@
           array_push($arr, $row[2]);
           array_push($arr, $row[3]);
           array_push($arr, $abo);
+          array_push($arr, session_id());
           $output = $arr;
         }
         else

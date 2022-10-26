@@ -97,6 +97,7 @@
           array_push($arr, $abo);
           array_push($arr, "OK");
           array_push($arr, $row[0]);
+          array_push($arr, session_id());
           $output = $arr;
         //}
         //else
@@ -114,11 +115,13 @@
         array_push($arr, "KO");
         array_push($arr, "KO");
         array_push($arr, "");
+        array_push($arr, "");
         $output = $arr;
       }
     }
     $result->close();
     $conn->close();
+    error_log($_SESSION['bo_auth']);
     echo json_encode($output);
   } 
   catch (Error $e) 
