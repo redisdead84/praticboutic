@@ -71,7 +71,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.610">
+    <link rel="stylesheet" href="css/back.css?v=1.613">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -212,8 +212,10 @@
   </script>
     <div class="vertical-nav" id="sidebar">
       <img id='closemenu' src='img/close.svg' onclick="closeSidebar()" height="24px" width="24px" />
+      <img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' align="center"/>
+      <p class="txthcenter">Bienvenue</p>
+      <p class="smalltxt"><?php echo $_SESSION['bo_email']; ?></p>
       <ul class="nav nav-menu flex-column">
-        <img id='logopblid' src='img/LOGO_PRATIC_BOUTIC.png' />
         <li class="nav-item mobilehcenter">
           <a class="nav-link" id="commandes-tab" data-toggle="tab" href="#commandes" role="tab" aria-controls="commandes" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_mes-commandes.png' height="25" width="25" />Mes Commandes</a>
         </li>
