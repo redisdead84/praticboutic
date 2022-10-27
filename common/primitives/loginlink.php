@@ -1,7 +1,4 @@
 <?php
-
-
-  session_start();
   
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
@@ -52,6 +49,12 @@
   
   try
   {
+    $json_str = file_get_contents('php://input');
+    $input = json_decode($json_str);
+    
+    session_id($input->sessionid);
+    session_start();
+    
     if (!isset($_SESSION))
     {
       throw new Error('Session expirée');
@@ -101,8 +104,6 @@
       throw new Error("Pas d'abonnement actif");
     }
 
-    $json_str = file_get_contents('php://input');
-    $input = json_decode($json_str);
     $output ="";
     
     $sca = GetValeurParam("STRIPE_ACCOUNT_ID", $conn, $input->bouticid);

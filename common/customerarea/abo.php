@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require '../../vendor/autoload.php';
 include "../config/common_cfg.php";
@@ -27,6 +26,10 @@ try
   $json_str = file_get_contents('php://input');
   $input = json_decode($json_str);
   $output ="";
+  
+  if (isset($input->sessionid))
+    session_id($input->sessionid);
+  session_start();
 
   //error_log($json_str);
 
