@@ -226,7 +226,7 @@
           <a class="nav-link" id="livraison-tab" data-toggle="tab" href="#livraison" role="tab" aria-controls="livraison" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/LIVRAISON.png' height="25" width="25" />Livraisons</a>
         </li>
         <li class="nav-item mobilehcenter">
-          <a class="nav-link" id="promotions-tab" data-toggle="tab" href="#promotions" role="tab" aria-controls="promotions" aria-selected="false" onclick="cancel(this)"><img class='picto' src='' height="25" width="25" />Mes Promotions</a>
+          <a class="nav-link" id="promotions-tab" data-toggle="tab" href="#promotions" role="tab" aria-controls="promotions" aria-selected="false" onclick="cancel(this)"><img class='picto' src='img/picto_promo.png' height="25" width="25" />Mes Promotions</a>
         </li>
         <div class="demiinter mobilehcenter">
         </div>
