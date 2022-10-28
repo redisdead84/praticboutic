@@ -1,7 +1,25 @@
 <?php
 
   session_start();
-
+  
+  if (empty($_SESSION['bo_id']) == TRUE)
+  {
+   	  header("LOCATION: index.php");
+   	  exit();
+  }
+  
+  if (empty($_SESSION['bo_auth']) == TRUE)
+  {
+   	  header("LOCATION: index.php");
+   	  exit();
+  }	
+  
+  if (strcmp($_SESSION['bo_auth'],'oui') != 0)
+  {
+   	  header("LOCATION: index.php");
+   	  exit();
+  }
+  
   require '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
@@ -39,7 +57,6 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div class="pagecontainer">
-          <img id='filetape1' src="img/fil_Page_1.png" style="display: block;" class="fileelem" />
           <div class="filecontainer">
             <img id='illus2' src='img/illustration_2.png' class="elemcb epure" style="display: block;"/>
             <div id='mainmenu' class="modal-content-mainmenu elemcb notobig" style="display: block;">
@@ -50,6 +67,7 @@
                   try 
                   {
                     $sent = 0;
+                    $_SESSION['email'] = isset($_POST['email']) ? $_POST ['email'] : '';
                     $email = $_SESSION['email'];
                     $hash = md5(microtime(TRUE)*100000);
     
@@ -69,11 +87,11 @@
                     if (intval($row[0])>0)
                     {
                       echo '<p class="txtbig">Le courriel ' . $email . ' est déjà attribué à un client. Impossible de continuer.</p>';
-                      echo "<button class='btn btn-secondary enlarged btn-annuler' onclick='window.location=\"reg.php\"'>Ressaisir mon courriel</button>";
+                      echo "<button class='btn btn-secondary enlarged btn-annuler' onclick='window.location=\"boreg.php\"'>Ressaisir mon courriel</button>";
                     }
                     else if (strcmp($_SESSION['reg_mailsent'], 'oui') == 0)
                     {
-                      header('LOCATION: reg.php');
+                      header('LOCATION: boreg.php');
                     }
                     else
                     {
@@ -118,7 +136,7 @@
                       $mail->isHTML($isHTML);
     
                       $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
-                      $subject = "Lien pour la création de votre praticboutic";
+                      $subject = "Lien pour le changement de courriel";
                       $mail->Subject = $subject;
     
                       $text = '<!DOCTYPE html>';
@@ -289,8 +307,8 @@
                       $text = $text . '<br><br>';
                       $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
                       $text = $text . $email . '<br><br>';    
-                      $text = $text . 'Cliquez sur le lien suivant pour finaliser votre boutique en ligne ! ';
-                      $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/verify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
+                      $text = $text . 'Cliquez sur le lien suivant pour changer de courriel ! ';
+                      $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/boverify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
                       $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
                       $text = $text . '</body>';
                       $text = $text . '</html>';
@@ -302,12 +320,12 @@
                       $sent = 1;
                       $_SESSION['reg_mailsent'] = 'oui';
     
-                      echo "<p class='txtbig'>Un courriel contenant un lien pour finaliser votre inscription a été envoyé à l'adresse : " . $email . "</p>";
+                      echo "<p class='txtbig'>Un courriel contenant un lien pour changer de courriel a été envoyé à l'adresse : " . $email . "</p>";
                       echo "<ul>Si vous ne recevez pas ce courriel : ";
                       echo "<li>Vérifiez dans votre courrier indésirable</li>";
                       echo "<li>Vérifiez l'orthographe de votre courriel</li>";
                       echo "</ul>";
-                      echo "<button class='btn btn-secondary enlarged btn-annuler' onclick='window.location=\"reg.php\"'>Je n'ai pas reçu le courriel. Ressaisir mon courriel.</button>";
+                      echo "<button class='btn btn-secondary enlarged btn-annuler' onclick='window.location=\"boreg.php\"'>Je n'ai pas reçu le courriel. Ressaisir mon courriel.</button>";
 
                       $conn->close();
                     }
@@ -336,7 +354,6 @@
       {
         document.getElementById("loadid").style.display = "block";
         document.getElementById("mainmenu").style.display = "none";
-        document.getElementById("filetape1").style.display = "none";
         document.getElementById("illus2").style.display = "none";
         window.location.href ='exit.php';
       }
