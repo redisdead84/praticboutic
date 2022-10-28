@@ -1,8 +1,5 @@
 <?php
 
-
-  session_start();
-
   require '../../vendor/autoload.php';
   include "../config/common_cfg.php";
   include "../param.php";
@@ -19,6 +16,14 @@
 
   try
   {
+    //error_log($_SESSION['verify_email']);
+    $json_str = file_get_contents('php://input');
+    $input = json_decode($json_str);
+    $output ="";
+    
+    if (isset($input->sessionid))
+      session_id($input->sessionid);
+    session_start();
     
     if (!isset($_SESSION))
     {
@@ -30,11 +35,6 @@
       throw new Error('Courriel non vérifié');
     }
     
-    //error_log($_SESSION['verify_email']);
-    $json_str = file_get_contents('php://input');
-    $input = json_decode($json_str);
-    $output ="";
-
     $_SESSION['registration_pass'] = $input->pass;
     $_SESSION['registration_qualite'] = $input->qualite;
     $_SESSION['registration_nom'] = $input->nom;

@@ -1,7 +1,5 @@
 <?php
 
-  session_start();
-
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
   header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
@@ -62,10 +60,14 @@
   $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
   try 
   {
-    
+
     $json_str = file_get_contents('php://input');
     $input = json_decode($json_str);
-
+    
+    if (isset($input->sessionid))
+      session_id($input->sessionid);
+    session_start();
+    
     $email = $input->email;
     $conn = new mysqli($servername, $username, $password, $bdd);
     if ($conn->connect_error) 

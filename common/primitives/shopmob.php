@@ -1,6 +1,4 @@
 <?php
-
-  session_start();
   
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
@@ -14,14 +12,7 @@
 
   try
   {
-    if (!isset($_SESSION))
-    {
-      throw new Error('Session expirée');
-    }
-    if (empty($_SESSION['verify_email']) == TRUE)
-    {
-      throw new Error('Courriel non vérifié');
-    }
+
     
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
@@ -37,7 +28,20 @@
     $json_str = file_get_contents('php://input');
     $input = json_decode($json_str);
     $output ="";
-
+    
+    if (isset($input->sessionid))
+      session_id($input->sessionid);
+    session_start();
+    
+    if (!isset($_SESSION))
+    {
+      throw new Error('Session expirée');
+    }
+    if (empty($_SESSION['verify_email']) == TRUE)
+    {
+      throw new Error('Courriel non vérifié');
+    }
+    
     $sql = "SELECT count(*) FROM customer cu WHERE cu.customer = '" . $input->aliasboutic . "' LIMIT 1";
 
     // error_log($sql);

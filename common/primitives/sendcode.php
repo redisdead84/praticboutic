@@ -1,7 +1,5 @@
 <?php
 
-  session_start();
-
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
   header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
@@ -11,6 +9,10 @@
   $postdata = file_get_contents("php://input");
   if (isset($postdata))
     $request = json_decode($postdata);
+    
+  if (isset($input->sessionid))
+    session_id($input->sessionid);
+  session_start();
 
   // Import PHPMailer classes into the global namespace
   // These must be at the top of your script, not inside a function

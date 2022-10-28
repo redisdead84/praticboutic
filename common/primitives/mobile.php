@@ -1,7 +1,5 @@
 <?php
 
-  session_start();
-
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
   header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
@@ -35,6 +33,10 @@
     {
       $request = json_decode($postdata);
     }
+    
+    if (isset($input->sessionid))
+      session_id($input->sessionid);
+    session_start();
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);

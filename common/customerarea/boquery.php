@@ -1,7 +1,5 @@
 <?php
 
-
-
 class Lien {
   public $nom;
   public $tblsrc;
@@ -42,12 +40,6 @@ try {
   if (isset($input->sessionid))
     session_id($input->sessionid);
   session_start();
-	
-	//$rcvnom = GetValeurParam("Receivernom_mail", $conn, $input->bouticid);
-  
-  //error_log($json_str);
-	//error_log(var_dump($input));
-	//error_log($input->action);
 	
 	if (!isset($_SESSION))
   {

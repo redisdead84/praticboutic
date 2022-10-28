@@ -9,7 +9,11 @@ include "../param.php";
 
 use Fpdf\Fpdf;
 
+$json_str = file_get_contents('php://input');
+$input = json_decode($json_str);
 
+if (isset($input->sessionid))
+  session_id($input->sessionid);
 session_start();
 
 if (!isset($_SESSION))
@@ -26,7 +30,6 @@ if (strcmp($_SESSION['bo_auth'],'oui') != 0)
 {
   exit();
 }
-
 
 if (empty($_SERVER['HTTPS']))
 	$protocol = "http://";
