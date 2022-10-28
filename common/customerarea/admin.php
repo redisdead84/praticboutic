@@ -569,7 +569,7 @@
               <input type="button" class="btn btn-secondary" id="razctrlid" value='RAZ des Mémoires de contrôles' onclick="razctrl()"></button>
             </div>
             <div class='tbl'>
-              <input type="button" class="btn btn-secondary" id="chgtmailid" value='Changement du courriel' onclick="window.location='boreg.php'"></button>
+              <input type="button" class="btn btn-secondary" id="chgtmailid" value='Changement du courriel du compte' onclick="window.location='boreg.php'"></button>
             </div>
           </div>
           <div class="tab-pane" id="qrcode" role="tabpanel" aria-labelledby="qrcode-tab">
