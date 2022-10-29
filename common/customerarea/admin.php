@@ -704,7 +704,7 @@
 									inp.required = true;
 									inp.pattern = '[0-9A-Z]{4}';
 									inp.value = champs[i].defval;
-									inp.title = "Doit être composé de 4 chiffres ou lettres majuscule";
+									inp.title = "Doit être composé de quatre chiffres ou lettres majuscule";
 								}
 								else if (champs[i].typ == "bool")
 								{
@@ -722,7 +722,7 @@
 									inp.step = '0.01';
 									inp.value = champs[i].defval;
 									inp.min = '0';
-									inp.title = "Doit être un nombre positif avec 2 chiffres après la virgule";
+									inp.title = "Doit être un nombre positif avec deux chiffres après la virgule";
 								}
 								else if (champs[i].typ == "percent")
 								{
@@ -796,7 +796,7 @@
 									inp.classList.add('form-control');
 									inp.type = 'password';
 									inp.pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}";
-									inp.title = "Le mot de passe doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères";
+									inp.title = "Le mot de passe doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins huit caractères";
 									inp.required = true;
 									inp.autocomplete = "new-password";
 								}
@@ -815,7 +815,7 @@
 									inp.pattern = "[0-9]{5}";
 									inp.minlength = "5";
 									inp.maxlength = "5";
-									inp.title = "Le code postal doit être valide";
+									inp.title = "Doit contenir cinq chiffres";
 									inp.required = true;
 								}
 								
@@ -907,8 +907,15 @@
 						  }
 						  if (!fld.checkValidity())
 						  {
-								error = true;
-					  		errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
+						    if (fld.validity.patternMismatch)
+						    {
+						      errmsg = fld.getAttribute("data-champ")  + " : " + fld.title;
+						    }
+						    else 
+						    {
+						      errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
+						    }
+								error = true;	
 								break;  	
 						  }						  
 						}
@@ -1031,7 +1038,7 @@
     									inp.value = data[i];
     									inp.required = true;
     									inp.pattern = '[0-9A-Z]{4}';
-    									inp.title = "Doit être composé de 4 chiffres ou lettres majuscule";
+    									inp.title = "Doit être composé de quatre chiffres ou lettres majuscule";
     								}
 										else if (champs[i].typ == "bool")
 										{
@@ -1050,7 +1057,7 @@
 											inp.step = '0.01';
 											inp.value = parseFloat(data[i]).toFixed(2);
 											inp.min = '0';
-											inp.title = "Doit être un nombre positif avec 2 chiffres après la virgule";
+											inp.title = "Doit être un nombre positif avec deux chiffres après la virgule";
 										}
 										else if (champs[i].typ == "percent")
 										{
@@ -1128,7 +1135,7 @@
 											inp.classList.add('form-control');
 											inp.type = 'password';
 											inp.pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}";
-											inp.title = "Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères";
+											inp.title = "Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins huit caractères";
 											inp.required = false;
 											inp.autocomplete = "new-password";
 										}
@@ -1148,7 +1155,7 @@
 											inp.pattern = "[0-9]{5}";
 											inp.minlength = "5";
 											inp.maxlength = "5";
-											inp.title = "Doit contenir 5 chiffre";
+											inp.title = "Doit contenir cinq chiffres";
 											inp.required = true;
 											inp.value = data[i];
 										}
@@ -1276,7 +1283,6 @@
 									      errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
 									    }
 											error = true;	
-											
 											break;				  	
 						  			}						  
 									}
