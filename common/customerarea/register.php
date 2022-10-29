@@ -71,7 +71,7 @@
                     <div class="paramfieldb" id="blank" name="blank"></div><br>
                   </div>
                   <div class="param">
-                    <input class="paramfieldc" id="cp" name="cp" type="text" placeholder="Code Postal" value="" maxlength="5" pattern="[0-9]{5}" required /><br>
+                    <input class="paramfieldc" id="cp" name="cp" type="text" placeholder="Code Postal" value="" maxlength="5" pattern="[0-9]{5}" required title="Il faut un code postal français valide" /><br>
                   </div>
                   <div class="param">
                     <input class="paramfieldc" id="ville" name="ville" type="text" placeholder="Ville" value="" maxlength="50" required /><br>
