@@ -63,7 +63,7 @@
                   <div id="bloclogoid">
                     <label class="paramfieldlf" title="facultatif">Logo de la boutic :</label><input class="form-control-file cb-form-control-file" id="artlogofile" maxlength="100" name="logo" type="file" title="Si aucun le nom de la boutic sera affiché" accept="image/png, image/jpeg" data-artlogo="artlogo" onchange="uploadlogo(this)" />
                     <div class="frameimg">
-                      <img id="artlogo" class="imgart" src="" alt="">
+                      <img id="artlogo" class="imgart" alt="">
                       <img id="logofermer" class="imgclose" src="../img/fermer.png" style="display: none" data-artlogofile="artlogofile" data-artlogo="artlogo" onclick="closeimg(this)" alt="">
                     </div>
                   </div>
@@ -92,7 +92,10 @@
       document.getElementById("pagecontainerid").style.display = "none";
       sessionStorage.setItem('pb_initb_aliasboutic', document.getElementById("aliasboutic").value);
       sessionStorage.setItem('pb_initb_nom', document.getElementById("nom").value);
-      sessionStorage.setItem('pb_initb_logo', document.getElementById("artlogo").src);
+      if (document.getElementById("artlogo").hasAttribute('src'))
+        sessionStorage.setItem('pb_initb_logo', document.getElementById("artlogo").src);
+      else
+        sessionStorage.removeItem('pb_initb_logo');
       sessionStorage.setItem('pb_initb_email', document.getElementById("email").value);
     }
 
