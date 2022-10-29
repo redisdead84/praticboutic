@@ -219,7 +219,7 @@
 	      }  
       }
       echo '<div class="underlined">';
-      echo '<label class="lcont">Code promotionnel&nbsp;:&nbsp;</label>';
+      echo '<label class="lcont">Code Promo.&nbsp;:&nbsp;</label>';
       echo '<input class="cont" type="string" id="lecodepromo" name="codepromo" maxlength="4" pattern="[0-9A-Z]{4}" onkeyup="getRemise(sessionStorage.getItem(\'sstotal\'), this)">';
       echo '</div>';
       echo '<div class="panneau" id="remiseid"></div>';
