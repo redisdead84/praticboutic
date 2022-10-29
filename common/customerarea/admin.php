@@ -165,10 +165,7 @@
         {
           init = "non";
           initdone;
-          var modal = $('.modal');
-          $('.modal-title').html('Félicitations');
-          modal.find('.modal-body').text('Votre Pratic Boutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
-          $('.modal').modal('show');
+          showOkAlert('Félicitations', 'Votre PraticBoutic a été créé. \n\n\n Insérer un article pour commencer l\'expérience.');
           $('.modal').on('hidden.bs.modal', function (event) {
             $('.modal').off('hidden.bs.modal');
             showStripeAlert();
@@ -206,7 +203,17 @@
       $('.modal-footer').append(ulte);
       $('.modal-footer').append(stripe);
       $('.modal').modal('show');
+
     }
+  }
+  
+  function showOkAlert(title, text) {
+    var modal = $('.modal');
+    $('.modal-title').html(title);
+    $('.modal-body').text(text);
+    $('.modal-footer').empty();
+    $('.modal-footer').append('<button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="okbtn">OK</button>');
+    $('.modal').modal('show');
   }
 
   </script>
@@ -746,10 +753,7 @@
 					          .then(function(data) {
 						         	if (typeof (data.error) !== "undefined")
 						         	{
-						         		var modal = $('.modal');
-						         		$('.modal-title').html('Erreur');
-						            modal.find('.modal-body').text(data.error);
-						            $('.modal').modal('show');
+						         		showOkAlert('Erreur', data.error);
 						         	}
 											else {
 												document.getElementById(fileInput.getAttribute("data-artimg")).src = pathimg + data;
@@ -921,10 +925,7 @@
 					}
 					else 
 					{
-         		var modal = $('.modal');
-	       		$('.modal-title').html('Erreur');
-   			    modal.find('.modal-body').text(errmsg);
-       			$('.modal').modal('show');
+					  showOkAlert('Erreur', errmsg);
 					}
 				}; 
 
@@ -987,10 +988,7 @@
         .then(function(data) {
      			if (typeof (data.error) !== "undefined")
 					{
-	          var modal = $('.modal');
-	          $('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+					  showOkAlert('Erreur', data.error);
 					}
 	       	else 
         	{
@@ -1085,10 +1083,7 @@
 							          .then(function(data) {
 								         	if (typeof (data.error) !== "undefined")
 								         	{
-								         		var modal = $('.modal');
-								         		$('.modal-title').html('Erreur');
-								            modal.find('.modal-body').text(data.error);
-								            $('.modal').modal('show');
+								         	  showOkAlert('Erreur', data.error);
 								         	}
 													else {
 						        				document.getElementById(fileInput.getAttribute("data-artimg")).src = pathimg + data;
@@ -1299,10 +1294,7 @@
 							}
 							else 
 							{
- 		         		var modal = $('.modal');
-			       		$('.modal-title').html('Erreur');
-						    modal.find('.modal-body').text(errmsg);
-    						$('.modal').modal('show');
+							  showOkAlert('Erreur', errmsg);
 							}
 						};
 					  formoff.appendChild(okbtn);
@@ -1639,10 +1631,7 @@
 	        .then(function(data) {
 	        	if (typeof (data.error) !== "undefined")
 	          {
-		        	var modal = $('.modal');
-		        	$('.modal-title').html('Erreur');
-					    modal.find('.modal-body').text(data.error);
-					    $('.modal').modal('show');
+	            showOkAlert('Erreur', data.error);
 	          }
 	         	else
 	         	{
@@ -1697,10 +1686,7 @@
         .then(function(data) {
      			if (typeof (data.error) !== "undefined")
 					{
-	          var modal = $('.modal');
-	          $('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+					  showOkAlert('Erreur', data.error);
 					}
 	       	else 
         	{
@@ -1948,10 +1934,7 @@
         .then(function(data) {
         	if (typeof (data.error) !== "undefined")
         	{
-        		var modal = $('.modal');
-        		$('.modal-title').html('Erreur');
-			      modal.find('.modal-body').text(data.error);
-			      $('.modal').modal('show');
+        	  showOkAlert('Erreur', data.error);
 			    }
 			    else 
 			    {
@@ -2009,10 +1992,7 @@
 		        .then(function(data) {
 		         	if (typeof (data.error) !== "undefined")
 		         	{
-			       		var modal = $('.modal');
-			       		$('.modal-title').html('Erreur');
-						     modal.find('.modal-body').text(data.error);
-						     $('.modal').modal('show');
+                showOkAlert('Erreur', data.error);
 		         	}
 		        	else
 		        	{
@@ -2089,10 +2069,7 @@
           .then(function(data) {
           	if (typeof (data.error) !== "undefined")
           	{
-	         		var modal = $('.modal');
-	         		$('.modal-title').html('Erreur');
-	            modal.find('.modal-body').text(data.error);
-	            $('.modal').modal('show');
+          	  showOkAlert('Erreur', data.error);
           	}
          		else 
             	datatooption(place, data, selidx, tosel);
@@ -2120,10 +2097,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
          	else 
          	{
@@ -2156,10 +2130,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
          	else 
          	{
@@ -2194,10 +2165,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
         })
       }
@@ -2222,10 +2190,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
          	else 
          	{
@@ -2325,10 +2290,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
          	else 
          	{
@@ -2377,10 +2339,7 @@
 			          .then(function(data) {
 				         	if (typeof (data.error) !== "undefined")
 				         	{
-				         		var modal = $('.modal');
-				         		$('.modal-title').html('Erreur');
-				            modal.find('.modal-body').text(data.error);
-				            $('.modal').modal('show');
+				         	  showOkAlert('Erreur', data.error);
 				         	}
 									else {
 										fileInput.setAttribute("data-modified", 'true');
@@ -2450,10 +2409,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
          	else 
          	{
@@ -2502,10 +2458,7 @@
 			          .then(function(data) {
 				         	if (typeof (data.error) !== "undefined")
 				         	{
-				         		var modal = $('.modal');
-				         		$('.modal-title').html('Erreur');
-				            modal.find('.modal-body').text(data.error);
-				            $('.modal').modal('show');
+                    showOkAlert('Erreur', data.error);
 				         	}
 									else {
 										fileInput.setAttribute("data-modified", 'true');
@@ -2651,10 +2604,7 @@
 			        .then(function(data) {
 			         	if (typeof (data.error) !== "undefined")
 			         	{
-			         		var modal = $('.modal');
-			         		$('.modal-title').html('Erreur');
-			            modal.find('.modal-body').text(data.error);
-			            $('.modal').modal('show');
+                  showOkAlert('Erreur', data.error);
 			         	}
 			         	else {
 									document.getElementById('validparamid').disabled = true;
@@ -2686,10 +2636,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
          	else 
          	{
@@ -2738,10 +2685,7 @@
 			          .then(function(data) {
 				         	if (typeof (data.error) !== "undefined")
 				         	{
-				         		var modal = $('.modal');
-				         		$('.modal-title').html('Erreur');
-				            modal.find('.modal-body').text(data.error);
-				            $('.modal').modal('show');
+                    showOkAlert('Erreur', data.error);
 				         	}
 									else {
 										fileInput.setAttribute("data-modified", 'true');
@@ -2900,10 +2844,7 @@
 			        .then(function(data) {
 			         	if (typeof (data.error) !== "undefined")
 			         	{
-			         		var modal = $('.modal');
-			         		$('.modal-title').html('Erreur');
-			            modal.find('.modal-body').text(data.error);
-			            $('.modal').modal('show');
+                  showOkAlert('Erreur', data.error);
 			         	}
 			         	else {
 									document.getElementById('validparamid').disabled = true;
@@ -2957,10 +2898,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
 					else 
 					{
@@ -3074,10 +3012,7 @@
                .then(function(data) {
                  if (typeof (data.error) !== "undefined")
                  {
-                   var modal = $('.modal');
-                   $('.modal-title').html('Erreur');
-                   modal.find('.modal-body').text(data.error);
-                   $('.modal').modal('show');
+                   showOkAlert('Erreur', data.error);
                  }
                  else 
                  {
@@ -3086,10 +3021,7 @@
                    if (data == "KO") 
                    {
                      fldCustomProp("pbaliasid", "customer", "url");
-                     var modal = $('.modal');
-                     $('.modal-title').html('Impossible de continuer');
-                     modal.find('.modal-body').text("Ce nom de boutic est déjà utilisé");
-                     $('.modal').modal('show');
+                     showOkAlert('Impossible de continuer', "Ce nom de boutic est déjà utilisé");
                    }
                  }
                })
@@ -3140,10 +3072,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
 					else 
 					{
@@ -3264,10 +3193,7 @@
                .then(function(data) {
                  if (typeof (data.error) !== "undefined")
                  {
-                   var modal = $('.modal');
-                   $('.modal-title').html('Erreur');
-                   modal.find('.modal-body').text(data.error);
-                   $('.modal').modal('show');
+                   showOkAlert('Erreur', data.error);
                  }
                  else 
                  {
@@ -3317,10 +3243,7 @@
         .then(function(data) {
          	if (typeof (data.error) !== "undefined")
          	{
-         		var modal = $('.modal');
-         		$('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
+            showOkAlert('Erreur', data.error);
          	}
 					else 
 					{
