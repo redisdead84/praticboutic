@@ -1601,3 +1601,8 @@ div.blocsysmoney
   margin-bottom: 0.25rem !important;
   word-break: break-all;
 }
+
+.mdbodynh
+{
+  height: 15vh !important;
+}

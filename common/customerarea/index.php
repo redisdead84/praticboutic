@@ -59,10 +59,10 @@
               <h6 class="modal-title-cb">CONNEXION ARRI&Egrave;RE BOUTIC</h6>
             </div>
             <div class="modal-body-mainmenu modal-body-cb">
-              <div class="form-group">
+              <div class="form-group enlarged">
                 <input class="form-control" placeholder="Courriel" type="string" id="emailid" name="email">
               </div>
-              <div class="form-group">
+              <div class="form-group enlarged">
                  <input class="form-control" placeholder="Mot de passe" type="password" id="passid" name="pass">
                </div>
             </div>

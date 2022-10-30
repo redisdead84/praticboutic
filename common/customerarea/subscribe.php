@@ -81,7 +81,7 @@
   // helper method for displaying a status message.
     const setMessage = (message) => {
       const messageDiv = document.querySelector('#messages');
-      messageDiv.innerHTML += "<br>" + message;
+      messageDiv.innerHTML = message;
     }
     
     // Fetch public key and initialize Stripe.
