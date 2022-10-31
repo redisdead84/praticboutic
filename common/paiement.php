@@ -61,7 +61,7 @@
 	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
 		<?php    
     		echo '<script src="https://js.stripe.com/v3/"></script>' . "\n";
-				echo '<script src="js/client.js?v=1.271" defer></script>' . "\n";
+				echo '<script src="js/client.js?v=1.272" defer></script>' . "\n";
     ?>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />

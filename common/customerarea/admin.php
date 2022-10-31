@@ -1956,11 +1956,12 @@
                 // Notifify new order
                 const img = 'img/pb_notificon.png';
                 const text = 'Nouvelle(s) commande(s) en attente de traitement de votre part.';
-                navigator.serviceWorker.register('sw.js?v=1.06');
+                navigator.serviceWorker.register('sw.js?v=1.215');
                 Notification.requestPermission(function(result) {
                   if (result === 'granted') {
                     navigator.serviceWorker.addEventListener('message', (event) => {
                       document.getElementById('commandes-tab').click();
+                      window.parent.parent.focus();
                     });
                     navigator.serviceWorker.ready.then(function(registration) {
                       registration.showNotification('Arrivage de Commande Client', { body: text, icon: img });
