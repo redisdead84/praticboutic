@@ -3355,8 +3355,16 @@
         // Au premier point de contact
         window.addEventListener("touchstart", function(evt) {
           var tag = evt.targetTouches[0].target.tagName;
+          //console.log("touchstart");
+          //console.log(tag);
           if ((tag == "TABLE") || (tag == "TR") || (tag == "TD") || (tag == "TBODY") || (tag == "THEAD") || (tag == "TH"))
             return;
+          if (tag == "INPUT")
+          {
+            var type = evt.targetTouches[0].target.type;
+            if (type == "checkbox")
+              return;
+          }
           // Récupère les "touches" effectuées
           var touches = evt.changedTouches[0];
           startX = touches.pageX;
@@ -3367,8 +3375,16 @@
         window.addEventListener("touchmove", function(evt) {
           // Limite les effets de bord avec le tactile...
           var tag = evt.targetTouches[0].target.tagName;
+          //console.log("touchmove");
+          //console.log(tag);
           if ((tag == "TABLE") || (tag == "TR") || (tag == "TD") || (tag == "TBODY") || (tag == "THEAD") || (tag == "TH"))
             return;
+          if (tag == "INPUT")
+          {
+            var type = evt.targetTouches[0].target.type;
+            if (type == "checkbox")
+              return;
+          }
           evt.preventDefault();
           evt.stopPropagation();
         }, false);
@@ -3377,7 +3393,18 @@
         window.addEventListener("touchend", function(evt) {
           var touches = evt.changedTouches[0];
           var between = touches.pageX - startX;
-      
+          //console.log("touchend");
+          //console.log(between);
+          var tag = touches.target.tagName;
+          //console.log(tag);
+          if ((tag == "TABLE") || (tag == "TR") || (tag == "TD") || (tag == "TBODY") || (tag == "THEAD") || (tag == "TH"))
+            return;
+          if (tag == "INPUT")
+          {
+            var type = touches.target.type;
+            if (type == "checkbox")
+              return;
+          }
           // Détection de la direction
           if(between > 0) {
             var orientation = "ltr";
