@@ -54,7 +54,7 @@
               <img id='illus8' src='img/illustration_8.png' class='epure'/>
               <div class="customform tiersspacemax">
                 <p class="center middle title">
-                  On touche au but ! JE SAISIE MES INFORMATIONS DE PAIEMENT
+                  Je saisie mes informations de paiement
                 </p>
                 <form id="subscribe-form">
                   <div class="stripeelem" id="card-element">
@@ -64,9 +64,9 @@
                   <br />
                   <!-- We'll put the error messages in this element -->
                   <div id="card-element-errors" role="alert"></div>
-                  <div class="ifgrpbtn">
-                    <input class="btn-ifsecondary" type="button" onclick="javascript:cancel()" value="RETOUR" />
-                    <button class="btn-ifprimary" type="submit">C'EST PARTI</button>
+                  <br />
+                  <div class="param rwc">
+                    <input class="regsubmit" type="submit" name="CESTPARTI" value="C'EST PARTI !" autofocus />
                   </div>
                 </form>
               </div>

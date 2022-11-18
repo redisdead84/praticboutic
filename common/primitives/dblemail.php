@@ -36,7 +36,7 @@
       if ($row[0] == 0)
       {
         $_SESSION['verify_email'] = $input->email;
-        $output = "OK";
+        $output = session_id();
       }
       else
       {

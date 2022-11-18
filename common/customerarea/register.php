@@ -90,10 +90,14 @@
                     <input class="paramfieldc inputeye" id="passconf" maxlength="255" name="passconf" type="password" placeholder="Mot de passe(confirmation)" value="" pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*?]).{8,}" title="Doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères" autocomplete="new-password" required />
                     <i class="bi bi-eye-slash bi-eye eyeico" id="togglepassconf"></i><br>
                   </div>
-                  <div class="param rwc">
-                    <input class="butc regsubmit" type="submit" value="CONTINUER" autofocus /><br>
+                  <div class="param">
+                    <p class="passinfo">Le mot de passe doit contenir au moins un chiffre, une majuscule, une minuscule, un signe parmi !@#$%&*? et être de au moins 8 caractères</p>
                   </div>
                 </div>
+                <div class="param rwc">
+                  <input class="butc regsubmit" type="submit" value="CONTINUER" autofocus /><br>
+                </div>
+                <p class="changeable">Les informations pourront être modifié par la suite à partir de votre espace</p>
               </form>
             </div>
           </div>

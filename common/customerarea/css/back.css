@@ -29,7 +29,7 @@
   
   .modal-content-mainmenu
   {
-    padding: 5vmin;
+    padding: 4vmin;
   }
   
   .flcentered
@@ -546,7 +546,6 @@ table tbody td {
 
 .modal-header-cb
 {
-  height: 100px;
 	background-color: #595858;
 	color: white;
 	border-bottom: 0px !important;
@@ -564,7 +563,7 @@ table tbody td {
 {
   justify-content: space-evenly;
   display: flex;
-  height: 300px;
+  height: auto;
   flex-flow: column;
   align-items: center;
 	background-color: #595858;
@@ -599,14 +598,17 @@ table tbody td {
 
 .btn-primary
 {
-	background-color: #006EE3 !important;
-	border-color: #006EE3 !important;
+	background-color: #009CDB !important;
+	border-color: #009CDB !important;
 }
 
 .mdfaddlink
 {
-	color: white !important;
+	color: #1D1D1B !important;
 	width: 100% !important;
+	text-align: center;
+	text-decoration: underline;
+	font-size: 75%;
 }
 
 .form-control
@@ -619,7 +621,7 @@ table tbody td {
 
 .form-control:focus
 {
-	border-color: #006EE3 !important;
+	border-color: #009CDB !important;
 	outline: none;
   background-color: #E0E0FF;
 }
@@ -923,14 +925,16 @@ margin: 1rem;
 
 .regsubmit
 {
-  flex: 0 0 100%;
-  background-color: #006EE3;
+  flex: 0 0 36%;
+  background-color: #009CDB;
   color: white;
   margin: 5px;
-  padding: 5px;
+  padding: 10px;
   font-family: 'Montserrat';
-  font-size: 80%;
+  font-size: 100%;
   font-weight: 500;
+  border-radius: 35px;
+  border: 0px;
 }
 
 :focus
@@ -944,8 +948,8 @@ margin: 1rem;
 .btn-nbprimary
 {
   flex: 0 0 49%;
-  background-color: #006EE3;
-  border: 1px solid #006EE3;
+  background-color: #009CDB;
+  border: 1px solid #009CDB;
   color: white;
   margin: 5px;
   padding: 5px;
@@ -970,8 +974,8 @@ margin: 1rem;
 .btn-msprimary
 {
   flex: 0 0 40%;
-  background-color: #006EE3;
-  border: 1px solid #006EE3;
+  background-color: #009CDB;
+  border: 1px solid #009CDB;
   color: white;
   margin: 5px;
   padding: 5px;
@@ -996,8 +1000,8 @@ margin: 1rem;
 .btn-cfprimary
 {
   flex: 0 0 40%;
-  background-color: #006EE3;
-  border: 1px solid #006EE3;
+  background-color: #009CDB;
+  border: 1px solid #009CDB;
   color: white;
   margin: 5px;
   padding: 5px;
@@ -1022,8 +1026,8 @@ margin: 1rem;
 .btn-ifprimary
 {
   flex: 0 0 40%;
-  background-color: #006EE3;
-  border: 1px solid #006EE3;
+  background-color: #009CDB;
+  border: 1px solid #009CDB;
   color: white;
   margin: 5px;
   padding: 5px;
@@ -1207,7 +1211,7 @@ div
 {
   justify-content: space-evenly;
   display: flex;
-  height: 145px;
+  height: auto;
   flex-flow: column;
   align-items: center;
   width: 261px;
@@ -1479,6 +1483,7 @@ div.blocsysmoney
 .elemcb
 {
   margin: 60px;
+  text-align: center;
 }
 
 .grecaptcha
@@ -1563,9 +1568,8 @@ div.blocsysmoney
 
 .txtintro
 {
-  font-style: italic;
-  margin-top: 1rem;
-  margin-bottom: 0rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .txtbig
@@ -1606,3 +1610,68 @@ div.blocsysmoney
 {
   height: 15vh !important;
 }
+
+.btn
+{
+  border-radius: 1.5rem !important;
+}
+
+div:has(> div.grecaptcha-badge)
+{
+  display: none;
+}
+
+.firstelem
+{
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.anyelem
+{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.lastelem
+{
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+}
+
+.nomargin
+{
+  margin: 0;
+}
+
+.noalign
+{
+  align-items: initial;
+  text-align: left;
+}
+
+.passinfo
+{
+  font-size: 75%;
+  width: 275px;
+  text-align: justify;
+}
+
+p.smallfont
+{
+  font-size: 75%;
+}
+
+p.changeable
+{
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  font-family: 'Montserrat-Italic';
+  font-weight: 100;
+  font-size: 100%;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+

@@ -52,7 +52,7 @@
             <main id="mainid" class="fcb">
               <div id="cfid" class="customform">
                 <p class="center middle title">
-                  Extra ! C'est paramétré, je choisis ma formule d'abonnement
+                  Je choisis ma formule d'abonnement
                 </p>
                 <div class="formulespace">
                   <img id="commissionico" class="formuleico" src="img/commission_unselected.png?v=0.2" onclick="toggle(this)" data-state="off">
@@ -62,10 +62,10 @@
                   <input type="checkbox" id="cgvid" name="cgv" value="on" onclick="allow()" />
                   <label for="cgv">J'accepte <a href="javascript:bakinfo();window.location='cgv.php'">les conditions générales de vente</a></label>
                 </div>
-                <div class="param rwc grpbtnfor">
-                  <input class="butc btn-cfsecondary" type="button" id="cfannul" onclick="javascript:cancel()" value="RETOUR" />
-                  <input class="butc btn-cfprimary" type="button" id="cfvalid" value="JE VALIDE !" autofocus disabled style="opacity: 0.5" />
+                <div class="param rwc">
+                  <input class="regsubmit" type="button" id="cfvalid" type="button" name="JEVALIDE" value="JE VALIDE !" autofocus disabled style="opacity: 0.5" />
                 </div>
+                <p class="changeable">Les informations pourront être modifié par la suite à partir de votre espace</p>
               </div>
             </main>
           </div>

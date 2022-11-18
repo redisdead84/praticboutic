@@ -17,7 +17,7 @@ $dotenv->load();
     <title>Inscription</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
-    <link rel="stylesheet" href="css/back.css?v=1.706">
+    <link rel="stylesheet" href="css/back.css?v=1.712">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -28,6 +28,7 @@ $dotenv->load();
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <meta name="theme-color" content="#e2007a">
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
@@ -39,25 +40,26 @@ $dotenv->load();
         <div class="pagecontainer" id="pagecontainerid">
           <img id='filetape1' src="img/fil_Page_1.png" class="fileelem" />
           <div class="filecontainer">
-            <div id="mainmenu" class="modal-content-mainmenu">
-              <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
-                <div class="modal-header-cb">
-                  <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
-                  <h6 class="modal-title modal-title-cb">BIENVENUE</h6>
-                </div>
-                <div class="modal-body-mainmenu modal-body-cb">
-                  <p class="txtintro">Pour débuter l'aventure, je saisie mon courriel.</p>
-                  <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
-                  <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
-                  <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
-                </div>
-                <input type="submit" class="btn btn-primary enlarged btn-valider g-recaptcha" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="INSCRIPTION" />
-                <div class="modal-footer-cb">
-                  <a class="mr-auto mdfaddlink forgotpwd" href="./index.php">J'ai déjà un compte</a>
-                  <div id="g_id_onload" data-client_id="<?php echo $_ENV['GOOGLE_CLIENTID']; ?>" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-                  <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
-                </div>
-              </form>
+            <div id="mainmenu" class="center">
+              <div class="modal-content-mainmenu">
+                <form id="signup-form" name="signup-form" method="post" autocomplete="on" action="valrecapi.php">
+                  <div class="modal-header-cb">
+                    <img id='logopbid' src='img/LOGO_PRATIC_BOUTIC.png' />
+                  </div>
+                  <div class="modal-body-mainmenu modal-body-cb">
+                    <p class="firstelem">Entrez votre email afin de créer votre PraticBoutic</p>
+                    <input class="form-control anyelem" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
+                    <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
+                    <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse" style="display: none;">
+                    <input type="submit" class="btn btn-primary enlarged btn-valider g-recaptcha lastelem" data-sitekey=<?php echo $_ENV['RECAPTCHA_KEY']; ?> data-callback='onSubmit' data-action='submit' value="CONTINUER" />
+                  </div>
+                  <div class="modal-footer-cb">
+                    <div id="g_id_onload" data-client_id="<?php echo $_ENV['GOOGLE_CLIENTID']; ?>" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
+                    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
+                  </div>
+                </form>
+              </div>
+              <a class="mr-auto mdfaddlink forgotpwd" href="./index.php">J'ai déjà un compte</a>
             </div>
             <img id='illus2' src='img/illustration_2.png' class='elemcb epure'/>
           </div>

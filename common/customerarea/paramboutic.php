@@ -50,7 +50,7 @@
             <main class="fcb">
               <div id='mainform' class="customform">
                 <p class="center middle title">
-                  Génial ! C'est créé <br> JE PARAMÈTRE MA <span style="color:#e2007a">PRATIC</span><span style="color:#6c757d">BOUTIC</span>
+                  Je paramètre ma <span style="color:#e2007a">Pratic</span><span style="color:#6c757d">Boutic</span>
                 </p>
                 <form id="signup-form" onsubmit="bakinfo()" method="post" action="confboutic.php" autocomplete="on">
                   <div class="">
@@ -88,10 +88,10 @@
                       <div class="param center"><div class="param center"><input class="paramfieldc center" type="radio" id="smson" name="validsms" value="on" required checked><label class="paramfieldr" for="validsmson">&nbsp;Activé&nbsp;</label></div><div class="param center"><input class="paramfieldc center" type="radio" id="smsoff" name="validsms" value="off"><label class="paramfieldr">&nbsp;Désactivé&nbsp;</label></div></div><br>
                     </div>
                   </div>
-                  <div class="param rwc margetop">
-                    <input class="butc btn-mssecondary" id="msannul" type="button" onclick="javascript:cancel()" value="RETOUR" />
-                    <input class="butc btn-msprimary" id="msvalid" type="submit" value="CONTINUER" autofocus /><br><br>
+                  <div class="param rwc">
+                    <input class="regsubmit" type="submit" name="CONTINUER" value="CONTINUER" autofocus />
                   </div>
+                  <p class="changeable">Les informations pourront être modifié par la suite à partir de votre espace</p>
                 </form>
               </div>
             </main>

@@ -123,7 +123,7 @@
     }
     $result->close();
     $conn->close();
-    error_log($_SESSION['bo_auth']);
+    //error_log($_SESSION['bo_auth']);
     echo json_encode($output);
   } 
   catch (Error $e) 
