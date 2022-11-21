@@ -3,6 +3,14 @@
   touch-action: manipulation;
 }
 
+@media screen and (width > 1280px)
+{
+  #workspace
+  {
+    background-color: pink !important;
+  }
+}
+
 @media ((orientation: landscape) or (width > 1280px)) and ((orientation: portrait) or (height > 640px)) 
 {
   .nav-tabs
