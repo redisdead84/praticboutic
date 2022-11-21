@@ -46,7 +46,7 @@
     <meta http-equiv="Expires" content="0" />
     <meta name="theme-color" content="#e2007a">
     <style type="text/css">
-      @media screen and (max-width > 1280px)
+      @media only screen and (max-width > 1280px)
       {
         #workspace
         {
