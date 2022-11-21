@@ -45,6 +45,15 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="theme-color" content="#e2007a">
+    <style type="text/css">
+      @media screen and (width > 1280px)
+      {
+        #workspace
+        {
+          background-color: pink !important;
+        }
+      }
+    </style>
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
