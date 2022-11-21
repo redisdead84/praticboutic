@@ -50,7 +50,7 @@
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()" class="epure"/>
-      <div id="workspace" class="spacemodal test">
+      <div id="workspace" class="spacemodal">
         <div id="loadid" class="spinner-border" role="status" style="display: none;">
           <span class="sr-only">Loading...</span>
         </div>
