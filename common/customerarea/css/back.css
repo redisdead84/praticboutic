@@ -289,7 +289,7 @@
   
   .notobig
   {
-    max-width: auto;
+    max-width: initial;
   }
 }
 
@@ -403,7 +403,7 @@ td {
 
 .sheet {
   height:auto;
-  margin 0px;  
+  margin: 0px;
 }
 
 .vertical-nav {
