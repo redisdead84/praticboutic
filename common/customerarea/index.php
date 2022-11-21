@@ -84,64 +84,64 @@
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()" class="epure" alt="">
     </div>
-  </body>
-  <script>
-    function quittermenu() 
-    {
-      if (confirm("Voulez-vous quitter ?") == true)
+    <script>
+      function quittermenu() 
       {
-        document.getElementById("loadid").style.display = "block";
-        document.getElementById("mainmenu").style.display = "none";
-        document.getElementById("illus1").style.display = "none";
-        window.location.href ='exit.php';
+        if (confirm("Voulez-vous quitter ?") == true)
+        {
+          document.getElementById("loadid").style.display = "block";
+          document.getElementById("mainmenu").style.display = "none";
+          document.getElementById("illus1").style.display = "none";
+          window.location.href ='exit.php';
+        }
       }
-    }
-  </script>
-  <script>
-    function decodeJwtResponse(token) 
-    {
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    };
-
-    function handleCredentialResponse(response) 
-    {
-      const responsePayload = decodeJwtResponse(response.credential);
-      var obj = { courriel: responsePayload.email };
-      fetch("googlesignin.php", {
-        method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(obj)
-        })
-        .then(function(result) {
-          return result.json();
-        })
-        .then(function(data) {
-          if (typeof (data.error) !== "undefined")
-          {
-            var modal = $('.modal');
-            $('.modal-title').html('Erreur');
-            modal.find('.modal-body').text(data.error);
-            $('.modal').modal('show');
-          }
-          else 
-          {
-            document.getElementById("loadid").style.display = "block";
-            document.getElementById("mainmenu").style.display = "none";
-            document.getElementById("illus1").style.display = "none";
-            window.location = data;
-          }
-        })
-    }
-  </script>
-  <script>
-    sessionStorage.clear();
-  </script>
+    </script>
+    <script>
+      function decodeJwtResponse(token) 
+      {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      };
+  
+      function handleCredentialResponse(response) 
+      {
+        const responsePayload = decodeJwtResponse(response.credential);
+        var obj = { courriel: responsePayload.email };
+        fetch("googlesignin.php", {
+          method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(obj)
+          })
+          .then(function(result) {
+            return result.json();
+          })
+          .then(function(data) {
+            if (typeof (data.error) !== "undefined")
+            {
+              var modal = $('.modal');
+              $('.modal-title').html('Erreur');
+              modal.find('.modal-body').text(data.error);
+              $('.modal').modal('show');
+            }
+            else 
+            {
+              document.getElementById("loadid").style.display = "block";
+              document.getElementById("mainmenu").style.display = "none";
+              document.getElementById("illus1").style.display = "none";
+              window.location = data;
+            }
+          })
+      }
+    </script>
+    <script>
+      sessionStorage.clear();
+    </script>
+  </body>
 </html>
