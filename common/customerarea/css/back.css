@@ -1675,4 +1675,10 @@ p.changeable
   margin-right: 25%;
 }
 
-
+@media ((orientation: landscape) or (width > 1280px)) and ((orientation: portrait) or (height > 640px)) 
+{
+  .test
+  {
+    background-color: pink;
+  }
+}
