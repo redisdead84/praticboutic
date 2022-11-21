@@ -1,6 +1,4 @@
-@media not all and (min-resolution:.001dpcm) 
-{ 
-@media ((orientation: landscape) or (width > 1280px)) and ((orientation: portrait) or (height > 640px)) 
+@media screen and ((orientation: landscape) or (width > 1280px)) and ((orientation: portrait) or (height > 640px)) 
 {
   .nav-tabs
   {
@@ -45,8 +43,7 @@
 }
 }
 
-@media not all and (min-resolution:.001dpcm) { 
-@media ((orientation: portrait) and (width < 1280px)) or ((orientation: landscape) and (height < 640px)) 
+@media screen and ((orientation: portrait) and (width < 1280px)) or ((orientation: landscape) and (height < 640px)) 
 {
   .epure
   {
@@ -292,4 +289,4 @@
   }
   
 }
-}
+
