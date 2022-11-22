@@ -15,10 +15,10 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <title>Création Nouvelle Boutic</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
@@ -31,22 +31,19 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo $_ENV['CRISP_WEBSITE_ID']; ?>";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <script>window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo $_ENV['CRISP_WEBSITE_ID']; ?>";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure'/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure" alt="">
       <div id="workspace" class="spaceflex">
         <div id="loadid" class="spinner-border nospmd" role="status" style="display: block;">
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">
-          <img id='filetape4' src="img/fil_Page_4.png" class="fileelem" />
+          <img id='filetape4' src="img/fil_Page_4.png" class="fileelem" alt="">
           <div class="filecontainer">
-            <img id='illus6' src='img/illustration_6.png' style="display: none;" class='epure'/>
+            <img id='illus6' src='img/illustration_6.png' style="display: none;" class="epure" alt="">
             <main class="fcb">
               <div id='mainform' class="customform">
                 <p class="center middle title">
@@ -98,61 +95,61 @@
           </div>
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure' alt="">
     </div>
-  </body>
-  <script type="text/javascript" >
-    function bakinfo()
-    {
-      document.getElementById("loadid").style.display = "block";
-      document.getElementById("pagecontainerid").style.display = "none";
-      sessionStorage.setItem('pb_paramb_chxmethodeid', document.getElementById("chxmethodeid").value);
-      sessionStorage.setItem('pb_paramb_chxpaieid', document.getElementById("chxpaieid").value);
-      sessionStorage.setItem('pb_paramb_mntmincmdid', document.getElementById("mntmincmdid").value);
-      if (document.getElementById("smson").checked == true)
-        sessionStorage.setItem('pb_reg_validsms', "on");
-      if (document.getElementById("smsoff").checked == true)
-        sessionStorage.setItem('pb_reg_validsms', "off");
-  
-    }
-    window.onload=function()
-    {
-      if (sessionStorage.getItem('pb_paramb_chxmethodeid') !== null)
-        document.getElementById("chxmethodeid").value = sessionStorage.getItem('pb_paramb_chxmethodeid');
-      if (sessionStorage.getItem('pb_paramb_chxpaieid') !== null)
-        document.getElementById("chxpaieid").value = sessionStorage.getItem('pb_paramb_chxpaieid');
-      if (sessionStorage.getItem('pb_paramb_mntmincmdid') !== null)
-        document.getElementById("mntmincmdid").value = sessionStorage.getItem('pb_paramb_mntmincmdid');
-      if (sessionStorage.getItem('pb_reg_validsms')  == "on")
-      {
-        document.getElementById("smson").checked = true;
-        document.getElementById("smsoff").checked = false;
-      }
-      if (sessionStorage.getItem('pb_reg_validsms')  == "off")
-      {
-        document.getElementById("smson").checked = false;
-        document.getElementById("smsoff").checked = true;
-      }
-      document.getElementById("loadid").style.display = "none";
-      document.getElementById("pagecontainerid").style.display = "flex";
-    }
-  
-    function cancel() 
-    {
-      bakinfo();
-      window.location.href = './newboutic.php';
-    }
-    
-  </script>
-  <script type="text/javascript" >
-    function quitterbuildboutic()
-    {
-      if (confirm("Voulez-vous quitter ?") == true)
+    <script>
+      function bakinfo()
       {
         document.getElementById("loadid").style.display = "block";
         document.getElementById("pagecontainerid").style.display = "none";
-        window.location.href ='exit.php';
+        sessionStorage.setItem('pb_paramb_chxmethodeid', document.getElementById("chxmethodeid").value);
+        sessionStorage.setItem('pb_paramb_chxpaieid', document.getElementById("chxpaieid").value);
+        sessionStorage.setItem('pb_paramb_mntmincmdid', document.getElementById("mntmincmdid").value);
+        if (document.getElementById("smson").checked == true)
+          sessionStorage.setItem('pb_reg_validsms', "on");
+        if (document.getElementById("smsoff").checked == true)
+          sessionStorage.setItem('pb_reg_validsms', "off");
+    
       }
-    }
-  </script>
+      window.onload=function()
+      {
+        if (sessionStorage.getItem('pb_paramb_chxmethodeid') !== null)
+          document.getElementById("chxmethodeid").value = sessionStorage.getItem('pb_paramb_chxmethodeid');
+        if (sessionStorage.getItem('pb_paramb_chxpaieid') !== null)
+          document.getElementById("chxpaieid").value = sessionStorage.getItem('pb_paramb_chxpaieid');
+        if (sessionStorage.getItem('pb_paramb_mntmincmdid') !== null)
+          document.getElementById("mntmincmdid").value = sessionStorage.getItem('pb_paramb_mntmincmdid');
+        if (sessionStorage.getItem('pb_reg_validsms')  == "on")
+        {
+          document.getElementById("smson").checked = true;
+          document.getElementById("smsoff").checked = false;
+        }
+        if (sessionStorage.getItem('pb_reg_validsms')  == "off")
+        {
+          document.getElementById("smson").checked = false;
+          document.getElementById("smsoff").checked = true;
+        }
+        document.getElementById("loadid").style.display = "none";
+        document.getElementById("pagecontainerid").style.display = "flex";
+      }
+    
+      function cancel() 
+      {
+        bakinfo();
+        window.location.href = './newboutic.php';
+      }
+      
+    </script>
+    <script>
+      function quitterbuildboutic()
+      {
+        if (confirm("Voulez-vous quitter ?") == true)
+        {
+          document.getElementById("loadid").style.display = "block";
+          document.getElementById("pagecontainerid").style.display = "none";
+          window.location.href ='exit.php';
+        }
+      }
+    </script>
+  </body>
 </html>

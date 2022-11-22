@@ -16,9 +16,10 @@
   $dotenv->load();
   
 ?>
-<html>
+<html lang="fr">
   <head>
-    <meta name="viewport" content="initial-scale=1.0">
+    <title>Conditions Générales de vente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
@@ -31,16 +32,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo $_ENV['CRISP_WEBSITE_ID']; ?>";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>Conditions Générales de vente</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo $_ENV['CRISP_WEBSITE_ID']; ?>";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
   </head>
   <body class="custombody" ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure" alt="">
       <div id="workspace" class="vscroll">
         <div class="customform">
           <input class="inpmove revenir" type="button" value="Revenir sur le constructeur de boutic" onclick="window.location.href = 'prices.php'">
@@ -219,16 +215,16 @@
           <input class="inpmove revenir" type="button" value="Revenir sur le constructeur de boutic" onclick="window.location.href = 'prices.php'">
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/ class="epure">
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/ class="epure" alt="">
     </div>
-  </body>
-  <script type="text/javascript" >
-    function quitterbuildboutic()
-    {
-      if (confirm("Voulez-vous quitter ?") == true)
+    <script>
+      function quitterbuildboutic()
       {
-        window.location.href ='exit.php';
+        if (confirm("Voulez-vous quitter ?") == true)
+        {
+          window.location.href ='exit.php';
+        }
       }
-    }
-  </script>
+    </script>
+  </body>
 </html>

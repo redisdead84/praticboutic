@@ -19,6 +19,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Construction de la Boutic</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,14 +33,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo $_ENV['CRISP_WEBSITE_ID']; ?>";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <script>window.$crisp=[];window.CRISP_WEBSITE_ID="<?php echo $_ENV['CRISP_WEBSITE_ID']; ?>";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()" class="epure"/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quittermenu()" class="epure" alt="">
       <div id="workspace" class="spacemodal">
         <div id="loadid" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
@@ -52,50 +50,52 @@
             <!-- msg error here -->
           </div>
           <div class="modal-footer-cb">
-            <a href="register.php"><button class="btn btn-primary btn-block" type="button" value="Valider">OK</button></a>
+            <form style="display: inline" action="register.php" method="get">
+              <button class="btn btn-primary btn-block" type="button" value="Valider">OK</button>
+            </form>
           </div>
         </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()" class="epure"/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quittermenu()" class="epure" alt="">
     </div>
+    <script>
+      var obj = { action: "buildboutic", table: ""};
+      fetch('boquery.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(obj)
+      })
+      .then(function(result) {
+        return result.json();
+      }) 
+      .then(function(data) {
+        if (typeof (data.error) !== "undefined")
+        {
+          document.getElementById("loadid").style.display = "block";
+          document.getElementById("modalid").style.display = "none";
+          var modal = $('.modal-content-mainmenu');
+          //$('.modal-title').html('Erreur');
+          modal.find('.modal-body-cb').text(data.error);
+          //$('.modal').modal('show');
+        }
+        else 
+        {
+          window.location = "admin.php";
+        }
+      })
+    </script>
+    <script>
+      function quitterbuildboutic()
+      {
+        if (confirm("Voulez-vous quitter ?") == true)
+        {
+          document.getElementById("loadid").style.display = "block";
+          document.getElementById("modalid").style.display = "none";
+          window.location.href ='exit.php';
+        }
+      }
+    </script>
   </body>
-  <script type="text/javascript">
-    var obj = { action: "buildboutic", table: ""};
-    fetch('boquery.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(obj)
-    })
-    .then(function(result) {
-      return result.json();
-    }) 
-    .then(function(data) {
-      if (typeof (data.error) !== "undefined")
-      {
-        document.getElementById("loadid").style.display = "block";
-        document.getElementById("modalid").style.display = "none";
-        var modal = $('.modal-content-mainmenu');
-        //$('.modal-title').html('Erreur');
-        modal.find('.modal-body-cb').text(data.error);
-        //$('.modal').modal('show');
-      }
-      else 
-      {
-        window.location = "admin.php";
-      }
-    })
-  </script>
-  <script type="text/javascript" >
-    function quitterbuildboutic()
-    {
-      if (confirm("Voulez-vous quitter ?") == true)
-      {
-        document.getElementById("loadid").style.display = "block";
-        document.getElementById("modalid").style.display = "none";
-        window.location.href ='exit.php';
-      }
-    }
-  </script>
 </html>

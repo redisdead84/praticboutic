@@ -10,8 +10,9 @@
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
+    <title>Détecteur de script automatisé</title>
     <meta name="viewport" content="initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/back.css?v=1.12">
@@ -19,16 +20,12 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
   </head>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="screen">
-      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure'/>
+      <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure' alt="">
       <div id="workspace" class="spacemodal">
-        <img id='illus2' src='img/illustration_2.png' class="elemcb" class='epure'/>
+        <img id='illus2' src='img/illustration_2.png' class="elemcb epure" alt="">
         <div class="modal-content-mainmenu elemcb">
           <div class="modal-header-cb">
             <h5 class="modal-title-cb">INFORMATION</h5>
@@ -108,23 +105,25 @@
             ?>
           </div>
           <div class="modal-footer-cb">
-            <a href="index.php"><button class="btn btn-primary btn-block" type="button" value="Valider">Retour</button></a>
-   		    </div>
-  		  </div>
+            <form style="display: inline" action="index.php" method="get">
+              <button class="btn btn-primary btn-block" type="submit" value="Valider">Retour</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure'/>
+      <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()" class='epure' alt="">
     </div>
-  </body>
-  <script type="text/javascript" >
-    function quitterbuildboutic()
-    {
-      if (confirm("Voulez-vous quitter ?") == true)
+    <script>
+      function quitterbuildboutic()
       {
-        document.getElementById("loadid").style.display = "block";
-        document.getElementById("mainmenu").style.display = "none";
-        document.getElementById("illus2").style.display = "none";
-        window.location.href ='exit.php';
+        if (confirm("Voulez-vous quitter ?") == true)
+        {
+          document.getElementById("loadid").style.display = "block";
+          document.getElementById("mainmenu").style.display = "none";
+          document.getElementById("illus2").style.display = "none";
+          window.location.href ='exit.php';
+        }
       }
-    }
-  </script>
+    </script>
+  </body>
 </html>
