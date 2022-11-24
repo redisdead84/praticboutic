@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <div class="param rwc">
-                  <input class="regsubmit" type="submit" name="CONTINUER" value="CONFIRMATION" autofocus>
+                  <input class="regsubmit" type="submit" name="CONTINUER" value="CONTINUER" autofocus>
                 </div>
                 <p class="changeable">Les informations pourront être modifié par la suite à partir de votre espace</p>
               </form>
