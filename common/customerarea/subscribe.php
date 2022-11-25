@@ -44,7 +44,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">
-          <img id='filetape5' src="img/fil_Page_6.png" class="fileelem" alt="">
+          <img id='filetape5' src="img/fil_Page_6.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
             <div id="spaceid" class="spaceflex">
               <img id='illus8' src='img/illustration_8.png' class='epure' alt="">

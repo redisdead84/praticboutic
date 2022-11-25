@@ -35,7 +35,7 @@ $dotenv->load();
           <span class="sr-only">Loading...</span>
         </div>
         <div class="pagecontainer" id="pagecontainerid">
-          <img id='filetape1' src="img/fil_Page_1.png" class="fileelem" alt="">
+          <img id='filetape1' src="img/fil_Page_1.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
             <div id="mainmenu" class="center">
               <div class="modal-content-mainmenu">

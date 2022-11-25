@@ -29,7 +29,7 @@
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class='epure' alt="">
       <div id="workspace" class="spacemodal">
         <div class="pagecontainer">
-          <img id='filetape1' src="img/fil_Page_1.png" style="display: block;" class="fileelem" alt="">
+          <img id='filetape1' src="img/fil_Page_1.png?v=1.001" style="display: block;" class="fileelem" alt="">
           <div class="filecontainer">
             <div id="loadid" class="spinner-border" role="status" style="display: none;">
               <span class="sr-only">Loading...</span>

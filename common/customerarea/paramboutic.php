@@ -41,7 +41,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">
-          <img id='filetape4' src="img/fil_Page_4.png" class="fileelem" alt="">
+          <img id='filetape4' src="img/fil_Page_4.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
             <img id='illus6' src='img/illustration_6.png' style="display: none;" class="epure" alt="">
             <main class="fcb">

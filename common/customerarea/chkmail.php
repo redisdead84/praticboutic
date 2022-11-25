@@ -37,7 +37,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div class="pagecontainer">
-          <img id='filetape1' src="img/fil_Page_1.png" style="display: block;" class="fileelem" alt="">
+          <img id='filetape1' src="img/fil_Page_1.png?v=1.001" style="display: block;" class="fileelem" alt="">
           <div class="filecontainer">
             <img id='illus2' src='img/illustration_2.png' class="elemcb epure" style="display: block;" alt="">
             <div id='mainmenu' class="elemcb">
@@ -67,7 +67,7 @@
                       $row = $result->fetch_row();
                       if (intval($row[0])>0)
                       {
-                        echo '<p class="txtbig">Le courriel ' . $email . ' est déjà attribué à un client. Impossible de continuer.</p>';
+                        echo '<p class="txtbig">Le courriel <u>' . $email . '</u> est déjà attribué à un client. Impossible de continuer.</p>';
                       }
                       else if (strcmp($_SESSION['reg_mailsent'], 'oui') == 0)
                       {

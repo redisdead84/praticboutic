@@ -40,7 +40,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">
-          <img id='filetape2' src="img/fil_Page_2.png" class="fileelem" alt="">
+          <img id='filetape2' src="img/fil_Page_2.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
             <img id='illus3' src='img/illustration_3.png' class='epure' alt="">
             <div id='mainform' class="customform">
