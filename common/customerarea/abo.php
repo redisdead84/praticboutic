@@ -407,7 +407,7 @@ try
     {
       throw new Error("Non authentifié");
     }
-    $stripe->subscriptions->update($input->subscriptionid, 
+    $subscription = $stripe->subscriptions->update($input->subscriptionid, 
       [
         'cancel_at_period_end' => true,
       ]

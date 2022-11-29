@@ -1,7 +1,5 @@
 <?php
 
-  session_start();
-
   header('Access-Control-Allow-Origin: *');
   header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
   header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
@@ -22,7 +20,7 @@
     if (isset($input->sessionid))
       session_id($input->sessionid);
     session_start();
-        
+
     echo json_encode($_ENV['STRIPE_PUBLISHABLE_KEY']);
   }
   catch (Error $e)
