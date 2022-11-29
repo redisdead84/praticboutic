@@ -54,21 +54,23 @@ $dotenv->load();
         </div>
         <div class="pagecontainer" id="pagecontainerid">
           <div class="filecontainer">
-            <div id="mainmenu" class="modal-content-mainmenu">
-              <form id="signup-form" name="signup-form" method="post" onsubmit="onSubmit()" autocomplete="on" action="bochkmail.php">
-                <div class="modal-header-cb">
-                  <img id='logopbid' class='logopbidbig' src='img/LOGO_PRATIC_BOUTIC.png' />
-                  <h6 class="modal-title modal-title-cb">SAISIE DU NOUVEAU COURRIEL</h6>
-                </div>
-                <div class="modal-body-mainmenu modal-body-cb">
-                  <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
-                  <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
-                </div>
-                <input type="submit" class="btn btn-primary enlarged btn-valider" value="CONTINUER" />
-                <div class="modal-footer-cb">
-                  <a class="mr-auto mdfaddlink forgotpwd" href="./admin.php">Je ne veux pas changer de courriel</a>
-                </div>
-              </form>
+            <div id="mainmenu" class="center">
+              <div class="modal-content-mainmenu">
+               <form id="signup-form" name="signup-form" method="post" onsubmit="onSubmit()" autocomplete="on" action="bochkmail.php">
+                  <div class="modal-header-cb">
+                    <img id='logopbid' class='logopbidbig' src='img/LOGO_PRATIC_BOUTIC.png' />
+                    <h6 class="modal-title modal-title-cb">SAISIE DU NOUVEAU COURRIEL</h6>
+                  </div>
+                  <br>
+                  <div class="modal-body-mainmenu modal-body-cb">
+                    <input class="form-control" id="email" maxlength="255" name="email" type="email" placeholder="Courriel" value="" autocomplete="username" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Doit être une adresse de courriel valide" required />
+                    <span class="error white" data-errinpid="email">Le courriel doit être de la forme user@domain.ext</span>
+                  </div>
+                  <br>
+                  <input type="submit" class="btn btn-primary enlarged btn-valider" value="CONTINUER" />
+                </form>
+              </div>
+              <a class="mr-auto mdfaddlink forgotpwd" href="./admin.php">Je ne veux pas changer de courriel</a>
             </div>
             <img id='illus2' src='img/illustration_2.png' class='elemcb epure'/>
           </div>

@@ -38,7 +38,7 @@
         <div id="mainmenu" class="modal-content-mainmenu modal-content-cb elemcb">
 			    <form method="post" action="email.php">
 			      <div class="modal-header-cb">
- 			      	<img id='logopbid' class='logopbig' src='img/LOGO_PRATIC_BOUTIC.png' />
+ 			      	<img id='logopbid' class='logopbidbig' src='img/LOGO_PRATIC_BOUTIC.png' />
 			        <h6 class="modal-title-cb">RENVOI DU MOT DE PASSE</h6>
 			      </div>
 			      <div class="modal-body-cb mdbodynh">
