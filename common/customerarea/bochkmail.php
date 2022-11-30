@@ -134,7 +134,11 @@
                       $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
                       $isHTML = "TRUE";
                       $mail->isHTML($isHTML);
-    
+                      $mail->addCustomHeader(
+                        "List-Unsubscribe",
+                        "<mailto:contact@" . $_SERVER['SERVER_NAME'] . "?subject=unsubscribe : " .  urlencode($email) . ">, <" . $protocol . $_SERVER['SERVER_NAME'] . "/common/customerarea/index.php?unsuscribe=" .  urlencode($email) . ">"
+                      );
+
                       $protocol = empty($_SERVER['HTTPS']) == false ? 'https://' : 'http://';
                       $subject = "Lien pour le changement de courriel";
                       $mail->Subject = $subject;
@@ -145,7 +149,7 @@
                       $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
                       $text = $text . '</head>';
                       $text = $text . '<body>';
-                      $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114">';
+                      $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114" alt="">';
                       $text = $text . '<br><br>';
                       $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
                       $text = $text . $email . '<br><br>';

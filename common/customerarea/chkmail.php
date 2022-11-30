@@ -114,40 +114,44 @@
                         $mail->addAddress($rcvmail, $rcvnom);     // Add a recipient
                         $isHTML = "TRUE";
                         $mail->isHTML($isHTML);
-      
+                        $mail->addCustomHeader(
+                          "List-Unsubscribe",
+                          "<mailto:contact@" . $_SERVER['SERVER_NAME'] . "?subject=unsubscribe : " .  urlencode($email) . ">, <" . $protocol . $_SERVER['SERVER_NAME'] . "/common/customerarea/index.php?unsuscribe=" .  urlencode($email) . ">"
+                        );
+
                         $protocol = empty($_SERVER['HTTPS']) == false ? 'https://' : 'http://';
                         $subject = "Lien pour la création de votre praticboutic";
                         $mail->Subject = $subject;
-      
+
                         $text = '<!DOCTYPE html>';
                         $text = $text . '<html>';
                         $text = $text . '<head>';
                         $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
                         $text = $text . '</head>';
                         $text = $text . '<body>';
-                        $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114">';
+                        $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114" alt="">';
                         $text = $text . '<br><br>';
                         $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
                         $text = $text . $email . '<br><br>';
                         $text = $text . 'Cliquez sur le lien suivant pour finaliser votre boutique en ligne ! ';
                         $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/verify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
                         $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
-                        $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe' . '">Désincription</a><br>';
+                        $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe=' .  urlencode($email) . '">Désincription</a><br>';
                         $text = $text . '</body>';
                         $text = $text . '</html>';
-      
+
                         $mail->Body = $text;
                         //error_log($mail->Body);
                         $mail->send();
-      
+
                         $sent = 1;
                         $_SESSION['reg_mailsent'] = 'oui';
-      
+
                         echo "<p class='txtbig'>Un courriel contenant un lien pour finaliser votre inscription a été envoyé à l'adresse : <u>" . $email . "</u></p>";
                         echo "<ul class='nomargin'>Si vous ne recevez pas ce courriel : ";
                         echo "<li>Vérifiez dans votre courrier indésirable</li>";
                         echo "</ul>";
-  
+
                         $conn->close();
                       }
                     }
