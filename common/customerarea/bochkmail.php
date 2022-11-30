@@ -152,6 +152,7 @@
                       $text = $text . 'Cliquez sur le lien suivant pour changer de courriel ! ';
                       $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/boverify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
                       $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
+                      $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe' . '">Désincription</a><br>';
                       $text = $text . '</body>';
                       $text = $text . '</html>';
     

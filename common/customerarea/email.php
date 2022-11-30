@@ -163,6 +163,7 @@
                 $text = $text . '<b>' . $password . '</b><br>';
                 $text = $text . 'Vous pourrez en personnaliser un nouveau à partir du formulaire client de l\'arrière boutic.<br><br>';
                 $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
+                $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe' . '">Désincription</a><br>';
                 $text = $text . '</body>';
                 $text = $text . '</html>';
 
