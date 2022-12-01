@@ -161,6 +161,17 @@
                       $text = $text . '</html>';
     
                       $mail->Body = $text;
+                      
+                      $alttext = $alttext . 'Cliquez sur le lien suivant pour changer de courriel !' . "\n";
+                      $alttext = $alttext . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/boverify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . ' ' . "\n";
+                      $alttext = $alttext . 'Cordialement ' . "\n";
+                      $alttext = $alttext . 'L\'équipe praticboutic' . "\n";
+                      $alttext = $alttext . "\n";
+                      $alttext = $alttext . 'Lien pour la Désinscription : ' . "\n";
+                      $alttext = $alttext . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe=' .  urlencode($email) . "\n";
+                      
+                      $mail->AltBody = $alttext;
+                      
                       //error_log($mail->Body);
                       $mail->send();
     

@@ -174,6 +174,18 @@
 
                 $mail->Body = $text;
 
+                $alttext = $alttext . '  Comme vous avez oublié votre mot de passe praticboutic un nouveau a été généré automatiquement. ' . "\n";
+                $alttext = $alttext . 'Voici votre nouveau mot de mot de passe administrateur praticboutic : ';
+                $alttext = $alttext . $password  . "\n";
+                $alttext = $alttext . 'Vous pourrez en personnaliser un nouveau à partir du formulaire client de l\'arrière boutic.' . "\n" . "\n";
+                $alttext = $alttext . 'Cordialement' . "\n";
+                $alttext = $alttext . 'L\'équipe praticboutic' . "\n";
+                $alttext = $alttext . "\n";
+                $alttext = $alttext . 'Lien pour la Désinscription : ' . "\n";
+                $alttext = $alttext . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe=' .  urlencode($email) . "\n";
+
+                $mail->AltBody = $alttext;
+
                 if($count2 >= $maxretry)
                 {
                   echo "Vous êtes autorisé à " . $maxretry . " tentative(s)) en " . $interval . "<br />";
