@@ -131,7 +131,7 @@
     $text = '<!DOCTYPE html>';
     $text = $text . '<html>';
     $text = $text . '<head>';
-    $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+    $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Public+Sans\' rel=\'stylesheet\'>';
     $text = $text . '</head>';                
     $text = $text . '<body>';
     $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';

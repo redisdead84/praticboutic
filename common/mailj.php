@@ -133,7 +133,7 @@ try
   $text = '<!DOCTYPE html>';
   $text = $text . '<html>';
   $text = $text . '<head>';
-  $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+  $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Public+Sans\' rel=\'stylesheet\'>';
   $text = $text . '</head>';
   $text = $text . '<body>';
   $text = $text . '<svg version="1.2" baseProfile="tiny" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 295.7 51.8" width="300" height="51.057" overflow="visible" xml:space="preserve">
