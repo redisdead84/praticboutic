@@ -156,7 +156,6 @@
                       $text = $text . 'Cliquez sur le lien suivant pour changer de courriel ! ';
                       $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/boverify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . '">Le lien</a><br>';
                       $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
-                      $text = $text . '<a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe' . '">Désincription</a><br>';
                       $text = $text . '</body>';
                       $text = $text . '</html>';
     
@@ -166,9 +165,6 @@
                       $alttext = $alttext . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/boverify.php?email=' . urlencode($email) . '&hash=' . urlencode($hash) . ' ' . "\n";
                       $alttext = $alttext . 'Cordialement ' . "\n";
                       $alttext = $alttext . 'L\'équipe praticboutic' . "\n";
-                      $alttext = $alttext . "\n";
-                      $alttext = $alttext . 'Lien pour la Désinscription : ' . "\n";
-                      $alttext = $alttext . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/index.php?unsuscribe=' .  urlencode($email) . "\n";
                       
                       $mail->AltBody = $alttext;
                       
