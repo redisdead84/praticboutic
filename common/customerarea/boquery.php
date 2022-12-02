@@ -295,7 +295,7 @@ try {
   	$query = $query . 'customid, ';
 		for($i=0;$i<count($input->row);$i++) 
 		{  	
-			if (strcmp($input->row[$i]->type,"ref")==0)
+			if (strcmp($input->row[$i]->type,"ref") == 0 || strcmp($input->row[$i]->type,"codepromo") == 0)
 			{
 				$colonnes = "count(*)"; 						
 			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '` T1';
@@ -400,7 +400,7 @@ try {
   	$query = 'UPDATE `' . $mdtables[$numtable]->nom . '` SET ';
 		for($i=0;$i<count($input->row);$i++) 
 		{
-			if (strcmp($input->row[$i]->type,"ref")==0)
+			if (strcmp($input->row[$i]->type,"ref") == 0 || strcmp($input->row[$i]->type,"codepromo") == 0)
 			{
 				$colonnes = "count(*)"; 						
 			  $subquery = 'SELECT ' . $colonnes . ' FROM `' . $mdtables[$numtable]->nom . '`';
