@@ -1689,7 +1689,7 @@ div:has(> div.grecaptcha-badge)
 .passinfo
 {
   font-size: 75%;
-  width: 275px;
+  width: auto;
   text-align: justify;
 }
 
