@@ -43,8 +43,8 @@
           <img id="logopbid" src="img/logo.png" class="logopbidbig depure" alt="">
           <img id='filetape2' src="img/fil_Page_2.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
-            <img id='illus3' src='img/illustration_3.png' class='epure' alt="">
-            <div id='mainform' class="customform">
+            <img id='illus3' src='img/illustration_3.png' class='epure notobig' alt="">
+            <div id='mainform' class="customform notobig">
               <p class="center middle title">
                 Formulaire d'inscription
               </p>
