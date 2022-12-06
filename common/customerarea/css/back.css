@@ -1681,7 +1681,7 @@ p.changeable
   font-style: italic;
   font-family: 'Montserrat';
   font-weight: 100;
-  font-size: 100%;
+  font-size: 80%;
   width: 50%;
   margin-left: 25%;
   margin-right: 25%;
@@ -1691,6 +1691,21 @@ p.changeable
 {
   padding-left: 75px !important;
   padding-right: 75px !important;
+}
+
+.grey
+{
+  color: grey;
+}
+
+.greylink
+{
+  color: grey;
+}
+
+.greylink:hover
+{
+  color: darkgrey;
 }
 
 
