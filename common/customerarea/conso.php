@@ -45,6 +45,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id="logopbid" src="img/logo.png" class="logopbidbig depure" alt="">
           <img id='filetape5' src="img/fil_Page_6.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
             <div id="spaceid" class="spaceflex">

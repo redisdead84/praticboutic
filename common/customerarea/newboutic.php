@@ -40,6 +40,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div id="pagecontainerid" class="pagecontainer" style="display: none;">
+          <img id="logopbid" src="img/logo.png" class="logopbidbig depure" alt="">
           <img id='filetape3' src="img/fil_Page_3.png?v=1.001" class="fileelem" alt="">
           <div class="filecontainer">
             <div id='mainform' class="customform">

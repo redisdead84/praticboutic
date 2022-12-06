@@ -38,8 +38,10 @@
     <div id="screen">
       <img id='bandeauh' src='img/bandeau_haut.png' onclick="quitterbuildboutic()" class="epure" alt="">
       <div id="workspace" class="vscroll">
-        <div class="customform">
-          <input class="inpmove revenir" type="button" value="Revenir sur le constructeur de boutic" onclick="window.location.href = 'prices.php'">
+        <div class="customform txtcenter">
+          <input class="inpmove revenir" type="button" value="Retour à votre création de PraticBoutic" onclick="window.location.href = 'prices.php'">
+          <br>
+          <img id="logopbid" src="img/logo.png" class="logopbidbig depure" alt="">
           <p class="center middle title">
             Conditions Générales de vente
           </p>
@@ -212,7 +214,7 @@
           <br>
           Praticboutic utilisera les données personnelles fournies sur le compte du client et lors des commandes, uniquement à des fins de gestion des commandes et à aucune autre fin, sauf si nous avons obtenu votre consentement. Praticboutic se réserve le droit de divulguer les données personnelles du client à ses  prestataires, afin de permettre le bon déroulement d’une commande ou en réponse à une question de la part d’un client.<br><br>
           </p>
-          <input class="inpmove revenir" type="button" value="Revenir sur le constructeur de boutic" onclick="window.location.href = 'prices.php'">
+          <input class="inpmove revenir" type="button" value="Retour à votre création de PraticBoutic" onclick="window.location.href = 'prices.php'">
         </div>
       </div>
       <img id='bandeaub' src='img/bandeau_bas.png' onclick="quitterbuildboutic()"/ class="epure" alt="">

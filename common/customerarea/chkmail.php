@@ -37,6 +37,7 @@
           <span class="sr-only">Loading...</span>
         </div>
         <div class="pagecontainer">
+          <img id="logopbid" src="img/logo.png" class="logopbidbig depure" alt="">
           <img id='filetape1' src="img/fil_Page_1.png?v=1.001" style="display: block;" class="fileelem" alt="">
           <div class="filecontainer">
             <img id='illus2' src='img/illustration_2.png' class="elemcb epure" style="display: block;" alt="">
