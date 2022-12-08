@@ -550,6 +550,7 @@
           "desc": "Sous-total",
           "typ": "prix",
           "defval": "0.00",
+          "vis": "o",
           "ordre": "0",
           "sens": ""
         },
@@ -620,6 +621,7 @@
           "desc": "Statut",
           "typ": "fk",
           "defval": "",
+          "vis": "o",
           "ordre": "0",
           "sens": ""
         }
