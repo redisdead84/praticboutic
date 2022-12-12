@@ -805,6 +805,51 @@ try {
     //error_log('ok');
   }
 
+  if (strcmp($input->action,"radressboutic") == 0)
+  {
+    
+    $arr ="";
+    $raz = 0;
+
+    $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['bo_email'] . "'";
+    error_log($subquery);
+    if ($result = $conn->query($subquery)) 
+    {
+      if ($row = $result->fetch_row()) 
+      {
+        if (intval($row[0])>1)
+        {
+          $raz = 1;
+          throw new Error("Impossible d'avoir plusieurs fois le même courriel " . $_SESSION['bo_email']);
+        }
+      }
+      $result->close();
+    }
+    
+    $req = $conn->prepare('SELECT cltid FROM customer WHERE customid = ? ');
+    $req->bind_param("s", $_SESSION['bo_id']);
+    $req->execute();
+    $req->bind_result($cltid);
+    $resultat = $req->fetch();
+    error_log($cltid);
+    $req->close();
+    $q2 = "UPDATE client SET email = '" . $input->email . "' WHERE cltid = $cltid";
+    error_log($q2);
+    if ($r2 = $conn->query($q2)) 
+    {
+      if ($r2 === FALSE) 
+      {
+        throw new Error("Error: " . $q2 . "<br>" . $conn->error);
+      }
+      else
+      {
+        $_SESSION['bo_email'] = $input->email;
+      }
+    }
+  }
+
+
+
   $conn->close();
 
   $output = $arr;
