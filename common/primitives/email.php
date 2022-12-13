@@ -134,6 +134,8 @@
     $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Public+Sans\' rel=\'stylesheet\'>';
     $text = $text . '</head>';                
     $text = $text . '<body>';
+    $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114" alt="">';
+    $text = $text . '<br><br>';
     $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
     $text = $text . $email . '<br><br>';        
     $text = $text . '&nbsp;&nbsp;Comme vous avez oubli&eacute; votre mot de passe praticboutic un nouveau a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; automatiquement. <br>';        

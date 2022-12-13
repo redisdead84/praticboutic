@@ -99,8 +99,10 @@
       $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
       $text = $text . '</head>';
       $text = $text . '<body>';
+      $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114" alt="">';
+      $text = $text . '<br><br>';
       $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
-      $text = $text . $request->email . '<br><br>';    
+      $text = $text . $request->email . '<br><br>';
       $text = $text . 'Voici le code de vérification : ' . $request->code;
       $text = $text . '<br>';
       $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
