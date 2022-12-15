@@ -31,7 +31,7 @@
     }
     
     $_SESSION['confboutic_chxmethode'] = $input->chxmethode;
-    $_SESSION['confboutic_chxpaie'] = $input->caisse ? "TOUS" : "COMPTANT";
+    $_SESSION['confboutic_chxpaie'] = $input->chxpaie;
     $_SESSION['confboutic_mntmincmd'] = $input->mntmincmd;
     $_SESSION['confboutic_validsms'] = $input->validsms;
 
