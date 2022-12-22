@@ -12,8 +12,8 @@
   try
   {
     
-    if (isset($input->sessionid))
-      session_id($input->sessionid);
+    if (isset($_GET['sessionid']))
+      session_id($_GET['sessionid']);
     session_start();
     
     if (!isset($_SESSION))
