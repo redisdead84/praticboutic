@@ -10,7 +10,7 @@
   include "../param.php";
   
   
-  function inscription($conn, $stripe, $bouticid)
+  function inscription($sessionid, $conn, $stripe, $bouticid)
   {
     if (isset($_SERVER['HTTPS']))
     {
@@ -40,8 +40,7 @@
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
-      'return_url' => $protocole . $server . '/common/primitives/return.php?sessionid=' . $input->sessionid,
-      'type' => 'account_onboarding',
+      'return_url' => $protocole . $server . '/common/primitives/return.php?sessionid=' . $sessionid
     ]);
     
     return $accountlink->url;
@@ -130,12 +129,12 @@
       }
       else 
       {
-        $url = inscription($conn, $stripe, $input->bouticid);
+        $url = inscription($input->sessionid, $conn, $stripe, $input->bouticid);
       }
     }
     else
     {
-      $url = inscription($conn, $stripe, $input->bouticid);
+      $url = inscription($input->sessionid, $conn, $stripe, $input->bouticid);
     }
 
     echo json_encode($url);
