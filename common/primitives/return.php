@@ -11,11 +11,9 @@
 
   try
   {
-    $json_str = file_get_contents('php://input');
-    $input = json_decode($json_str);
     
-    if (isset($input->sessionid))
-      session_id($input->sessionid);
+    if (isset($_GET['sessionid']))
+      session_id($_GET['sessionid']);
     session_start();
     
     if (!isset($_SESSION))
