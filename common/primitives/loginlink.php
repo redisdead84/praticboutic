@@ -40,7 +40,8 @@
     $accountlink = $stripe->accountLinks->create([
       'account' => $account->id,
       'refresh_url' => $protocole . $server . '/common/404.php',
-      'return_url' => $protocole . $server . '/common/primitives/return.php?sessionid=' . $sessionid
+      'return_url' => $protocole . $server . '/common/primitives/return.php?sessionid=' . $sessionid,
+      'type' => 'account_onboarding',
     ]);
     
     return $accountlink->url;
