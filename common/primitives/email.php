@@ -98,6 +98,7 @@
        }
     }
     
+    
 
     //$mail->SMTPDebug = 0;                                 // Enable verbose debug output
     $mail->isSMTP();
@@ -110,6 +111,8 @@
           'allow_self_signed' => true
         )
     );
+
+    $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
 
     $mail->Host = $host;  // Specify main and backup SMTP servers
     $mail->SMTPAuth = $smtpa;                               // Enable SMTP authentication
