@@ -352,9 +352,9 @@ try
   $sum = 0;
 
   $text = $text . '<p style="font-size:130%;margin-bottom:25px;font-family: \'Sans\'"><b>Détail de la commande : </b><br></p>';
-  $numitems = count($_SESSION['articles_commande']);
+  $numitems = count($json_obj->items);
   $i = 0;
-  foreach( $_SESSION['articles_commande'] as $value)
+  foreach( $json_obj->items as $value)
 	{
 		$i++;
 		$text = $text . '<p style="font-family: \'Sans\'">';
@@ -373,19 +373,19 @@ try
 	$text = $text . '<hr style="border: 3px solid black;margin-top:15px;margin-bottom:25px;width:50%;text-align:left;margin-left:0">';
 	if (strcmp($json_obj->vente, "LIVRER") !== 0)
 	{
-  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Remise : ' . number_format($_SESSION['remise_commande'], 2, ',', ' ') . '€ <br></p>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Remise : ' . number_format( - $json_obj->remise, 2, ',', ' ') . '€ <br></p>';
   	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
-  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'"><b>Total Commande : ' . number_format($_SESSION['total_commande'], 2, ',', ' ') . '€ </b><br></p>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'"><b>Total Commande : ' . number_format($sum - $json_obj->remise, 2, ',', ' ') . '€ </b><br></p>';
   }
   else
   {
-  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Sous-total Commande : ' . number_format($_SESSION['soustotal_commande'], 2, ',', ' ') . '€ <br></p>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Sous-total Commande : ' . number_format($sum, 2, ',', ' ') . '€ <br></p>';
   	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
-  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Remise : ' . number_format($_SESSION['remise_commande'], 2, ',', ' ') . '€ <br></p>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Remise : ' . number_format( - $json_obj->remise, 2, ',', ' ') . '€ <br></p>';
   	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
-  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Frais de Livraison : ' . number_format($_SESSION['frais_livraison'], 2, ',', ' ') . '€ <br></p>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'">Frais de Livraison : ' . number_format($json_obj->fraislivr, 2, ',', ' ') . '€ <br></p>';
   	$text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
-  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'"><b>Total Commande : ' . number_format($_SESSION['total_commande'], 2, ',', ' ') . '€ </b><br></p>';
+  	$text = $text . '<p style="font-size:130%;font-family: \'Sans\'"><b>Total Commande : ' . number_format($sum - $json_obj->remise + $json_obj->fraislivr, 2, ',', ' ') . '€ </b><br></p>';
   }
 
   $text = $text . '</body>';
@@ -409,8 +409,8 @@ try
            "fraislivraison, total, commentaire, method, `table`, datecreation, statid ) VALUES ('$customid','$compt','" . htmlspecialchars(addslashes($json_obj->nom)) . "',";
   $qcmdi = $qcmdi . "'" . htmlspecialchars(addslashes($json_obj->prenom)) . "','$json_obj->telephone','" . htmlspecialchars(addslashes($json_obj->adresse1)) .
             "','" . htmlspecialchars(addslashes($json_obj->adresse2)) . "','$json_obj->codepostal','" . htmlspecialchars(addslashes($json_obj->ville)) .
-            "','$json_obj->vente','$json_obj->paiement','" . strval($_SESSION['soustotal_commande']) . "','" . strval($_SESSION['remise_commande']) . "','" . strval($_SESSION['frais_livraison']) . "',";
-  $qcmdi = $qcmdi . "'" . strval($_SESSION['total_commande']) . "','" . nl2br(stripslashes(strip_tags(htmlspecialchars(addslashes($json_obj->infosup))))) .
+            "','$json_obj->vente','$json_obj->paiement','" . strval($sum) . "','" . strval( - $json_obj->remise) . "','" . strval($json_obj->fraislivr) . "',";
+  $qcmdi = $qcmdi . "'" . strval($sum - $json_obj->remise + $json_obj->fraislivr) . "','" . nl2br(stripslashes(strip_tags(htmlspecialchars(addslashes($json_obj->infosup))))) .
            "','$methodstr','$json_obj->table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
 
   //error_log($qcmdi);
@@ -433,7 +433,7 @@ try
 	}
 
   $ordre = 0;
-  foreach( $_SESSION['articles_commande'] as $value)
+  foreach( $json_obj->items as $value)
 	{
 		$ordre++;
 		$artid = 0;
@@ -499,7 +499,7 @@ try
               //error_log('metered2');
               //$price = $subscription_item->price->unit_amount;
               //error_log($price);
-              $usage_quantity = $_SESSION['total_commande'];// * $price;
+              $usage_quantity = $sum - $json_obj->remise + $json_obj->fraislivr;// * $price;
               //error_log($usage_quantity);
               $action = 'set';
 
