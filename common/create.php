@@ -104,11 +104,6 @@ function calculateOrderAmount(array $items, $conn, $customid, $model, $fraislivr
 		
 		$total = $price + $remise + $surcout;
 		
-		$_SESSION['total_commande'] = $total;
-		$_SESSION['frais_livraison'] = $surcout;
-		$_SESSION['remise_commande'] = $remise;
-		$_SESSION['soustotal_commande'] = $price;
-		$_SESSION['articles_commande'] = $items;
   }
   // Envoi du cout de la commande
   return (round($total * 100));
