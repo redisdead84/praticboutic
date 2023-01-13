@@ -102,15 +102,6 @@
           "defval": "€",
           "ordre": "0",
           "sens": ""
-        },
-        {
-          "nom": "image",
-          "desc": "Fichier Image",
-          "typ": "image",
-          "defval": "",
-          "vis": "n",
-          "ordre": "0",
-          "sens": ""
         }
       ]
     },
@@ -812,6 +803,59 @@
           "sens": ""
         }
       ]
+    },
+    {
+      "nom": "artlistimg",
+      "desc": "Liste d'images d'article'",
+      "cs": "image",
+      "sstable": "n",
+      "champs": [
+        {
+          "nom": "artlistimgid",
+          "desc": "Identifiant",
+          "typ": "pk",
+          "defval": "",
+          "vis": "n",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "artid",
+          "defval": "",
+          "desc": "",
+          "typ": "fk",
+          "vis": "o",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "image",
+          "desc": "Fichier Image",
+          "typ": "image",
+          "defval": "",
+          "vis": "n",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "favori",
+          "desc": "Par défaut",
+          "typ": "bool",
+          "defval": "1",
+          "vis": "o",
+          "ordre": "0",
+          "sens": ""
+        },
+        {
+          "nom": "visible",
+          "desc": "Visible",
+          "typ": "bool",
+          "defval": "1",
+          "vis": "o",
+          "ordre": "0",
+          "sens": ""
+        }
+      ]
     }
   ],
   "liens": [
@@ -867,6 +911,15 @@
       "srcfld": "statid",
       "dsttbl": "statutcmd",
       "dstfld": "statid",
+      "join": "ij"
+    },
+    {
+      "nom": "image",
+      "desc": "Images de l'article'",
+      "srctbl": "artlistimg",
+      "srcfld": "artid",
+      "dsttbl": "article",
+      "dstfld": "artid",
       "join": "ij"
     }
   ]

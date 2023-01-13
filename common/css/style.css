@@ -3,12 +3,15 @@
   touch-action: manipulation;
 }
 
-select
-{
-	font-family: 'Public Sans';
+*, ::after, ::before {
+    box-sizing: revert;
 }
 
-  
+select
+{
+  font-family: 'Public Sans';
+}
+
 textarea
 {
   width: 92%;
@@ -171,7 +174,7 @@ body
   font-weight: bold;
 }
 
-.active, .accordion:hover {
+.activepb, .accordion:hover {
   background-color: lightgray;
   font-family: 'Public Sans';
 }
@@ -207,7 +210,7 @@ body
 }
 
 
-.active::after {
+.activepb::after {
 	content: "";
   background: url('../img/ajout_au_panier.png') no-repeat 0 0;
   background-size: 100%; 
@@ -223,7 +226,7 @@ body
   
 }
 
-.active::before {
+.activepb::before {
 	content: "";
   background: url('../img/fleche_titre_menu_ouvert.png') no-repeat 0 0;
   background-size: 100%; 
@@ -532,6 +535,16 @@ body#backbody
   height: 32px;
 }
 
+.grpbncarte
+{
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 25px;
+  width: 100%;
+}
+
 .grpbn
 {
   padding-left: 15%;
@@ -801,7 +814,7 @@ text-align: justify;
 	padding: 6px;
 }
 
-.slide
+.slidepb
 {
 	height: 28px;
 	line-height: 28px;

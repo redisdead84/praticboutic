@@ -350,10 +350,13 @@ try {
   	  	
 		$arr=array();
 
+    //error_log($query);
 		if ($conn->query($query) === FALSE)
 		{
 			throw new Error($conn->error);
 		}
+		
+		array_push($arr, $conn->insert_id);
 		
   }
   

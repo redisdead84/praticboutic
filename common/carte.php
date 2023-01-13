@@ -1,25 +1,46 @@
 <?php
 
   session_start();
-  
+
   if (empty($_SESSION['customer']) != 0)
-	{
+  {
     header('LOCATION: 404.html');
     exit();
-	}
-  
+  }
+
   $customer = $_SESSION['customer'];
   $method = $_SESSION['method'];
   $table = $_SESSION['table'];
-  
+
   require_once '../vendor/autoload.php';
-  
+
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
   $dotenv->load();
-  
+
   include "config/common_cfg.php";
   include "param.php";
-  
+
+  $conn = new mysqli($servername, $username, $password, $bdd);
+  if ($conn->connect_error) 
+   die("Connection failed: " . $conn->connect_error);
+
+  $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
+  $reqci->bind_param("s", $customer);
+  $reqci->execute();
+  $reqci->bind_result($customid, $logo, $nom);
+  $resultatci = $reqci->fetch();
+  $reqci->close();
+
+  if (strcmp($customid, "") == 0 )
+  {
+    header('LOCATION: 404.html');
+    exit;
+  }
+
+  $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
+
+  $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,46 +49,27 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
-	  <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['RECAPTCHA_KEY']; ?>"></script>
+    <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['RECAPTCHA_KEY']; ?>"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body ondragstart="return false;" ondrop="return false;">
+    <div id="header">
+      <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
+    </div>
 
     <?php
 
-
-    $conn = new mysqli($servername, $username, $password, $bdd);
-    if ($conn->connect_error) 
- 	    die("Connection failed: " . $conn->connect_error);
- 	    
-    $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
- 	  $reqci->bind_param("s", $customer);
- 	  $reqci->execute();
- 	  $reqci->bind_result($customid, $logo, $nom);
- 	  $resultatci = $reqci->fetch();
- 	  $reqci->close();
- 	  
- 	  if (strcmp($customid, "") == 0 )
- 	  {
-    	header('LOCATION: 404.html');
-    	exit;
-  	}	
- 	  
-
-    $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
-    
-    $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
-		
-		echo '<div id="header">';
-		echo '<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>';
-		echo '</div>';		
-		
     echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-customer="' . $customer .'">';
     if (strcmp($logo,"") != 0)
       echo '<img id="logo" src="../upload/' . $logo . '">';
@@ -75,7 +77,7 @@
       echo '<p class="marque">' . $nom . '</p>';
 
     echo '<form name="mainform" autocomplete="off" method="post" action="valrecap.php">';
-    
+
     //echo "Connected successfully";
     $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' OR catid = 0 ORDER BY catid';
 
@@ -99,7 +101,7 @@
 
     				}
     				
-		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND catid = ' . $row[0] . ' ORDER BY artid';
+		      	$query2 = 'SELECT artid, nom, prix, unite, description FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND catid = ' . $row[0] . ' ORDER BY artid';
 		      	if ($result2 = $conn->query($query2)) 
 	  				{
 	  				  while ($row2 = $result2->fetch_row()) 
@@ -107,8 +109,42 @@
     						if (strcmp($sizeimg,"bigimg")==0)
     						{
 	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	  	        		if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';
+	    					  $qrylstimg = 'SELECT image FROM artlistimg WHERE customid = ' . $customid . ' AND visible = 1 AND artid = ' . $row2[0] . ' ORDER BY favori DESC, artlistimgid ASC';
+	    					  $first = false;
+		      	      if ($reslstimg = $conn->query($qrylstimg)) 
+	  				      {
+	  				        if ($reslstimg->num_rows > 0)
+	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:block">';
+	  				        else
+	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:none">';
+	  				        echo '<div id="carinid' . $row2[0] . '" class="carousel-inner">';
+	  				        while ($rowlstimg = $reslstimg->fetch_row()) 
+    					      {
+    					        if (!empty($rowlstimg[0]))
+    					        {
+    					          if (!$first)
+    					            echo '<div class="carousel-item active">';
+    					          else
+    					            echo '<div class="carousel-item">';
+    					          $first = true;
+    					          echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $rowlstimg[0] . '" alt = "nopic">';
+    					          echo '</div>';
+    					        }
+    					      }
+    					    }
+    					    $reslstimg->close();
+	    					  echo '</div>';
+	    					  echo '<button class="carousel-control-prev" type="button" data-target="#carousel' . $row2[0] . '" data-slide="prev">';
+	    					  echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+	    					  echo '<span class="sr-only">Previous</span>';
+	    					  echo '</button>';
+	    					  echo '<button class="carousel-control-next" type="button" data-target="#carousel' . $row2[0] . '" data-slide="next">';
+	    					  echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+	    					  echo '<span class="sr-only">Next</span>';
+	    					  echo '</button>';
+	    					  echo '</div>';
+	  	        		/*if (!empty($row2[5]))
+ 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';*/
 	                echo '<div class="rowah">';
 	                echo '<div class="colb1">';
 	    					  echo '<div class="nom">';
@@ -196,27 +232,59 @@
 	       	      	echo '</div>';
 	       	      	echo '</div>';
 	       	      	echo '<div class="cola2">';
-	  	        		if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';
+	    					  $qrylstimg = 'SELECT image FROM artlistimg WHERE customid = ' . $customid . ' AND visible = 1 AND artid = ' . $row2[0] . ' ORDER BY favori DESC, artlistimgid ASC';
+	    					  $first = false;
+		      	      if ($reslstimg = $conn->query($qrylstimg)) 
+	  				      {
+ 	  				        if ($reslstimg->num_rows > 0)
+	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:block">';
+	  				        else
+	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:none">';
+	  				        echo '<div id="carinid' . $row2[0] . '" class="carousel-inner">';
+	  				        while ($rowlstimg = $reslstimg->fetch_row()) 
+    					      {
+    					        if (!empty($rowlstimg[0]))
+    					        {
+    					          if (!$first)
+    					            echo '<div class="carousel-item active">';
+    					          else
+    					            echo '<div class="carousel-item">';
+    					          $first = true;
+    					          echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $rowlstimg[0] . '" alt = "nopic">';
+    					          echo '</div>';
+    					        }
+    					      }
+    					    }
+    					    $reslstimg->close();
+	    					  echo '</div>';
+	    					  echo '<button class="carousel-control-prev" type="button" data-target="#carousel' . $row2[0] . '" data-slide="prev">';
+	    					  echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+	    					  echo '<span class="sr-only">Previous</span>';
+	    					  echo '</button>';
+	    					  echo '<button class="carousel-control-next" type="button" data-target="#carousel' . $row2[0] . '" data-slide="next">';
+	    					  echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+	    					  echo '<span class="sr-only">Next</span>';
+	    					  echo '</button>';
+	    					  echo '</div>';
 	                echo '</div>';
 	                echo '</div>';
 								}
 
-                echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article" maxlength="300" hidden></textarea>';              
+                echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article" maxlength="300" hidden></textarea>';
                 
  				  		  $id = 'opt' . $row2[0];
  				  		  $name = 'opty' . $row2[0];    
 				        
        	      	if($method > 0) 
        	      	{
-  				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '" hidden>';
-  				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" hidden></div>';
+  				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '">';
+  				        echo '<div class="slidepb" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
 				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '" style="display:none">';
 				        }
 				        else 
 				        {
   				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '">';
-  				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
+  				        echo '<div class="slidepb" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
 				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '">';
 				        }
 				        
@@ -602,7 +670,7 @@
         eleminp.blur();
         var elemopt = eleminp.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("divopt")[0];
        
-        var slide = elemopt.getElementsByClassName("slide")[0]; 
+        var slide = elemopt.getElementsByClassName("slidepb")[0]; 
         
         slide.innerHTML = "";        
         var cur = 1;
@@ -731,7 +799,7 @@
           elemopt.appendChild(edup);
         }
 
-        eleminp.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");        
+        eleminp.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");        
         
       	var panel = eleminp.parentElement.parentElement.parentElement.parentElement.parentElement;
         if (parseInt(eleminp.innerText) > 0)
@@ -811,7 +879,7 @@
         for (i = 0; i < acc.length; i++) 
         {
           acc[i].addEventListener("click", function() {
-      	    this.classList.toggle("active");
+      	    this.classList.toggle("activepb");
             var panel = this.nextElementSibling;
             if (panel.style.maxHeight) 
             {
@@ -831,7 +899,7 @@
         for (i = 0; i < aqt.length; i++) 
         {
           aqt[i].addEventListener("focus", function() {
-      	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+      	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
       	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
             panel.style.maxHeight = panel.scrollHeight + "px";
           });
@@ -891,7 +959,7 @@
                 }         
               }
             }
-       	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+       	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
        	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
             panel.style.maxHeight = panel.scrollHeight + "px";
           }
@@ -902,7 +970,7 @@
       totaliser();
     }  
     </script>
-    <!-- TODO This script should be removed parce que on ne supporte plus la lécture seul -->
+    <!-- TODO This script should be removed parce que on ne supporte plus la lecture seul -->
     <script type="text/javascript" >
       reachBottom();
       var sle = document.getElementsByTagName("SELECT");

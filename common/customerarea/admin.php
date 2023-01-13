@@ -122,6 +122,8 @@
       var memnbcommande = 0;
       var cmdfirst = true;
       
+      const maximage = 100;
+
       function reqListener () {
         jsonresp = JSON.parse(this.responseText);
         tables = jsonresp.tables;
@@ -179,7 +181,7 @@
         startWorkerCommande();
         initswipe();
       }
-
+  
   window.addEventListener("load", function(event) 
   {
     const req = new XMLHttpRequest();
@@ -293,8 +295,8 @@
             <div class='tbl' id='ihm1'>
               <div id="table1"></div>
             </div>  
-             <div class='tbl form-group' id="ins1" data-vuep="table1" hidden></div>
-             <div class='tbl form-group' id="maj1" data-vuep="table1" data-lnkchild="article" hidden></div>
+             <div class='tbl form-group' id="ins1" data-vuep="table1" data-lnkimg="image" hidden></div>
+             <div class='tbl form-group' id="maj1" data-vuep="table1" data-lnkimg="image" data-lnkchild="article" hidden></div>
              <div class='tbl form-group' id="ins2" data-vuep="maj1" hidden></div>
              <div class='tbl form-group' id="maj2" data-vuep="maj1" hidden></div>
           </div>
@@ -600,7 +602,7 @@
     <script type="text/javascript" >
       const togglePassword1 = document.querySelector('#togglepass');
       const password1 = document.querySelector('#clpassid');
-      
+
       togglePassword1.addEventListener('click', function (e) {
       // toggle the type attribute
           const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -610,7 +612,7 @@
       });
       const togglePassword2 = document.querySelector('#togglepassconf');
       const password2 = document.querySelector('#clpassconfid');
-      
+
       togglePassword2.addEventListener('click', function (e) {
       // toggle the type attribute
           const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -620,112 +622,110 @@
       });
     </script>
 
-  	<!--<div class="modal" tabindex="-1" role="dialog">-->
-  	<div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  	  <div class="modal-dialog modal-dialog-centered" role="document">
-  	    <div class="modal-content">
-  	      <div class="modal-header">
-  	        <h5 class="modal-title">Erreur</h5>
-  	      </div>
-  	      <div class="modal-body">
-  	        <!--<p>Modal body text goes here.</p>-->
-  	      </div>
-  	      <div class="modal-footer">
-  	        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="okbtn">OK</button>
-  	      </div>
-  	    </div>
-  	  </div>
-  	</div>
-	<script type="text/javascript" >
-	
-			function getnumtable(nom)
-			{
-				for (var i=0; i<tables.length; i++)
-       		if (nom == tables[i].nom)
-       			numtable = i;
+    <!--<div class="modal" tabindex="-1" role="dialog">-->
+    <div class="modal" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Erreur</h5>
+          </div>
+          <div class="modal-body">
+            <!--<p>Modal body text goes here.</p>-->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close" id="okbtn">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script type="text/javascript" >
+    function getnumtable(nom)
+    {
+      for (var i=0; i<tables.length; i++)
+        if (nom == tables[i].nom)
+          numtable = i;
 
-				return numtable; 			
-			}	
-	
-	
-			function insert(numtable, limite, offset, vueparent, placeparent, selcol, selid) {
-				var champs = tables[numtable].champs;
-				var vue, vuep, liensel;
+      return numtable;
+    }
 
+    function insert(numtable, limite, offset, vueparent, placeparent, selcol, selid) 
+    {
+      var champs = tables[numtable].champs;
+      var vue, vuep, liensel;
 
-				vuep = document.getElementById(vueparent);
-				vuep.hidden = true;	
+      vuep = document.getElementById(vueparent);
+      vuep.hidden = true;  
 
-				vue = document.getElementById('ins' + numtable);
-				vue.hidden = false;				
-				
-				var titre = document.createElement('H5');
-				titre.id = 'itable'+ numtable +'titre';
-				titre.innerHTML = 'Insertion dans table ' + tables[numtable].desc;
-				vue.appendChild(titre);
-				var br = document.createElement('br');
-				vue.appendChild(br);
-				var formoff = document.createElement("div");
-				var labels = [];
-				var input = [];
-				for(i=0; i<champs.length; i++)				
-				{
-					if (champs[i].typ != "pk")
-					{
-						if (champs[i].nom != selcol)
-						{						
-							var forminp = document.createElement('form');
-							forminp.autocomplete = "off";
-							var lbl = document.createElement('label');
-							lbl.id = 'itable'+ numtable +'lbl' + i;
-							lbl.htmlFor = 'itable'+ numtable + 'inp' + i;
-							if (champs[i].typ != "fk")
-							{
-								lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
-								var inp = document.createElement('input');
-								inp.autocomplete = "off";
-								if (champs[i].typ == "text")
-								{
-									inp.classList.add('form-control');
-									inp.type = 'text';
-									inp.value = champs[i].defval;
-								}
-								else if (champs[i].typ == "ref")
-								{
-									inp.classList.add('form-control');
-									inp.type = 'text';
-									inp.required = true;
-									inp.value = champs[i].defval;
-								}
-								else if (champs[i].typ == "codepromo")
-								{
-									inp.classList.add('form-control');
-									inp.type = 'text';
-									inp.required = true;
-									inp.pattern = '[0-9A-Z]{4}';
-									inp.value = champs[i].defval;
-									inp.title = "Doit être composé de quatre chiffres ou lettres majuscule";
-								}
-								else if (champs[i].typ == "bool")
-								{
-									inp.type = 'checkbox';
-									inp.classList.add('mbchk');
-									if (champs[i].defval == "1")
-										inp.checked = true;
-									else 
-										inp.checked = false;
-								}
-								else if (champs[i].typ == "prix")
-								{
-									inp.classList.add('form-control');
-									inp.type = 'number';
-									inp.step = '0.01';
-									inp.value = champs[i].defval;
-									inp.min = '0';
-									inp.title = "Doit être un nombre positif avec deux chiffres après la virgule";
-								}
-								else if (champs[i].typ == "percent")
-								{
+      vue = document.getElementById('ins' + numtable);
+      vue.hidden = false;
+
+      var titre = document.createElement('H5');
+      titre.id = 'itable'+ numtable +'titre';
+      titre.innerHTML = 'Insertion dans table ' + tables[numtable].desc;
+      vue.appendChild(titre);
+      var br = document.createElement('br');
+      vue.appendChild(br);
+      var formoff = document.createElement("div");
+      var labels = [];
+      var input = [];
+      for(i=0; i<champs.length; i++)				
+      {
+        if (champs[i].typ != "pk")
+        {
+          if (champs[i].nom != selcol)
+          {
+            var forminp = document.createElement('form');
+            forminp.autocomplete = "off";
+            var lbl = document.createElement('label');
+            lbl.id = 'itable'+ numtable +'lbl' + i;
+            lbl.htmlFor = 'itable'+ numtable + 'inp' + i;
+            if (champs[i].typ != "fk")
+            {
+              lbl.innerHTML = champs[i].desc + '&nbsp;:&nbsp;';
+              var inp = document.createElement('input');
+              inp.autocomplete = "off";
+              if (champs[i].typ == "text")
+              {
+                inp.classList.add('form-control');
+                inp.type = 'text';
+                inp.value = champs[i].defval;
+              }
+              else if (champs[i].typ == "ref")
+              {
+                inp.classList.add('form-control');
+                inp.type = 'text';
+                inp.required = true;
+                inp.value = champs[i].defval;
+              }
+              else if (champs[i].typ == "codepromo")
+              {
+                inp.classList.add('form-control');
+                inp.type = 'text';
+                inp.required = true;
+                inp.pattern = '[0-9A-Z]{4}';
+                inp.value = champs[i].defval;
+                inp.title = "Doit être composé de quatre chiffres ou lettres majuscule";
+              }
+              else if (champs[i].typ == "bool")
+              {
+                inp.type = 'checkbox';
+                inp.classList.add('mbchk');
+                if (champs[i].defval == "1")
+                  inp.checked = true;
+                else
+                  inp.checked = false;
+                }
+                else if (champs[i].typ == "prix")
+                {
+                  inp.classList.add('form-control');
+                  inp.type = 'number';
+                  inp.step = '0.01';
+                  inp.value = champs[i].defval;
+                  inp.min = '0';
+                  inp.title = "Doit être un nombre positif avec deux chiffres après la virgule";
+                }
+                else if (champs[i].typ == "percent")
+                {
 									inp.classList.add('form-control');
 									inp.type = 'number';
 									inp.value = champs[i].defval;
@@ -855,7 +855,196 @@
 							formoff.appendChild(br);
 						}
 					}
-				}	
+				}
+        var lnkimg = vue.getAttribute("data-lnkimg");
+        if (lnkimg != null)
+        {
+          var lbl = document.createElement('label');
+          lbl.id = 'imageslblid';
+          lbl.htmlFor = 'imagesinpid';
+          lbl.innerHTML = 'Liste d\'images : ';
+          formoff.appendChild(lbl);
+          var inp = document.createElement('input');
+          inp.id = 'imagesinpid';
+          inp.autocomplete = "off";
+          inp.classList.add('form-control-file');
+          inp.type = 'file';
+          inp.accept = "image/png, image/jpeg";
+          inp.multiple = true;
+          inp.name = 'file[]'
+          inp.onchange = function ()
+          {
+            const fileInput = this;
+            const formdata = new FormData();
+            for ( var fil of fileInput.files)
+              formdata.append('file[]', fil);
+
+            fetch("bouploads.php", {
+              method: "POST",
+              body: formdata
+            })
+            .then((response) => response.json())
+            .then((result) => {
+              let carit = document.getElementsByClassName("carousel-item");
+              for (let cari of carit)
+              {
+                cari.classList.remove("active");
+              }
+              var lastitem = null;
+              for (var res of result)
+              {
+                let divcaritem = document.createElement("DIV");
+                divcaritem.classList.add("carousel-item");
+                lastitem = divcaritem;
+                let img = document.createElement("IMG");
+                img.src = pathimg + res;
+                img.classList.add("imgart");
+                img.alt = "";
+                divcaritem.appendChild(img);
+                document.getElementById("carinid").appendChild(divcaritem);
+              }
+              lastitem.classList.add("active");
+              document.getElementById("imgcloseid").style.display = "block";
+              document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+              document.getElementById("favoriid").classList.add("imgfavorioff");
+              document.getElementById("favoriid").style.display = "block";
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+          }
+          formoff.appendChild(inp);
+          let carousel = document.createElement("DIV");
+          carousel.id = "carouselimgid";
+          carousel.classList.add("carousel");
+          carousel.classList.add("frameimg");
+          carousel.classList.add("imgart");
+          carousel.classList.add("slide");
+          carousel.setAttribute("data-ride", "carousel");
+          carousel.setAttribute("data-interval", false);
+          let carin = document.createElement("DIV");
+          carin.id = "carinid";
+          carin.classList.add("carousel-inner");
+          carousel.appendChild(carin);
+          let btnprev = document.createElement("BUTTON");
+          btnprev.classList.add("carousel-control-prev");
+          btnprev.type="button";
+          btnprev.setAttribute("data-target", "#carouselimgid");
+          btnprev.setAttribute("data-slide", "prev");
+          let spnicon1 = document.createElement("SPAN");
+          spnicon1.classList.add("carousel-control-prev-icon");
+          spnicon1.setAttribute("aria-hidden", "true");
+          btnprev.appendChild(spnicon1);
+          let spnprev = document.createElement("SPAN");
+          spnprev.classList.add("sr-only");
+          spnprev.innerHTML = "Previous";
+          btnprev.appendChild(spnprev);
+          carousel.appendChild(btnprev);
+          let btnnext = document.createElement("BUTTON");
+          btnnext.classList.add("carousel-control-next");
+          btnnext.type="button";
+          btnnext.setAttribute("data-target", "#carouselimgid");
+          btnnext.setAttribute("data-slide", "next");
+          let spnicon2 = document.createElement("SPAN");
+          spnicon2.classList.add("carousel-control-next-icon");
+          spnicon2.setAttribute("aria-hidden", "true");
+          btnnext.appendChild(spnicon2);
+          let spnnext = document.createElement("SPAN");
+          spnnext.classList.add("sr-only");
+          spnnext.innerHTML = "Next";
+          btnnext.appendChild(spnnext);
+          carousel.appendChild(btnnext);
+          var imgclose = document.createElement("IMG");
+          imgclose.id = "imgcloseid";
+          imgclose.src = '../img/fermer.png';
+          imgclose.alt = "";
+          imgclose.classList.add("imgclose");
+          var imgfavori = document.createElement("IMG");
+          imgfavori.id = "favoriid";
+          imgfavori.src = '../img/favori_unselected.svg';
+          imgfavori.alt = "";
+          imgfavori.classList.add("imgfavorioff");
+          imgfavori.style.display = "none";
+          var actitem = document.querySelector("div.carousel-item.active");
+          if (!actitem)
+            imgclose.style.display = 'none';
+          imgclose.addEventListener("click", function() {
+            var items = document.getElementsByClassName("carousel-item");
+            for (var item of items)
+            {
+              if (item.classList.contains("active"))
+              {
+                item.classList.remove("active");
+                if ((item.firstChild.getAttribute("data-imgid") != null))
+                {
+                  item.classList.remove("carousel-item");
+                  item.firstChild.style.display = "none";
+                }
+                else
+                {
+                  item.remove();
+                }
+                break;
+              }
+            }
+            var firstitem = null;
+            for (var item of items)
+            {
+              if (item.classList.contains("carousel-item") == true)
+              {
+                firstitem = item;
+                break;
+              }
+            }
+            if (firstitem)
+            {
+              firstitem.classList.add("active");
+              if (firstitem.classList.contains('favori'))
+              {
+                document.getElementById("favoriid").src = "../img/favori_selected.svg";
+                document.getElementById("favoriid").classList.remove("imgfavorioff");
+                document.getElementById("favoriid").classList.add("imgfavorion");
+              }
+              else
+              {
+                document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+                document.getElementById("favoriid").classList.remove("imgfavorion");
+                document.getElementById("favoriid").classList.add("imgfavorioff");
+              }
+            }
+            else 
+            {
+              this.style.display = 'none';
+              document.getElementById("favoriid").style.display = 'none';
+            }
+          });
+          imgfavori.addEventListener("click", function() {
+            var items = document.getElementsByClassName("carousel-item");
+            for (var item of items)
+            {
+              item.classList.remove("favori");
+            }
+            if (imgfavori.classList.contains("imgfavorioff"))
+            {
+              var actitem = document.querySelector(".carousel-item.active");
+              actitem.classList.add("favori");
+              imgfavori.classList.remove("imgfavorioff");
+              imgfavori.classList.add("imgfavorion");
+              imgfavori.src = "../img/favori_selected.svg";
+            }
+            else if (imgfavori.classList.contains("imgfavorion"))
+            {
+              imgfavori.classList.remove("imgfavorion");
+              imgfavori.classList.add("imgfavorioff");
+              imgfavori.src = "../img/favori_unselected.svg";
+            }
+          });
+          carousel.appendChild(imgclose);
+          carousel.appendChild(imgfavori);
+          formoff.appendChild(carousel);
+          formoff.appendChild(document.createElement("BR"));
+        }
+
 				var okbtn = document.createElement('button');
 				okbtn.id = "okbtn" + numtable;
 				okbtn.type = "button";
@@ -959,8 +1148,24 @@
 				formoff.appendChild(clbtn);
 
 				vue.appendChild(formoff);
-				
-			}
+
+        $('#carouselimgid').on('slid.bs.carousel', function () 
+        {
+          var actitem = document.querySelector(".carousel-item.active");
+          if (actitem.classList.contains('favori'))
+          {
+            document.getElementById("favoriid").src = "../img/favori_selected.svg";
+            document.getElementById("favoriid").classList.remove("imgfavorioff");
+            document.getElementById("favoriid").classList.add("imgfavorion");
+          }
+          else
+          {
+            document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+            document.getElementById("favoriid").classList.remove("imgfavorion");
+            document.getElementById("favoriid").classList.add("imgfavorioff");
+          }
+        })
+      }
 			
 			function update(numtable, idtoup, limite, offset, vueparent, placeparent, selcol, selid)
 			{
@@ -1073,6 +1278,7 @@
 											inp.type = 'file';
 											inp.accept="image/png, image/jpeg";
 											inp.filename = data[i];
+											
 											inp.setAttribute("data-truefilename", data[i]);
 											inp.setAttribute("data-artimg", 'utable' + numtable + '_' + 'artimg' + i );
 											inp.onchange = function () {
@@ -1197,7 +1403,248 @@
 								}
 							}
 						}
-						
+            var lnkimg = vue.getAttribute("data-lnkimg");
+            if (lnkimg != null)
+            {
+              var lbl = document.createElement('label');
+              lbl.id = 'imageslblid';
+              lbl.htmlFor = 'imagesinpid';
+              lbl.innerHTML = 'Liste d\'images : ';
+              formoff.appendChild(lbl);
+              var inp = document.createElement('input');
+              inp.id = 'imagesinpid';
+              inp.autocomplete = "off";
+              inp.classList.add('form-control-file');
+              inp.type = 'file';
+              inp.accept = "image/png, image/jpeg";
+              inp.multiple = true;
+              inp.name = 'file[]'
+              inp.onchange = function ()
+              {
+                const fileInput = this;
+                const formdata = new FormData();
+                for ( var fil of fileInput.files)
+                  formdata.append('file[]', fil);
+
+                fetch("bouploads.php", {
+                  method: "POST",
+                  body: formdata
+                })
+                .then((response) => response.json())
+                .then((result) => {
+                  let carit = document.getElementsByClassName("carousel-item");
+                  for (let cari of carit)
+                  {
+                    cari.classList.remove("active");
+                  }
+                  var lastitem = null;
+                  for (var res of result)
+                  {
+                    let divcaritem = document.createElement("DIV");
+                    divcaritem.classList.add("carousel-item");
+                    lastitem = divcaritem;
+                    let img = document.createElement("IMG");
+                    img.src = pathimg + res;
+                    img.classList.add("imgart");
+                    img.alt = "";
+                    divcaritem.appendChild(img);
+                    document.getElementById("carinid").appendChild(divcaritem);
+                  }
+                  lastitem.classList.add("active");
+                  document.getElementById("imgcloseid").style.display = "block";
+                  document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+                  document.getElementById("favoriid").classList.add("imgfavorioff");
+                  document.getElementById("favoriid").style.display = "block";
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+              }
+              formoff.appendChild(inp);
+              let carousel = document.createElement("DIV");
+              carousel.id = "carouselimgid";
+              carousel.classList.add("carousel");
+              carousel.classList.add("frameimg");
+              carousel.classList.add("imgart");
+              carousel.classList.add("slide");
+              carousel.setAttribute("data-ride", "carousel");
+              carousel.setAttribute("data-interval", false);
+              let carin = document.createElement("DIV");
+              carin.id = "carinid";
+              carin.classList.add("carousel-inner");
+              carousel.appendChild(carin);
+              let btnprev = document.createElement("BUTTON");
+              btnprev.classList.add("carousel-control-prev");
+              btnprev.type="button";
+              btnprev.setAttribute("data-target", "#carouselimgid");
+              btnprev.setAttribute("data-slide", "prev");
+              let spnicon1 = document.createElement("SPAN");
+              spnicon1.classList.add("carousel-control-prev-icon");
+              spnicon1.setAttribute("aria-hidden", "true");
+              btnprev.appendChild(spnicon1);
+              let spnprev = document.createElement("SPAN");
+              spnprev.classList.add("sr-only");
+              spnprev.innerHTML = "Previous";
+              btnprev.appendChild(spnprev);
+              carousel.appendChild(btnprev);
+              let btnnext = document.createElement("BUTTON");
+              btnnext.classList.add("carousel-control-next");
+              btnnext.type="button";
+              btnnext.setAttribute("data-target", "#carouselimgid");
+              btnnext.setAttribute("data-slide", "next");
+              let spnicon2 = document.createElement("SPAN");
+              spnicon2.classList.add("carousel-control-next-icon");
+              spnicon2.setAttribute("aria-hidden", "true");
+              btnnext.appendChild(spnicon2);
+              let spnnext = document.createElement("SPAN");
+              spnnext.classList.add("sr-only");
+              spnnext.innerHTML = "Next";
+              btnnext.appendChild(spnnext);
+              carousel.appendChild(btnnext);
+              var imgclose = document.createElement("IMG");
+              imgclose.id = "imgcloseid";
+              imgclose.src = '../img/fermer.png';
+              imgclose.alt = "";
+              imgclose.classList.add("imgclose");
+              var imgfavori = document.createElement("IMG");
+              imgfavori.id = "favoriid";
+              imgfavori.src = '../img/favori_unselected.svg';
+              imgfavori.alt = "";
+              imgfavori.classList.add("imgfavorioff");
+              imgfavori.style.display = "none";
+              var actitem = document.querySelector("div.carousel-item.active");
+              if (!actitem)
+                imgclose.style.display = 'none';
+              imgclose.addEventListener("click", function() {
+                var items = document.getElementsByClassName("carousel-item");
+                for (var item of items)
+                {
+                  if (item.classList.contains("active"))
+                  {
+                    item.classList.remove("active");
+                    if ((item.firstChild.getAttribute("data-imgid") != null))
+                    {
+                      item.classList.remove("carousel-item");
+                      item.firstChild.style.display = "none";
+                    }
+                    else
+                    {
+                      item.remove();
+                    }
+                    break;
+                  }
+                }
+                var firstitem = null;
+                for (var item of items)
+                {
+                  if (item.classList.contains("carousel-item") == true)
+                  {
+                    firstitem = item;
+                    break;
+                  }
+                }
+                if (firstitem)
+                {
+                  firstitem.classList.add("active");
+                  if (firstitem.classList.contains('favori'))
+                  {
+                    document.getElementById("favoriid").src = "../img/favori_selected.svg";
+                    document.getElementById("favoriid").classList.remove("imgfavorioff");
+                    document.getElementById("favoriid").classList.add("imgfavorion");
+                  }
+                  else
+                  {
+                    document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+                    document.getElementById("favoriid").classList.remove("imgfavorion");
+                    document.getElementById("favoriid").classList.add("imgfavorioff");
+                  }
+                }
+                else 
+                {
+                  this.style.display = 'none';
+                  document.getElementById("favoriid").style.display = 'none';
+                }
+              });
+              imgfavori.addEventListener("click", function() {
+                var items = document.getElementsByClassName("carousel-item");
+                for (var item of items)
+                {
+                  item.classList.remove("favori");
+                }
+                if (imgfavori.classList.contains("imgfavorioff"))
+                {
+                  var actitem = document.querySelector(".carousel-item.active");
+                  actitem.classList.add("favori");
+                  imgfavori.classList.remove("imgfavorioff");
+                  imgfavori.classList.add("imgfavorion");
+                  imgfavori.src = "../img/favori_selected.svg";
+                }
+                else if (imgfavori.classList.contains("imgfavorion"))
+                {
+                  imgfavori.classList.remove("imgfavorion");
+                  imgfavori.classList.add("imgfavorioff");
+                  imgfavori.src = "../img/favori_unselected.svg";
+                }
+              });
+              carousel.appendChild(imgclose);
+              carousel.appendChild(imgfavori);
+              formoff.appendChild(carousel);
+              formoff.appendChild(document.createElement("BR"));
+
+              var obj = { bouticid: bouticid, action:"vuetable", table:"artlistimg", colonne:"", row:"", idtoup:"", limite:maximage, offset:0, selcol:"artid", selid:idtoup, filtres:[] };
+
+              fetch("boquery.php", {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(obj)
+              })
+              .then(function(result) {
+                return result.json();
+              })
+              .then(function(data) {
+                if (typeof (data.error) !== "undefined")
+                {
+                  showOkAlert('Erreur', data.error);
+                }
+                else
+                {
+                  let lastitem = null;
+                  for (let dat of data)
+                  {
+                    if (dat[4] == "1")
+                    {
+                      let divcaritem = document.createElement("DIV");
+                      lastitem = divcaritem;
+                      divcaritem.classList.add("carousel-item");
+                      let img = document.createElement("IMG");
+                      img.src = pathimg + dat[2];
+                      img.classList.add("imgart");
+                      img.alt = "";
+                      img.setAttribute("data-imgid", dat[0])
+                      divcaritem.appendChild(img);
+                      document.getElementById("carinid").appendChild(divcaritem);
+                      document.getElementById("imgcloseid").style.display = "block";
+                      if (dat[3] == "1")
+                      {
+                        divcaritem.classList.add("favori");
+                        document.getElementById("favoriid").src = "../img/favori_selected.svg";
+                      }
+                      else
+                        document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+                      document.getElementById("favoriid").style.display = "block";
+                    }
+                  }
+                  if (lastitem)
+                  {
+                    lastitem.classList.add("active");
+                  }
+                }
+              })
+            }
+
 						var lnk = vue.getAttribute("data-lnkchild");
 						if (lnk != null)
 						{
@@ -1283,8 +1730,8 @@
 									      errmsg = fld.getAttribute("data-champ")  + " : " + fld.validationMessage;
 									    }
 											error = true;	
-											break;				  	
-						  			}						  
+											break;
+						  			}
 									}
 									var col = {nom:champs[i].nom, valeur:val, type:champs[i].typ, desc:champs[i].desc};
 									row.push(col);
@@ -1326,10 +1773,24 @@
 						}; 
 						formoff.appendChild(clbtn);
 						vue.appendChild(formoff);
-						
-					}
-      	})
-			}
+            $('#carouselimgid').on('slid.bs.carousel', function () {
+              var actitem = document.querySelector(".carousel-item.active");
+              if (actitem.classList.contains('favori'))
+              {
+                document.getElementById("favoriid").src = "../img/favori_selected.svg";
+                document.getElementById("favoriid").classList.remove("imgfavorioff");
+                document.getElementById("favoriid").classList.add("imgfavorion");
+              }
+              else
+              {
+                document.getElementById("favoriid").src = "../img/favori_unselected.svg";
+                document.getElementById("favoriid").classList.remove("imgfavorion");
+                document.getElementById("favoriid").classList.add("imgfavorioff");
+              }
+            })
+          }
+        })
+      }
 			
 			function changeFunc(vue, place, tablestr, $i, selcol="", selid=0) 
 			{
@@ -2102,67 +2563,153 @@
           return result.json();
         }) 
         .then(function(data) {
-         	if (typeof (data.error) !== "undefined")
-         	{
+          if (typeof (data.error) !== "undefined")
+          {
             showOkAlert('Erreur', data.error);
-         	}
-         	else 
-         	{
-						document.getElementById(vueparent).hidden = false
-						vue.hidden = true;
-						vue.innerHTML = '';
-         		
-	          gettable(vueparent, place, table, limite, offset, selcol, selid);
-         	}
-      	})
-      } 
+          }
+          else
+          {
+            if (vue)
+            {
+              var lnkimg = vue.hasAttribute("data-lnkimg");
+              if ((lnkimg == true) && (data[0] != ""))
+              {
+                let imgs = document.getElementsByClassName("carousel-item");
+                for (let img of imgs)
+                {
+                  var numlstimg = getnumtable("artlistimg");
+                  var champslstimg = tables[numlstimg].champs;
+                  var row = [];
+                  
+                  for (var i=0; i<champslstimg.length; i++)
+                  {
+                    var val = "";
+                    if (champslstimg[i].nom == 'artid')
+                    {
+                      val = data[0].toString();
+                    }
+                    else if (champslstimg[i].nom == 'image')
+                    {
+                      val = img.firstChild.getAttribute('src').replace(/^.*[\\\/]/, '');
+                    }
+                    else if (champslstimg[i].nom =='favori')
+                    {
+                      val = img.classList.contains("favori") ? "1" : "0";
+                    }
+                    else if (champslstimg[i].nom =='visible')
+                    {
+                      val = "1";
+                    }
+                    if (champslstimg[i].typ !='pk')
+                    {
+                      var col = {nom:champslstimg[i].nom, valeur:val, type:champslstimg[i].typ, desc:champslstimg[i].desc};
+                      row.push(col);
+                    }
+                  }
+                  insertrow(null, "", "", "artlistimg", row, maximage, 0, "", 0);
+                }
+              }
+              document.getElementById(vueparent).hidden = false
+              vue.hidden = true;
+              vue.innerHTML = '';
+  
+              gettable(vueparent, place, table, limite, offset, selcol, selid);
+            }
+          }
+        })
+      }
 
-			function updaterow( vue, vueparent, place, table, row, pknom, idtoup, limite, offset, selcol, selid)      
+      function updaterow( vue, vueparent, place, table, row, pknom, idtoup, limite, offset, selcol, selid)
       {
-        var retour;      
-        
-      	var obj = { bouticid: bouticid, action:"updaterow", table:table, colonne:pknom, row:row, idtoup:idtoup };
-     	
+        var retour;
+
+        var obj = { bouticid: bouticid, action:"updaterow", table:table, colonne:pknom, row:row, idtoup:idtoup };
+
         fetch("boquery.php", {
           method: "POST",
           headers: {
-        		'Content-Type': 'application/json',
-        		'Accept': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
           body: JSON.stringify(obj)
         })
         .then(function(result) {
           return result.json();
-        }) 
+        })
         .then(function(data) {
-         	if (typeof (data.error) !== "undefined")
-         	{
+          if (typeof (data.error) !== "undefined")
+          {
             showOkAlert('Erreur', data.error);
-         	}
-         	else 
-         	{
-         		if (vueparent != "")
-         		{
-							document.getElementById(vueparent).hidden = false;
-							vue.hidden = true;
-							vue.innerHTML = '';
-							gettable(vueparent, place, table, limite, offset, selcol, selid);
-         		}
-         	}
-      	})
+          }
+          else
+          {
+            if (vue)
+            {
+              var lnkimg = vue.hasAttribute("data-lnkimg");
+              if (lnkimg == true)
+              {
+                let imgs = document.getElementById("carinid").children;
+                for (let img of imgs)
+                {
+                  var numlstimg = getnumtable("artlistimg");
+                  var champslstimg = tables[numlstimg].champs;
+                  var row = [];
+
+                  for (var i=0; i<champslstimg.length; i++)
+                  {
+                    var val = "";
+                    if (champslstimg[i].nom == 'artid')
+                    {
+                      val = idtoup.toString();
+                    }
+                    else if (champslstimg[i].nom == 'image')
+                    {
+                      val = img.firstChild.getAttribute('src').replace(/^.*[\\\/]/, '');
+                    }
+                    else if (champslstimg[i].nom =='favori')
+                    {
+                      val = img.classList.contains("favori") ? "1" : "0";
+                    }
+                    else if (champslstimg[i].nom =='visible')
+                    {
+                      val = img.classList.contains("carousel-item") ? "1" : "0";
+                    }
+                    if (champslstimg[i].typ !='pk')
+                    {
+                      var col = {nom:champslstimg[i].nom, valeur:val, type:champslstimg[i].typ, desc:champslstimg[i].desc};
+                      row.push(col);
+                    }
+                  }
+                  if (img.firstChild.hasAttribute('data-imgid'))
+                    updaterow(null, "", "", "artlistimg", row, "artlistimgid", img.firstChild.getAttribute('data-imgid'), maximage, 0, "", 0);
+                  else
+                    insertrow(null, "", "", "artlistimg", row, maximage, 0, "", 0);
+                }
+              }
+            }
+
+            if (vueparent != "")
+            {
+              document.getElementById(vueparent).hidden = false;
+              vue.hidden = true;
+              vue.innerHTML = '';
+              gettable(vueparent, place, table, limite, offset, selcol, selid);
+            }
+          }
+        })
       }
-      
-			function sendSMS( telephone, message)      
+
+      function sendSMS( telephone, message)
       {
-        var retour;      
-        
-      	var obj = { bouticid: bouticid, telephone:telephone, message:message };
-     	
+        var retour;
+
+        var obj = { bouticid: bouticid, telephone:telephone, message:message };
+
         fetch("sms.php", {
           method: "POST",
           headers: {
-        		'Content-Type': 'application/json',
-        		'Accept': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
           body: JSON.stringify(obj)
         })
@@ -2170,14 +2717,14 @@
           return result.json();
         }) 
         .then(function(data) {
-         	if (typeof (data.error) !== "undefined")
-         	{
+          if (typeof (data.error) !== "undefined")
+          {
             showOkAlert('Erreur', data.error);
-         	}
+          }
         })
       }
-      
-			function sendStatutSMS( cmdid)      
+
+      function sendStatutSMS( cmdid)      
       {
         var retour;      
         

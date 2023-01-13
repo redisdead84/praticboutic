@@ -56,6 +56,20 @@
     display: block;
     width: 25%;
   }
+  
+  .frameimg
+  {
+    width: 85vmin !important;
+    height: 47.8125vmin !important;
+  }
+  
+  .imgart
+  {
+    width: auto;
+	  height: auto;
+    max-width: 85vmin !important;
+    max-height: 47.8125vmin !important;
+  }
 
 }
   
@@ -514,15 +528,14 @@ table tbody td {
 	border-top: 1px solid black !important;
 }
 
-
 .frameimg 
 {
 	display: grid;
 	justify-content: center;
 	align-content: center;
 	position: relative;
-	height: 225px;
-	width: 400px;
+	/*height: 225px;
+	width: 400px;*/
 	border: 1px solid black;
 	background-color: #EEEEEE;
 }
@@ -530,10 +543,10 @@ table tbody td {
 .imgart
 {
 	z-index: 1;
-	width: auto;
-	height: auto;
-	max-width: 400px;
-	max-height: 225px;
+	/*width: auto;
+	height: auto;*/
+	/*max-width: 400px;
+	max-height: 225px;*/
 }
 
 .imgclose
@@ -542,6 +555,16 @@ table tbody td {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+}
+
+#favoriid
+{
+  z-index: 2;
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 18px;
+  height: 18px;
 }
 
 .breakword
