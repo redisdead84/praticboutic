@@ -52,8 +52,7 @@ $dotenv->load();
                   </div>
                   <br>
                   <div class="modal-footer-cb">
-                    <div id="g_id_onload" data-client_id="<?php echo $_ENV['GOOGLE_CLIENTID']; ?>" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-                    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
+                    <div id="buttonDiv"></div>
                   </div>
                 </form>
               </div>
@@ -83,11 +82,20 @@ $dotenv->load();
         sessionStorage.setItem('pb_reg_email', document.getElementById("email").value);
         return true;
       }
-      window.onload=function()
+      window.onload = function()
       {
         document.getElementById("email").value = sessionStorage.getItem('pb_reg_email');
         document.getElementById("loadid").style.display = "none";
         document.getElementById("pagecontainerid").style.display = "flex";
+        google.accounts.id.initialize({
+          client_id: "<?php echo $_ENV['GOOGLE_CLIENTID']; ?>",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),
+          { theme: "outline", size: "large" }  // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
       }
       function cancel() 
       {
@@ -100,7 +108,6 @@ $dotenv->load();
     <script>
       function onSubmit(token) 
       {
-  
         if (bakinfo() == false)
           return;
         document.getElementById("loadid").style.display = "block";
