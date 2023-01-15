@@ -63,219 +63,9 @@
       <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
     </div>
     <div id="main" data-method="<?php echo $method;?>" data-table="<?php echo $table;?>" data-mntcmdmini="<?php echo $mntcmdmini;?>" data-customer="<?php echo $customer;?>">
-
-    <img id="logo" src="../upload/<?php echo $logo;?>">
-    <p id="marqueid" class="marque"><?php echo $nom;?></p>
-
-    <form id="mainformid" name="mainform" autocomplete="off" method="post" action="valrecap.php">
-
-    <?php
-    //echo "Connected successfully";
-    $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' OR catid = 0 ORDER BY catid';
-
-		if ($result = $conn->query($query)) {
-    		while ($row = $result->fetch_row()) {
-    			if (($row[2] > 0 ) || ($row[0] == 0))
-    			{
-    			  if ($row[0] > 0)
-    			  {
-    			    echo '<button type="button" class="accordion">';
-    				  echo html_entity_decode($row[1]);
-    				  echo '</button>';
-    				  echo '<div class="panel">';
-    				}
-    				else
-    				{
-    			    echo '<button type="button" class="accordion" style="display:none">';
-    				  echo html_entity_decode($row[1]);
-    				  echo '</button>';
-   				    echo '<div class="panel" style="max-height:max-content">';
-
-    				}
-    				
-		      	$query2 = 'SELECT artid, nom, prix, unite, description, image FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND catid = ' . $row[0] . ' ORDER BY artid';
-		      	if ($result2 = $conn->query($query2)) 
-	  				{
-	  				  while ($row2 = $result2->fetch_row()) 
-    					{
-    						if (strcmp($sizeimg,"bigimg")==0)
-    						{
-	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	  	        		if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';
-	                echo '<div class="rowah">';
-	                echo '<div class="colb1">';
-	    					  echo '<div class="nom">';
-	       	      	echo $row2[1];
-	       	      	echo '<br />';
-	       	      	echo '</div>';
-	       	      	echo '<div class="desc">';
-	       	      	if (!empty($row2[4]))
-	       	      	{
-	       	      	 echo $row2[4];
-	                 echo '<br />'; 
-	       	      	}
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-	       	      	echo '<div class="colb2">';
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-	       	      	echo '<div class="rowah">';
-	       	      	echo '<div class="colb1">';
-	       	      	if($method > 0) 
-	       	      	{
-	       	      		echo '<div class="vctrqte">';
-						  		  echo '<p class="qte">Quantit&eacute;s :&nbsp;&nbsp;</p>';
-						  		  $id = 'qt' . $row2[0];
-						  		  $name = 'qty' . $row2[0];    
-	            		  echo '<img class="bts bmoins" src="img/bouton-moins-inactif.png" onclick="subqt(this)" disabled />';
-	            		  echo '<p class="artqt" id="' . $id . '" name="' . $name . '" onkeyup="showoptions(this)" onchange="showoptions(this)" > 0 </p>';
-	            		  echo '<img class="bts bplus" src="img/bouton-plus.png" onclick="addqt(this)" />';
-	            		  echo '</div>';
-	              	}
-	              	echo '</div>';
-	              	echo '<div class="colb2">';
-									echo '<p class="prix">';
-	       	      	echo number_format($row2[2], 2, ',', ' ');
-	       	      	echo ' ';
-	       	      	echo $row2[3];
-	       	      	echo '<br />';
-	       	      	echo '</p>';
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-								}
-
-    						else if (strcmp($sizeimg,"smallimg")==0)
-    						{
-	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	    					  echo '<div class="rowah">';
-	    					  echo '<div class="cola1">';
-	              	echo '<div class="nom">';
-	       	      	echo $row2[1];
-	       	      	echo '<br />';
-	       	      	echo '</div>';
-	       	      	echo '<div class="desc">';
-	       	      	if (!empty($row2[4]))
-	       	      	{
-	       	      	 echo $row2[4];
-	                 echo '<br />'; 
-	       	      	}
-	       	      	echo '</div>';
-	       	      	if($method > 0) 
-	       	      	{
-	       	      		echo '<div class="vctrqte">';
-						  		  echo '<p class="qte">Quantit&eacute;s :&nbsp;&nbsp;</p>';
-						  		  $id = 'qt' . $row2[0];
-						  		  $name = 'qty' . $row2[0];    
-	            		  //echo '<label> ';
-	            		  echo '<img class="bts bmoins" src="img/bouton-moins-inactif.png" onclick="subqt(this)" disabled />';
-	            		  //echo ' ';
-	            		  echo '<p class="artqt" id="' . $id . '" name="' . $name . '" onkeyup="showoptions(this)" onchange="showoptions(this)" > 0 </p>';
-	            		  //echo ' ';
-	            		  echo '<img class="bts bplus" src="img/bouton-plus.png" onclick="addqt(this)" />';
-	            		  //echo ' </label>';
-	            		  echo '</div>';
-	              	}
-
-									echo '<div class="prixsm">';
-	       	      	echo number_format($row2[2], 2, ',', ' ');
-	       	      	echo ' ';
-	       	      	echo $row2[3];
-	       	      	echo '<br />';
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-	       	      	echo '<div class="cola2">';
-	  	        		if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';
-	                echo '</div>';
-	                echo '</div>';
-								}
-
-                echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article" maxlength="300" hidden></textarea>';              
-                
- 				  		  $id = 'opt' . $row2[0];
- 				  		  $name = 'opty' . $row2[0];    
-				        
-       	      	if($method > 0) 
-       	      	{
-  				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '" hidden>';
-  				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" hidden></div>';
-				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '" style="display:none">';
-				        }
-				        else 
-				        {
-  				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '">';
-  				        echo '<div class="slide" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
-				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '">';
-				        }
-				        
-                $query3 = 'SELECT groupeopt.grpoptid, groupeopt.nom, groupeopt.multiple FROM relgrpoptart, groupeopt WHERE relgrpoptart.customid = ' . $customid . ' AND groupeopt.customid = ' . $customid . ' AND relgrpoptart.visible = 1 AND groupeopt.visible = 1 AND artid = ' . $row2[0] . ' AND relgrpoptart.grpoptid = groupeopt.grpoptid ORDER BY groupeopt.grpoptid';
-  					    if ($result3 = $conn->query($query3)) 
-	  				    {
-    					    while ($row3 = $result3->fetch_row()) 
-    					    {
-    					    	echo '<div class="flexsp">';
-  					      	if ($row3[2] == 0)
-  					      	{
-  					      		echo '<label>' . $row3[1] . ' (unique)</label><br>';
-  					      		echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()">';
-  					      	}
-  					      	else if ($row3[2] == 1)
-  					      	{
-  					      		echo '<label>' . $row3[1] . ' (multiple)</label><br>';
-  					        	echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" multiple>';
- 										}
-    					      /*if ($row3[2] == 0)
-                      echo '<legend>' . $row3[1] . ' (une seul option possible)</legend>';
-                    else if ($row3[2] == 1)
-                      echo '<legend>' . $row3[1] . ' (plusieurs choix possible)</legend>';*/
-     					      $query4 = 'SELECT optid, nom, surcout FROM `option` WHERE customid = ' . $customid . ' AND visible = 1 AND grpoptid = ' . $row3[0] . ' ORDER BY optid';
-       					    if ($result4 = $conn->query($query4)) 
-         				    {
-         				    	$init = 0;
-         					    while ($row4 = $result4->fetch_row()) 
-         					    {
-         					    	if ($init == 0)
-         					    		$def = 'selected';
-         					    	else 
-         					    		$def = '';
-                        if ($row3[2] == 0)
-                        {
-                          if ($row4[2]>0) 
-                           	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                          else 
-                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                        }
-                        else if ($row3[2] == 1)
-                        {
-                          if ($row4[2]>0) 
-                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                          else 
-                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                        }
-
-                        echo '<br/>';
-                        $init++;
-                      }
-                    }
-                    echo '</select>';
-                    echo '</div>';
-                  }
-                }
-                
-                echo '</div>';
-                echo '</div>';
-                  
-         	    	echo '</div>';
-					  	}						
-					  	$result2->close();
-        		}
-			   		echo '</div>';    			
-    			}
-  			}
-        $result->close();
-      }
-      ?>
+      <img id="logo" src="../upload/<?php echo $logo;?>">
+      <p id="marqueid" class="marque"><?php echo $nom;?></p>
+      <form id="mainformid" name="mainform" autocomplete="off" method="post" action="valrecap.php">
         <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
       </form>
     </div>
@@ -300,13 +90,17 @@
           document.getElementById("marqueid").style.display = "block";
         }
         var bouticid = '<?php echo $customid; ?>';
-        var objcat = { bouticid: bouticid, nom:"categories"};
+        var objcat = { bouticid: bouticid, requete:"categories"};
         
         fetch('frontquery.php', {
-              method: "POST",
-              body:objcat
-             })
-        .then((response) => response.json())
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objcat)
+        })
+        .then((response) => response.json() )
         .then((data) => {
           for (var dat of data)
           {
@@ -321,13 +115,18 @@
               var divpan = document.createElement("DIV");
               divpan.id = "divpanid" + dat[0];
               divpan.classList.add("panel");
-              divpan.style.max-height = (dat[0] > 0) ? "initial" : "max-content";
+              divpan.style.maxHeight = (dat[0] > 0) ? "initial" : "max-content";
               document.getElementById("mainformid").appendChild(divpan);
-              var objart = { bouticid: bouticid, nom:"articles", catid:data[0]};
+              const catid = dat[0];
+              var objart = { bouticid: bouticid, requete:"articles", catid:catid};
               fetch('frontquery.php', {
                 method: "POST",
-                body:objart
-               })
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body:JSON.stringify(objart)
+              })
               .then((response) => response.json())
               .then((data) => {
                 for (var dat of data)
@@ -336,47 +135,47 @@
                   var divart = document.createElement("DIV");
                   if (sizeimg == "bigimg")
                   {
-                    divart.id = "artid" + data[0];
+                    divart.id = "artid" + dat[0];
                     divart.classList.add("artcel");
                     divart.classList.add("artcelb");
-                    divart.setAttribute("data-name", data[1]);
-                    divart.setAttribute("data-prix", data[2]);
-                    divart.setAttribute("data-unite", data[3]);
-                    if (data[5] !== "")
+                    divart.setAttribute("data-name", dat[1]);
+                    divart.setAttribute("data-prix", dat[2]);
+                    divart.setAttribute("data-unite", dat[3]);
+                    if (dat[5] !== "")
                     {
                       var imgb = document.createElement("IMG");
                       imgb.classList.add('pic');
-                      imgb.classList.add(sizemig);
-                      imgb.src = "../upload/" + data[5];
+                      imgb.classList.add(sizeimg);
+                      imgb.src = "../upload/" + dat[5];
                       imgb.alt = "nopic";
                       divart.appendChild(imgb);
                     }
                     var rowah = document.createElement("DIV");
                     rowah.classList.add("rowah");
-                    var col1b = document.createElement("DIV");
-                    col1b.classList.add("col1b");
+                    var colb1 = document.createElement("DIV");
+                    colb1.classList.add("colb1");
                     var nom = document.createElement("DIV");
                     nom.classList.add("nom");
-                    nom.innerHTML = data[1];
+                    nom.innerHTML = dat[1];
                     nom.appendChild(document.createElement("BR"));
-                    col1b.appendChild(nom);
-                    rowah.appendChild(col1b);
+                    colb1.appendChild(nom);
+                    rowah.appendChild(colb1);
                     var desc = document.createElement("DIV");
                     desc.classList.add("desc");
-                    if (data[4] != "")
+                    if (dat[4] != "")
                     {
-                      desc.innerHTML = data[4];
+                      desc.innerHTML = dat[4];
                       desc.appendChild(document.createElement("BR"));
                     }
                     rowah.appendChild(desc);
                     divart.appendChild(rowah);
-                    var col2b = document.createElement("DIV");
-                    col2b.classList.add("col2b");
-                    divart.appendChild(col2b);
+                    var colb2 = document.createElement("DIV");
+                    colb2.classList.add("colb2");
+                    divart.appendChild(colb2);
                     var rowah = document.createElement("DIV");
                     rowah.classList.add("rowah");
-                    var col1b = document.createElement("DIV");
-                    col1b.classList.add("col1b");
+                    var colb1 = document.createElement("DIV");
+                    colb1.classList.add("colb1");
                     if (method > 0)
                     {
                       var vctrqte = document.createElement("DIV");
@@ -385,8 +184,8 @@
                       qte.classList.add("qte");
                       qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
                       vctrqte.appendChild(qte);
-                      var id = 'qt' + data[0];
-                      var name = 'qty' + data[0];
+                      var id = 'qt' + dat[0];
+                      var name = 'qty' + dat[0];
                       var bmoins = document.createElement("IMG");
                       bmoins.classList.add('bts');
                       bmoins.classList.add('bmoins');
@@ -410,38 +209,39 @@
                       vctrqte.appendChild(bplus);
                       divart.appendChild(vctrqte);
                     }
-                    rowah.appendChild(col1b);
-                    var col2b = document.createElement("DIV");
-                    col2b.classList.add("col2b");
+                    rowah.appendChild(colb1);
+                    var colb2 = document.createElement("DIV");
+                    colb2.classList.add("colb2");
                     var prix = document.createElement("P");
-                    prix.innerHTML = data[2].toFixed(2) + ' ' + data[3];
+                    prix.classList.add("prix");
+                    prix.innerHTML = parseFloat(dat[2]).toFixed(2) + ' ' + dat[3];
                     prix.appendChild(document.createElement("BR"));
-                    col2b.appendChild(prix);
-                    divart.appendChild(col2b);
+                    colb2.appendChild(prix);
+                    divart.appendChild(colb2);
                     divart.appendChild(rowah);
                   }
                   else if (sizeimg == "smallimg")
                   {
-                    divart.id = "artid" + data[0];
+                    divart.id = "artid" + dat[0];
                     divart.classList.add("artcel");
                     divart.classList.add("artcelb");
-                    divart.setAttribute("data-name", data[1]);
-                    divart.setAttribute("data-prix", data[2]);
-                    divart.setAttribute("data-unite", data[3]);
+                    divart.setAttribute("data-name", dat[1]);
+                    divart.setAttribute("data-prix", dat[2]);
+                    divart.setAttribute("data-unite", dat[3]);
                     var rowah = document.createElement("DIV");
                     rowah.classList.add("rowah");
                     var cola1 = document.createElement("DIV");
                     cola1.classList.add("cola1");
                     var nom = document.createElement("DIV");
                     nom.classList.add("nom");
-                    nom.innerHTML = data[1];
+                    nom.innerHTML = dat[1];
                     nom.appendChild(document.createElement("BR"));
                     cola1.appendChild(nom);
                     var desc = document.createElement("DIV");
                     desc.classList.add("desc");
-                    if (data[4] != "")
+                    if (dat[4] != "")
                     {
-                      desc.innerHTML = data[4];
+                      desc.innerHTML = dat[4];
                       desc.appendChild(document.createElement("BR"));
                     }
                     cola1.appendChild(desc);
@@ -453,8 +253,8 @@
                       qte.classList.add("qte");
                       qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
                       vctrqte.appendChild(qte);
-                      var id = 'qt' + data[0];
-                      var name = 'qty' + data[0];
+                      var id = 'qt' + dat[0];
+                      var name = 'qty' + dat[0];
                       var bmoins = document.createElement("IMG");
                       bmoins.classList.add('bts');
                       bmoins.classList.add('bmoins');
@@ -480,18 +280,18 @@
                     }
                     var prixsm = document.createElement("DIV");
                     prixsm.classList.add("prixsm");
-                    prixsm.innerHTML = data[2].toFixed(2) + ' ' + data[3];
+                    prixsm.innerHTML = parseFloat(dat[2]).toFixed(2) + ' ' + dat[3];
                     prixsm.appendChild(document.createElement("BR"));
                     cola1.appendChild(prixsm);
                     rowah.appendChild(cola1);
                     var cola2 = document.createElement("DIV");
                     cola2.classList.add("cola2");
-                    if (data[5] !== "")
+                    if (dat[5] !== "")
                     {
                       var imgb = document.createElement("IMG");
                       imgb.classList.add('pic');
                       imgb.classList.add(sizemig);
-                      imgb.src = "../upload/" + data[5];
+                      imgb.src = "../upload/" + dat[5];
                       imgb.alt = "nopic";
                       cola2.appendChild(imgb);
                     }
@@ -499,13 +299,13 @@
                     divart.appendChild(rowah);
                   }
                   var txta = document.createElement("TEXTAREA");
-                  txta.id = 'idtxta' + data[0];
-                  txta.name = 'txta' + data[0];
+                  txta.id = 'idtxta' + dat[0];
+                  txta.name = 'txta' + dat[0];
                   txta.placeholder = "Saisissez ici vos besoins spécifiques sur cet article";
                   txta.maxlength = "300";
                   txta.hidden = true;
                   divart.appendChild(txta);
-                  document.getElementById("divpanid" + body.catid).appendChild(divart);
+                  document.getElementById("divpanid" + catid).appendChild(divart);
                   var divopt = document.createElement("DIV");
                   divopt.classList.add("divopt");
                   divopt.id = id;
@@ -514,8 +314,8 @@
                   divart.appendChild(divopt);
                   var slide = document.createElement("DIV");
                   slide.classList.add("slide");
-                  slide.setAttribute("data-artid", data[0]);
-                  slide.setAttribute("data-nom", data[1]);
+                  slide.setAttribute("data-artid", dat[0]);
+                  slide.setAttribute("data-nom", dat[1]);
                   slide.style.display = (method > 0) ? "none" : "block";
                   divart.appendChild(slide);
                   var divopt2 = document.createElement("DIV");
@@ -524,10 +324,15 @@
                   divopt2.name = name;
                   divopt2.hidden = (method > 0) ? "none" : "block";
                   divart.appendChild(divopt2);
-                  var objgrp = { bouticid: bouticid, nom:"groupesoptions", artid:data[0]};
+                  const artid = dat[0];
+                  var objgrp = { bouticid: bouticid, requete:"groupesoptions", artid:artid};
                   fetch('frontquery.php', {
                     method: "POST",
-                    body:objgrp
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Accept': 'application/json'
+                    },
+                    body:JSON.stringify(objgrp)
                   })
                   .then((response) => response.json())
                   .then((data) => {
@@ -536,63 +341,48 @@
                       var flexsp = document.createElement("DIV");
                       flexsp.classList.add("flexsp");
                       var lbl = document.createElement("LABEL");
-                      lbl.innerHTML = data[1] + (data[2] == 0) ? "(unique)" : "(multiple)";
+                      lbl.innerHTML = dat[1] + (dat[2] == 0) ? "(unique)" : "(multiple)";
                       lbl.appendChild(document.createElement("BR"));
                       flexsp.appendChild(lbl);
                       var selb = document.createElement("SELECT");
                       selb.classList.add("selb");
-                      selb.id = "art" + data[0] + "op" + data[0];
+                      selb.id = "art" + dat[0] + "op" + dat[0];
                       selb.onchange = function () {totaliser();};
-                      selb.mpultiple = (data[2] == 1);
+                      selb.mpultiple = (dat[2] == 1);
                       flexsp.appendChild(selb);
-                      var objopt = { bouticid: bouticid, nom:"options", grpoptid:data[0]};
+                      const grpoptid = dat[0];
+                      var objopt = { bouticid: bouticid, requete:"options", grpoptid:grpoptid};
                       fetch('frontquery.php', {
                         method: "POST",
-                        body:objopt
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                        },
+                        body:JSON.stringify(objopt)
                       })
                       .then((response) => response.json())
                       .then((data) => {
                         for (var dat of data)
                         {
-                          init = 0;
-                          if (init == 0)
-                            def = 'selected';
-                          else
-                            def = '';
-                          if (dat[2] == 0)
-                          {
-                            if (dat[2]>0)
-                            {
-                              var option = document.createElement("OPTION");
-                              option.setAttribute("data-surcout", dat[2]);
-                              option.value = dat[1];
-                              option.selected = ((init == 0) && (dat[2]>0));
-                              option.id = "art" + dat[0] + "opt" + dat[0];
-                            }
-                             	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                            else 
-                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                          }
-                          else if ($row3[2] == 1)
-                          {
-                            if ($row4[2]>0) 
-                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                            else 
-                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                          }
-
-                          echo '<br/>';
-                          $init++;
-
+                          var init = 0;
+                          var option = document.createElement("OPTION");
+                          option.setAttribute("data-surcout", dat[2]);
+                          option.value = dat[1];
+                          option.selected = ((init == 0) && (dat[2]>0));
+                          option.id = "art" + artid + "opt" + dat[0];
+                          option.innerHTML = (dat[2]>0) ? dat[1] + ' + ' + parseFloat(dat[2]).toFixed(2) + ' € ' : dat[1];
+                          document.getElementById("art" + dat[0] + "op" + dat[0]).appendChild(option);
+                          document.getElementById("art" + dat[0] + "op" + dat[0]).appendChild(document.createElement("BR"));
+                          init++;
                         }
                       })
+                      .catch((error) => console.error(error));
                     }
                   })
                   .catch((error) => console.error(error));
                 }
+              })
               .catch((error) => console.error(error));
-             })
-            .catch((error) => console.error(error));
             }
           }
         })
