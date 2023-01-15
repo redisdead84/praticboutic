@@ -1,26 +1,47 @@
 <?php
 
   session_start();
-  
+
   if (empty($_SESSION['customer']) != 0)
-	{
+  {
     header('LOCATION: 404.html');
     exit();
-	}
-  
+  }
+
   $customer = $_SESSION['customer'];
   $method = $_SESSION['method'];
   $table = $_SESSION['table'];
-  
+
   require_once '../vendor/autoload.php';
-  
+
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
   $dotenv->load();
-  
+
   include "config/common_cfg.php";
   include "param.php";
-  
+
+  $conn = new mysqli($servername, $username, $password, $bdd);
+  if ($conn->connect_error) 
+    die("Connection failed: " . $conn->connect_error);
+
+  $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
+  $reqci->bind_param("s", $customer);
+  $reqci->execute();
+  $reqci->bind_result($customid, $logo, $nom);
+  $resultatci = $reqci->fetch();
+  $reqci->close();
+
+  if (strcmp($customid, "") == 0 )
+  {
+    header('LOCATION: 404.html');
+    exit;
+  }
+
+  $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
+  $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
+
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -31,51 +52,24 @@
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
-	  <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['RECAPTCHA_KEY']; ?>"></script>
+    <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['RECAPTCHA_KEY']; ?>"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
   <body ondragstart="return false;" ondrop="return false;">
+    <div id="header">
+      <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
+    </div>
+    <div id="main" data-method="<?php echo $method;?>" data-table="<?php echo $table;?>" data-mntcmdmini="<?php echo $mntcmdmini;?>" data-customer="<?php echo $customer;?>">
+
+    <img id="logo" src="../upload/<?php echo $logo;?>">
+    <p id="marqueid" class="marque"><?php echo $nom;?></p>
+
+    <form id="mainformid" name="mainform" autocomplete="off" method="post" action="valrecap.php">
 
     <?php
-
-
-    $conn = new mysqli($servername, $username, $password, $bdd);
-    if ($conn->connect_error) 
- 	    die("Connection failed: " . $conn->connect_error);
- 	    
-    $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
- 	  $reqci->bind_param("s", $customer);
- 	  $reqci->execute();
- 	  $reqci->bind_result($customid, $logo, $nom);
- 	  $resultatci = $reqci->fetch();
- 	  $reqci->close();
- 	  
- 	  if (strcmp($customid, "") == 0 )
- 	  {
-    	header('LOCATION: 404.html');
-    	exit;
-  	}	
- 	  
-
-    $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
-    
-    $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
-		
-		echo '<div id="header">';
-		echo '<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>';
-		echo '</div>';		
-		
-    echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-customer="' . $customer .'">';
-    if (strcmp($logo,"") != 0)
-      echo '<img id="logo" src="../upload/' . $logo . '">';
-    else
-      echo '<p class="marque">' . $nom . '</p>';
-
-    echo '<form name="mainform" autocomplete="off" method="post" action="valrecap.php">';
-    
     //echo "Connected successfully";
     $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' OR catid = 0 ORDER BY catid';
 
@@ -134,16 +128,11 @@
 						  		  echo '<p class="qte">Quantit&eacute;s :&nbsp;&nbsp;</p>';
 						  		  $id = 'qt' . $row2[0];
 						  		  $name = 'qty' . $row2[0];    
-	            		  //echo '<label> ';
 	            		  echo '<img class="bts bmoins" src="img/bouton-moins-inactif.png" onclick="subqt(this)" disabled />';
-	            		  //echo ' ';
 	            		  echo '<p class="artqt" id="' . $id . '" name="' . $name . '" onkeyup="showoptions(this)" onchange="showoptions(this)" > 0 </p>';
-	            		  //echo ' ';
 	            		  echo '<img class="bts bplus" src="img/bouton-plus.png" onclick="addqt(this)" />';
-	            		  //echo ' </label>';
 	            		  echo '</div>';
 	              	}
-
 	              	echo '</div>';
 	              	echo '<div class="colb2">';
 									echo '<p class="prix">';
@@ -284,32 +273,393 @@
 			   		echo '</div>';    			
     			}
   			}
-	   		$result->close();
-			}
-      echo '<input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">';
-      echo '</form>';
-            
-      echo '</div>';
-    ?>
-    <div id="footer">
-      <?php
-
-        	echo '<div class="grpbn">';
-					if  ($method > 0)
-					{
-						echo '<input id="totaliseur" class="navindic" type="button" value="Total">'; 
-          	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre">';
-          }
-          else
-          {
-          	echo '<input id="totaliseur" class="navindic" type="hidden" value="Total" disabled>'; 
-						echo '<input id="validcarte" class="navindic" type="hidden" value="Poursuivre" disabled>';
-          }
-          echo '</div>';
+        $result->close();
+      }
       ?>
+        <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
+      </form>
     </div>
-    
-    
+    <div id="footer">
+      <div class="grpbn">
+        <input id="totaliseur" class="navindic" type="<?php echo ($method>0) ? 'button' : 'hidden'; ?>" value="Total" <?php echo ($method>0) ? "" : "disabled"; ?> >
+        <input id="validcarte" class="navindic" type="<?php echo ($method>0) ? 'button' : 'hidden'; ?>" value="Poursuivre" <?php echo ($method>0) ? "" : "disabled"; ?> >
+      </div>
+    </div>
+    <script type="text/javascript">
+      window.onload=function()
+      {
+        var nom = '<?php echo $nom;?>';
+        if (nom != "")
+        {
+          document.getElementById("logo").style.display = "block";
+          document.getElementById("marqueid").style.display = "none";
+        }
+        else 
+        {
+          document.getElementById("logo").style.display = "none";
+          document.getElementById("marqueid").style.display = "block";
+        }
+        var bouticid = '<?php echo $customid; ?>';
+        var objcat = { bouticid: bouticid, nom:"categories"};
+        
+        fetch('frontquery.php', {
+              method: "POST",
+              body:objcat
+             })
+        .then((response) => response.json())
+        .then((data) => {
+          for (var dat of data)
+          {
+            if ((dat[2] > 0 ) || (dat[0] == 0))
+            {
+              var method = '<?php echo $method; ?>';
+              var but = document.createElement("BUTTON");
+              but.type = "button";
+              but.innerHTML = dat[1];
+              but.style.display = (dat[0] > 0) ? "block" : "none";
+              document.getElementById("mainformid").appendChild(but);
+              var divpan = document.createElement("DIV");
+              divpan.id = "divpanid" + dat[0];
+              divpan.classList.add("panel");
+              divpan.style.max-height = (dat[0] > 0) ? "initial" : "max-content";
+              document.getElementById("mainformid").appendChild(divpan);
+              var objart = { bouticid: bouticid, nom:"articles", catid:data[0]};
+              fetch('frontquery.php', {
+                method: "POST",
+                body:objart
+               })
+              .then((response) => response.json())
+              .then((data) => {
+                for (var dat of data)
+                {
+                  var sizeimg = '<?php echo $sizeimg;?>';
+                  var divart = document.createElement("DIV");
+                  if (sizeimg == "bigimg")
+                  {
+                    divart.id = "artid" + data[0];
+                    divart.classList.add("artcel");
+                    divart.classList.add("artcelb");
+                    divart.setAttribute("data-name", data[1]);
+                    divart.setAttribute("data-prix", data[2]);
+                    divart.setAttribute("data-unite", data[3]);
+                    if (data[5] !== "")
+                    {
+                      var imgb = document.createElement("IMG");
+                      imgb.classList.add('pic');
+                      imgb.classList.add(sizemig);
+                      imgb.src = "../upload/" + data[5];
+                      imgb.alt = "nopic";
+                      divart.appendChild(imgb);
+                    }
+                    var rowah = document.createElement("DIV");
+                    rowah.classList.add("rowah");
+                    var col1b = document.createElement("DIV");
+                    col1b.classList.add("col1b");
+                    var nom = document.createElement("DIV");
+                    nom.classList.add("nom");
+                    nom.innerHTML = data[1];
+                    nom.appendChild(document.createElement("BR"));
+                    col1b.appendChild(nom);
+                    rowah.appendChild(col1b);
+                    var desc = document.createElement("DIV");
+                    desc.classList.add("desc");
+                    if (data[4] != "")
+                    {
+                      desc.innerHTML = data[4];
+                      desc.appendChild(document.createElement("BR"));
+                    }
+                    rowah.appendChild(desc);
+                    divart.appendChild(rowah);
+                    var col2b = document.createElement("DIV");
+                    col2b.classList.add("col2b");
+                    divart.appendChild(col2b);
+                    var rowah = document.createElement("DIV");
+                    rowah.classList.add("rowah");
+                    var col1b = document.createElement("DIV");
+                    col1b.classList.add("col1b");
+                    if (method > 0)
+                    {
+                      var vctrqte = document.createElement("DIV");
+                      vctrqte.classList.add("vctrqte");
+                      var qte = document.createElement("P");
+                      qte.classList.add("qte");
+                      qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
+                      vctrqte.appendChild(qte);
+                      var id = 'qt' + data[0];
+                      var name = 'qty' + data[0];
+                      var bmoins = document.createElement("IMG");
+                      bmoins.classList.add('bts');
+                      bmoins.classList.add('bmoins');
+                      bmoins.src = "img/bouton-moins-inactif.png";
+                      bmoins.onclick = function() {subqt(this);};
+                      bmoins.disabled = true;
+                      vctrqte.appendChild(bmoins);
+                      var artqt = document.createElement("P");
+                      artqt.classList.add("artqt");
+                      artqt.id = id;
+                      artqt.name = name;
+                      artqt.onkeyup = function() {showoptions(this);};
+                      artqt.onchange = function() {showoptions(this);};
+                      artqt.innerHTML = " 0 ";
+                      vctrqte.appendChild(artqt);
+                      var bplus = document.createElement("IMG");
+                      bplus.classList.add('bts');
+                      bplus.classList.add('bplus');
+                      bplus.src = "img/bouton-plus.png";
+                      bplus.onclick = function() {addqt(this);};
+                      vctrqte.appendChild(bplus);
+                      divart.appendChild(vctrqte);
+                    }
+                    rowah.appendChild(col1b);
+                    var col2b = document.createElement("DIV");
+                    col2b.classList.add("col2b");
+                    var prix = document.createElement("P");
+                    prix.innerHTML = data[2].toFixed(2) + ' ' + data[3];
+                    prix.appendChild(document.createElement("BR"));
+                    col2b.appendChild(prix);
+                    divart.appendChild(col2b);
+                    divart.appendChild(rowah);
+                  }
+                  else if (sizeimg == "smallimg")
+                  {
+                    divart.id = "artid" + data[0];
+                    divart.classList.add("artcel");
+                    divart.classList.add("artcelb");
+                    divart.setAttribute("data-name", data[1]);
+                    divart.setAttribute("data-prix", data[2]);
+                    divart.setAttribute("data-unite", data[3]);
+                    var rowah = document.createElement("DIV");
+                    rowah.classList.add("rowah");
+                    var cola1 = document.createElement("DIV");
+                    cola1.classList.add("cola1");
+                    var nom = document.createElement("DIV");
+                    nom.classList.add("nom");
+                    nom.innerHTML = data[1];
+                    nom.appendChild(document.createElement("BR"));
+                    cola1.appendChild(nom);
+                    var desc = document.createElement("DIV");
+                    desc.classList.add("desc");
+                    if (data[4] != "")
+                    {
+                      desc.innerHTML = data[4];
+                      desc.appendChild(document.createElement("BR"));
+                    }
+                    cola1.appendChild(desc);
+                    if (method > 0)
+                    {
+                      var vctrqte = document.createElement("DIV");
+                      vctrqte.classList.add("vctrqte");
+                      var qte = document.createElement("P");
+                      qte.classList.add("qte");
+                      qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
+                      vctrqte.appendChild(qte);
+                      var id = 'qt' + data[0];
+                      var name = 'qty' + data[0];
+                      var bmoins = document.createElement("IMG");
+                      bmoins.classList.add('bts');
+                      bmoins.classList.add('bmoins');
+                      bmoins.src = "img/bouton-moins-inactif.png";
+                      bmoins.onclick = function() {subqt(this);};
+                      bmoins.disabled = true;
+                      vctrqte.appendChild(bmoins);
+                      var artqt = document.createElement("P");
+                      artqt.classList.add("artqt");
+                      artqt.id = id;
+                      artqt.name = name;
+                      artqt.onkeyup = function() {showoptions(this);};
+                      artqt.onchange = function() {showoptions(this);};
+                      artqt.innerHTML = " 0 ";
+                      vctrqte.appendChild(artqt);
+                      var bplus = document.createElement("IMG");
+                      bplus.classList.add('bts');
+                      bplus.classList.add('bplus');
+                      bplus.src = "img/bouton-plus.png";
+                      bplus.onclick = function() {addqt(this);};
+                      vctrqte.appendChild(bplus);
+                      divart.appendChild(vctrqte);
+                    }
+                    var prixsm = document.createElement("DIV");
+                    prixsm.classList.add("prixsm");
+                    prixsm.innerHTML = data[2].toFixed(2) + ' ' + data[3];
+                    prixsm.appendChild(document.createElement("BR"));
+                    cola1.appendChild(prixsm);
+                    rowah.appendChild(cola1);
+                    var cola2 = document.createElement("DIV");
+                    cola2.classList.add("cola2");
+                    if (data[5] !== "")
+                    {
+                      var imgb = document.createElement("IMG");
+                      imgb.classList.add('pic');
+                      imgb.classList.add(sizemig);
+                      imgb.src = "../upload/" + data[5];
+                      imgb.alt = "nopic";
+                      cola2.appendChild(imgb);
+                    }
+                    rowah.appendChild(cola2);
+                    divart.appendChild(rowah);
+                  }
+                  var txta = document.createElement("TEXTAREA");
+                  txta.id = 'idtxta' + data[0];
+                  txta.name = 'txta' + data[0];
+                  txta.placeholder = "Saisissez ici vos besoins spécifiques sur cet article";
+                  txta.maxlength = "300";
+                  txta.hidden = true;
+                  divart.appendChild(txta);
+                  document.getElementById("divpanid" + body.catid).appendChild(divart);
+                  var divopt = document.createElement("DIV");
+                  divopt.classList.add("divopt");
+                  divopt.id = id;
+                  divopt.name = name;
+                  divopt.style.display = (method > 0) ? "none" : "block";
+                  divart.appendChild(divopt);
+                  var slide = document.createElement("DIV");
+                  slide.classList.add("slide");
+                  slide.setAttribute("data-artid", data[0]);
+                  slide.setAttribute("data-nom", data[1]);
+                  slide.style.display = (method > 0) ? "none" : "block";
+                  divart.appendChild(slide);
+                  var divopt2 = document.createElement("DIV");
+                  divopt2.classList.add("divopt2");
+                  divopt2.id = id;
+                  divopt2.name = name;
+                  divopt2.hidden = (method > 0) ? "none" : "block";
+                  divart.appendChild(divopt2);
+                  var objgrp = { bouticid: bouticid, nom:"groupesoptions", artid:data[0]};
+                  fetch('frontquery.php', {
+                    method: "POST",
+                    body:objgrp
+                  })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    for (var dat of data)
+                    {
+                      var flexsp = document.createElement("DIV");
+                      flexsp.classList.add("flexsp");
+                      var lbl = document.createElement("LABEL");
+                      lbl.innerHTML = data[1] + (data[2] == 0) ? "(unique)" : "(multiple)";
+                      lbl.appendChild(document.createElement("BR"));
+                      flexsp.appendChild(lbl);
+                      var selb = document.createElement("SELECT");
+                      selb.classList.add("selb");
+                      selb.id = "art" + data[0] + "op" + data[0];
+                      selb.onchange = function () {totaliser();};
+                      selb.mpultiple = (data[2] == 1);
+                      flexsp.appendChild(selb);
+                      var objopt = { bouticid: bouticid, nom:"options", grpoptid:data[0]};
+                      fetch('frontquery.php', {
+                        method: "POST",
+                        body:objopt
+                      })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        for (var dat of data)
+                        {
+                          init = 0;
+                          if (init == 0)
+                            def = 'selected';
+                          else
+                            def = '';
+                          if (dat[2] == 0)
+                          {
+                            if (dat[2]>0)
+                            {
+                              var option = document.createElement("OPTION");
+                              option.setAttribute("data-surcout", dat[2]);
+                              option.value = dat[1];
+                              option.selected = ((init == 0) && (dat[2]>0));
+                              option.id = "art" + dat[0] + "opt" + dat[0];
+                            }
+                             	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
+                            else 
+                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
+                          }
+                          else if ($row3[2] == 1)
+                          {
+                            if ($row4[2]>0) 
+                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
+                            else 
+                              echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
+                          }
+
+                          echo '<br/>';
+                          $init++;
+
+                        }
+                      })
+                    }
+                  })
+                  .catch((error) => console.error(error));
+                }
+              .catch((error) => console.error(error));
+             })
+            .catch((error) => console.error(error));
+            }
+          }
+        })
+        .catch((error) => console.error(error));
+
+        reachBottom();
+
+        var artcel = document.getElementsByClassName("artcel");
+        var artqt = document.getElementsByClassName("artqt");
+  
+        for (var i = 0; i<artqt.length; i++ )
+        {
+          bakqt = sessionStorage.getItem(artqt[i].id);
+          if (bakqt !== null)
+          {
+            artqt[i].innerHTML = " " + bakqt + " "; 
+            if ((parseInt(artqt[i].innerText) > 0) && (artqt[i].hidden !== true))
+            {
+              showoptions(artqt[i]);
+              artqt[i].previousElementSibling.disabled = false;
+              artqt[i].previousElementSibling.src = 'img/bouton-moins.png';
+              var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
+              txtf.value = sessionStorage.getItem(txtf.id);
+              var artopt = artcel[i].getElementsByClassName("divopt2")[0];
+              if (artopt != null)
+              {
+                if (artopt.innerHTML != "")
+                {
+                  var opttab = artcel[i].getElementsByClassName("divopttab");
+                  for (k=0; k<opttab.length; k++)
+                  {
+                    var sefld = opttab[k].children;
+                    for (l=0; l<sefld.length; l++) 
+                    {
+  	          				if (sefld[l].tagName == "DIV")
+  	          				{ 
+  		          				var chsefld = sefld[l].children;
+  		            			if (chsefld[2].tagName == "SELECT") 
+  		            			{
+  			            			var secase = chsefld[2].children;                	
+  		                    for (m=0; m<secase.length; m++) 
+  		                    {
+  		                      if (secase[m].tagName == "OPTION") 
+  		                      {
+  	                          if (sessionStorage.getItem(secase[m].id) == 1)
+  	                            secase[m].selected = true;
+  	                          else 
+  	                            secase[m].selected = false;
+  		                      }
+  		                    }
+  	                    }
+                    	}
+                    }              
+                  }         
+                }
+              }
+         	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+         	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+          }
+        }
+   
+       
+        totaliser();
+      }  
+    </script>
     <script type="text/javascript" >
       function totaliser() 
       {
@@ -317,7 +667,7 @@
         var artqt = document.getElementsByClassName("artqt");
         var somme = 0;
         var opt = [];
-        
+
         for (var i = 0; i<artqt.length; i++ )
         {
           idc = artcel[i].id.substr(5);  
@@ -836,71 +1186,6 @@
             panel.style.maxHeight = panel.scrollHeight + "px";
           });
         }
-    </script>
-    <script type="text/javascript" >
-    window.onload=function()
-    {
-			reachBottom();    	
-    	
-      var artcel = document.getElementsByClassName("artcel");
-      var artqt = document.getElementsByClassName("artqt");
-
-      for (var i = 0; i<artqt.length; i++ )
-      {
-        bakqt = sessionStorage.getItem(artqt[i].id);
-        if (bakqt !== null)
-        {
-          artqt[i].innerHTML = " " + bakqt + " "; 
-          if ((parseInt(artqt[i].innerText) > 0) && (artqt[i].hidden !== true))
-          {
-            showoptions(artqt[i]);
-            artqt[i].previousElementSibling.disabled = false;
-            artqt[i].previousElementSibling.src = 'img/bouton-moins.png';
-            var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
-            txtf.value = sessionStorage.getItem(txtf.id);
-            var artopt = artcel[i].getElementsByClassName("divopt2")[0];
-            if (artopt != null)
-            {
-              if (artopt.innerHTML != "")
-              {
-                var opttab = artcel[i].getElementsByClassName("divopttab");
-                for (k=0; k<opttab.length; k++)
-                {
-                  var sefld = opttab[k].children;
-                  for (l=0; l<sefld.length; l++) 
-                  {
-	          				if (sefld[l].tagName == "DIV")
-	          				{ 
-		          				var chsefld = sefld[l].children;
-		            			if (chsefld[2].tagName == "SELECT") 
-		            			{
-			            			var secase = chsefld[2].children;                	
-		                    for (m=0; m<secase.length; m++) 
-		                    {
-		                      if (secase[m].tagName == "OPTION") 
-		                      {
-	                          if (sessionStorage.getItem(secase[m].id) == 1)
-	                            secase[m].selected = true;
-	                          else 
-	                            secase[m].selected = false;
-		                      }
-		                    }
-	                    }
-                  	}
-                  }              
-                }         
-              }
-            }
-       	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
-       	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          }
-        }
-      }
- 
-     
-      totaliser();
-    }  
     </script>
     <!-- TODO This script should be removed parce que on ne supporte plus la lécture seul -->
     <script type="text/javascript" >
