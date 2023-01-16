@@ -171,12 +171,13 @@
                     }
                     colb1.appendChild(desc);
                     rowah.appendChild(colb1);
-                    document.getElementById("artid" + artid).appendChild(rowah);
                     var colb2 = document.createElement("DIV");
                     colb2.classList.add("colb2");
-                    document.getElementById("artid" + artid).appendChild(colb2);
-                    var rowah = document.createElement("DIV");
-                    rowah.classList.add("rowah");
+                    rowah.appendChild(colb2);
+                    divart.appendChild(rowah);
+                    var rowah2 = document.createElement("DIV");
+                    rowah2.classList.add("rowah");
+                    rowah2.id = "rowah" + artid;
                     var colb1 = document.createElement("DIV");
                     colb1.classList.add("colb1");
                     if (method > 0)
@@ -210,9 +211,9 @@
                       bplus.src = "img/bouton-plus.png";
                       bplus.onclick = function() {addqt(this);};
                       vctrqte.appendChild(bplus);
-                      divart.appendChild(vctrqte);
+                      colb1.appendChild(vctrqte);
                     }
-                    rowah.appendChild(colb1);
+                    rowah2.appendChild(colb1);
                     var colb2 = document.createElement("DIV");
                     colb2.classList.add("colb2");
                     var prix = document.createElement("P");
@@ -220,8 +221,8 @@
                     prix.innerHTML = parseFloat(dat[2]).toFixed(2) + ' ' + dat[3];
                     prix.appendChild(document.createElement("BR"));
                     colb2.appendChild(prix);
-                    rowah.appendChild(colb2);
-                    document.getElementById("artid" + artid).appendChild(rowah);
+                    rowah2.appendChild(colb2);
+                    divart.appendChild(rowah2);
                   }
                   else if (sizeimg == "smallimg")
                   {
@@ -308,7 +309,7 @@
                   txta.placeholder = "Saisissez ici vos besoins spécifiques sur cet article";
                   txta.maxlength = "300";
                   txta.hidden = true;
-                  document.getElementById("artid" + artid).appendChild(txta);
+                  divart.appendChild(txta);
                   const ido = 'opt' + dat[0];
                   const ido2 = 'optbis' + dat[0];
                   const namo = 'opty' + dat[0];
@@ -318,7 +319,7 @@
                   divopt.id = ido;
                   divopt.name = namo;
                   divopt.style.display = (method > 0) ? "none" : "block";
-                  document.getElementById("artid" + artid).appendChild(divopt);
+                  divart.appendChild(divopt);
                   var slide = document.createElement("DIV");
                   slide.classList.add("slide");
                   slide.setAttribute("data-artid", dat[0]);
@@ -331,8 +332,7 @@
                   divopt2.name = namo2;
                   divopt2.style.display = (method > 0) ? "none" : "block";
                   divopt.appendChild(divopt2);
-                  const divoptid = ido2;
-
+                  document.getElementById("divpanid" + catid).appendChild(divart);
                   var objgrp = { bouticid: bouticid, requete:"groupesoptions", artid:artid};
                   fetch('frontquery.php', {
                     method: "POST",
@@ -358,7 +358,7 @@
                       selb.onchange = function () {totaliser();};
                       selb.mpultiple = (dat[2] == 1);
                       flexsp.appendChild(selb);
-                      document.getElementById(divoptid).appendChild(flexsp);
+                      document.getElementById(ido2).appendChild(flexsp);
                       const grpoptid = dat[0];
                       var objopt = { bouticid: bouticid, requete:"options", grpoptid:grpoptid};
                       fetch('frontquery.php', {
