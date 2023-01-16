@@ -144,7 +144,7 @@
                     divart.setAttribute("data-prix", dat[2]);
                     divart.setAttribute("data-unite", dat[3]);
                     document.getElementById("divpanid" + catid).appendChild(divart);
-                    if (dat[5] !== "")
+                    if ((dat[5] !== "") && (dat[5] !== null))
                     {
                       var imgb = document.createElement("IMG");
                       imgb.classList.add('pic');
@@ -258,7 +258,7 @@
                       qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
                       vctrqte.appendChild(qte);
                       var id = 'qt' + dat[0];
-                      var name = 'qty' + dat[0];
+                      var nameqt = 'qty' + dat[0];
                       var bmoins = document.createElement("IMG");
                       bmoins.classList.add('bts');
                       bmoins.classList.add('bmoins');
@@ -269,7 +269,7 @@
                       var artqt = document.createElement("P");
                       artqt.classList.add("artqt");
                       artqt.id = id;
-                      artqt.name = name;
+                      artqt.name = nameqt;
                       artqt.onkeyup = function() {showoptions(this);};
                       artqt.onchange = function() {showoptions(this);};
                       artqt.innerHTML = " 0 ";
@@ -290,7 +290,7 @@
                     rowah.appendChild(cola1);
                     var cola2 = document.createElement("DIV");
                     cola2.classList.add("cola2");
-                    if (dat[5] !== "")
+                    if ((dat[5] !== "") && (dat[5] !== null))
                     {
                       var imgb = document.createElement("IMG");
                       imgb.classList.add('pic');
@@ -329,7 +329,7 @@
                   divopt2.classList.add("divopt2");
                   divopt2.id = ido2;
                   divopt2.name = namo2;
-                  divopt2.hidden = (method > 0) ? "none" : "block";
+                  divopt2.style.display = (method > 0) ? "none" : "block";
                   divopt.appendChild(divopt2);
                   const divoptid = ido2;
 
@@ -418,35 +418,34 @@
                             var sefld = opttab[k].children;
                             for (l=0; l<sefld.length; l++) 
                             {
-          	          				if (sefld[l].tagName == "DIV")
-          	          				{ 
-          		          				var chsefld = sefld[l].children;
-          		            			if (chsefld[2].tagName == "SELECT") 
-          		            			{
-          			            			var secase = chsefld[2].children;                	
-          		                    for (m=0; m<secase.length; m++) 
-          		                    {
-          		                      if (secase[m].tagName == "OPTION") 
-          		                      {
-          	                          if (sessionStorage.getItem(secase[m].id) == 1)
-          	                            secase[m].selected = true;
-          	                          else 
-          	                            secase[m].selected = false;
-          		                      }
-          		                    }
-          	                    }
-                            	}
-                            }              
-                          }         
+                              if (sefld[l].tagName == "DIV")
+                              {
+                                var chsefld = sefld[l].children;
+                                if (chsefld[2].tagName == "SELECT")
+                                {
+                                  var secase = chsefld[2].children;
+                                  for (m=0; m<secase.length; m++)
+                                  {
+                                    if (secase[m].tagName == "OPTION")
+                                    {
+                                      if (sessionStorage.getItem(secase[m].id) == 1)
+                                        secase[m].selected = true;
+                                      else
+                                       secase[m].selected = false;
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
                         }
                       }
-                 	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
-                 	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
+                      artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+                      var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
                       panel.style.maxHeight = panel.scrollHeight + "px";
                     }
                   }
                 }
-                
                 totaliser();
               })
               .catch((error) => console.error(error));
