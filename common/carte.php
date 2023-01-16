@@ -109,6 +109,7 @@
               var method = '<?php echo $method; ?>';
               var but = document.createElement("BUTTON");
               but.type = "button";
+              but.classList.add("accordion");
               but.innerHTML = dat[1];
               but.style.display = (dat[0] > 0) ? "block" : "none";
               document.getElementById("mainformid").appendChild(but);
@@ -131,16 +132,18 @@
               .then((data) => {
                 for (var dat of data)
                 {
+                  const artid = dat[0];
                   var sizeimg = '<?php echo $sizeimg;?>';
                   var divart = document.createElement("DIV");
                   if (sizeimg == "bigimg")
                   {
-                    divart.id = "artid" + dat[0];
+                    divart.id = "artid" + artid;
                     divart.classList.add("artcel");
                     divart.classList.add("artcelb");
                     divart.setAttribute("data-name", dat[1]);
                     divart.setAttribute("data-prix", dat[2]);
                     divart.setAttribute("data-unite", dat[3]);
+                    document.getElementById("divpanid" + catid).appendChild(divart);
                     if (dat[5] !== "")
                     {
                       var imgb = document.createElement("IMG");
@@ -148,7 +151,7 @@
                       imgb.classList.add(sizeimg);
                       imgb.src = "../upload/" + dat[5];
                       imgb.alt = "nopic";
-                      divart.appendChild(imgb);
+                      document.getElementById("artid" + artid).appendChild(imgb);
                     }
                     var rowah = document.createElement("DIV");
                     rowah.classList.add("rowah");
@@ -159,7 +162,6 @@
                     nom.innerHTML = dat[1];
                     nom.appendChild(document.createElement("BR"));
                     colb1.appendChild(nom);
-                    rowah.appendChild(colb1);
                     var desc = document.createElement("DIV");
                     desc.classList.add("desc");
                     if (dat[4] != "")
@@ -167,11 +169,12 @@
                       desc.innerHTML = dat[4];
                       desc.appendChild(document.createElement("BR"));
                     }
-                    rowah.appendChild(desc);
-                    divart.appendChild(rowah);
+                    colb1.appendChild(desc);
+                    rowah.appendChild(colb1);
+                    document.getElementById("artid" + artid).appendChild(rowah);
                     var colb2 = document.createElement("DIV");
                     colb2.classList.add("colb2");
-                    divart.appendChild(colb2);
+                    document.getElementById("artid" + artid).appendChild(colb2);
                     var rowah = document.createElement("DIV");
                     rowah.classList.add("rowah");
                     var colb1 = document.createElement("DIV");
@@ -217,8 +220,8 @@
                     prix.innerHTML = parseFloat(dat[2]).toFixed(2) + ' ' + dat[3];
                     prix.appendChild(document.createElement("BR"));
                     colb2.appendChild(prix);
-                    divart.appendChild(colb2);
-                    divart.appendChild(rowah);
+                    rowah.appendChild(colb2);
+                    document.getElementById("artid" + artid).appendChild(rowah);
                   }
                   else if (sizeimg == "smallimg")
                   {
@@ -228,6 +231,7 @@
                     divart.setAttribute("data-name", dat[1]);
                     divart.setAttribute("data-prix", dat[2]);
                     divart.setAttribute("data-unite", dat[3]);
+                    document.getElementById("divpanid" + catid).appendChild(divart);
                     var rowah = document.createElement("DIV");
                     rowah.classList.add("rowah");
                     var cola1 = document.createElement("DIV");
@@ -276,7 +280,7 @@
                       bplus.src = "img/bouton-plus.png";
                       bplus.onclick = function() {addqt(this);};
                       vctrqte.appendChild(bplus);
-                      divart.appendChild(vctrqte);
+                      document.getElementById("artid" + artid).appendChild(vctrqte);
                     }
                     var prixsm = document.createElement("DIV");
                     prixsm.classList.add("prixsm");
@@ -290,13 +294,13 @@
                     {
                       var imgb = document.createElement("IMG");
                       imgb.classList.add('pic');
-                      imgb.classList.add(sizemig);
+                      imgb.classList.add(sizeimg);
                       imgb.src = "../upload/" + dat[5];
                       imgb.alt = "nopic";
                       cola2.appendChild(imgb);
                     }
                     rowah.appendChild(cola2);
-                    divart.appendChild(rowah);
+                    document.getElementById("artid" + artid).appendChild(rowah);
                   }
                   var txta = document.createElement("TEXTAREA");
                   txta.id = 'idtxta' + dat[0];
@@ -304,27 +308,31 @@
                   txta.placeholder = "Saisissez ici vos besoins spécifiques sur cet article";
                   txta.maxlength = "300";
                   txta.hidden = true;
-                  divart.appendChild(txta);
-                  document.getElementById("divpanid" + catid).appendChild(divart);
+                  document.getElementById("artid" + artid).appendChild(txta);
+                  const ido = 'opt' + dat[0];
+                  const ido2 = 'optbis' + dat[0];
+                  const namo = 'opty' + dat[0];
+                  const namo2 = 'optybis' + dat[0];
                   var divopt = document.createElement("DIV");
                   divopt.classList.add("divopt");
-                  divopt.id = id;
-                  divopt.name = name;
+                  divopt.id = ido;
+                  divopt.name = namo;
                   divopt.style.display = (method > 0) ? "none" : "block";
-                  divart.appendChild(divopt);
+                  document.getElementById("artid" + artid).appendChild(divopt);
                   var slide = document.createElement("DIV");
                   slide.classList.add("slide");
                   slide.setAttribute("data-artid", dat[0]);
                   slide.setAttribute("data-nom", dat[1]);
                   slide.style.display = (method > 0) ? "none" : "block";
-                  divart.appendChild(slide);
+                  divopt.appendChild(slide);
                   var divopt2 = document.createElement("DIV");
                   divopt2.classList.add("divopt2");
-                  divopt2.id = id;
-                  divopt2.name = name;
+                  divopt2.id = ido2;
+                  divopt2.name = namo2;
                   divopt2.hidden = (method > 0) ? "none" : "block";
-                  divart.appendChild(divopt2);
-                  const artid = dat[0];
+                  divopt.appendChild(divopt2);
+                  const divoptid = ido2;
+
                   var objgrp = { bouticid: bouticid, requete:"groupesoptions", artid:artid};
                   fetch('frontquery.php', {
                     method: "POST",
@@ -341,7 +349,7 @@
                       var flexsp = document.createElement("DIV");
                       flexsp.classList.add("flexsp");
                       var lbl = document.createElement("LABEL");
-                      lbl.innerHTML = dat[1] + (dat[2] == 0) ? "(unique)" : "(multiple)";
+                      lbl.innerHTML = dat[1] + ((dat[2] == 0) ? " (unique)" : " (multiple)");
                       lbl.appendChild(document.createElement("BR"));
                       flexsp.appendChild(lbl);
                       var selb = document.createElement("SELECT");
@@ -350,6 +358,7 @@
                       selb.onchange = function () {totaliser();};
                       selb.mpultiple = (dat[2] == 1);
                       flexsp.appendChild(selb);
+                      document.getElementById(divoptid).appendChild(flexsp);
                       const grpoptid = dat[0];
                       var objopt = { bouticid: bouticid, requete:"options", grpoptid:grpoptid};
                       fetch('frontquery.php', {
@@ -371,8 +380,8 @@
                           option.selected = ((init == 0) && (dat[2]>0));
                           option.id = "art" + artid + "opt" + dat[0];
                           option.innerHTML = (dat[2]>0) ? dat[1] + ' + ' + parseFloat(dat[2]).toFixed(2) + ' € ' : dat[1];
-                          document.getElementById("art" + dat[0] + "op" + dat[0]).appendChild(option);
-                          document.getElementById("art" + dat[0] + "op" + dat[0]).appendChild(document.createElement("BR"));
+                          selb.appendChild(option);
+                          flexsp.appendChild(document.createElement("BR"));
                           init++;
                         }
                       })
@@ -380,7 +389,65 @@
                     }
                   })
                   .catch((error) => console.error(error));
+
                 }
+                var artcel = document.getElementsByClassName("artcel");
+                var artqt = document.getElementsByClassName("artqt");
+
+                for (var i = 0; i<artqt.length; i++ )
+                {
+                  bakqt = sessionStorage.getItem(artqt[i].id);
+                  if (bakqt !== null)
+                  {
+                    artqt[i].innerHTML = " " + bakqt + " "; 
+                    if ((parseInt(artqt[i].innerText) > 0) && (artqt[i].hidden !== true))
+                    {
+                      showoptions(artqt[i]);
+                      artqt[i].previousElementSibling.disabled = false;
+                      artqt[i].previousElementSibling.src = 'img/bouton-moins.png';
+                      var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
+                      txtf.value = sessionStorage.getItem(txtf.id);
+                      var artopt = artcel[i].getElementsByClassName("divopt2")[0];
+                      if (artopt != null)
+                      {
+                        if (artopt.innerHTML != "")
+                        {
+                          var opttab = artcel[i].getElementsByClassName("divopttab");
+                          for (k=0; k<opttab.length; k++)
+                          {
+                            var sefld = opttab[k].children;
+                            for (l=0; l<sefld.length; l++) 
+                            {
+          	          				if (sefld[l].tagName == "DIV")
+          	          				{ 
+          		          				var chsefld = sefld[l].children;
+          		            			if (chsefld[2].tagName == "SELECT") 
+          		            			{
+          			            			var secase = chsefld[2].children;                	
+          		                    for (m=0; m<secase.length; m++) 
+          		                    {
+          		                      if (secase[m].tagName == "OPTION") 
+          		                      {
+          	                          if (sessionStorage.getItem(secase[m].id) == 1)
+          	                            secase[m].selected = true;
+          	                          else 
+          	                            secase[m].selected = false;
+          		                      }
+          		                    }
+          	                    }
+                            	}
+                            }              
+                          }         
+                        }
+                      }
+                 	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+                 	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
+                      panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                  }
+                }
+                
+                totaliser();
               })
               .catch((error) => console.error(error));
             }
@@ -390,64 +457,6 @@
 
         reachBottom();
 
-        var artcel = document.getElementsByClassName("artcel");
-        var artqt = document.getElementsByClassName("artqt");
-  
-        for (var i = 0; i<artqt.length; i++ )
-        {
-          bakqt = sessionStorage.getItem(artqt[i].id);
-          if (bakqt !== null)
-          {
-            artqt[i].innerHTML = " " + bakqt + " "; 
-            if ((parseInt(artqt[i].innerText) > 0) && (artqt[i].hidden !== true))
-            {
-              showoptions(artqt[i]);
-              artqt[i].previousElementSibling.disabled = false;
-              artqt[i].previousElementSibling.src = 'img/bouton-moins.png';
-              var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
-              txtf.value = sessionStorage.getItem(txtf.id);
-              var artopt = artcel[i].getElementsByClassName("divopt2")[0];
-              if (artopt != null)
-              {
-                if (artopt.innerHTML != "")
-                {
-                  var opttab = artcel[i].getElementsByClassName("divopttab");
-                  for (k=0; k<opttab.length; k++)
-                  {
-                    var sefld = opttab[k].children;
-                    for (l=0; l<sefld.length; l++) 
-                    {
-  	          				if (sefld[l].tagName == "DIV")
-  	          				{ 
-  		          				var chsefld = sefld[l].children;
-  		            			if (chsefld[2].tagName == "SELECT") 
-  		            			{
-  			            			var secase = chsefld[2].children;                	
-  		                    for (m=0; m<secase.length; m++) 
-  		                    {
-  		                      if (secase[m].tagName == "OPTION") 
-  		                      {
-  	                          if (sessionStorage.getItem(secase[m].id) == 1)
-  	                            secase[m].selected = true;
-  	                          else 
-  	                            secase[m].selected = false;
-  		                      }
-  		                    }
-  	                    }
-                    	}
-                    }              
-                  }         
-                }
-              }
-         	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
-         	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
-              panel.style.maxHeight = panel.scrollHeight + "px";
-            }
-          }
-        }
-   
-       
-        totaliser();
       }  
     </script>
     <script type="text/javascript" >
