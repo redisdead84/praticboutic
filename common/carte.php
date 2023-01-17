@@ -91,7 +91,7 @@
         }
         var bouticid = '<?php echo $customid; ?>';
         var objcat = { bouticid: bouticid, requete:"categories"};
-        
+
         fetch('frontquery.php', {
           method: "POST",
           headers: {
@@ -281,7 +281,7 @@
                       bplus.src = "img/bouton-plus.png";
                       bplus.onclick = function() {addqt(this);};
                       vctrqte.appendChild(bplus);
-                      document.getElementById("artid" + artid).appendChild(vctrqte);
+                      cola1.appendChild(vctrqte);
                     }
                     var prixsm = document.createElement("DIV");
                     prixsm.classList.add("prixsm");
@@ -456,7 +456,7 @@
 
         reachBottom();
 
-      }  
+      }
     </script>
     <script type="text/javascript" >
       function totaliser() 
@@ -468,10 +468,10 @@
 
         for (var i = 0; i<artqt.length; i++ )
         {
-          idc = artcel[i].id.substr(5);  
-          qtc = parseInt(artqt[i].innerText); 
+          idc = artcel[i].id.substr(5);
+          qtc = parseInt(artqt[i].innerText);
           if (qtc === "")
-            qtc = 0;          
+            qtc = 0;
           if (qtc > 0)
           {
             somme = somme + artcel[i].getAttribute("data-prix") * qtc;
@@ -490,31 +490,31 @@
                 var sefld = opttab[ik].children;
                 for (il=0; il<sefld.length; il++) 
                 {
-          				if (sefld[il].tagName == "DIV")
-          				{ 
-	          				var chsefld = sefld[il].children;
-	            			if (chsefld[2].tagName == "SELECT") 
-	            			{
-		            			var secase = chsefld[2].children;                	
-		                  for (im=0; im<secase.length; im++) 
-		                  {
-	  	                  if (secase[im].tagName == "OPTION") 
-	    	                {
-	      	                if (secase[im].selected == true)
-	        	              {
-	          	              somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));                            
-	            	          }
-	            	        } 
-	                    }
-	                  }
-	                }
-                }              
-              }         
+                  if (sefld[il].tagName == "DIV")
+                  {
+                    var chsefld = sefld[il].children;
+                    if (chsefld[2].tagName == "SELECT") 
+                    {
+                      var secase = chsefld[2].children;
+                      for (im=0; im<secase.length; im++) 
+                      {
+                        if (secase[im].tagName == "OPTION") 
+                        {
+                          if (secase[im].selected == true)
+                          {
+                            somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
         document.getElementById("totaliseur").value = "Total : " + somme.toFixed(2) + " €";
-        sessionStorage.setItem("sstotal", somme.toFixed(2));      	
+        sessionStorage.setItem("sstotal", somme.toFixed(2));
       }
     </script>
 
