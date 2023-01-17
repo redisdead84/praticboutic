@@ -350,8 +350,8 @@
                       flexsp.classList.add("flexsp");
                       var lbl = document.createElement("LABEL");
                       lbl.innerHTML = dat[1] + ((dat[2] == 0) ? " (unique)" : " (multiple)");
-                      lbl.appendChild(document.createElement("BR"));
                       flexsp.appendChild(lbl);
+                      flexsp.appendChild(document.createElement("BR"));
                       var selb = document.createElement("SELECT");
                       selb.classList.add("selb");
                       selb.id = "art" + dat[0] + "op" + dat[0];
