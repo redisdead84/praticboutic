@@ -831,10 +831,8 @@ try {
     $req->execute();
     $req->bind_result($cltid);
     $resultat = $req->fetch();
-    error_log($cltid);
     $req->close();
     $q2 = "UPDATE client SET email = '" . $input->email . "' WHERE cltid = $cltid";
-    error_log($q2);
     if ($r2 = $conn->query($q2)) 
     {
       if ($r2 === FALSE) 
