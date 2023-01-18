@@ -75,6 +75,65 @@
         <input id="validcarte" class="navindic" type="<?php echo ($method>0) ? 'button' : 'hidden'; ?>" value="Poursuivre" <?php echo ($method>0) ? "" : "disabled"; ?> >
       </div>
     </div>
+    <script type="text/javascript" >
+      function totaliser()
+      {
+        var artcel = document.getElementsByClassName("artcel");
+        var artqt = document.getElementsByClassName("artqt");
+        var somme = 0;
+        var opt = [];
+
+        for (var i = 0; i<artqt.length; i++ )
+        {
+          idc = artcel[i].id.substr(5);
+          qtc = parseInt(artqt[i].innerText);
+          if (qtc === "")
+            qtc = 0;
+          if (qtc > 0)
+          {
+            somme = somme + artcel[i].getAttribute("data-prix") * qtc;
+          }
+        }
+        for (var ii = 0; ii<artcel.length; ii++ )
+        {
+          var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
+          if (artopt != null)
+          {
+            if (artopt.innerHTML != "")
+            {
+              var opttab = artcel[ii].getElementsByClassName("divopttab");
+              for (ik=0; ik<opttab.length; ik++)
+              {
+                var sefld = opttab[ik].children;
+                for (il=0; il<sefld.length; il++) 
+                {
+                  if (sefld[il].tagName == "DIV")
+                  {
+                    var chsefld = sefld[il].children;
+                    if (chsefld[2].tagName == "SELECT") 
+                    {
+                      var secase = chsefld[2].children;
+                      for (im=0; im<secase.length; im++) 
+                      {
+                        if (secase[im].tagName == "OPTION") 
+                        {
+                          if (secase[im].selected == true)
+                          {
+                            somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        document.getElementById("totaliseur").value = "Total : " + somme.toFixed(2) + " €";
+        sessionStorage.setItem("sstotal", somme.toFixed(2));
+      }
+    </script>
     <script type="text/javascript">
       window.onload=function()
       {
@@ -151,6 +210,9 @@
                       imgb.classList.add(sizeimg);
                       imgb.src = "../upload/" + dat[5];
                       imgb.alt = "nopic";
+                      imgb.onload = function() {
+                        this.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
+                      };
                       document.getElementById("artid" + artid).appendChild(imgb);
                     }
                     var rowah = document.createElement("DIV");
@@ -298,6 +360,9 @@
                       imgb.classList.add(sizeimg);
                       imgb.src = "../upload/" + dat[5];
                       imgb.alt = "nopic";
+                      imgb.onload = function() {
+                        this.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
+                      };
                       cola2.appendChild(imgb);
                     }
                     rowah.appendChild(cola2);
@@ -354,11 +419,11 @@
                       flexsp.appendChild(document.createElement("BR"));
                       var selb = document.createElement("SELECT");
                       selb.classList.add("selb");
-                      selb.id = "art" + dat[0] + "op" + dat[0];
-                      selb.onchange = function () {totaliser();};
+                      selb.id = "art" + artid + "op" + dat[0];
                       selb.mpultiple = (dat[2] == 1);
                       flexsp.appendChild(selb);
                       document.getElementById(ido2).appendChild(flexsp);
+                      document.getElementById("art" + artid + "op" + dat[0]).setAttribute('onchange', 'totaliser()');
                       const grpoptid = dat[0];
                       var objopt = { bouticid: bouticid, requete:"options", grpoptid:grpoptid};
                       fetch('frontquery.php', {
@@ -381,9 +446,10 @@
                           option.id = "art" + artid + "opt" + dat[0];
                           option.innerHTML = (dat[2]>0) ? dat[1] + ' + ' + parseFloat(dat[2]).toFixed(2) + ' € ' : dat[1];
                           selb.appendChild(option);
-                          flexsp.appendChild(document.createElement("BR"));
+                          //flexsp.appendChild(document.createElement("BR"));
                           init++;
                         }
+                        reachBottom();
                       })
                       .catch((error) => console.error(error));
                     }
@@ -447,76 +513,46 @@
                   }
                 }
                 totaliser();
+                var aqt = document.getElementsByClassName("artqt");
+                var i;
+          
+                for (i = 0; i < aqt.length; i++) 
+                {
+                  aqt[i].addEventListener("focus", function() {
+              	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+              	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                  });
+                }
               })
               .catch((error) => console.error(error));
             }
           }
+          
+         	var acc = document.getElementsByClassName("accordion");
+          var i;
+
+          for (i = 0; i < acc.length; i++) 
+          {
+            acc[i].addEventListener("click", function() {
+              this.classList.toggle("active");
+              var panel = this.nextElementSibling;
+              if (panel.style.maxHeight) 
+              {
+                panel.style.maxHeight = null;
+              }
+              else 
+              {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+              }
+            });
+          }
         })
         .catch((error) => console.error(error));
-
-        reachBottom();
-
       }
-    </script>
-    <script type="text/javascript" >
-      function totaliser() 
-      {
-        var artcel = document.getElementsByClassName("artcel");
-        var artqt = document.getElementsByClassName("artqt");
-        var somme = 0;
-        var opt = [];
 
-        for (var i = 0; i<artqt.length; i++ )
-        {
-          idc = artcel[i].id.substr(5);
-          qtc = parseInt(artqt[i].innerText);
-          if (qtc === "")
-            qtc = 0;
-          if (qtc > 0)
-          {
-            somme = somme + artcel[i].getAttribute("data-prix") * qtc;
-          }
-        }
-        for (var ii = 0; ii<artcel.length; ii++ )
-        {
-          var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
-          if (artopt != null)
-          {
-            if (artopt.innerHTML != "")
-            {
-              var opttab = artcel[ii].getElementsByClassName("divopttab");
-              for (ik=0; ik<opttab.length; ik++)
-              {
-                var sefld = opttab[ik].children;
-                for (il=0; il<sefld.length; il++) 
-                {
-                  if (sefld[il].tagName == "DIV")
-                  {
-                    var chsefld = sefld[il].children;
-                    if (chsefld[2].tagName == "SELECT") 
-                    {
-                      var secase = chsefld[2].children;
-                      for (im=0; im<secase.length; im++) 
-                      {
-                        if (secase[im].tagName == "OPTION") 
-                        {
-                          if (secase[im].selected == true)
-                          {
-                            somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        document.getElementById("totaliseur").value = "Total : " + somme.toFixed(2) + " €";
-        sessionStorage.setItem("sstotal", somme.toFixed(2));
-      }
     </script>
+
 
     <script type="text/javascript">
       function addqt(elem)
@@ -885,11 +921,16 @@
         if (parseInt(eleminp.innerText) > 0)
         {
           elemopt.style.display = "block";
+          var silde = elemopt.getElementsByClassName("slide")[0];
+          if (slide)
+            slide.style.display = "flex";
         } else {
           elemopt.style.display = "none";
+          var silde = elemopt.getElementsByClassName("slide")[0];
+          if (slide)
+            slide.style.display = "none";
         }
         panel.style.maxHeight = panel.scrollHeight + "px";
-             
       }
     </script>
     <script type="text/javascript" >
@@ -953,37 +994,10 @@
       }     
     </script>
     <script type="text/javascript">
-    	var acc = document.getElementsByClassName("accordion");
-      var i;
 
-        for (i = 0; i < acc.length; i++) 
-        {
-          acc[i].addEventListener("click", function() {
-      	    this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) 
-            {
-            	panel.style.maxHeight = null;
-            } 
-            else 
-            {
-              panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-          });
-        }
     </script>
     <script type="text/javascript">
-    	var aqt = document.getElementsByClassName("artqt");
-      var i;
 
-        for (i = 0; i < aqt.length; i++) 
-        {
-          aqt[i].addEventListener("focus", function() {
-      	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
-      	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          });
-        }
     </script>
     <!-- TODO This script should be removed parce que on ne supporte plus la lécture seul -->
     <script type="text/javascript" >
