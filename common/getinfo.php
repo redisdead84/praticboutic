@@ -540,6 +540,12 @@
           }
         }
         
+        if ((document.getElementById("lecodepromo").checkValidity() == false) && (failed == false))
+        {
+          alert(document.getElementById("lecodepromo").name + " : " + document.getElementById("lecodepromo").validationMessage);
+          failed = true;
+        }
+        
         if ((document.getElementById("chkcgv").checked == false ) && (failed == false))
         {
           alert("Vous devez accepter les conditions générales de vente pour continuer");
