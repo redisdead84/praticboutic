@@ -22,6 +22,11 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
   <script>
 
   </script>
@@ -542,7 +547,7 @@
       mntcmdmini = await getParam(bouticid, "MntCmdMini");
       sizeimg = await getParam(bouticid, "SIZE_IMG");
 
-      if (nom != "")
+      if (logo)
       {
         document.getElementById("logo").style.display = "block";
         document.getElementById("marqueid").style.display = "none";
@@ -573,22 +578,31 @@
           }
         });
       }
+      document.getElementById("loadid").style.display = "none";
+      document.getElementById("header").style.display = "block";
+      document.getElementById("main").style.display = "block";
+      document.getElementById("footer").style.display = "block";
     }
     
   </script>
 
   <body ondragstart="return false;" ondrop="return false;">
-    <div id="header">
+    <div id="loadid" class="flcentered spv">
+      <div class="spinner-border nospmd" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div id="header" style="display:block">
       <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
     </div>
-    <div id="main">
+    <div id="main" style="display:none">
       <img id="logo">
       <p id="marqueid" class="marque"></p>
       <form id="mainformid" name="mainform" autocomplete="off" method="post" action="valrecap.php">
         <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
       </form>
     </div>
-    <div id="footer">
+    <div id="footer" style="display:none">
       <div class="grpbn">
         <input id="totaliseur" class="navindic" value="Total">
         <input id="validcarte" class="navindic" value="Poursuivre">

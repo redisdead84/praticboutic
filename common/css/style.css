@@ -1091,3 +1091,17 @@ text-align: justify;
 	border-top: 0px !important;
 	border-bottom: 0px !important;
 }
+
+.flcentered
+{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100%
+}
+
+.nospmd
+{
+  top: 50vh !important;
+  position: relative !important;
+}
