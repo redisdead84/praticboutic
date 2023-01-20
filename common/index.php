@@ -83,6 +83,13 @@
   <body>
 		<script type="text/javascript">
       sessionStorage.clear();
+      var customer = '<?php echo $_SESSION['customer'];?>';
+      var method = '<?php echo $_SESSION['method'];?>';
+      var table = '<?php echo $_SESSION['table'];?>';
+      sessionStorage.setItem('customer', customer);
+      sessionStorage.setItem(customer + '_mail', 'non');
+      sessionStorage.setItem('method', method);
+      sessionStorage.setItem('table', table);
       document.location.href = 'carte.php';
 		</script>
   </body>

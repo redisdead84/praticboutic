@@ -848,8 +848,6 @@ try {
     }
   }
 
-
-
   $conn->close();
 
   $output = $arr;

@@ -37,11 +37,10 @@ try
   {
     throw new Error('Pas de boutic associée');
   }
-  error_log("ok");
+
   if (strcmp($input->requete, "categories") == 0)
   {
     $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $input->bouticid . ' OR catid = 0 ORDER BY catid';
-    error_log($query);
     if ($result = $conn->query($query))
     {
       while ($row = $result->fetch_row())
@@ -94,7 +93,18 @@ try
       }
     }
   }
-
+  
+  if (strcmp($input->requete,"getBouticInfo") == 0)
+  {
+    $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
+    $reqci->bind_param("s", $input->customer);
+    $reqci->execute();
+    $reqci->bind_result($customid, $logo, $nom);
+    $resultatci = $reqci->fetch();
+    $reqci->close();
+    array_push($arr, $customid, $logo, $nom);
+  }
+  
   $conn->close();
   $output = $arr;
   echo json_encode($output);
