@@ -186,7 +186,7 @@
   {
     const req = new XMLHttpRequest();
     req.addEventListener("load", reqListener);
-    req.open("GET", "../dbd/model.json?v=1.004");
+    req.open("GET", "../dbd/model.json?v=1.005");
     req.send();
   });
   
