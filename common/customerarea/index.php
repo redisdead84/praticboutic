@@ -67,8 +67,7 @@
               <div class="modal-footer-mainmenu">
                 <input class="btn btn-primary btn-block btn-valider" type="submit" value="VALIDER">
                 <input class="btn btn-secondary btn-block btn-creationboutic" type="button" onclick="window.location='./reg.php'" value="JE CR&Eacute;E MA BOUTIC">
-                <div id="g_id_onload" data-client_id="<?php echo $_ENV['GOOGLE_CLIENTID']; ?>" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>
-                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
+                <div id="buttonDiv"></div>
               </div>
             </form>
           </div>
@@ -88,6 +87,20 @@
           document.getElementById("illus1").style.display = "none";
           window.location.href ='exit.php';
         }
+      }
+    </script>
+    <script>
+      window.onload = function()
+      {
+        google.accounts.id.initialize({
+          client_id: "<?php echo $_ENV['GOOGLE_CLIENTID']; ?>",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),
+          { theme: "outline", size: "large" }  // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
       }
     </script>
     <script>
