@@ -131,14 +131,18 @@
           </div>
           <div class="panneau" id="met" style="display: none;">
             <div id="model">
-              <input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">
-              <label class="lblpaiers" for="lemporter" id="lblemporter">Je viens récupérer ma commande</label><br>
-              <div class="spcpandetail" id="spdemporter"></div>
-              <label class="pandetail" id="pdemporter"></label><br>
-              <input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="javascript:eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem('sstotal'));">
-              <label class="lblpaiers" for="llivrer" id="lbllivrer" >Je me fais livrer</label><br>
-              <div class="spcpandetail" id="spdlivrer"></div>
-              <label class="pandetail" id="pdlivrer"></label><br>
+              <div id="blemporter">
+                <input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">
+                <label class="lblpaiers" for="lemporter" id="lblemporter">Je viens récupérer ma commande</label><br>
+                <div class="spcpandetail" id="spdemporter"></div>
+                <label class="pandetail" id="pdemporter"></label><br>
+              </div>
+              <div id="bllivrer">
+                <input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="javascript:eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem('sstotal'));">
+                <label class="lblpaiers" for="llivrer" id="lbllivrer" >Je me fais livrer</label><br>
+                <div class="spcpandetail" id="spdlivrer"></div>
+                <label class="pandetail" id="pdlivrer"></label><br>
+              </div>
             </div>
           </div>
           <div id="adrlivr" style="display:none">
@@ -166,14 +170,18 @@
       <hr id="separationid" class="separation">
       <div class="panneau" id="paye">
         <div id="modep">
-          <input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">
-          <label class="lblpaiers" for="pcomptant" id="lblpcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>
-          <div class="spcpandetail" id="spdcomptant"></div>
-          <label class="pandetail"  id="pdcomptant"></label><br>
-          <input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">
-          <label class="lblpaiers" for="plivraison" id="lbllivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>
-          <div class="spcpandetail" id="spdlivraison"></div>
-          <label class="pandetail" id="pdlivraison"></label><br>
+          <div id="blcomptant">
+            <input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">
+            <label class="lblpaiers" for="pcomptant" id="lblpcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>
+            <div class="spcpandetail" id="spdcomptant"></div>
+            <label class="pandetail"  id="pdcomptant"></label>
+          </div>
+          <div id="bllivraison">
+            <input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">
+            <label class="lblpaiers" for="plivraison" id="lbllivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>
+            <div class="spcpandetail" id="spdlivraison"></div>
+            <label class="pandetail" id="pdlivraison"></label>
+          </div>
         </div>
       </div>
     <div class="underlined">
@@ -249,11 +257,13 @@
           document.getElementById("met").style.display = "block";
           if (chm == "TOUS")
           {
+            document.getElementById("blemporter").style.display = "block";
             document.getElementById("lemporter").style.display = "inline-block";
             document.getElementById("lblemporter").style.display = "inline-block";
             document.getElementById("spdemporter").style.display = "block";
             document.getElementById("pdemporter").style.display = "inline-block";
             document.getElementById("pdemporter").innerHTML = cmemp;
+            document.getElementById("bllivrer").style.display = "block";
             document.getElementById("llivrer").style.display = "inline-block";
             document.getElementById("lbllivrer").style.display = "inline-block";
             document.getElementById("spdlivrer").style.display = "block";
@@ -262,11 +272,13 @@
           }
           if (chm == "EMPORTER")
           {
+            document.getElementById("blemporter").style.display = "block";
             document.getElementById("lemporter").style.display = "none";
             document.getElementById("lblemporter").style.display = "inline-block";
             document.getElementById("spdemporter").style.display = "block";
-            document.getElementById("pdemporter").style.display = "inline-block";
+            document.getElementById("pdemporter").style.display = "block";
             document.getElementById("pdemporter").innerHTML = cmemp;
+            document.getElementById("bllivrer").style.display = "none";
             document.getElementById("llivrer").style.display = "none";
             document.getElementById("lbllivrer").style.display = "none";
             document.getElementById("spdlivrer").style.display = "none";
@@ -274,14 +286,16 @@
           }
           if (chm == "LIVRER")
           {
+            document.getElementById("blemporter").style.display = "none";
             document.getElementById("lemporter").style.display = "none";
             document.getElementById("lblemporter").style.display = "none";
             document.getElementById("spdemporter").style.display = "none";
             document.getElementById("pdemporter").style.display = "none";
+            document.getElementById("bllivrer").style.display = "block";
             document.getElementById("llivrer").style.display = "none";
             document.getElementById("lbllivrer").style.display = "inline-block";
             document.getElementById("spdlivrer").style.display = "block";
-            document.getElementById("pdlivrer").style.display = "inline-block";
+            document.getElementById("pdlivrer").style.display = "block";
             document.getElementById("pdlivrer").innerHTML = cmlivr;
           }
           if (verifcp > 0)
@@ -299,11 +313,13 @@
           document.getElementById("separationid").style.display = "block";
           if (chp == "TOUS")
           {
+            document.getElementById("blcomptant").style.display = "block";
             document.getElementById("pcomptant").style.display = "inline-block";
             document.getElementById("lblpcomptant").style.display = "inline-block";
             document.getElementById("spdcomptant").style.display = "block";
-            document.getElementById("pdcomptant").style.display = "inline-block";
+            document.getElementById("pdcomptant").style.display = "ineline-block";
             document.getElementById("pdcomptant").innerHTML = cmpt;
+            document.getElementById("bllivraison").style.display = "block";
             document.getElementById("plivraison").style.display = "inline-block";
             document.getElementById("lbllivraison").style.display = "inline-block";
             document.getElementById("spdlivraison").style.display = "block";
@@ -312,11 +328,13 @@
           }
           if (chp == "COMPTANT")
           {
+            document.getElementById("blcomptant").style.display = "block";
             document.getElementById("pcomptant").style.display = "none";
             document.getElementById("lblpcomptant").style.display = "inline-block";
             document.getElementById("spdcomptant").style.display = "block";
-            document.getElementById("pdcomptant").style.display = "inline-block";
+            document.getElementById("pdcomptant").style.display = "block";
             document.getElementById("pdcomptant").innerHTML = cmpt;
+            document.getElementById("bllivraison").style.display = "none";
             document.getElementById("plivraison").style.display = "none";
             document.getElementById("lbllivraison").style.display = "none";
             document.getElementById("spdlivraison").style.display = "none";
@@ -324,14 +342,16 @@
           }
           if (chp == "LIVRAISON")
           {
+            document.getElementById("blcomptant").style.display = "none";
             document.getElementById("pcomptant").style.display = "none";
             document.getElementById("lblpcomptant").style.display = "none";
             document.getElementById("spdcomptant").style.display = "none";
             document.getElementById("pdcomptant").style.display = "none";
+            document.getElementById("bllivraison").style.display = "block";
             document.getElementById("plivraison").style.display = "none";
             document.getElementById("lbllivraison").style.display = "inline-block";
             document.getElementById("spdlivraison").style.display = "block";
-            document.getElementById("pdlivraison").style.display = "inline-block";
+            document.getElementById("pdlivraison").style.display = "block";
             document.getElementById("pdlivraison").innerHTML = livr;
           }
         }
