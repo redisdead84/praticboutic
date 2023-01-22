@@ -225,7 +225,7 @@
                 }
                 artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
                 var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
-                panel.style.maxHeight = panel.scrollHeight + "px";
+                panel.style.maxHeight = "initial"; /*panel.scrollHeight + "px";*/
               }
             }
           }
@@ -278,7 +278,7 @@
             imgb.src = "../upload/" + dat[5];
             imgb.alt = "nopic";
             imgb.onload = function() {
-              this.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
+              this.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.scrollHeight + "px";
             };
             document.getElementById("artid" + artid).appendChild(imgb);
           }
@@ -428,7 +428,7 @@
             imgb.src = "../upload/" + dat[5];
             imgb.alt = "nopic";
             imgb.onload = function() {
-              this.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
+              this.parentElement.parentElement.parentElement.parentElement.style.maxHeight = "initial"; //this.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
             };
             cola2.appendChild(imgb);
           }
@@ -578,21 +578,22 @@
           }
         });
       }
+      
       document.getElementById("loadid").style.display = "none";
       document.getElementById("header").style.display = "block";
       document.getElementById("main").style.display = "block";
       document.getElementById("footer").style.display = "block";
+      reachBottom();
     }
-    
   </script>
 
   <body ondragstart="return false;" ondrop="return false;">
-    <div id="loadid" class="flcentered spv">
+    <div id="loadid" class="flcentered">
       <div class="spinner-border nospmd" role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div id="header" style="display:block">
+    <div id="header" style="display:none">
       <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
     </div>
     <div id="main" style="display:none">
