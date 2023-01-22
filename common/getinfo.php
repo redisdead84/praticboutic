@@ -27,6 +27,12 @@
     var nom;
     var adr;
     var logo;
+    var chm;
+    var cmemp;
+    var cmlivr;
+    var chp;
+    var cmpt;
+    var livr;
     customer = sessionStorage.getItem('customer');
     method = sessionStorage.getItem('method');
 
@@ -108,7 +114,7 @@
               <label class="lblpaiers" for="lemporter" id="lblemporter">Je viens récupérer ma commande</label><br>
               <div class="spcpandetail" id="spdemporter"></div>
               <label class="pandetail" id="pdemporter"></label><br>
-              <input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">
+              <input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="javascript:eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem('sstotal'));">
               <label class="lblpaiers" for="llivrer" id="lbllivrer" >Je me fais livrer</label><br>
               <div class="spcpandetail" id="spdlivrer"></div>
               <label class="pandetail" id="pdlivrer"></label><br>
@@ -126,7 +132,7 @@
             <div class="underlined">
               <label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>
               <input class="cont adrliv" type="string" id="lecp" name="cp" maxlength="5" required 
-                pattern="[0-9]{5}" title="Il faut un code postal français valide" style="display:none">
+                pattern="[0-9]{5}" title="Il faut un code postal français valide">
             </div>
             <div class="underlined">
               <label class="lcont ">Ville&nbsp;:&nbsp;</label>
@@ -156,14 +162,14 @@
     <div class="panneau" id="remiseid"></div>
     <div class="panneau" id="cgv">
       <input type="checkbox" id="chkcgv" name="okcgv" value="valcgv">
-      <label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>
+      <label class="lblcgv" for="valcgv">J'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>
     </div>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)" maxlength="300"></textarea>
     </div>
     <div id="footer">
       <div id="grpbnid" class="grpbn">
         <input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">
-        <input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();window.location.href = \'carte.php\'">
+        <input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();window.location.href = 'carte.php'">
       </div>
     </div>
     <script type="text/javascript">
@@ -180,6 +186,14 @@
         if (mail == 'oui')
           document.location.href = '404.html';
         
+        
+        var chm = await getParam(bouticid, "Choix_Method",  "TOUS");
+        var cmemp = await getParam(bouticid, "CM_Emporter", "Retrait Standard");
+        var cmlivr = await getParam(bouticid, "CM_Livrer", "Livraison Standard");
+        var chp = await getParam(bouticid, "Choix_Paiement", "TOUS", "");
+        var cmpt = await getParam(bouticid, "MP_Comptant", "Prochain écran par CB");
+        var livr = await getParam(bouticid, "MP_Livraison", "Paiement à la livraison");
+
         
         document.getElementById("logo").src = "../upload/" + logo;
         document.getElementById("marqueid").innerHTML = nom;
@@ -211,39 +225,31 @@
         {
           document.getElementById("blocnomid").style.display = "block";
           document.getElementById("blocprenomid").style.display = "block";
-          var chm = await getParam(bouticid, "Choix_Method",  "TOUS");
-          var cmemp = await getParam(bouticid, "CM_Emporter", "Retrait Standard");
-          var cmlivr = await getParam(bouticid, "CM_Livrer", "Livraison Standard");
-          var chp = await getParam(bouticid, "Choix_Paiement", "TOUS", "");
-          var cmpt = await getParam(bouticid, "MP_Comptant", "Prochain écran par CB");
-          var livr = await getParam(bouticid, "MP_Livraison", "Paiement à la livraison");
           document.getElementById("met").style.display = "block";
           if (chm == "TOUS")
           {
-            document.getElementById("lemporter").style.display = "block";
-            document.getElementById("lblemporter").style.display = "block";
+            document.getElementById("lemporter").style.display = "inline-block";
+            document.getElementById("lblemporter").style.display = "inline-block";
             document.getElementById("spdemporter").style.display = "block";
-            document.getElementById("pdemporter").style.display = "block";
+            document.getElementById("pdemporter").style.display = "inline-block";
             document.getElementById("pdemporter").innerHTML = cmemp;
-            document.getElementById("llivrer").style.display = "block";
-            document.getElementById("lbllivrer").style.display = "block";
+            document.getElementById("llivrer").style.display = "inline-block";
+            document.getElementById("lbllivrer").style.display = "inline-block";
             document.getElementById("spdlivrer").style.display = "block";
-            document.getElementById("pdlivrer").style.display = "block";
+            document.getElementById("pdlivrer").style.display = "inline-block";
             document.getElementById("pdlivrer").innerHTML = cmlivr;
-            document.getElementById("adrlivr").style.display = "block";
           }
           if (chm == "EMPORTER")
           {
             document.getElementById("lemporter").style.display = "none";
-            document.getElementById("lblemporter").style.display = "block";
+            document.getElementById("lblemporter").style.display = "inline-block";
             document.getElementById("spdemporter").style.display = "block";
-            document.getElementById("pdemporter").style.display = "block";
+            document.getElementById("pdemporter").style.display = "inline-block";
             document.getElementById("pdemporter").innerHTML = cmemp;
             document.getElementById("llivrer").style.display = "none";
             document.getElementById("lbllivrer").style.display = "none";
             document.getElementById("spdlivrer").style.display = "none";
             document.getElementById("pdlivrer").style.display = "none";
-            document.getElementById("adrlivr").style.display = "none";
           }
           if (chm == "LIVRER")
           {
@@ -251,12 +257,11 @@
             document.getElementById("lblemporter").style.display = "none";
             document.getElementById("spdemporter").style.display = "none";
             document.getElementById("pdemporter").style.display = "none";
-            document.getElementById("llivrer").style.display = "block";
-            document.getElementById("lbllivrer").style.display = "block";
+            document.getElementById("llivrer").style.display = "none";
+            document.getElementById("lbllivrer").style.display = "inline-block";
             document.getElementById("spdlivrer").style.display = "block";
-            document.getElementById("pdlivrer").style.display = "block";
+            document.getElementById("pdlivrer").style.display = "inline-block";
             document.getElementById("pdlivrer").innerHTML = cmlivr;
-            document.getElementById("adrlivr").style.display = "block";
           }
           if (verifcp > 0)
           {
@@ -271,23 +276,23 @@
           document.getElementById("separationid").style.display = "block";
           if (chp == "TOUS")
           {
-            document.getElementById("pcomptant").style.display = "block";
-            document.getElementById("lblpcomptant").style.display = "block";
+            document.getElementById("pcomptant").style.display = "inline-block";
+            document.getElementById("lblpcomptant").style.display = "inline-block";
             document.getElementById("spdcomptant").style.display = "block";
-            document.getElementById("pdcomptant").style.display = "block";
+            document.getElementById("pdcomptant").style.display = "inline-block";
             document.getElementById("pdcomptant").innerHTML = cmpt;
-            document.getElementById("plivraison").style.display = "block";
-            document.getElementById("lbllivraison").style.display = "block";
+            document.getElementById("plivraison").style.display = "inline-block";
+            document.getElementById("lbllivraison").style.display = "inline-block";
             document.getElementById("spdlivraison").style.display = "block";
-            document.getElementById("pdlivraison").style.display = "block";
+            document.getElementById("pdlivraison").style.display = "inline-block";
             document.getElementById("pdlivraison").innerHTML = livr;
           }
           if (chp == "COMPTANT")
           {
             document.getElementById("pcomptant").style.display = "none";
-            document.getElementById("lblpcomptant").style.display = "block";
+            document.getElementById("lblpcomptant").style.display = "inline-block";
             document.getElementById("spdcomptant").style.display = "block";
-            document.getElementById("pdcomptant").style.display = "block";
+            document.getElementById("pdcomptant").style.display = "inline-block";
             document.getElementById("pdcomptant").innerHTML = cmpt;
             document.getElementById("plivraison").style.display = "none";
             document.getElementById("lbllivraison").style.display = "none";
@@ -301,9 +306,9 @@
             document.getElementById("spdcomptant").style.display = "none";
             document.getElementById("pdcomptant").style.display = "none";
             document.getElementById("plivraison").style.display = "none";
-            document.getElementById("lbllivraison").style.display = "block";
+            document.getElementById("lbllivraison").style.display = "inline-block";
             document.getElementById("spdlivraison").style.display = "block";
-            document.getElementById("pdlivraison").style.display = "block";
+            document.getElementById("pdlivraison").style.display = "inline-block";
             document.getElementById("pdlivraison").innerHTML = livr;
           }
         }
@@ -316,6 +321,8 @@
         }
         reachBottom();
         document.getElementById("loadid").style.display = "none";
+        
+        initctrl();
       }
 
       // Appel asynchrone pour savoir si on est dans le périmètre de livraison 
@@ -325,7 +332,6 @@
 
         if (elem.value.length == 5)
         { 
-          customer = document.getElementById("main").getAttribute("data-customer");
           var obj = { cp: elem.value, customer: customer };
 
           fetch("cpzone.php", {
@@ -353,7 +359,6 @@
       {
         var retour;
 
-        var customer = document.getElementById("main").getAttribute("data-customer");
         var obj = { sstotal: sstotal, customer: customer };
         fetch("fraislivr.php", {
           method: "POST",
@@ -433,88 +438,91 @@
         {
           fieldAdrLiv[i].disabled = etat;
         }
-        document.getElementById("adrlivr").hidden = etat;      	
+        document.getElementById("adrlivr").style.display = etat ? "none" : "block";
       }
     </script>
     <script type="text/javascript" >
-      // Affiche la page avec les contrôles par defaut  
-      sessionStorage.setItem("fraislivr", 0);
-      sessionStorage.setItem("remise", 0);
-      var verifcp = document.getElementById("main").getAttribute("data-verifcp");
-      document.getElementById("letel").value = sessionStorage.getItem("telephone");
-      if (sessionStorage.getItem("method")>2)
+      function initctrl()
       {
-        document.getElementById("lenom").value = sessionStorage.getItem("nom");    
-        document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
-        if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
+        // Affiche la page avec les contrôles par defaut  
+        sessionStorage.setItem("fraislivr", 0);
+        sessionStorage.setItem("remise", 0);
+        var verifcp = document.getElementById("main").getAttribute("data-verifcp");
+        document.getElementById("letel").value = sessionStorage.getItem("telephone");
+        if (sessionStorage.getItem("method")>2)
         {
-          if (sessionStorage.getItem("choice") == "COMPTANT")
+          document.getElementById("lenom").value = sessionStorage.getItem("nom");    
+          document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
+          if (chp == "TOUS")
           {
-            document.getElementById("pcomptant").checked = true;
-            document.getElementById("plivraison").checked = false;
+            if (sessionStorage.getItem("choice") == "COMPTANT")
+            {
+              document.getElementById("pcomptant").checked = true;
+              document.getElementById("plivraison").checked = false;
+            }
+            else if (sessionStorage.getItem("choice") == "LIVRAISON")
+            {
+              document.getElementById("pcomptant").checked = false;
+              document.getElementById("plivraison").checked = true;
+            } 
+            else
+            {
+              document.getElementById("pcomptant").checked = false;
+              document.getElementById("plivraison").checked = false;
+            } 
           }
-          else if (sessionStorage.getItem("choice") == "LIVRAISON")
+          if (chm == "TOUS")
           {
-            document.getElementById("pcomptant").checked = false;
-            document.getElementById("plivraison").checked = true;
-          } 
-          else
+            if (sessionStorage.getItem("choicel") == "EMPORTER")
+            {
+              document.getElementById("lemporter").checked = true;
+              document.getElementById("llivrer").checked = false;
+              removeFraisLivraison();
+              eraseAdrLivr(true);
+            }
+            else if (sessionStorage.getItem("choicel") == "LIVRER")
+            {
+              document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
+              document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
+              document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
+              if (verifcp > 0)
+              	checkcp(document.getElementById("lecp"));
+              document.getElementById("laville").value = sessionStorage.getItem("ville");
+              document.getElementById("lemporter").checked = false;
+              document.getElementById("llivrer").checked = true;
+              getFraisLivraison(sessionStorage.getItem("sstotal"));
+              eraseAdrLivr(false);
+            } 
+            else
+            {
+              document.getElementById("lemporter").checked = false;
+              document.getElementById("llivrer").checked = false;
+              removeFraisLivraison();
+              eraseAdrLivr(true);
+            } 
+          }
+          if (chm == "LIVRER")
           {
-            document.getElementById("pcomptant").checked = false;
-            document.getElementById("plivraison").checked = false;
-          } 
-        }
-        if (document.getElementById("model").getAttribute("data-permis") == "TOUS")
-        {
-          if (sessionStorage.getItem("choicel") == "EMPORTER")
+              document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
+              document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
+              document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
+              if (verifcp > 0)
+  	            checkcp(document.getElementById("lecp"));
+              document.getElementById("laville").value = sessionStorage.getItem("ville");
+              getFraisLivraison(sessionStorage.getItem("sstotal"));
+              eraseAdrLivr(false);
+          }
+          if (chm == "EMPORTER")
           {
-            document.getElementById("lemporter").checked = true;
-            document.getElementById("llivrer").checked = false;
-            removeFraisLivraison();
+          	removeFraisLivraison();
             eraseAdrLivr(true);
           }
-          else if (sessionStorage.getItem("choicel") == "LIVRER")
-          {
-            document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
-            document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
-            document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-            if (verifcp > 0)
-            	checkcp(document.getElementById("lecp"));
-            document.getElementById("laville").value = sessionStorage.getItem("ville");
-            document.getElementById("lemporter").checked = false;
-            document.getElementById("llivrer").checked = true;
-            getFraisLivraison(sessionStorage.getItem("sstotal"));
-            eraseAdrLivr(false);
-          } 
-          else
-          {
-            document.getElementById("lemporter").checked = false;
-            document.getElementById("llivrer").checked = false;
-            removeFraisLivraison();
-            eraseAdrLivr(true);
-          } 
+  
         }
-        if (document.getElementById("model").getAttribute("data-permis") == "LIVRER")
-        {
-            document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
-            document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
-            document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-            if (verifcp > 0)
-	            checkcp(document.getElementById("lecp"));
-            document.getElementById("laville").value = sessionStorage.getItem("ville");
-            getFraisLivraison(sessionStorage.getItem("sstotal"));
-            eraseAdrLivr(false);
-        }
-        if (document.getElementById("model").getAttribute("data-permis") == "EMPORTER")
-        {
-        	removeFraisLivraison();
-          eraseAdrLivr(true);
-        }
-
+        document.getElementById("lecodepromo").value = sessionStorage.getItem("codepromo");
+        getRemise(sessionStorage.getItem("sstotal"), document.getElementById("lecodepromo"));
+        document.getElementById("infosup").value = sessionStorage.getItem("infosup");
       }
-      document.getElementById("lecodepromo").value = sessionStorage.getItem("codepromo");
-      getRemise(sessionStorage.getItem("sstotal"), document.getElementById("lecodepromo"));
-      document.getElementById("infosup").value = sessionStorage.getItem("infosup");
     </script>
     <script type="text/javascript">
     	// Défini la zone scrollable
@@ -543,7 +551,7 @@
           sessionStorage.setItem("adresse2", document.getElementById("ladresse2").value);
           sessionStorage.setItem("codepostal", document.getElementById("lecp").value);
           sessionStorage.setItem("ville", document.getElementById("laville").value);
-          if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
+          if (chp == "TOUS")
           {
             if (document.getElementById("pcomptant").checked == true)
               sessionStorage.setItem("choice", "COMPTANT");
@@ -553,8 +561,8 @@
               sessionStorage.setItem("choice", "NONE");
           }
           else
-            sessionStorage.setItem("choice", document.getElementById("modep").getAttribute("data-permis"));
-          if (document.getElementById("model").getAttribute("data-permis") == "TOUS")
+            sessionStorage.setItem("choice", chp);
+          if (chm == "TOUS")
           {
             if (document.getElementById("lemporter").checked == true)
               sessionStorage.setItem("choicel", "EMPORTER");
@@ -564,7 +572,7 @@
               sessionStorage.setItem("choicel", "NONE");
           }
           else
-            sessionStorage.setItem("choicel", document.getElementById("model").getAttribute("data-permis"));
+            sessionStorage.setItem("choicel", chm);
 
 	        if (sessionStorage.getItem("choicel") == "LIVRER")
 	          getFraisLivraison(sessionStorage.getItem("sstotal"));
