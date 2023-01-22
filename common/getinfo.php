@@ -162,7 +162,7 @@
     <div class="panneau" id="remiseid"></div>
     <div class="panneau" id="cgv">
       <input type="checkbox" id="chkcgv" name="okcgv" value="valcgv">
-      <label class="lblcgv" for="valcgv">J'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>
+      <label class="lblcgv" for="valcgv">J'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = 'CGV.php'">les conditions générales de vente</a></label><br>
     </div>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)" maxlength="300"></textarea>
     </div>

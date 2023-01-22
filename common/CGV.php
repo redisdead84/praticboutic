@@ -1,39 +1,3 @@
-<?php
-
-  session_start();
-  $customer = $_SESSION['customer'];
-  $method = $_SESSION['method'];
-  $table = $_SESSION['table'];
-  
-  include "config/common_cfg.php";
-  include "param.php";
-
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $bdd);
-  // Check connection
-  if ($conn->connect_error) 
-    die("Connection failed: " . $conn->connect_error);    
-  
-	if (empty($_SESSION['customer']) != 0)
-	{
-    header('LOCATION: 404.html');
-    exit();
-	}
-
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
-  
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
-  
-?>
-
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -43,10 +7,26 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
   </head>
+  <script type="text/javascript" >
+    var customer;
+    var bouticid;
+    
+    customer = sessionStorage.getItem('customer');
+    method = sessionStorage.getItem('method');
+    
+    if (!customer)
+      document.location.href = '404.html';
+    mail = sessionStorage.getItem(customer + '_mail');
+    await getClientInfo(customer);
+    if (!bouticid)
+      document.location.href = '404.html';
+    if (!mail)
+      document.location.href = '404.html';
+    if (mail == 'oui')
+      document.location.href = '404.html';
+  </script>
   <body ondragstart="return false;" ondrop="return false;">
-  <?php
-    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">';
-  ?>
+    <input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">
 <br>
 <p style="text-align: justify; text-justify: inter-word;">
 <br>
@@ -216,9 +196,6 @@ L’inscription et les conditions générales standard de Praticboutic sont appl
 <br>
 Praticboutic utilisera les données personnelles fournies sur le compte du client et lors des commandes, uniquement à des fins de gestion des commandes et à aucune autre fin, sauf si nous avons obtenu votre consentement. Praticboutic se réserve le droit de divulguer les données personnelles du client à ses  prestataires, afin de permettre le bon déroulement d’une commande ou en réponse à une question de la part d’un client.<br><br>
 </p>
-  <?php
-    echo '<input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = \'getinfo.php\'">';
-  ?>
-
+    <input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">
   </body>
 </html>
