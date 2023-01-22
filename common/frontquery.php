@@ -105,6 +105,20 @@ try
     array_push($arr, $customid, $logo, $nom);
   }
   
+  if (strcmp($input->requete,"getClientInfo") == 0)
+  {
+    $reqci = $conn->prepare('SELECT CU.customid, CU.nom, CL.adr1, CL.adr2, CL.cp, CL.ville, CU.logo FROM customer CU, client CL WHERE CU.customer = ? AND CL.cltid = CU.cltid LIMIT 1');
+    //error_log($customer);
+    $reqci->bind_param("s", $input->customer);
+    $reqci->execute();
+    $reqci->bind_result($customid, $nom, $adresse1, $adresse2, $codepostal, $ville,  $logo);
+    $resultatci = $reqci->fetch();
+    $reqci->close();
+     
+    $adr = $nom . ' ' . $adresse1 . ' ' . $adresse2 . ' ' . $codepostal . ' ' . $ville;
+    array_push($arr, $customid, $nom, $adr, $logo);
+  }
+  
   $conn->close();
   $output = $arr;
   echo json_encode($output);
