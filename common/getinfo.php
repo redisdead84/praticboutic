@@ -58,7 +58,7 @@
       logo = data[3];
     }
   
-    async function getParam(bouticid, param, defval)
+    async function getParam(bouticid, param, defval = null)
     {
       var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
       const response = await fetch('customerarea/boquery.php', {
