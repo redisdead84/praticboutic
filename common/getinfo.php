@@ -187,12 +187,12 @@
           document.location.href = '404.html';
         
         
-        var chm = await getParam(bouticid, "Choix_Method",  "TOUS");
-        var cmemp = await getParam(bouticid, "CM_Emporter", "Retrait Standard");
-        var cmlivr = await getParam(bouticid, "CM_Livrer", "Livraison Standard");
-        var chp = await getParam(bouticid, "Choix_Paiement", "TOUS", "");
-        var cmpt = await getParam(bouticid, "MP_Comptant", "Prochain écran par CB");
-        var livr = await getParam(bouticid, "MP_Livraison", "Paiement à la livraison");
+        chm = await getParam(bouticid, "Choix_Method",  "TOUS");
+        cmemp = await getParam(bouticid, "CM_Emporter", "Retrait Standard");
+        cmlivr = await getParam(bouticid, "CM_Livrer", "Livraison Standard");
+        chp = await getParam(bouticid, "Choix_Paiement", "TOUS", "");
+        cmpt = await getParam(bouticid, "MP_Comptant", "Prochain écran par CB");
+        livr = await getParam(bouticid, "MP_Livraison", "Paiement à la livraison");
 
         
         document.getElementById("logo").src = "../upload/" + logo;

@@ -1,3 +1,15 @@
+<?php
+
+  require "../vendor/autoload.php";
+  include "config/common_cfg.php";
+  include "param.php";
+
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+  $dotenv->load();
+
+  $pkey = $_ENV['STRIPE_PUBLISHABLE_KEY'];
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -11,10 +23,14 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="js/client.js?v=1.272" defer></script>
+    <!--<script id="scriptclientid" src="js/client.js?v=1.274" data-pkey="<?php echo $pkey;?>" defer></script>-->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
   </head>
   <script type="text/javascript" >
     var customer;
@@ -42,7 +58,7 @@
       logo = data[1];
       nom = data[2];
     }
-
+    
     async function getParam(bouticid, param, defval = null)
     {
       var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
@@ -116,7 +132,6 @@
         }
 
         mnysys = await getParam(bouticid, "MONEY_SYSTEM", "STRIPE MARKETPLACE");
-        sca = await getParam(bouticid, "STRIPE_ACCOUNT_ID");
 
         var payfoot = document.createElement("DIV");
         payfoot.id = "payementfooter";
@@ -131,7 +146,7 @@
             ce.id = "card-element";
             payform.appendChild(ce);
             var subbtn = document.createElement("BUTTON");
-            subbtn.classList.add("btn");
+            subbtn.classList.add("btnstripe");
             subbtn.id = "submit";
             var spin = document.createElement("DIV");
             spin.classList.add("spinner");
@@ -150,14 +165,15 @@
             cderr.role = "alert";
             ic.appendChild(cderr);
             var cmh = document.createElement("P");
-            cmh.classList.add("result-message hidden");
+            cmh.classList.add("result-message");
+            cmh.classList.add("hidden");
             cmh.innerHTML = 'Paiement effectué<!--, Voyez le résultat dans votre<a href="" target="_blank">interface Stripe.</a> Rafraichisser la page pour payer encore-->.';
             ic.appendChild(cmh);
-            ce.appendChild(ic);
-            payform.appendChild(ce);
+            payform.appendChild(ic);
+            document.body.appendChild(payform);
           }
           var sbn = document.createElement("DIV");
-          sbn.classList("solobn");
+          sbn.classList.add("solobn");
           var retct = document.createElement("BUTTON");
           retct.classList.add("navindicsolo");
           retct.id = "retourcarte";
@@ -167,7 +183,6 @@
           retct.innerHTML = "Revenir sur les informations";
           sbn.appendChild(retct);
           payfoot.appendChild(sbn);
-          payfoot.appendChild(payfoot);
           document.body.appendChild(payfoot);
         } else {
           var ft = document.createElement("DIV");
@@ -195,6 +210,162 @@
         }
         displaycmd();
         reachBottom();
+        
+        if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) 
+        {
+          customer = sessionStorage.getItem('customer');
+          var pkey = "<?php echo $pkey;?>";
+          await getBouticInfo(customer);
+          var caid = await getParam(bouticid, "STRIPE_ACCOUNT_ID");
+          
+          // A reference to Stripe.js initialized with your real test publishable API key.
+          var stripe = Stripe(pkey, {
+            stripeAccount: caid,
+          });
+          
+          var obj = JSON.parse(sessionStorage.getItem("commande"));
+          var customer = sessionStorage.getItem("customer");
+          var choicel = sessionStorage.getItem("choicel");
+          var coutlivr = sessionStorage.getItem("fraislivr");
+          var codepromo = sessionStorage.getItem("codepromo");
+          
+          // The items the customer wants to buy
+          var purchase = {
+            items: obj,
+            boutic: customer,
+            model: choicel,
+            fraislivr: coutlivr,
+            codepromo: codepromo
+          };
+          
+          // Disable the button until we have Stripe set up on the page
+          document.querySelector("button").disabled = true;
+        
+          fetch("create.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(purchase)
+          })
+            .then(function(result) {
+              return result.json();
+            })
+            .then(function(data) {
+              var elements = stripe.elements({
+        				fonts: [
+        					{
+        						cssSrc: 'https://fonts.googleapis.com/css?family=Public+Sans'
+        					}
+        				],
+        			});
+          
+              var style = {
+                base: {
+                  color: "black",
+                  backgroundColor: "white",
+                  fontFamily: 'Public Sans',
+                  fontSmoothing: "antialiased",
+                  fontSize: "16px",
+                  "::placeholder": {
+                    color: "black"
+                  }
+                },
+                invalid: {
+                  fontFamily: 'Arial, sans-serif',
+                  color: "#fa755a",
+                  iconColor: "#fa755a"
+                }
+              };
+          
+              var card = elements.create("card", {hidePostalCode: true, style: style });
+              // Stripe injects an iframe into the DOM
+              card.mount("#card-element");
+          
+              card.on("change", function (event) {
+                // Disable the Pay button if there are no card details in the Element
+                document.querySelector("button").disabled = event.empty;
+                document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+              });
+          
+              var form = document.getElementById("payment-form");
+              form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                // Complete payment when the submit button is clicked
+                payWithCard(stripe, card, data.clientSecret);
+              });
+            });
+          
+          // Calls stripe.confirmCardPayment
+          // If the card requires authentication Stripe shows a pop-up modal to
+          // prompt the user to enter authentication details without leaving your page.
+          var payWithCard = function(stripe, card, clientSecret) {
+            loading(true);
+            stripe
+              .confirmCardPayment(clientSecret, {
+                payment_method: {
+                  card: card
+                }
+              })
+              .then(function(result) {
+                if (result.error) {
+                  // Show error to your customer
+                  showError(result.error.message);
+                } else {
+                  // The payment succeeded!
+                  orderComplete(result.paymentIntent.id);
+                }
+              });
+          };
+          
+          /* ------- UI helpers ------- */
+          
+          // Shows a success message when the payment is complete
+          var orderComplete = function(paymentIntentId) {
+            loading(false);
+            // Suppression du lien avec l'interace stripe de test
+            /*document
+              .querySelector(".result-message a")
+              .setAttribute(
+                "href",
+                "https://dashboard.stripe.com/test/payments/" + paymentIntentId
+              );*/
+            document.querySelector(".result-message").classList.remove("hidden");
+            document.querySelector("button").disabled = true;
+            // Insert here code for process after card paiement
+            
+        /*    document.getElementById("backbutton").innerHTML = "Commander à nouveau";  
+            reachBottom();*/  
+        
+            // Naviguer vers fin.php
+            window.location.href = "fin.php?method=" + sessionStorage.getItem("method") + "&table=" + sessionStorage.getItem("table") + "&customer=" + sessionStorage.getItem("customer");
+            
+          };
+          
+          // Show the customer the error from Stripe if their card fails to charge
+          var showError = function(errorMsgText) {
+            loading(false);
+            var errorMsg = document.querySelector("#card-error");
+            errorMsg.textContent = errorMsgText;
+            setTimeout(function() {
+              errorMsg.textContent = "";
+            }, 4000);
+          };
+          
+          // Show a spinner on payment submission
+          var loading = function(isLoading) {
+            if (isLoading) {
+              // Disable the button and show a spinner
+              document.querySelector("button").disabled = true;
+              document.querySelector("#spinner").classList.remove("hidden");
+              document.querySelector("#button-text").classList.add("hidden");
+            } else {
+              document.querySelector("button").disabled = false;
+              document.querySelector("#spinner").classList.add("hidden");
+              document.querySelector("#button-text").classList.remove("hidden");
+            }
+          };
+        }
         document.getElementById("loadid").style.display = "none";
       }
 

@@ -35,50 +35,50 @@ body {
 
 @media only screen and (min-width: 640px) {
   body {
-    margin-right: 80px;
-    margin-left: 80px;
+    margin-right: 80px !important;
+    margin-left: 80px !important;
   }
 }
 
 @media only screen and (min-width: 960px) {
   body {
-    margin-right: 240px;
-    margin-left: 240px;
+    margin-right: 240px !important;
+    margin-left: 240px !important;
   }
 }
 
 @media only screen and (min-width: 1280px) {
   body {
-    margin-right: 400px;
-    margin-left: 400px;
+    margin-right: 400px !important;
+    margin-left: 400px !important;
   }
 }
 
 @media only screen and (min-width: 1600px) {
   body {
-    margin-right: 560px;
-    margin-left: 560px;
+    margin-right: 560px !important;
+    margin-left: 560px !important;
   }
 }
 
 @media only screen and (min-width: 1920px) {
   body {
-    margin-right: 720px;
-    margin-left: 720px;
+    margin-right: 720px !important;
+    margin-left: 720px !important;
   }
 }
 
 @media only screen and (min-width: 2880px) {
   body {
-    margin-right: 1200px;
-    margin-left: 1200px;
+    margin-right: 1200px !important;
+    margin-left: 1200px !important;
   }
 }
 
 @media only screen and (min-width: 3840px) {
   body {
-    margin-right: 1680px;
-    margin-left: 1680px;
+    margin-right: 1680px !important;
+    margin-left: 1680px !important;
   }
 }
 
@@ -142,7 +142,7 @@ input {
 }
 
 /* Buttons and links */
-.btn {
+.btnstripe {
   background: black;
   color: #ffffff;
   font-family: 'Public Sans';
@@ -520,5 +520,13 @@ td
 	color: #e2007a; 
 	font-weight: bold;
 	padding: 6px;
+}
+
+.flcentered
+{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 50%
 }
 
