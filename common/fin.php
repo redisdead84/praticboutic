@@ -1,49 +1,5 @@
-<?php
-
-  session_start();
-
-	if (empty($_SESSION['customer']) != 0)
-	{
-    header('LOCATION: 404.html');
-    exit();
-	}
-  //$customer = htmlspecialchars($_GET['customer']);
-  $customer = $_SESSION['customer'];
-  $method = intval($_SESSION['method']);
-  $table = intval($_SESSION['table']);
-  
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
-  
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }  
-  
-  include "config/common_cfg.php";
-  include "param.php";
-
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $bdd);
-  // Check connection
-  if ($conn->connect_error) 
-    die("Connection failed: " . $conn->connect_error);
-
-  $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
-  $reqci->bind_param("s", $customer);
-  $reqci->execute();
-  $reqci->bind_result($customid, $logo, $nom);
-  $resultatci = $reqci->fetch();
-  $reqci->close();
-
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <title>Ecran de fin</title>
@@ -59,38 +15,97 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
   </head>
+  <script type="text/javascript" >
+    var customer;
+    var bouticid;
+    var logo;
+    var nom;
+    var mnysys;
 
+    async function getBouticInfo(customer)
+    {
+      var objboutic = { requete: "getBouticInfo", customer: customer};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      bouticid = data[0];
+      logo = data[1];
+      nom = data[2];
+    }
+  </script>
   <body ondragstart="return false;" ondrop="return false;">
-  	<div id="header">
-			<a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
-		</div>		
-
+    <div id="loadid" class="flcentered">
+      <div class="spinner-border nospmd" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div id="header">
+      <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
+    </div>
+    <script type="text/javascript">
+      window.onload = async function()
+      {
+        customer = sessionStorage.getItem('customer');
+        method = sessionStorage.getItem('method');
+        if (!customer)
+          document.location.href = '404.html';
+        mail = sessionStorage.getItem(customer + '_mail');
+        await getBouticInfo(customer);
+        if (!bouticid)
+          document.location.href = '404.html';
+        if (!mail)
+          document.location.href = '404.html';
+        if (mail == 'oui')
+          document.location.href = '404.html';
+        document.getElementById("logo").src = "../upload/" + logo;
+        document.getElementById("marqueid").innerHTML = nom;
+        if (logo)
+        {
+          document.getElementById("logo").style.display = "block";
+          document.getElementById("marqueid").style.display = "none";
+        }
+        else 
+        {
+          document.getElementById("logo").style.display = "none";
+          document.getElementById("marqueid").style.display = "block";
+        }
+        document.getElementById("loadid").style.display = "none";
+        reachBottom();
+      }
+    </script>
     <div id="finmain">
-      <?php
-        if (strcmp($logo,"") != 0)
-          echo '<img id="logo" src="../upload/' . $logo . '">';
-        else
-          echo '<p class="marque">' . $nom . '</p>';
-      ?>
+      <img id="logo" style="display:none">
+      <p id="marqueid" class="marque" style="display:none"></p>
       <div class="fsub">
-     		<p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
-     	</div>
+        <p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
+      </div>
     </div>
     <div id="footer">
-      <?php
-      	echo '<div class="solobn">';
-        echo '<input id="recommander" class="soloindic" type="button" value="Passer une autre commande" onclick="window.location.href = \'index.php?customer=' . $customer . '\'">';
-        echo '</div>';
-      ?>
+      <div class="solobn">
+        <input id="recommander" class="soloindic" type="button" value="Passer une autre commande" onclick="window.location.href = \'index.php?customer=' . $customer . '\'">
+      </div>
     </div>
     <script type="text/javascript" >
-    	var close = 0; 
-    	if (sessionStorage.getItem("barre") == "close")
-    		close = 1;
+      var close = 0; 
+      if (sessionStorage.getItem("barre") == "close")
+        close = 1;
       sessionStorage.clear();
       if (close == 1)
-      	sessionStorage.setItem("barre", "close");
+        sessionStorage.setItem("barre", "close");
     </script>
     <script type="text/javascript">
       function reachBottom() 
@@ -99,12 +114,6 @@
         x = x + "px";
         document.getElementById("finmain").style.height = x;
       }
-    </script>
-    <script type="text/javascript">
-	    window.onload=function()
-	   	{
-	      reachBottom();
-	    }
     </script>
     <script type="text/javascript">
       window.addEventListener("resize", function() {

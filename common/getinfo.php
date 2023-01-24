@@ -320,9 +320,8 @@
           document.getElementById("separationid").style.display = "none";
         }
         reachBottom();
-        document.getElementById("loadid").style.display = "none";
-        
         initctrl();
+        document.getElementById("loadid").style.display = "none";
       }
 
       // Appel asynchrone pour savoir si on est dans le périmètre de livraison 

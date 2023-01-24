@@ -15,13 +15,14 @@ select
   
 textarea
 {
-  width: 92%;
-  height: 50px;
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-top: 3px;
-  resize:none;
-  font-family: 'Public Sans';
+  width: 92% !important;
+  height: 50px !important;
+  margin-left: 3% !important;
+  margin-right: 3% !important;
+  margin-top: 3px !important;
+  resize:none !important;
+  font-family: 'Public Sans' !important;
+  font-size: revert !important;
 }
 
 #infosup
@@ -516,8 +517,7 @@ body#backbody
 .lblpaiers
 {
   width: auto;
-  margin-left: 2%;
-  margin-top: 18px;
+  margin-left: 18px;
   margin-bottom: 0px;
 }
 
@@ -599,7 +599,7 @@ float: left;
 {
 	font-size: 80%;
 	font-weight: normal;
-	margin-left: 2%;
+	margin-left: 18px;
 }
 
 div.nom{
@@ -1092,16 +1092,16 @@ text-align: justify;
   height: 100px;
   flex-flow: column;
   align-items: center;
-	background-color: #595858;
-	color: white;
-	border-top: 0px !important;
-	border-bottom: 0px !important;
+  background-color: #595858;
+  color: white;
+  border-top: 0px !important;
+  border-bottom: 0px !important;
 }
 
 .flcentered
 {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   height: 50%
 }
@@ -1115,4 +1115,22 @@ text-align: justify;
 .spv
 {
   height: 50vh;
+}
+
+label
+{
+  margin-bottom: 0 !important;
+}
+
+a
+{
+  color: unset !important;
+  text-decoration: none !important;
+  background-color: unset !important;
+}
+
+#cgvlink
+{
+  color: #009CDB !important;
+  text-decoration: underline;
 }

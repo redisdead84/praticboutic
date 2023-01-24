@@ -367,6 +367,7 @@
           };
         }
         document.getElementById("loadid").style.display = "none";
+        document.body.style.display = "block";
       }
 
       function displaycmd()
@@ -566,7 +567,6 @@
         x = x + "px";
         document.getElementById("main").style.height = x;
       }
-
       window.addEventListener("resize", function() {
         reachBottom();
       })
