@@ -43,6 +43,10 @@
       case 'nostripeid':
         errmsgid.innerHTML = 'Impossible de trouver l\'identifiant Stripe de la boutic';
       break;
+      case 'cantinitstripe':
+        errmsgid.innerHTML = 'Impossible d\'initialiser Stripe';
+      break;
+
     }
   </script>
 </html>

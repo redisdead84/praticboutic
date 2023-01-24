@@ -177,7 +177,7 @@ body
   font-weight: bold;
 }
 
-.active, .accordion:hover {
+.activepb, .accordion:hover {
   background-color: lightgray;
   font-family: 'Public Sans';
 }
@@ -213,7 +213,7 @@ body
 }
 
 
-.active::after {
+.activepb::after {
 	content: "";
   background: url('../img/ajout_au_panier.png') no-repeat 0 0;
   background-size: 100%; 
@@ -229,7 +229,7 @@ body
   
 }
 
-.active::before {
+.activepb::before {
 	content: "";
   background: url('../img/fleche_titre_menu_ouvert.png') no-repeat 0 0;
   background-size: 100%; 

@@ -223,6 +223,9 @@
             stripeAccount: caid,
           });
           
+          if (!stripe)
+            document.location.href = 'error.php?code=cantinitstripe';
+          
           var obj = JSON.parse(sessionStorage.getItem("commande"));
           var customer = sessionStorage.getItem("customer");
           var choicel = sessionStorage.getItem("choicel");

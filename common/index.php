@@ -78,9 +78,11 @@
   <body>
 		<script type="text/javascript">
       sessionStorage.clear();
-      var customer = '<?php echo $_SESSION['customer'];?>';
-      var method = '<?php echo $_SESSION['method'];?>';
-      var table = '<?php echo $_SESSION['table'];?>';
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const customer = urlParams.get('customer');
+      const method = urlParams.get('method') ? urlParams.get('method') : '3';
+      const table = urlParams.get('table') ? urlParams.get('table') : '0';
       sessionStorage.setItem('customer', customer);
       sessionStorage.setItem(customer + '_mail', 'non');
       sessionStorage.setItem('method', method);

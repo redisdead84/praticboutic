@@ -33,11 +33,6 @@ try
     throw new Error('Session expirée');
   }
 
-  if (empty($_SESSION['customer']) == TRUE)
-  {
-    throw new Error('Pas de boutic associée');
-  }
-
   if (strcmp($input->requete, "categories") == 0)
   {
     $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $input->bouticid . ' OR catid = 0 ORDER BY catid';
@@ -117,6 +112,20 @@ try
      
     $adr = $nom . ' ' . $adresse1 . ' ' . $adresse2 . ' ' . $codepostal . ' ' . $ville;
     array_push($arr, $customid, $nom, $adr, $logo);
+  }
+  
+  if (strcmp($input->requete, "images") == 0)
+  {
+    $query = 'SELECT image FROM artlistimg WHERE customid = ' . $input->bouticid . ' AND visible = 1 AND artid = ' . $input->artid . ' ORDER BY favori DESC, artlistimgid ASC';
+    if ($result = $conn->query($query))
+    {
+      while ($row = $result->fetch_row())
+      {
+        $arm = array();
+        array_push($arm, $row[0]);
+        array_push($arr, $arm);
+      }
+    }
   }
   
   $conn->close();

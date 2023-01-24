@@ -219,7 +219,7 @@
                     }
                   }
                 }
-                artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+                artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
                 var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
                 panel.style.maxHeight = "initial"; /*panel.scrollHeight + "px";*/
               }
@@ -232,7 +232,7 @@
           for (i = 0; i < aqt.length; i++) 
           {
             aqt[i].addEventListener("focus", function() {
-        	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");
+        	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
         	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
               panel.style.maxHeight = panel.scrollHeight + "px";
             });
@@ -266,18 +266,49 @@
           divart.setAttribute("data-prix", dat[2]);
           divart.setAttribute("data-unite", dat[3]);
           document.getElementById("divpanid" + catid).appendChild(divart);
-          if ((dat[5] !== "") && (dat[5] !== null))
-          {
-            var imgb = document.createElement("IMG");
-            imgb.classList.add('pic');
-            imgb.classList.add(sizeimg);
-            imgb.src = "../upload/" + dat[5];
-            imgb.alt = "nopic";
-            imgb.onload = function() {
-              this.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.scrollHeight + "px";
-            };
-            document.getElementById("artid" + artid).appendChild(imgb);
-          }
+          var divcarou = document.createElement("DIV");
+          divcarou.id = "carousel" + artid;
+          divcarou.classList.add('pic');
+          divcarou.classList.add(sizeimg);
+          divcarou.classList.add('carousel');
+          divcarou.classList.add('slide');
+          divcarou.setAttribute("data-ride", "carousel");
+          divcarou.setAttribute("data-interval", false);
+          divcarou.style.display = "none";
+          document.getElementById("artid" + artid).appendChild(divcarou)
+          var divcarin = document.createElement("DIV");
+          divcarin.id = 'carinid' + artid;
+          divcarin.classList.add('carousel-inner');
+          document.getElementById("carousel" + artid).appendChild(divcarin);
+          await getImages(method, bouticid, artid);
+          var ccp = document.createElement("A");
+          ccp.classList.add("carousel-control-prev");
+          ccp.href = "#carousel" + artid;
+          ccp.role = "button";
+          ccp.setAttribute("data-slide", "prev")
+          var ccpi = document.createElement("SPAN");
+          ccpi.classList.add("carousel-control-prev-icon");
+          ccpi.setAttribute("aria-hidden", "true");
+          ccp.appendChild(ccpi);
+          var prev = document.createElement("SPAN");
+          prev.classList.add("sr-only");
+          prev.innerHTML = "Previous";
+          ccp.appendChild(prev);
+          document.getElementById('carinid' + artid).appendChild(ccp);
+          var ccn = document.createElement("A");
+          ccn.classList.add("carousel-control-next");
+          ccn.href = "#carousel" + artid;
+          ccn.role = "button";
+          ccn.setAttribute("data-slide", "next")
+          var ccni = document.createElement("SPAN");
+          ccni.classList.add("carousel-control-next-icon");
+          ccni.setAttribute("aria-hidden", "true");
+          ccn.appendChild(ccni);
+          var next = document.createElement("SPAN");
+          next.classList.add("sr-only");
+          next.innerHTML = "Next";
+          ccn.appendChild(next);
+          document.getElementById('carinid' + artid).appendChild(ccn);
           var rowah = document.createElement("DIV");
           rowah.classList.add("rowah");
           var colb1 = document.createElement("DIV");
@@ -416,20 +447,51 @@
           rowah.appendChild(cola1);
           var cola2 = document.createElement("DIV");
           cola2.classList.add("cola2");
-          if ((dat[5] !== "") && (dat[5] !== null))
-          {
-            var imgb = document.createElement("IMG");
-            imgb.classList.add('pic');
-            imgb.classList.add(sizeimg);
-            imgb.src = "../upload/" + dat[5];
-            imgb.alt = "nopic";
-            imgb.onload = function() {
-              this.parentElement.parentElement.parentElement.parentElement.style.maxHeight = "initial"; //this.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
-            };
-            cola2.appendChild(imgb);
-          }
+          var divcarou = document.createElement("DIV");
+          divcarou.id = "carousel" + artid;
+          divcarou.classList.add('pic');
+          divcarou.classList.add(sizeimg);
+          divcarou.classList.add('carousel');
+          divcarou.classList.add('slide');
+          divcarou.setAttribute("data-ride", "carousel");
+          divcarou.setAttribute("data-interval", false);
+          divcarou.style.display = "none";
+          cola2.appendChild(divcarou);
           rowah.appendChild(cola2);
           document.getElementById("artid" + artid).appendChild(rowah);
+          var divcarin = document.createElement("DIV");
+          divcarin.id = 'carinid' + artid;
+          divcarin.classList.add('carousel-inner');
+          document.getElementById("carousel" + artid).appendChild(divcarin);
+          await getImages(method, bouticid, artid);
+          var ccp = document.createElement("A");
+          ccp.classList.add("carousel-control-prev");
+          ccp.href = "#carousel" + artid;
+          ccp.role = "button";
+          ccp.setAttribute("data-slide", "prev")
+          var ccpi = document.createElement("SPAN");
+          ccpi.classList.add("carousel-control-prev-icon");
+          ccpi.setAttribute("aria-hidden", "true");
+          ccp.appendChild(ccpi);
+          var prev = document.createElement("SPAN");
+          prev.classList.add("sr-only");
+          prev.innerHTML = "Previous";
+          ccp.appendChild(prev);
+          document.getElementById('carinid' + artid).appendChild(ccp);
+          var ccn = document.createElement("A");
+          ccn.classList.add("carousel-control-next");
+          ccn.href = "#carousel" + artid;
+          ccn.role = "button";
+          ccn.setAttribute("data-slide", "next")
+          var ccni = document.createElement("SPAN");
+          ccni.classList.add("carousel-control-next-icon");
+          ccni.setAttribute("aria-hidden", "true");
+          ccn.appendChild(ccni);
+          var next = document.createElement("SPAN");
+          next.classList.add("sr-only");
+          next.innerHTML = "Next";
+          ccn.appendChild(next);
+          document.getElementById('carinid' + artid).appendChild(ccn);
         }
         var txta = document.createElement("TEXTAREA");
         txta.id = 'idtxta' + dat[0];
@@ -521,6 +583,48 @@
       }
     }
 
+    async function getImages(method, bouticid, artid)
+    {
+      var objimg = { bouticid: bouticid, requete:"images", artid:artid};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objimg)
+      });
+      const data = await response.json();
+      var first = false;
+      for (var dat of data)
+      {
+        if ((dat[0] != null) && (dat[0] != null))
+        {
+          var caritem = document.createElement("DIV");
+          caritem.classList.add('carousel-item');
+          if (!first)
+          {
+            caritem.classList.add('active');
+            first = true;
+            document.getElementById("carousel" + artid).style.display = "block";
+          }
+          var imgitem = document.createElement("IMG");
+          imgitem.classList.add("pic");
+          imgitem.classList.add(sizeimg);
+          imgitem.src = '../upload/' + dat[0];
+          imgitem.alt = "nopic";
+          //imgitem.onload = function() {
+            /*if (sizeimg == "bigimg")
+              this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
+            else if (sizeimg == "smallimg")
+              this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";*/
+          //};
+          caritem.appendChild(imgitem);
+        }
+        document.getElementById('carinid' + artid).appendChild(caritem);
+      }
+    }
+
     window.onload = async function()
     {
       
@@ -562,7 +666,7 @@
       for (i = 0; i < acc.length; i++) 
       {
         acc[i].addEventListener("click", function() {
-          this.classList.toggle("active");
+          this.classList.toggle("activepb");
           var panel = this.nextElementSibling;
           if (panel.style.maxHeight) 
           {
@@ -962,7 +1066,7 @@
           elemopt.appendChild(edup);
         }
 
-        eleminp.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("active");        
+        eleminp.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");        
         
       	var panel = eleminp.parentElement.parentElement.parentElement.parentElement.parentElement;
         if (parseInt(eleminp.innerText) > 0)
