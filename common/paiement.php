@@ -85,10 +85,10 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div id="header">
+    <div id="header" style="display:none">
       <img id="mainlogo" src="img/logo-pratic-boutic.png">
     </div>
-    <div id="main">
+    <div id="main" style="display:none">
       <img id="logo" style="display:none">
       <p id="marqueid" class="marque" style="display:none"></p>
       <div id="pan">
@@ -109,15 +109,15 @@
         customer = sessionStorage.getItem('customer');
         method = sessionStorage.getItem('method');
         if (!customer)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=nocustomer';
         mail = sessionStorage.getItem(customer + '_mail');
         await getBouticInfo(customer);
         if (!bouticid)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=nobouticid';
         if (!mail)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=noemail';
         if (mail == 'oui')
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=alreadysent';
         document.getElementById("logo").src = "../upload/" + logo;
         document.getElementById("marqueid").innerHTML = nom;
         if (logo)
@@ -190,7 +190,7 @@
           var gbtn = document.createElement("DIV");
           gbtn.classList.add("grpbn");
           var retct = document.createElement("BUTTON");
-          retct.classList.add("navindicsolo");
+          retct.classList.add("navindic");
           retct.id = "retourcarte";
           retct.onclick = function() {
             window.location.href = 'getinfo.php';
@@ -198,7 +198,7 @@
           retct.innerHTML = "Revenir sur les informations";
           gbtn.appendChild(retct);
           var valct = document.createElement("BUTTON");
-          valct.classList.add("navindicsolo");
+          valct.classList.add("navindic");
           valct.id = "validcarte";
           valct.onclick = function() {
             window.location.href = 'fin.php';
@@ -209,7 +209,7 @@
           document.body.appendChild(ft);
         }
         displaycmd();
-        reachBottom();
+        
         
         if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) 
         {
@@ -368,6 +368,9 @@
         }
         document.getElementById("loadid").style.display = "none";
         document.body.style.display = "block";
+        document.getElementById("main").style.display = "block";
+        document.getElementById("header").style.display = "block";
+        reachBottom();
       }
 
       function displaycmd()

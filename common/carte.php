@@ -527,10 +527,10 @@
       customer = sessionStorage.getItem('customer');
       method = sessionStorage.getItem('method');
       if (!customer)
-        document.location.href = '404.html';
+        document.location.href = 'error.php?code=nocustomer';
       await getBouticInfo(customer);
       if (!bouticid)
-        document.location.href = '404.html';
+        document.location.href = 'error.php?code=nobouticid';
       
       document.getElementById("logo").src = "../upload/" + logo;
       document.getElementById("marqueid").innerHTML = nom;

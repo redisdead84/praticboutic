@@ -157,7 +157,7 @@
       </div>
     <div class="underlined">
       <label class="lcont">Code Promo.&nbsp;:&nbsp;</label>
-      <input class="cont" type="string" id="lecodepromo" name="codepromo" maxlength="4" pattern="[0-9A-Z]{4}" onkeyup="getRemise(sessionStorage.getItem(\'sstotal\'), this)">
+      <input class="cont" type="string" id="lecodepromo" name="codepromo" maxlength="4" pattern="[0-9A-Z]{4}" onkeyup="getRemise(sessionStorage.getItem('sstotal'), this)">
     </div>
     <div class="panneau" id="remiseid"></div>
     <div class="panneau" id="cgv">
@@ -176,15 +176,15 @@
       window.onload = async function()
       {
         if (!customer)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=nocustomer';
         mail = sessionStorage.getItem(customer + '_mail');
         await getClientInfo(customer);
         if (!bouticid)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=nobouticid';
         if (!mail)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=noemail';
         if (mail == 'oui')
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=alreadysent';
         
         
         chm = await getParam(bouticid, "Choix_Method",  "TOUS");

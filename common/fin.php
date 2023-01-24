@@ -1,3 +1,7 @@
+<?php
+  include "config/common_cfg.php";
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -11,7 +15,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="js/mail.js?v=1.701"></script>
+    <script src="js/mail.js?v=1.702"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -62,15 +66,15 @@
         customer = sessionStorage.getItem('customer');
         method = sessionStorage.getItem('method');
         if (!customer)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=nocustomer';
         mail = sessionStorage.getItem(customer + '_mail');
         await getBouticInfo(customer);
         if (!bouticid)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=nobouticid';
         if (!mail)
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=noemail';
         if (mail == 'oui')
-          document.location.href = '404.html';
+          document.location.href = 'error.php?code=alreadysent';
         document.getElementById("logo").src = "../upload/" + logo;
         document.getElementById("marqueid").innerHTML = nom;
         if (logo)
@@ -85,6 +89,10 @@
         }
         document.getElementById("loadid").style.display = "none";
         reachBottom();
+        document.getElementById("recommander").onclick = function () {
+          window.location.href = 'index.php?customer=' + customer;
+          sessionStorage.clear();
+        };
       }
     </script>
     <div id="finmain">
@@ -96,14 +104,14 @@
     </div>
     <div id="footer">
       <div class="solobn">
-        <input id="recommander" class="soloindic" type="button" value="Passer une autre commande" onclick="window.location.href = \'index.php?customer=' . $customer . '\'">
+        <input id="recommander" class="soloindic" type="button" value="Passer une autre commande">
       </div>
     </div>
     <script type="text/javascript" >
       var close = 0; 
       if (sessionStorage.getItem("barre") == "close")
         close = 1;
-      sessionStorage.clear();
+      
       if (close == 1)
         sessionStorage.setItem("barre", "close");
     </script>

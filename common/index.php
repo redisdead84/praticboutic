@@ -10,7 +10,7 @@
 	
 	if (empty($_GET['customer']) != 0)
 	{
-    header('LOCATION: 404.html');
+    header('LOCATION: error.php?code=nocustomer');
     exit();
 	}
 	else
@@ -29,7 +29,7 @@
  	  
  	if (strcmp($customid, "") == 0 )
  	{
-   	header('LOCATION: 404.html');
+   	header('LOCATION: error.php?code=bouticid');
    	exit;
 	}
 	
@@ -42,7 +42,7 @@
  	$reqai->close();
  	if (strcmp($stripe_customer_id, "") == 0 )
  	{
-   	header('LOCATION: 404.html');
+   	header('LOCATION: error.php?code=nostripeid');
    	exit;
 	}
  	
@@ -59,14 +59,9 @@
   ]);
   if ($subscriptions->count() == 0)
   {
-    header('LOCATION: 404.html');
+    header('LOCATION: error.php?code=noabo');
     exit();
   }
-			
-  $_SESSION['customer'] = $customer;
- 	$_SESSION[$customer . '_mail'] = "non";
-	$_SESSION['method'] = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '3');
-  $_SESSION['table'] = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
   
   session_write_close();
 ?>
