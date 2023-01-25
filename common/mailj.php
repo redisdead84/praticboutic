@@ -318,7 +318,7 @@ try
   $text = $text . '<p style="font-family: \'Sans\'"><b>Référence commande: </b> ' . $compt . '<br></p>';
   $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
 
-  if ($json_obj->method == '2')
+  if (intval($method) == '2')
   {
     $text = $text . '<p style="font-family: \'Sans\'"><b>Vente : </b>Consomation sur place<br></p>';
     $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
@@ -327,7 +327,7 @@ try
     $text = $text . '<p style="font-family: \'Sans\'"><b>Téléphone : </b>' . $json_obj->telephone . '<br></p>';
     $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
   }
-  if ($json_obj->method == '3')
+  if (intval($method) == '3')
   {
     if (strcmp($json_obj->vente, "EMPORTER") == 0)
     {
