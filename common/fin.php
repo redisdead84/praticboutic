@@ -87,6 +87,7 @@
     <script type="text/javascript">
       window.onload = async function()
       {
+        await getSession();
         if (!customer)
           document.location.href = 'error.php?code=nocustomer';
         await getBouticInfo(customer);
@@ -94,8 +95,6 @@
           document.location.href = 'error.php?code=nobouticid';
         if (!mail)
           document.location.href = 'error.php?code=noemail';
-        if (mail == 'oui')
-          document.location.href = 'error.php?code=alreadysent';
         document.getElementById("logo").src = "../upload/" + logo;
         document.getElementById("marqueid").innerHTML = nom;
         if (logo)

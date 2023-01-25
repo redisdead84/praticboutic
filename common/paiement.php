@@ -505,7 +505,7 @@
           {
             var sstp1 = document.createElement("P");
             sstp1.classList.add("fleft");
-            sstp1.innerHTML = "Sous-total : ";
+            sstp1.innerHTML = "Remise : ";
             document.getElementById("remiseid").appendChild(sstp1);
             var sstp2 = document.createElement("P");
             sstp2.classList.add("fright");
@@ -525,7 +525,7 @@
           var sstp1 = document.createElement("P");
           sstp1.classList.add("wbld");
           sstp1.classList.add("fleft");
-          sstp1.innerHTML = "Frais de livraison : ";
+          sstp1.innerHTML = "Total : ";
           document.getElementById("totalid").appendChild(sstp1);
           var sstp2 = document.createElement("P");
           sstp2.classList.add("wbld");
@@ -539,7 +539,7 @@
           document.getElementById("sstotalid").style.display = "none";
           var sstp1 = document.createElement("P");
           sstp1.classList.add("fleft");
-          sstp1.innerHTML = "Sous-total : ";
+          sstp1.innerHTML = "Remise : ";
           document.getElementById("remiseid").appendChild(sstp1);
           var sstp2 = document.createElement("P");
           sstp2.classList.add("fright");
@@ -559,7 +559,7 @@
           var sstp1 = document.createElement("P");
           sstp1.classList.add("wbld");
           sstp1.classList.add("fleft");
-          sstp1.innerHTML = "Frais de livraison : ";
+          sstp1.innerHTML = "Total : ";
           document.getElementById("totalid").appendChild(sstp1);
           var sstp2 = document.createElement("P");
           sstp2.classList.add("wbld");
