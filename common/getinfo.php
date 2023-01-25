@@ -187,7 +187,7 @@
     </div>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)" maxlength="300"></textarea>
     </div>
-    <div id="footer">
+    <div id="footer" style="visibility:hidden">
       <div id="grpbnid" class="grpbn">
         <input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">
         <input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();window.location.href = 'carte.php'">
@@ -347,6 +347,7 @@
         document.getElementById("loadid").style.display = "none";
         if (verifcp > 0)
           checkcp(document.getElementById("lecp"));
+        document.getElementById("footer").style.visibility = "visible";
       }
 
       // Appel asynchrone pour savoir si on est dans le périmètre de livraison 

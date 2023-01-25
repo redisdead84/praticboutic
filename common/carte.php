@@ -707,8 +707,8 @@
       document.getElementById("loadid").style.display = "none";
       document.getElementById("header").style.display = "block";
       document.getElementById("main").style.display = "block";
-      document.getElementById("footer").style.display = "block";
       reachBottom();
+      document.getElementById("footer").style.visibility = "visible";
     }
   </script>
 
@@ -728,7 +728,7 @@
         <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
       </form>
     </div>
-    <div id="footer" style="display:none">
+    <div id="footer" style="visibility:hidden">
       <div class="grpbn">
         <input id="totaliseur" class="navindic" value="Total">
         <input id="validcarte" class="navindic" value="Poursuivre">

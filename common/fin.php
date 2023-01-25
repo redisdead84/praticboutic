@@ -109,6 +109,7 @@
         }
         document.getElementById("loadid").style.display = "none";
         reachBottom();
+        document.getElementById("footer").style.visibility = "visible";
         document.getElementById("recommander").onclick = function () {
           window.location.href = 'index.php?customer=' + customer;
           sessionStorage.clear();
@@ -122,7 +123,7 @@
         <p class="panneau acenter" id="envoieok">Votre commande a été envoyée.<br>Nous vous remercions pour votre fidelité.<br></p>
       </div>
     </div>
-    <div id="footer">
+    <div id="footer" style="visibility:hidden;">
       <div class="solobn">
         <input id="recommander" class="soloindic" type="button" value="Passer une autre commande">
       </div>

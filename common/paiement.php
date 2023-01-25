@@ -157,6 +157,7 @@
         var payfoot = document.createElement("DIV");
         payfoot.id = "payementfooter";
         payfoot.style.height = '225px';
+        payfoot.style.visibility = "hidden";
         if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
           if (mnysys == "STRIPE MARKETPLACE")
           {
@@ -208,6 +209,7 @@
         } else {
           var ft = document.createElement("DIV");
           ft.id = "footer";
+          ft.style.visibility = "hidden";
           var gbtn = document.createElement("DIV");
           gbtn.classList.add("grpbn");
           var retct = document.createElement("BUTTON");
@@ -393,6 +395,14 @@
         document.getElementById("main").style.display = "block";
         document.getElementById("header").style.display = "block";
         reachBottom();
+        if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT"))
+        {
+          document.getElementById("payementfooter").style.visibility = "visible";
+        }
+        else 
+        {
+          document.getElementById("footer").style.visibility = "visible";
+        }
       }
 
       function displaycmd()
@@ -584,12 +594,15 @@
       function reachBottom() 
       {
         var x;
-        if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT"))
-          x = window.innerHeight - document.getElementById("payementfooter").clientHeight - document.getElementById("header").clientHeight;
-        else
-          x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
-        x = x + "px";
-        document.getElementById("main").style.height = x;
+        if (method != null)
+        {
+          if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT"))
+            x = window.innerHeight - document.getElementById("payementfooter").clientHeight - document.getElementById("header").clientHeight;
+          else
+            x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
+          x = x + "px";
+          document.getElementById("main").style.height = x;
+        }
       }
       window.addEventListener("resize", function() {
         reachBottom();

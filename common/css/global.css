@@ -535,3 +535,9 @@ button
   line-height: initial !important;
 }
 
+.nospmd
+{
+  top: 50vh !important;
+  position: relative !important;
+}
+
