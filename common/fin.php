@@ -81,7 +81,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div id="header">
+    <div id="header" style="visibility:hidden;">
       <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
     </div>
     <script type="text/javascript">
@@ -110,13 +110,15 @@
         document.getElementById("loadid").style.display = "none";
         reachBottom();
         document.getElementById("footer").style.visibility = "visible";
+        document.getElementById("header").style.visibility = "visible";
+        document.getElementById("finmain").style.visibility = "visible";
         document.getElementById("recommander").onclick = function () {
           window.location.href = 'index.php?customer=' + customer;
           sessionStorage.clear();
         };
       }
     </script>
-    <div id="finmain">
+    <div id="finmain" style="visibility:hidden;">
       <img id="logo" style="display:none">
       <p id="marqueid" class="marque" style="display:none"></p>
       <div class="fsub">
