@@ -99,26 +99,7 @@
       return data[0];
     }
     
-    async function getSession()
-    {
-      var objboutic = { requete: "getSession"};
-      const response = await fetch('frontquery.php', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body:JSON.stringify(objboutic)
-      });
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
-      const data  = await response.json();
-      customer = data[0];
-      method = data[1];
-      table = data[2];
-    }
-    </script>
+  </script>
     <body ondragstart="return false;" ondrop="return false;">
       <div id="loadid" class="flcentered">
         <div class="spinner-border nospmd" role="status">
@@ -250,7 +231,7 @@
           document.getElementById("marqueid").style.display = "block";
         }
         
-        if (method>0)
+        if (parseInt(method)>0)
         {
           document.getElementById("grpinfo").style.display = "block";
           document.getElementById("grpbnid").style.display = "block";
@@ -261,7 +242,7 @@
           document.getElementById("grpbnid").style.display = "none";
         }
         
-        if (method>2)
+        if (parseInt(method)>2)
         {
           document.getElementById("blocnomid").style.display = "block";
           document.getElementById("blocprenomid").style.display = "block";
@@ -305,8 +286,10 @@
           }
           if (verifcp > 0)
           {
-            document.getElementById("lecp").onkeyup = "checkcp(this)";
-            document.getElementById("lecp").setAttribute("data-inrange", "ko");
+            document.getElementById("lecp").onkeyup = function () {
+              checkcp(this);
+            };
+            
           }
           else
           {
@@ -362,6 +345,8 @@
         reachBottom();
         initctrl();
         document.getElementById("loadid").style.display = "none";
+        if (verifcp > 0)
+          checkcp(document.getElementById("lecp"));
       }
 
       // Appel asynchrone pour savoir si on est dans le périmètre de livraison 
@@ -488,7 +473,7 @@
         sessionStorage.setItem("remise", 0);
         var verifcp = document.getElementById("main").getAttribute("data-verifcp");
         document.getElementById("letel").value = sessionStorage.getItem("telephone");
-        if (sessionStorage.getItem("method")>2)
+        if (parseInt(method)>2)
         {
           document.getElementById("lenom").value = sessionStorage.getItem("nom");    
           document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
@@ -582,7 +567,7 @@
       function bakInfo()
       {
       	sessionStorage.setItem("telephone", document.getElementById("letel").value);
-        if (sessionStorage.getItem("method")>2)
+        if (parseInt(method)>2)
         {
           sessionStorage.setItem("nom", document.getElementById("lenom").value);
           sessionStorage.setItem("prenom", document.getElementById("leprenom").value);
@@ -629,11 +614,11 @@
         var failed = false;
         
         bakInfo();
-        if (sessionStorage.getItem("method")>2)
+        if (parseInt(method)>2)
         {
 	        if (sessionStorage.getItem("choicel") == "LIVRER") {
 	          if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-	            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + document.getElementById("main").getAttribute("data-adresse"));
+	            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + adr);
 	            failed = true;
 	          }
 	        }

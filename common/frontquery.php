@@ -168,11 +168,11 @@ try
   if (strcmp($input->requete, "getSession") == 0)
   {
     $customer = $_SESSION['customer'];
-    $mail = $_SESSION[$input->customer . '_mail'];
+    $mail = $_SESSION[$customer . '_mail'];
     $method = $_SESSION['method'];
     $table = $_SESSION['table'];
     $arm = array();
-    array_push($arm, $customer, $method, $table);
+    array_push($arr, $customer, $mail, $method, $table);
   }
 
   

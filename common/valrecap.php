@@ -1,3 +1,8 @@
+<?php
+  include "config/common_cfg.php";
+?>
+
+
 <!DOCTYPE html>
 <html>
   <head>

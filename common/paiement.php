@@ -32,77 +32,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
   </head>
-  <script type="text/javascript" >
-    var customer;
-    var mail;
-    var method;
-    var table;
-    var bouticid;
-    var logo;
-    var nom;
-    var mnysys;
-    
-    async function getSession()
-    {
-      var objboutic = { requete: "getSession"};
-      const response = await fetch('frontquery.php', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body:JSON.stringify(objboutic)
-      });
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
-      const data  = await response.json();
-      customer = data[0];
-      mail = data[1];
-      method = data[2];
-      table = data[3];
-    }
-
-    async function getBouticInfo(customer)
-    {
-      var objboutic = { requete: "getBouticInfo", customer: customer};
-      const response = await fetch('frontquery.php', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body:JSON.stringify(objboutic)
-      });
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      bouticid = data[0];
-      logo = data[1];
-      nom = data[2];
-    }
-    
-    async function getParam(bouticid, param, defval = null)
-    {
-      var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
-      const response = await fetch('customerarea/boquery.php', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body:JSON.stringify(objparam)
-      });
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      if (data[0] == null)
-        return defval;
-      return data[0];
-    }
-  </script>
   <body ondragstart="return false;" ondrop="return false;">
     <div id="loadid" class="flcentered">
       <div class="spinner-border nospmd" role="status">
@@ -127,7 +56,77 @@
         <br>
       </div>
     </div>
-    <script type="text/javascript">
+    <script type="text/javascript" >
+      var customer;
+      var mail;
+      var method;
+      var table;
+      var bouticid;
+      var logo;
+      var nom;
+      var mnysys;
+      
+      async function getSession()
+      {
+        var objboutic = { requete: "getSession"};
+        const response = await fetch('frontquery.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objboutic)
+        });
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        const data  = await response.json();
+        customer = data[0];
+        mail = data[1];
+        method = data[2];
+        table = data[3];
+      }
+  
+      async function getBouticInfo(customer)
+      {
+        var objboutic = { requete: "getBouticInfo", customer: customer};
+        const response = await fetch('frontquery.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objboutic)
+        });
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        bouticid = data[0];
+        logo = data[1];
+        nom = data[2];
+      }
+      
+      async function getParam(bouticid, param, defval = null)
+      {
+        var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
+        const response = await fetch('customerarea/boquery.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objparam)
+        });
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data[0] == null)
+          return defval;
+        return data[0];
+      }
+      
       window.onload = async function()
       {
         await getSession();
@@ -158,7 +157,7 @@
         var payfoot = document.createElement("DIV");
         payfoot.id = "payementfooter";
         payfoot.style.height = '225px';
-        if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
+        if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT")) {
           if (mnysys == "STRIPE MARKETPLACE")
           {
             var payform = document.createElement("FORM");
@@ -233,9 +232,8 @@
         displaycmd();
         
         
-        if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT")) 
+        if ((parseInt(method) ==3) && (sessionStorage.getItem("choice")=="COMPTANT")) 
         {
-          customer = sessionStorage.getItem('customer');
           var pkey = "<?php echo $pkey;?>";
           await getBouticInfo(customer);
           var caid = await getParam(bouticid, "STRIPE_ACCOUNT_ID");
@@ -249,7 +247,6 @@
             document.location.href = 'error.php?code=cantinitstripe';
           
           var obj = JSON.parse(sessionStorage.getItem("commande"));
-          var customer = sessionStorage.getItem("customer");
           var choicel = sessionStorage.getItem("choicel");
           var coutlivr = sessionStorage.getItem("fraislivr");
           var codepromo = sessionStorage.getItem("codepromo");
@@ -363,7 +360,7 @@
             reachBottom();*/  
         
             // Naviguer vers fin.php
-            window.location.href = "fin.php?method=" + sessionStorage.getItem("method") + "&table=" + sessionStorage.getItem("table") + "&customer=" + sessionStorage.getItem("customer");
+            window.location.href = "fin.php?method=" + method + "&table=" + table + "&customer=" + customer;
             
           };
           
@@ -460,9 +457,8 @@
           tr.appendChild(tdcolprx);
           tbl.appendChild(tr);
         }
-        var method = sessionStorage.getItem("method");
         var method_txt = "";
-        if (method == 2)
+        if (parseInt(method) == 2)
         {
           method_txt = "Consomation sur place";
           var pres = document.createElement("P");
@@ -470,11 +466,11 @@
           pres.innerHTML = method_txt;
           document.getElementById("methodid").appendChild(pres);
         } 
-        if (method == 2) 
+        if (parseInt(method) == 2) 
         {
           var pres = document.createElement("P");
           pres.classList.add("pres");
-          pres.innerHTML = "Table numéro " + sessionStorage.getItem("table");
+          pres.innerHTML = "Table numéro " + table;
           document.getElementById("tableid").appendChild(pres);
         }
         document.getElementById("commandediv").appendChild(res);
@@ -491,10 +487,10 @@
         if (remise == 0)
           document.getElementById("remiseid").style.display = "none";
         var frliv = 0;
-        if (method > 2) 
+        if (parseInt(method) > 2) 
           frliv = parseFloat(sessionStorage.getItem("fraislivr"));
         var tota = frliv + somme - remise;
-        if ((sessionStorage.getItem("choicel") == "LIVRER") && (method > 2))
+        if ((sessionStorage.getItem("choicel") == "LIVRER") && (parseInt(method) > 2))
         {
           var sstp1 = document.createElement("P");
           sstp1.classList.add("fleft");
@@ -538,7 +534,7 @@
           document.getElementById("totalid").appendChild(sstp2);
           document.getElementById("totalid").appendChild(document.createElement("BR"));
         }
-        else if ((sessionStorage.getItem("choicel") == "EMPORTER") || (method == 2))
+        else if ((sessionStorage.getItem("choicel") == "EMPORTER") || (parseInt(method) == 2))
         {
           document.getElementById("sstotalid").style.display = "none";
           var sstp1 = document.createElement("P");
@@ -572,7 +568,7 @@
           document.getElementById("totalid").appendChild(sstp2);
           document.getElementById("totalid").appendChild(document.createElement("BR"));
         }
-        if ((sessionStorage.getItem("method")>2) && (sessionStorage.getItem("choice")=="COMPTANT"))
+        if ((parseInt(method)>2) && (sessionStorage.getItem("choice")=="COMPTANT"))
         {
           var pay = document.createElement("P");
           pay.classList.add("mntpay");
@@ -588,7 +584,7 @@
       function reachBottom() 
       {
         var x;
-        if ((sessionStorage.getItem("method")==3) && (sessionStorage.getItem("choice")=="COMPTANT"))
+        if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT"))
           x = window.innerHeight - document.getElementById("payementfooter").clientHeight - document.getElementById("header").clientHeight;
         else
           x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
