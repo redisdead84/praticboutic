@@ -23,6 +23,9 @@
   </head>
   <script type="text/javascript">
     var customer;
+    var mail;
+    var method;
+    var table;
     var bouticid;
     var nom;
     var adr;
@@ -33,10 +36,28 @@
     var chp;
     var cmpt;
     var livr;
-    customer = sessionStorage.getItem('customer');
-    method = sessionStorage.getItem('method');
+    
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data  = await response.json();
+      customer = data[0];
+      mail = data[1];
+      method = data[2];
+      table = data[3];
+    }
 
-  
     async function getClientInfo(customer)
     {
       var objboutic = { requete: "getClientInfo", customer: customer};
@@ -78,6 +99,25 @@
       return data[0];
     }
     
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data  = await response.json();
+      customer = data[0];
+      method = data[1];
+      table = data[2];
+    }
     </script>
     <body ondragstart="return false;" ondrop="return false;">
       <div id="loadid" class="flcentered">
@@ -175,9 +215,9 @@
     <script type="text/javascript">
       window.onload = async function()
       {
+        await getSession();
         if (!customer)
           document.location.href = 'error.php?code=nocustomer';
-        mail = sessionStorage.getItem(customer + '_mail');
         await getClientInfo(customer);
         if (!bouticid)
           document.location.href = 'error.php?code=nobouticid';
@@ -386,7 +426,7 @@
     </script>
     <script type="text/javascript">
    		// Appel asynchrone pour connaitre le montant de la remise
-      function getRemise(sstotal, elem)      
+      function getRemise(sstotal, elem)
       {
         var retour;
 
@@ -421,7 +461,7 @@
       }
     </script>
     <script type="text/javascript">
-      function removeRemise()      
+      function removeRemise()
       {
         document.getElementById("remiseid").innerHTML = '';
         sessionStorage.setItem("remise", 0);
@@ -588,7 +628,7 @@
       {
         var failed = false;
         
-        bakInfo();        
+        bakInfo();
         if (sessionStorage.getItem("method")>2)
         {
 	        if (sessionStorage.getItem("choicel") == "LIVRER") {
@@ -619,8 +659,8 @@
         if ((document.getElementById("chkcgv").checked == false ) && (failed == false))
         {
           alert("Vous devez accepter les conditions générales de vente pour continuer");
-          failed = true;        
-        }         
+          failed = true;
+        }
         
         if (failed == false)
           document.forms["mainform"].submit();

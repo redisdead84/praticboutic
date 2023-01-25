@@ -1,7 +1,3 @@
-<?php
- $code = $_GET['code'];
-?> 
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -46,7 +42,9 @@
       case 'cantinitstripe':
         errmsgid.innerHTML = 'Impossible d\'initialiser Stripe';
       break;
-
+      case 'errmail':
+        errmsgid.innerHTML = 'Erreur lors de l\'envoi du courriel';
+      break;
     }
   </script>
 </html>

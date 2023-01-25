@@ -127,6 +127,55 @@ try
       }
     }
   }
+
+
+  if (strcmp($input->requete, "aboactif") == 0)
+  {
+
+    $reqai = $conn->prepare('SELECT client.stripe_customer_id FROM abonnement, client WHERE abonnement.bouticid = ? AND abonnement.cltid = client.cltid LIMIT 1');
+    $reqai->bind_param("i", $input->bouticid);
+    $reqai->execute();
+    $reqai->bind_result($stripe_customer_id);
+    $resultataci = $reqai->fetch();
+    $reqai->close();
+    if (strcmp($stripe_customer_id, "") == 0 )
+    {
+      throw new Error('Impossible de récupérer l\'identifiant Stripe de la boutic');
+    }
+    
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    
+    $stripe = new \Stripe\StripeClient([
+    // TODO replace hardcoded apikey by env variable
+      'api_key' => $_ENV['STRIPE_SECRET_KEY'],
+      'stripe_version' => '2020-08-27',
+    ]);
+    $subscriptions = $stripe->subscriptions->all(['customer' => $stripe_customer_id,
+                               'status' => 'active'
+    ]);
+    $arr = $subscriptions->data;
+  }
+  
+  if (strcmp($input->requete, "initSession") == 0)
+  {
+    $_SESSION['customer'] = $input->customer;
+    $_SESSION[$input->customer . '_mail'] = "non";
+    $_SESSION['method'] = htmlspecialchars(isset($input->method) ? $input->method : '3');
+    $_SESSION['table'] = htmlspecialchars(isset($input->table) ? $input->table : '0');
+  }
+  
+  if (strcmp($input->requete, "getSession") == 0)
+  {
+    $customer = $_SESSION['customer'];
+    $mail = $_SESSION[$input->customer . '_mail'];
+    $method = $_SESSION['method'];
+    $table = $_SESSION['table'];
+    $arm = array();
+    array_push($arm, $customer, $method, $table);
+  }
+
+  
   
   $conn->close();
   $output = $arr;

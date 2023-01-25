@@ -33,7 +33,7 @@
       if (typeof (data.error) !== "undefined")
       {
         alert("Erreur : " + data.error);
-        window.location.href = "404.html";
+        window.location.href = "error.php?code=errmail";
       }
     })
   }

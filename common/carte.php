@@ -29,12 +29,14 @@
   </head>
   <script type="text/javascript" >
     var customer;
+    var mail;
     var bouticid;
     var logo;
     var nom;
     var mntcmdmini;
     var sizeimg;
     var method;
+    var table;
     
     function totaliser()
     {
@@ -95,6 +97,27 @@
     }
   </script>
   <script type="text/javascript">
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data  = await response.json();
+      customer = data[0];
+      mail = data[1];
+      method = data[2];
+      table = data[3];
+    }
+
     async function getBouticInfo(customer)
     {
       var objboutic = { requete: "getBouticInfo", customer: customer};
@@ -627,9 +650,7 @@
 
     window.onload = async function()
     {
-      
-      customer = sessionStorage.getItem('customer');
-      method = sessionStorage.getItem('method');
+      await getSession();
       if (!customer)
         document.location.href = 'error.php?code=nocustomer';
       await getBouticInfo(customer);

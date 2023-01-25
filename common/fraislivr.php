@@ -2,27 +2,27 @@
 
 session_start();
 
-  if (empty($_SESSION['customer']) != 0)
-	{
-    header('LOCATION: 404.html');
-    exit();
-	}
+if (empty($_SESSION['customer']) != 0)
+{
+  header('LOCATION: error.php?code=nocustomer');
+  exit();
+}
 
-  $customer = $_SESSION['customer'];
-  $method = $_SESSION['method'];
-  $table = $_SESSION['table'];
+$customer = $_SESSION['customer'];
+$method = $_SESSION['method'];
+$table = $_SESSION['table'];
 
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
-  
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
+if (empty($_SESSION[$customer . '_mail']) == TRUE)
+{
+  header('LOCATION: error.php?code=noemail');
+  exit();
+}
+
+if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+{
+  header('LOCATION: error.php?code=alreadysent');
+  exit();
+}
 
 require '../vendor/autoload.php';
 

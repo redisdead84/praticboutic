@@ -26,10 +26,34 @@
   </head>
   <script type="text/javascript" >
     var customer;
+    var method;
+    var mail;
+    var table;
     var bouticid;
     var logo;
     var nom;
     var mnysys;
+
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data  = await response.json();
+      customer = data[0];
+      mail = data[1];
+      method = data[2];
+      table = data[3];
+    }
 
     async function getBouticInfo(customer)
     {
@@ -63,11 +87,8 @@
     <script type="text/javascript">
       window.onload = async function()
       {
-        customer = sessionStorage.getItem('customer');
-        method = sessionStorage.getItem('method');
         if (!customer)
           document.location.href = 'error.php?code=nocustomer';
-        mail = sessionStorage.getItem(customer + '_mail');
         await getBouticInfo(customer);
         if (!bouticid)
           document.location.href = 'error.php?code=nobouticid';

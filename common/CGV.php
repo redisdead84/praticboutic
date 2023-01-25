@@ -9,21 +9,41 @@
   </head>
   <script type="text/javascript" >
     var customer;
+    var mail;
+    var method;
+    var table;
     var bouticid;
-    
-    customer = sessionStorage.getItem('customer');
-    method = sessionStorage.getItem('method');
-    
+
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data  = await response.json();
+      customer = data[0];
+      mail = data[1];
+      method = data[2];
+      table = data[3];
+    }
+    await getSession();
     if (!customer)
-      document.location.href = '404.html';
-    mail = sessionStorage.getItem(customer + '_mail');
+      document.location.href = 'error.php?code=nocustomer';
     await getClientInfo(customer);
     if (!bouticid)
-      document.location.href = '404.html';
+      document.location.href = 'error.php?code=nobouticid';
     if (!mail)
-      document.location.href = '404.html';
+      document.location.href = 'error.php?code=noemail';
     if (mail == 'oui')
-      document.location.href = '404.html';
+      document.location.href = 'error.php?code=alreadysent';
   </script>
   <body ondragstart="return false;" ondrop="return false;">
     <input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">

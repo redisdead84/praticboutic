@@ -3,6 +3,28 @@
 
 session_start();
 
+if (empty($_SESSION['customer']) != 0)
+{
+  header('LOCATION: error.php?code=nocustomer');
+  exit();
+}
+
+$customer = $_SESSION['customer'];
+$method = $_SESSION['method'];
+$table = $_SESSION['table'];
+
+if (empty($_SESSION[$customer . '_mail']) == TRUE)
+{
+  header('LOCATION: error.php?code=noemail');
+  exit();
+}
+
+if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+{
+  header('LOCATION: error.php?code=alreadysent');
+  exit();
+}
+
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 
