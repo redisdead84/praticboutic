@@ -135,13 +135,13 @@
                 <input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">
                 <label class="lblpaiers" for="lemporter" id="lblemporter">Je viens récupérer ma commande</label><br>
                 <div class="spcpandetail" id="spdemporter"></div>
-                <label class="pandetail" id="pdemporter"></label><br>
+                <label class="pandetail" id="pdemporter"></label>
               </div>
               <div id="bllivrer">
                 <input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="javascript:eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem('sstotal'));">
                 <label class="lblpaiers" for="llivrer" id="lbllivrer" >Je me fais livrer</label><br>
                 <div class="spcpandetail" id="spdlivrer"></div>
-                <label class="pandetail" id="pdlivrer"></label><br>
+                <label class="pandetail" id="pdlivrer"></label>
               </div>
             </div>
           </div>
