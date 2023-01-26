@@ -1,50 +1,7 @@
 <?php
-
-  session_start();
-  
-	if (empty($_SESSION['customer']) != 0)
-	{
-    header('LOCATION: 404.html');
-    exit();
-	}
-
-  $customer = $_SESSION['customer'];
-  $method = intval($_SESSION['method']);
-  $table = intval($_SESSION['table']);
-  
-  if (empty($_SESSION[$customer . '_mail']) == TRUE)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
-  
-  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-  {
-    header('LOCATION: index.php?customer=' . $customer . '');
-    exit();
-  }
-  
-  require '../vendor/autoload.php';
   include "config/common_cfg.php";
-  include "param.php";
-             
-  // Create connection
-  $conn = new mysqli($servername, $username, $password, $bdd);
-  // Check connection
-  if ($conn->connect_error) 
-    die("Connection failed: " . $conn->connect_error);  
-    
-  $reqci = $conn->prepare('SELECT CU.customid, CU.nom, CL.adr1, CL.adr2, CL.cp, CL.ville, CU.logo FROM customer CU, client CL WHERE CU.customer = ? AND CL.cltid = CU.cltid LIMIT 1');
-  //error_log($customer);
-  $reqci->bind_param("s", $customer);
-  $reqci->execute();
-  $reqci->bind_result($customid, $nom, $adresse1, $adresse2, $codepostal, $ville,  $logo);
-  $resultatci = $reqci->fetch();
-  $reqci->close();
-   
-  $adr = $nom . ' ' . $adresse1 . ' ' . $adresse2 . ' ' . $codepostal . ' ' . $ville;
-
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -55,203 +12,353 @@
     <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
     <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	  <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
+    <script type="text/javascript" src="js/bandeau.js?v=2.01"></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
   </head>
-  <body ondragstart="return false;" ondrop="return false;">
-
-    <?php
-      $verifcp = GetValeurParam("VerifCP", $conn, $customid, "0");    
-			
-			echo '<div id="header">';
-			echo '<img id="mainlogo" src="img/logo-pratic-boutic.png">';
-			echo '</div>';		
-			
-      echo '<div id="main" data-adresse="' . $adr . '" data-customer="' . $customer . '" data-verifcp="' . $verifcp . '" >';
-      
-      echo '<form name="mainform" autocomplete="on" method="post" action="paiement.php">';
-
-      if (strcmp($logo,"") != 0)
-        echo '<img id="logo" src="../upload/' . $logo . '">';
-      else
-        echo '<p class="marque">' . $nom . '</p>';
-      
-      if ($method > 0)
-      {      
-      	echo '<div id="grpinfo">';
-        echo '<div class="panneau" id="livraison">Informations commande</div>';
-        if ($method > 2)
-	      {      
-	        echo '<div class="underlined">';
-	        echo '<label class="lcont">Nom&nbsp;:&nbsp;</label>';
-	        echo '<input class="cont" type="string" id="lenom" name="nom" maxlength="60" required>';
-	        echo '</div>';
-	        echo '<div class="underlined">';            
-	        echo '<label class="lcont">Pr&eacute;nom&nbsp;:&nbsp;</label>';
-	        echo '<input class="cont" type="string" id="leprenom" name="prenom" maxlength="60" required>';
-        	echo '</div>';
-      	}
-        echo '<div class="underlined">';
-        echo '<label class="lcont">T&eacute;l.&nbsp;Portable&nbsp;:&nbsp;</label>';
-        echo '<input class="cont" type="string" id="letel" name="tel" autocomplete="tel" maxlength="60" required 
-        pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
-        title="Il faut un numéro de téléphone portable français valide">';
-        echo '</div>';
-        if ($method > 2)
-	      {      
-	        $chm = GetValeurParam("Choix_Method", $conn, $customid, "TOUS");         
-	       
-	        $cmemp = GetValeurParam("CM_Emporter", $conn, $customid, "Retrait Standard"); 
-	    
-	        $cmlivr = GetValeurParam("CM_Livrer", $conn, $customid, "Livraison Standard");
-	
-	        echo '<div class="panneau" id="met">';
-	        echo '<div id="model" data-permis="' . $chm . '">';
-	        //echo 'Retrait :<br>';
-	        if ($chm == "TOUS")
-	        { 
-	          echo '<input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">';
-	          echo '<label class="lblpaiers" for="lemporter">Je viens récupérer ma commande</label><br>';
-	          echo '<div class="spcpandetail"></div>';
-	          echo '<label class="pandetail">';
-	          echo $cmemp; 
-	          echo '</label><br>';
-	          echo '<input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem(\'sstotal\'))">';
-	          echo '<label class="lblpaiers" for="llivrer">Je me fais livrer</label><br>';
-	          echo '<div class="spcpandetail"></div>';
-	          echo '<label class="pandetail">';
-	          echo $cmlivr;
-	          echo '</label><br>';
-	        }
-	        if ($chm == "EMPORTER")
-	        {
-	          echo '<label class="lblpaiers" for="lemporter">Je viens récupérer ma commande</label><br>';
-	          echo '<label class="pandetail">';
-	          echo $cmemp; 
-	          echo '</label><br>';
-	        }  
-	        if ($chm == "LIVRER")
-	        {
-	          echo '<label class="lblpaiers" for="llivrer">Je me fais livrer</label><br>';
-	          echo '<label class="pandetail">';
-	          echo $cmlivr;
-	          echo '</label><br>';
-	        }  
-	        echo '</div>';
-	        echo '</div>';
-	
-		      echo '<div id="adrlivr">';
-		      echo '<div class="underlined">';
-		      echo '<label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>';
-		      echo '<input class="cont adrliv" type="string" id="ladresse1" name="adresse1" maxlength="150" required>';
-		      echo '</div>';
-		      echo '<div class="underlined">';
-		      echo '<label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>';
-		      echo '<input class="cont adrliv" type="string" id="ladresse2" name="adresse2" maxlength="150">';
-		      echo '</div>';
-		      echo '<div class="underlined">';
-		      echo '<label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>';
-		      if ($verifcp > 0) {
-		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" maxlength="5" required 
-		          pattern="[0-9]{5}" title="Il faut un code postal français valide" onkeyup="checkcp(this)" data-inrange="ko">';
-		      } else {
-		        echo '<input class="cont adrliv" type="string" id="lecp" name="cp" maxlength="5" required 
-		          pattern="[0-9]{5}" title="Il faut un code postal français valide" data-inrange="ok">';
-		      }
-		      echo '</div>';
-		      echo '<div class="underlined">';
-		      echo '<label class="lcont ">Ville&nbsp;:&nbsp;</label>';
-		      echo '<input class="cont adrliv" type="string" id="laville" name="ville" maxlength="50" required>';
-		      echo '</div>';
-		      echo '<div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>';
-		      echo '</div>';
-		    }
-		        
-		    echo '</div>';
-
-		    echo '</form>';
-		    
-		    if ($method > 2)
-		    {
-		      echo '<hr class="separation">';
-	   
-	        $chp = GetValeurParam("Choix_Paiement", $conn, $customid, "TOUS");         
-	       
-	        $cmpt = GetValeurParam("MP_Comptant", $conn, $customid, "Prochain écran par CB"); 
-	    
-	        $livr = GetValeurParam("MP_Livraison", $conn, $customid, "Paiement à la livraison");
-	
-	        echo '<div class="panneau" id="paye">';
-	        echo '<div id="modep" data-permis="' . $chp . '">';
-	        if ($chp == "TOUS")
-	        { 
-	          echo '<input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">';
-	          echo '<label class="lblpaiers" for="pcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>';
-	          echo '<div class="spcpandetail"></div>';
-	          echo '<label class="pandetail">';
-	          echo $cmpt; 
-	          echo '</label><br>';
-	          echo '<input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">';
-	          echo '<label class="lblpaiers" for="plivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>';
-	          echo '<div class="spcpandetail"></div>';
-	          echo '<label class="pandetail">';
-	          echo $livr;
-	          echo '</label><br>';
-	        }
-	        if ($chp == "COMPTANT")
-	        {
-	          echo '<label class="lblpaiers" for="pcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>';
-	          echo '<label class="pandetail">';
-	          echo $cmpt; 
-	          echo '</label><br>';
-	        }  
-	        if ($chp == "LIVRAISON")
-	        {
-	          echo '<label class="lblpaiers" for="plivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>';
-	          echo '<label class="pandetail">';
-	          echo $livr;
-	          echo '</label><br>';
-	        }
-		    	echo '</div>';
-		    	echo '</div>';
-	      }  
+  <script type="text/javascript">
+    var customer;
+    var mail;
+    var method;
+    var table;
+    var bouticid;
+    var nom;
+    var adr;
+    var logo;
+    var chm;
+    var cmemp;
+    var cmlivr;
+    var chp;
+    var cmpt;
+    var livr;
+    
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
       }
-      echo '<div class="underlined">';
-      echo '<label class="lcont">Code Promo.&nbsp;:&nbsp;</label>';
-      echo '<input class="cont" type="string" id="lecodepromo" name="codepromo" maxlength="4" pattern="[0-9A-Z]{4}" onkeyup="getRemise(sessionStorage.getItem(\'sstotal\'), this)">';
-      echo '</div>';
-      echo '<div class="panneau" id="remiseid"></div>';
-      echo '<div class="panneau" id="cgv">';
-      echo '<input type="checkbox" id="chkcgv" name="okcgv" value="valcgv">';
-      echo '<label class="lblcgv" for="valcgv">J\'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = \'CGV.php\'">les conditions générales de vente</a></label><br>';
-      echo '</div>';
-    ?>
+      const data  = await response.json();
+      customer = data[0];
+      mail = data[1];
+      method = data[2];
+      table = data[3];
+    }
+
+    async function getClientInfo(customer)
+    {
+      var objboutic = { requete: "getClientInfo", customer: customer};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      bouticid = data[0];
+      nom = data[1];
+      adr = data[2];
+      logo = data[3];
+    }
+  
+    async function getParam(bouticid, param, defval = null)
+    {
+      var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
+      const response = await fetch('customerarea/boquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objparam)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data[0] == null)
+        return defval;
+      return data[0];
+    }
+    
+  </script>
+    <body ondragstart="return false;" ondrop="return false;">
+      <div id="loadid" class="flcentered">
+        <div class="spinner-border nospmd" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div id="header">
+        <img id="mainlogo" src="img/logo-pratic-boutic.png">
+      </div>
+      <div id="main">
+        <form name="mainform" autocomplete="on" method="post" action="paiement.php">
+          <img id="logo" style="display:none">
+          <p id="marqueid" class="marque" style="display:none"></p>
+          <div id="grpinfo" style="display:none">
+            <div class="panneau" id="livraison">Informations commande</div>
+            <div id="blocnomid" class="underlined">
+             <label class="lcont">Nom&nbsp;:&nbsp;</label>
+             <input class="cont" type="string" id="lenom" name="nom" maxlength="60" required>
+           </div>
+           <div id="blocprenomid" class="underlined">
+             <label class="lcont">Pr&eacute;nom&nbsp;:&nbsp;</label>
+             <input class="cont" type="string" id="leprenom" name="prenom" maxlength="60" required>
+           </div>
+          <div class="underlined">
+            <label class="lcont">T&eacute;l.&nbsp;Portable&nbsp;:&nbsp;</label>
+            <input class="cont" type="string" id="letel" name="tel" autocomplete="tel" maxlength="60" required 
+              pattern="^(?:0|\(?\+33\)?\s?|0033\s?)[6-7](?:[\.\-\s]?\d\d){4}$" 
+              title="Il faut un numéro de téléphone portable français valide">
+          </div>
+          <div class="panneau" id="met" style="display: none;">
+            <div id="model">
+              <input class="paiers" type="radio" name="choixmeth" id="lemporter" value="EMPORTER" onclick="eraseAdrLivr(true);removeFraisLivraison()">
+              <label class="lblpaiers" for="lemporter" id="lblemporter">Je viens récupérer ma commande</label><br>
+              <div class="spcpandetail" id="spdemporter"></div>
+              <label class="pandetail" id="pdemporter"></label><br>
+              <input class="paiers" type="radio" name="choixmeth" id="llivrer" value="LIVRER" onclick="javascript:eraseAdrLivr(false);getFraisLivraison(sessionStorage.getItem('sstotal'));">
+              <label class="lblpaiers" for="llivrer" id="lbllivrer" >Je me fais livrer</label><br>
+              <div class="spcpandetail" id="spdlivrer"></div>
+              <label class="pandetail" id="pdlivrer"></label><br>
+            </div>
+          </div>
+          <div id="adrlivr" style="display:none">
+            <div class="underlined">
+              <label class="lcont">Adresse&nbsp;1&nbsp;:&nbsp;</label>
+              <input class="cont adrliv" type="string" id="ladresse1" name="adresse1" maxlength="150" required>
+            </div>
+            <div class="underlined">
+              <label class="lcont">Adresse&nbsp;2&nbsp;:&nbsp;</label>
+              <input class="cont adrliv" type="string" id="ladresse2" name="adresse2" maxlength="150">
+            </div>
+            <div class="underlined">
+              <label class="lcont">Code&nbsp;Postal&nbsp;:&nbsp;</label>
+              <input class="cont adrliv" type="string" id="lecp" name="cp" maxlength="5" required 
+                pattern="[0-9]{5}" title="Il faut un code postal français valide">
+            </div>
+            <div class="underlined">
+              <label class="lcont ">Ville&nbsp;:&nbsp;</label>
+              <input class="cont adrliv" type="string" id="laville" name="ville" maxlength="50" required>
+            </div>
+            <div class="panneau" id="fraislivrid" >Frais&nbsp;de&nbsp;livraison&nbsp;:&nbsp;0,00&nbsp;€</div>
+          </div>
+        </div>
+      </form>
+      <hr id="separationid" class="separation">
+      <div class="panneau" id="paye">
+        <div id="modep">
+          <input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">
+          <label class="lblpaiers" for="pcomptant" id="lblpcomptant">Je&nbsp;paye&nbsp;en&nbsp;ligne&nbsp;</label><br>
+          <div class="spcpandetail" id="spdcomptant"></div>
+          <label class="pandetail"  id="pdcomptant"></label><br>
+          <input class="paiers" type="radio" name="choixpaie" id="plivraison" value="LIVRAISON">
+          <label class="lblpaiers" for="plivraison" id="lbllivraison">Je&nbsp;paye&nbsp;à&nbsp;la&nbsp;livraison&nbsp;</label><br>
+          <div class="spcpandetail" id="spdlivraison"></div>
+          <label class="pandetail" id="pdlivraison"></label><br>
+        </div>
+      </div>
+    <div class="underlined">
+      <label class="lcont">Code Promo.&nbsp;:&nbsp;</label>
+      <input class="cont" type="string" id="lecodepromo" name="codepromo" maxlength="4" pattern="[0-9A-Z]{4}" onkeyup="getRemise(sessionStorage.getItem('sstotal'), this)">
+    </div>
+    <div class="panneau" id="remiseid"></div>
+    <div class="panneau" id="cgv">
+      <input type="checkbox" id="chkcgv" name="okcgv" value="valcgv">
+      <label class="lblcgv" for="valcgv">J'accepte <a id="cgvlink" href="javascript:bakInfo();window.location.href = 'CGV.php'">les conditions générales de vente</a></label><br>
+    </div>
     <textarea id="infosup" name="infosup" placeholder="Informations supplémentaires (date, heure, code interphone, ...)" maxlength="300"></textarea>
-    </div>    
-    <div id="footer">
-      <?php
-        if  ($method > 0)
-        {
-        	echo '<div class="grpbn">';
-         	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">';
-         	echo '<input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();window.location.href = \'carte.php\'">';
-          echo '</div>';
-        }
-      ?>
+    </div>
+    <div id="footer" style="visibility:hidden">
+      <div id="grpbnid" class="grpbn">
+        <input id="validcarte" class="navindic" type="button" value="Poursuivre" onclick="checkInfo()">
+        <input id="retourcarte" class="navindic" type="button" value="Retour" onclick="bakInfo();window.location.href = 'carte.php'">
+      </div>
     </div>
     <script type="text/javascript">
-   		// Appel asynchrone pour savoir si on est dans le périmètre de livraison 
+      window.onload = async function()
+      {
+        await getSession();
+        if (!customer)
+          document.location.href = 'error.php?code=nocustomer';
+        await getClientInfo(customer);
+        if (!bouticid)
+          document.location.href = 'error.php?code=nobouticid';
+        if (!mail)
+          document.location.href = 'error.php?code=noemail';
+        if (mail == 'oui')
+          document.location.href = 'error.php?code=alreadysent';
+        
+        
+        chm = await getParam(bouticid, "Choix_Method",  "TOUS");
+        cmemp = await getParam(bouticid, "CM_Emporter", "Retrait Standard");
+        cmlivr = await getParam(bouticid, "CM_Livrer", "Livraison Standard");
+        chp = await getParam(bouticid, "Choix_Paiement", "TOUS", "");
+        cmpt = await getParam(bouticid, "MP_Comptant", "Prochain écran par CB");
+        livr = await getParam(bouticid, "MP_Livraison", "Paiement à la livraison");
+
+        
+        document.getElementById("logo").src = "../upload/" + logo;
+        document.getElementById("marqueid").innerHTML = nom;
+  
+        var verifcp = await getParam(bouticid, "VerifCP");
+        if (logo)
+        {
+          document.getElementById("logo").style.display = "block";
+          document.getElementById("marqueid").style.display = "none";
+        }
+        else 
+        {
+          document.getElementById("logo").style.display = "none";
+          document.getElementById("marqueid").style.display = "block";
+        }
+        
+        if (parseInt(method)>0)
+        {
+          document.getElementById("grpinfo").style.display = "block";
+          document.getElementById("grpbnid").style.display = "block";
+        }
+        else 
+        {
+          document.getElementById("grpinfo").style.display = "none";
+          document.getElementById("grpbnid").style.display = "none";
+        }
+        
+        if (parseInt(method)>2)
+        {
+          document.getElementById("blocnomid").style.display = "block";
+          document.getElementById("blocprenomid").style.display = "block";
+          document.getElementById("met").style.display = "block";
+          if (chm == "TOUS")
+          {
+            document.getElementById("lemporter").style.display = "inline-block";
+            document.getElementById("lblemporter").style.display = "inline-block";
+            document.getElementById("spdemporter").style.display = "block";
+            document.getElementById("pdemporter").style.display = "inline-block";
+            document.getElementById("pdemporter").innerHTML = cmemp;
+            document.getElementById("llivrer").style.display = "inline-block";
+            document.getElementById("lbllivrer").style.display = "inline-block";
+            document.getElementById("spdlivrer").style.display = "block";
+            document.getElementById("pdlivrer").style.display = "inline-block";
+            document.getElementById("pdlivrer").innerHTML = cmlivr;
+          }
+          if (chm == "EMPORTER")
+          {
+            document.getElementById("lemporter").style.display = "none";
+            document.getElementById("lblemporter").style.display = "inline-block";
+            document.getElementById("spdemporter").style.display = "block";
+            document.getElementById("pdemporter").style.display = "inline-block";
+            document.getElementById("pdemporter").innerHTML = cmemp;
+            document.getElementById("llivrer").style.display = "none";
+            document.getElementById("lbllivrer").style.display = "none";
+            document.getElementById("spdlivrer").style.display = "none";
+            document.getElementById("pdlivrer").style.display = "none";
+          }
+          if (chm == "LIVRER")
+          {
+            document.getElementById("lemporter").style.display = "none";
+            document.getElementById("lblemporter").style.display = "none";
+            document.getElementById("spdemporter").style.display = "none";
+            document.getElementById("pdemporter").style.display = "none";
+            document.getElementById("llivrer").style.display = "none";
+            document.getElementById("lbllivrer").style.display = "inline-block";
+            document.getElementById("spdlivrer").style.display = "block";
+            document.getElementById("pdlivrer").style.display = "inline-block";
+            document.getElementById("pdlivrer").innerHTML = cmlivr;
+          }
+          if (verifcp > 0)
+          {
+            document.getElementById("lecp").onkeyup = function () {
+              checkcp(this);
+            };
+            
+          }
+          else
+          {
+            document.getElementById("lecp").onkeyup = "";
+            document.getElementById("lecp").setAttribute("data-inrange", "ok");
+          }
+          document.getElementById("separationid").style.display = "block";
+          if (chp == "TOUS")
+          {
+            document.getElementById("pcomptant").style.display = "inline-block";
+            document.getElementById("lblpcomptant").style.display = "inline-block";
+            document.getElementById("spdcomptant").style.display = "block";
+            document.getElementById("pdcomptant").style.display = "inline-block";
+            document.getElementById("pdcomptant").innerHTML = cmpt;
+            document.getElementById("plivraison").style.display = "inline-block";
+            document.getElementById("lbllivraison").style.display = "inline-block";
+            document.getElementById("spdlivraison").style.display = "block";
+            document.getElementById("pdlivraison").style.display = "inline-block";
+            document.getElementById("pdlivraison").innerHTML = livr;
+          }
+          if (chp == "COMPTANT")
+          {
+            document.getElementById("pcomptant").style.display = "none";
+            document.getElementById("lblpcomptant").style.display = "inline-block";
+            document.getElementById("spdcomptant").style.display = "block";
+            document.getElementById("pdcomptant").style.display = "inline-block";
+            document.getElementById("pdcomptant").innerHTML = cmpt;
+            document.getElementById("plivraison").style.display = "none";
+            document.getElementById("lbllivraison").style.display = "none";
+            document.getElementById("spdlivraison").style.display = "none";
+            document.getElementById("pdlivraison").style.display = "none";
+          }
+          if (chp == "LIVRAISON")
+          {
+            document.getElementById("pcomptant").style.display = "none";
+            document.getElementById("lblpcomptant").style.display = "none";
+            document.getElementById("spdcomptant").style.display = "none";
+            document.getElementById("pdcomptant").style.display = "none";
+            document.getElementById("plivraison").style.display = "none";
+            document.getElementById("lbllivraison").style.display = "inline-block";
+            document.getElementById("spdlivraison").style.display = "block";
+            document.getElementById("pdlivraison").style.display = "inline-block";
+            document.getElementById("pdlivraison").innerHTML = livr;
+          }
+        }
+        else 
+        {
+          document.getElementById("blocnomid").style.display = "none";
+          document.getElementById("blocprenomid").style.display = "none";
+          document.getElementById("met").style.display = "none";
+          document.getElementById("separationid").style.display = "none";
+        }
+        reachBottom();
+        initctrl();
+        document.getElementById("loadid").style.display = "none";
+        if (verifcp > 0)
+          checkcp(document.getElementById("lecp"));
+        document.getElementById("footer").style.visibility = "visible";
+      }
+
+      // Appel asynchrone pour savoir si on est dans le périmètre de livraison 
       function checkcp(elem)      
       {
-        var retour;      
-      
+        var retour;
+
         if (elem.value.length == 5)
         { 
-        	customer = document.getElementById("main").getAttribute("data-customer");
-        	var obj = { cp: elem.value, customer: customer };  
-          
+          var obj = { cp: elem.value, customer: customer };
+
           fetch("cpzone.php", {
             method: "POST",
             headers: {
@@ -268,17 +375,16 @@
         } else {
           document.getElementById("lecp").setAttribute("data-inrange", "ko");
         }
-          
-      }          
+
+      }
     </script>
     <script type="text/javascript">
-   		// Appel asynchrone pour connaitre le cout de la livraison
-      function getFraisLivraison(sstotal)      
+      // Appel asynchrone pour connaitre le cout de la livraison
+      function getFraisLivraison(sstotal)
       {
-        var retour;      
-      
-        var customer = document.getElementById("main").getAttribute("data-customer");
-				var obj = { sstotal: sstotal, customer: customer };
+        var retour;
+
+        var obj = { sstotal: sstotal, customer: customer };
         fetch("fraislivr.php", {
           method: "POST",
           headers: {
@@ -294,7 +400,7 @@
             document.getElementById("fraislivrid").innerHTML = 'Frais de livraison : ' + ret.toFixed(2) + ' €';
             sessionStorage.setItem("fraislivr", data);
         })
-      }          
+      }
     </script>
     <script type="text/javascript">
    		// Appel asynchrone pour connaitre le cout de la livraison
@@ -306,11 +412,10 @@
     </script>
     <script type="text/javascript">
    		// Appel asynchrone pour connaitre le montant de la remise
-      function getRemise(sstotal, elem)      
+      function getRemise(sstotal, elem)
       {
         var retour;
 
-        var customer = document.getElementById("main").getAttribute("data-customer");
         if (elem.validity.valid == true)
         {
           var obj = { sstotal: sstotal, customer: customer, code: elem.value };
@@ -342,7 +447,7 @@
       }
     </script>
     <script type="text/javascript">
-      function removeRemise()      
+      function removeRemise()
       {
         document.getElementById("remiseid").innerHTML = '';
         sessionStorage.setItem("remise", 0);
@@ -358,88 +463,91 @@
         {
           fieldAdrLiv[i].disabled = etat;
         }
-        document.getElementById("adrlivr").hidden = etat;      	
+        document.getElementById("adrlivr").style.display = etat ? "none" : "block";
       }
     </script>
     <script type="text/javascript" >
-      // Affiche la page avec les contrôles par defaut  
-      sessionStorage.setItem("fraislivr", 0);
-      sessionStorage.setItem("remise", 0);
-      var verifcp = document.getElementById("main").getAttribute("data-verifcp");
-      document.getElementById("letel").value = sessionStorage.getItem("telephone");
-      if (sessionStorage.getItem("method")>2)
+      function initctrl()
       {
-        document.getElementById("lenom").value = sessionStorage.getItem("nom");    
-        document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
-        if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
+        // Affiche la page avec les contrôles par defaut  
+        sessionStorage.setItem("fraislivr", 0);
+        sessionStorage.setItem("remise", 0);
+        var verifcp = document.getElementById("main").getAttribute("data-verifcp");
+        document.getElementById("letel").value = sessionStorage.getItem("telephone");
+        if (parseInt(method)>2)
         {
-          if (sessionStorage.getItem("choice") == "COMPTANT")
+          document.getElementById("lenom").value = sessionStorage.getItem("nom");    
+          document.getElementById("leprenom").value = sessionStorage.getItem("prenom");
+          if (chp == "TOUS")
           {
-            document.getElementById("pcomptant").checked = true;
-            document.getElementById("plivraison").checked = false;
+            if (sessionStorage.getItem("choice") == "COMPTANT")
+            {
+              document.getElementById("pcomptant").checked = true;
+              document.getElementById("plivraison").checked = false;
+            }
+            else if (sessionStorage.getItem("choice") == "LIVRAISON")
+            {
+              document.getElementById("pcomptant").checked = false;
+              document.getElementById("plivraison").checked = true;
+            } 
+            else
+            {
+              document.getElementById("pcomptant").checked = false;
+              document.getElementById("plivraison").checked = false;
+            } 
           }
-          else if (sessionStorage.getItem("choice") == "LIVRAISON")
+          if (chm == "TOUS")
           {
-            document.getElementById("pcomptant").checked = false;
-            document.getElementById("plivraison").checked = true;
-          } 
-          else
+            if (sessionStorage.getItem("choicel") == "EMPORTER")
+            {
+              document.getElementById("lemporter").checked = true;
+              document.getElementById("llivrer").checked = false;
+              removeFraisLivraison();
+              eraseAdrLivr(true);
+            }
+            else if (sessionStorage.getItem("choicel") == "LIVRER")
+            {
+              document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
+              document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
+              document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
+              if (verifcp > 0)
+              	checkcp(document.getElementById("lecp"));
+              document.getElementById("laville").value = sessionStorage.getItem("ville");
+              document.getElementById("lemporter").checked = false;
+              document.getElementById("llivrer").checked = true;
+              getFraisLivraison(sessionStorage.getItem("sstotal"));
+              eraseAdrLivr(false);
+            } 
+            else
+            {
+              document.getElementById("lemporter").checked = false;
+              document.getElementById("llivrer").checked = false;
+              removeFraisLivraison();
+              eraseAdrLivr(true);
+            } 
+          }
+          if (chm == "LIVRER")
           {
-            document.getElementById("pcomptant").checked = false;
-            document.getElementById("plivraison").checked = false;
-          } 
-        }
-        if (document.getElementById("model").getAttribute("data-permis") == "TOUS")
-        {
-          if (sessionStorage.getItem("choicel") == "EMPORTER")
+              document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
+              document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
+              document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
+              if (verifcp > 0)
+  	            checkcp(document.getElementById("lecp"));
+              document.getElementById("laville").value = sessionStorage.getItem("ville");
+              getFraisLivraison(sessionStorage.getItem("sstotal"));
+              eraseAdrLivr(false);
+          }
+          if (chm == "EMPORTER")
           {
-            document.getElementById("lemporter").checked = true;
-            document.getElementById("llivrer").checked = false;
-            removeFraisLivraison();
+          	removeFraisLivraison();
             eraseAdrLivr(true);
           }
-          else if (sessionStorage.getItem("choicel") == "LIVRER")
-          {
-            document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
-            document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
-            document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-            if (verifcp > 0)
-            	checkcp(document.getElementById("lecp"));
-            document.getElementById("laville").value = sessionStorage.getItem("ville");
-            document.getElementById("lemporter").checked = false;
-            document.getElementById("llivrer").checked = true;
-            getFraisLivraison(sessionStorage.getItem("sstotal"));
-            eraseAdrLivr(false);
-          } 
-          else
-          {
-            document.getElementById("lemporter").checked = false;
-            document.getElementById("llivrer").checked = false;
-            removeFraisLivraison();
-            eraseAdrLivr(true);
-          } 
+  
         }
-        if (document.getElementById("model").getAttribute("data-permis") == "LIVRER")
-        {
-            document.getElementById("ladresse1").value = sessionStorage.getItem("adresse1");
-            document.getElementById("ladresse2").value = sessionStorage.getItem("adresse2");
-            document.getElementById("lecp").value = sessionStorage.getItem("codepostal");
-            if (verifcp > 0)
-	            checkcp(document.getElementById("lecp"));
-            document.getElementById("laville").value = sessionStorage.getItem("ville");
-            getFraisLivraison(sessionStorage.getItem("sstotal"));
-            eraseAdrLivr(false);
-        }
-        if (document.getElementById("model").getAttribute("data-permis") == "EMPORTER")
-        {
-        	removeFraisLivraison();
-          eraseAdrLivr(true);
-        }
-
+        document.getElementById("lecodepromo").value = sessionStorage.getItem("codepromo");
+        getRemise(sessionStorage.getItem("sstotal"), document.getElementById("lecodepromo"));
+        document.getElementById("infosup").value = sessionStorage.getItem("infosup");
       }
-      document.getElementById("lecodepromo").value = sessionStorage.getItem("codepromo");
-      getRemise(sessionStorage.getItem("sstotal"), document.getElementById("lecodepromo"));
-      document.getElementById("infosup").value = sessionStorage.getItem("infosup");
     </script>
     <script type="text/javascript">
     	// Défini la zone scrollable
@@ -448,12 +556,6 @@
         var x = window.innerHeight - document.getElementById("footer").clientHeight - document.getElementById("header").clientHeight;
         x = x + "px";
         document.getElementById("main").style.height = x;
-      }
-    </script>
-    <script type="text/javascript">
-	    window.onload=function()
-    	{
-      	reachBottom();
       }
     </script>
     <script type="text/javascript">
@@ -466,7 +568,7 @@
       function bakInfo()
       {
       	sessionStorage.setItem("telephone", document.getElementById("letel").value);
-        if (sessionStorage.getItem("method")>2)
+        if (parseInt(method)>2)
         {
           sessionStorage.setItem("nom", document.getElementById("lenom").value);
           sessionStorage.setItem("prenom", document.getElementById("leprenom").value);
@@ -474,7 +576,7 @@
           sessionStorage.setItem("adresse2", document.getElementById("ladresse2").value);
           sessionStorage.setItem("codepostal", document.getElementById("lecp").value);
           sessionStorage.setItem("ville", document.getElementById("laville").value);
-          if (document.getElementById("modep").getAttribute("data-permis") == "TOUS")
+          if (chp == "TOUS")
           {
             if (document.getElementById("pcomptant").checked == true)
               sessionStorage.setItem("choice", "COMPTANT");
@@ -484,8 +586,8 @@
               sessionStorage.setItem("choice", "NONE");
           }
           else
-            sessionStorage.setItem("choice", document.getElementById("modep").getAttribute("data-permis"));
-          if (document.getElementById("model").getAttribute("data-permis") == "TOUS")
+            sessionStorage.setItem("choice", chp);
+          if (chm == "TOUS")
           {
             if (document.getElementById("lemporter").checked == true)
               sessionStorage.setItem("choicel", "EMPORTER");
@@ -495,7 +597,7 @@
               sessionStorage.setItem("choicel", "NONE");
           }
           else
-            sessionStorage.setItem("choicel", document.getElementById("model").getAttribute("data-permis"));
+            sessionStorage.setItem("choicel", chm);
 
 	        if (sessionStorage.getItem("choicel") == "LIVRER")
 	          getFraisLivraison(sessionStorage.getItem("sstotal"));
@@ -512,12 +614,12 @@
       {
         var failed = false;
         
-        bakInfo();        
-        if (sessionStorage.getItem("method")>2)
+        bakInfo();
+        if (parseInt(method)>2)
         {
 	        if (sessionStorage.getItem("choicel") == "LIVRER") {
 	          if ( document.getElementById("lecp").getAttribute("data-inrange") !== "ok") {
-	            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + document.getElementById("main").getAttribute("data-adresse"));
+	            alert("Vous n\'êtes pas situé dans notre zone de livraison, vous devez venir chercher votre commande à notre boutique " + adr);
 	            failed = true;
 	          }
 	        }
@@ -549,8 +651,8 @@
         if ((document.getElementById("chkcgv").checked == false ) && (failed == false))
         {
           alert("Vous devez accepter les conditions générales de vente pour continuer");
-          failed = true;        
-        }         
+          failed = true;
+        }
         
         if (failed == false)
           document.forms["mainform"].submit();

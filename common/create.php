@@ -4,7 +4,7 @@ session_start();
 
 if (empty($_SESSION['customer']) != 0)
 {
-  header('LOCATION: 404.html');
+  header('LOCATION: error.php?code=nocustomer');
   exit();
 }
 
@@ -14,20 +14,20 @@ $table = $_SESSION['table'];
 
 if (empty($_SESSION[$customer . '_mail']) == TRUE)
 {
-  header('LOCATION: index.php?customer=' . $customer . '');
+  header('LOCATION: error.php?code=noemail');
   exit();
 }
 
 if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
 {
-  header('LOCATION: index.php?customer=' . $customer . '');
+  header('LOCATION: error.php?code=alreadysent');
   exit();
 }
 
 require "../vendor/autoload.php";
 include "config/common_cfg.php";
 include "param.php";
-  
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 

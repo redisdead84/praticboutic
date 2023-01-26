@@ -1,47 +1,12 @@
 <?php
-
-  session_start();
-
-  if (empty($_SESSION['customer']) != 0)
-  {
-    header('LOCATION: 404.html');
-    exit();
-  }
-
-  $customer = $_SESSION['customer'];
-  $method = $_SESSION['method'];
-  $table = $_SESSION['table'];
-
   require_once '../vendor/autoload.php';
 
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 
   include "config/common_cfg.php";
-  include "param.php";
-
-  $conn = new mysqli($servername, $username, $password, $bdd);
-  if ($conn->connect_error) 
-   die("Connection failed: " . $conn->connect_error);
-
-  $reqci = $conn->prepare('SELECT customid, logo, nom FROM customer WHERE customer = ?');
-  $reqci->bind_param("s", $customer);
-  $reqci->execute();
-  $reqci->bind_result($customid, $logo, $nom);
-  $resultatci = $reqci->fetch();
-  $reqci->close();
-
-  if (strcmp($customid, "") == 0 )
-  {
-    header('LOCATION: 404.html');
-    exit;
-  }
-
-  $mntcmdmini = GetValeurParam("MntCmdMini",$conn, $customid,"0");
-
-  $sizeimg = GetValeurParam("SIZE_IMG",$conn, $customid,"bigimg");
-
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -62,382 +27,717 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
   </head>
-  <body ondragstart="return false;" ondrop="return false;">
-    <div id="header">
-      <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
-    </div>
+  <script type="text/javascript" >
+    var customer;
+    var mail;
+    var bouticid;
+    var logo;
+    var nom;
+    var mntcmdmini;
+    var sizeimg;
+    var method;
+    var table;
+    
+    function totaliser()
+    {
+      var artcel = document.getElementsByClassName("artcel");
+      var artqt = document.getElementsByClassName("artqt");
+      var somme = 0;
+      var opt = [];
 
-    <?php
-
-    echo '<div id="main" data-method="' . $method . '" data-table="' . $table . '" data-mntcmdmini="' . $mntcmdmini .'" data-customer="' . $customer .'">';
-    if (strcmp($logo,"") != 0)
-      echo '<img id="logo" src="../upload/' . $logo . '">';
-    else
-      echo '<p class="marque">' . $nom . '</p>';
-
-    echo '<form name="mainform" autocomplete="off" method="post" action="valrecap.php">';
-
-    //echo "Connected successfully";
-    $query = 'SELECT catid, nom, visible FROM categorie WHERE customid = ' . $customid . ' OR catid = 0 ORDER BY catid';
-
-		if ($result = $conn->query($query)) {
-    		while ($row = $result->fetch_row()) {
-    			if (($row[2] > 0 ) || ($row[0] == 0))
-    			{
-    			  if ($row[0] > 0)
-    			  {
-    			    echo '<button type="button" class="accordion">';
-    				  echo html_entity_decode($row[1]);
-    				  echo '</button>';
-    				  echo '<div class="panel">';
-    				}
-    				else
-    				{
-    			    echo '<button type="button" class="accordion" style="display:none">';
-    				  echo html_entity_decode($row[1]);
-    				  echo '</button>';
-   				    echo '<div class="panel" style="max-height:max-content">';
-
-    				}
-    				
-		      	$query2 = 'SELECT artid, nom, prix, unite, description FROM article WHERE customid = ' . $customid . ' AND visible = 1 AND catid = ' . $row[0] . ' ORDER BY artid';
-		      	if ($result2 = $conn->query($query2)) 
-	  				{
-	  				  while ($row2 = $result2->fetch_row()) 
-    					{
-    						if (strcmp($sizeimg,"bigimg")==0)
-    						{
-	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	    					  $qrylstimg = 'SELECT image FROM artlistimg WHERE customid = ' . $customid . ' AND visible = 1 AND artid = ' . $row2[0] . ' ORDER BY favori DESC, artlistimgid ASC';
-	    					  $first = false;
-		      	      if ($reslstimg = $conn->query($qrylstimg)) 
-	  				      {
-	  				        if ($reslstimg->num_rows > 0)
-	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:block">';
-	  				        else
-	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:none">';
-	  				        echo '<div id="carinid' . $row2[0] . '" class="carousel-inner">';
-	  				        while ($rowlstimg = $reslstimg->fetch_row()) 
-    					      {
-    					        if (!empty($rowlstimg[0]))
-    					        {
-    					          if (!$first)
-    					            echo '<div class="carousel-item active">';
-    					          else
-    					            echo '<div class="carousel-item">';
-    					          $first = true;
-    					          echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $rowlstimg[0] . '" alt = "nopic">';
-    					          echo '</div>';
-    					        }
-    					      }
-    					    }
-    					    $reslstimg->close();
-	    					  echo '</div>';
-	    					  echo '<button class="carousel-control-prev" type="button" data-target="#carousel' . $row2[0] . '" data-slide="prev">';
-	    					  echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-	    					  echo '<span class="sr-only">Previous</span>';
-	    					  echo '</button>';
-	    					  echo '<button class="carousel-control-next" type="button" data-target="#carousel' . $row2[0] . '" data-slide="next">';
-	    					  echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-	    					  echo '<span class="sr-only">Next</span>';
-	    					  echo '</button>';
-	    					  echo '</div>';
-	  	        		/*if (!empty($row2[5]))
- 	            	  	echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $row2[5] . '" alt = "nopic">';*/
-	                echo '<div class="rowah">';
-	                echo '<div class="colb1">';
-	    					  echo '<div class="nom">';
-	       	      	echo $row2[1];
-	       	      	echo '<br />';
-	       	      	echo '</div>';
-	       	      	echo '<div class="desc">';
-	       	      	if (!empty($row2[4]))
-	       	      	{
-	       	      	 echo $row2[4];
-	                 echo '<br />'; 
-	       	      	}
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-	       	      	echo '<div class="colb2">';
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-	       	      	echo '<div class="rowah">';
-	       	      	echo '<div class="colb1">';
-	       	      	if($method > 0) 
-	       	      	{
-	       	      		echo '<div class="vctrqte">';
-						  		  echo '<p class="qte">Quantit&eacute;s :&nbsp;&nbsp;</p>';
-						  		  $id = 'qt' . $row2[0];
-						  		  $name = 'qty' . $row2[0];    
-	            		  //echo '<label> ';
-	            		  echo '<img class="bts bmoins" src="img/bouton-moins-inactif.png" onclick="subqt(this)" disabled />';
-	            		  //echo ' ';
-	            		  echo '<p class="artqt" id="' . $id . '" name="' . $name . '" onkeyup="showoptions(this)" onchange="showoptions(this)" > 0 </p>';
-	            		  //echo ' ';
-	            		  echo '<img class="bts bplus" src="img/bouton-plus.png" onclick="addqt(this)" />';
-	            		  //echo ' </label>';
-	            		  echo '</div>';
-	              	}
-
-	              	echo '</div>';
-	              	echo '<div class="colb2">';
-									echo '<p class="prix">';
-	       	      	echo number_format($row2[2], 2, ',', ' ');
-	       	      	echo ' ';
-	       	      	echo $row2[3];
-	       	      	echo '<br />';
-	       	      	echo '</p>';
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-								}
-
-    						else if (strcmp($sizeimg,"smallimg")==0)
-    						{
-	    					  echo '<div class="artcel artcelb" id="artid' . $row2[0] . '" data-name="' . $row2[1] . '" data-prix="' . $row2[2] . '" data-unite="' . $row2[3] . '">';
-	    					  echo '<div class="rowah">';
-	    					  echo '<div class="cola1">';
-	              	echo '<div class="nom">';
-	       	      	echo $row2[1];
-	       	      	echo '<br />';
-	       	      	echo '</div>';
-	       	      	echo '<div class="desc">';
-	       	      	if (!empty($row2[4]))
-	       	      	{
-	       	      	 echo $row2[4];
-	                 echo '<br />'; 
-	       	      	}
-	       	      	echo '</div>';
-	       	      	if($method > 0) 
-	       	      	{
-	       	      		echo '<div class="vctrqte">';
-						  		  echo '<p class="qte">Quantit&eacute;s :&nbsp;&nbsp;</p>';
-						  		  $id = 'qt' . $row2[0];
-						  		  $name = 'qty' . $row2[0];    
-	            		  //echo '<label> ';
-	            		  echo '<img class="bts bmoins" src="img/bouton-moins-inactif.png" onclick="subqt(this)" disabled />';
-	            		  //echo ' ';
-	            		  echo '<p class="artqt" id="' . $id . '" name="' . $name . '" onkeyup="showoptions(this)" onchange="showoptions(this)" > 0 </p>';
-	            		  //echo ' ';
-	            		  echo '<img class="bts bplus" src="img/bouton-plus.png" onclick="addqt(this)" />';
-	            		  //echo ' </label>';
-	            		  echo '</div>';
-	              	}
-
-									echo '<div class="prixsm">';
-	       	      	echo number_format($row2[2], 2, ',', ' ');
-	       	      	echo ' ';
-	       	      	echo $row2[3];
-	       	      	echo '<br />';
-	       	      	echo '</div>';
-	       	      	echo '</div>';
-	       	      	echo '<div class="cola2">';
-	    					  $qrylstimg = 'SELECT image FROM artlistimg WHERE customid = ' . $customid . ' AND visible = 1 AND artid = ' . $row2[0] . ' ORDER BY favori DESC, artlistimgid ASC';
-	    					  $first = false;
-		      	      if ($reslstimg = $conn->query($qrylstimg)) 
-	  				      {
- 	  				        if ($reslstimg->num_rows > 0)
-	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:block">';
-	  				        else
-	  				          echo '<div id="carousel' . $row2[0] . '" class="pic ' . $sizeimg . ' carousel slide" data-ride="carousel" data-interval=false style="display:none">';
-	  				        echo '<div id="carinid' . $row2[0] . '" class="carousel-inner">';
-	  				        while ($rowlstimg = $reslstimg->fetch_row()) 
-    					      {
-    					        if (!empty($rowlstimg[0]))
-    					        {
-    					          if (!$first)
-    					            echo '<div class="carousel-item active">';
-    					          else
-    					            echo '<div class="carousel-item">';
-    					          $first = true;
-    					          echo '<img class="pic ' . $sizeimg . '" src="../upload/' . $rowlstimg[0] . '" alt = "nopic">';
-    					          echo '</div>';
-    					        }
-    					      }
-    					    }
-    					    $reslstimg->close();
-	    					  echo '</div>';
-	    					  echo '<button class="carousel-control-prev" type="button" data-target="#carousel' . $row2[0] . '" data-slide="prev">';
-	    					  echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-	    					  echo '<span class="sr-only">Previous</span>';
-	    					  echo '</button>';
-	    					  echo '<button class="carousel-control-next" type="button" data-target="#carousel' . $row2[0] . '" data-slide="next">';
-	    					  echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-	    					  echo '<span class="sr-only">Next</span>';
-	    					  echo '</button>';
-	    					  echo '</div>';
-	                echo '</div>';
-	                echo '</div>';
-								}
-
-                echo '<textarea id="idtxta' . $row2[0] . '" name="txta' . $row2[0] . '" placeholder="Saisissez ici vos besoins spécifiques sur cet article" maxlength="300" hidden></textarea>';
-                
- 				  		  $id = 'opt' . $row2[0];
- 				  		  $name = 'opty' . $row2[0];    
-				        
-       	      	if($method > 0) 
-       	      	{
-  				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '">';
-  				        echo '<div class="slidepb" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
-				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '" style="display:none">';
-				        }
-				        else 
-				        {
-  				        echo '<div class="divopt" id="' . $id . '" name="' . $name . '">';
-  				        echo '<div class="slidepb" data-artid="' . $row2[0] . '" data-nom="' . html_entity_decode($row2[1]) . '" style="display:none"></div>';
-				          echo '<div class="divopt2" id="' . $id . '" name="' . $name . '">';
-				        }
-				        
-                $query3 = 'SELECT groupeopt.grpoptid, groupeopt.nom, groupeopt.multiple FROM relgrpoptart, groupeopt WHERE relgrpoptart.customid = ' . $customid . ' AND groupeopt.customid = ' . $customid . ' AND relgrpoptart.visible = 1 AND groupeopt.visible = 1 AND artid = ' . $row2[0] . ' AND relgrpoptart.grpoptid = groupeopt.grpoptid ORDER BY groupeopt.grpoptid';
-  					    if ($result3 = $conn->query($query3)) 
-	  				    {
-    					    while ($row3 = $result3->fetch_row()) 
-    					    {
-    					    	echo '<div class="flexsp">';
-  					      	if ($row3[2] == 0)
-  					      	{
-  					      		echo '<label>' . $row3[1] . ' (unique)</label><br>';
-  					      		echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()">';
-  					      	}
-  					      	else if ($row3[2] == 1)
-  					      	{
-  					      		echo '<label>' . $row3[1] . ' (multiple)</label><br>';
-  					        	echo '<select class="selb" id="art' . $row2[0] . 'op' . $row3[0] . '" onchange="totaliser()" multiple>';
- 										}
-    					      /*if ($row3[2] == 0)
-                      echo '<legend>' . $row3[1] . ' (une seul option possible)</legend>';
-                    else if ($row3[2] == 1)
-                      echo '<legend>' . $row3[1] . ' (plusieurs choix possible)</legend>';*/
-     					      $query4 = 'SELECT optid, nom, surcout FROM `option` WHERE customid = ' . $customid . ' AND visible = 1 AND grpoptid = ' . $row3[0] . ' ORDER BY optid';
-       					    if ($result4 = $conn->query($query4)) 
-         				    {
-         				    	$init = 0;
-         					    while ($row4 = $result4->fetch_row()) 
-         					    {
-         					    	if ($init == 0)
-         					    		$def = 'selected';
-         					    	else 
-         					    		$def = '';
-                        if ($row3[2] == 0)
+      for (var i = 0; i<artqt.length; i++ )
+      {
+        idc = artcel[i].id.substr(5);
+        qtc = parseInt(artqt[i].innerText);
+        if (qtc === "")
+          qtc = 0;
+        if (qtc > 0)
+        {
+          somme = somme + artcel[i].getAttribute("data-prix") * qtc;
+        }
+      }
+      for (var ii = 0; ii<artcel.length; ii++ )
+      {
+        var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
+        if (artopt != null)
+        {
+          if (artopt.innerHTML != "")
+          {
+            var opttab = artcel[ii].getElementsByClassName("divopttab");
+            for (ik=0; ik<opttab.length; ik++)
+            {
+              var sefld = opttab[ik].children;
+              for (il=0; il<sefld.length; il++) 
+              {
+                if (sefld[il].tagName == "DIV")
+                {
+                  var chsefld = sefld[il].children;
+                  if (chsefld[2].tagName == "SELECT") 
+                  {
+                    var secase = chsefld[2].children;
+                    for (im=0; im<secase.length; im++) 
+                    {
+                      if (secase[im].tagName == "OPTION") 
+                      {
+                        if (secase[im].selected == true)
                         {
-                          if ($row4[2]>0) 
-                           	echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                          else 
-                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" ' . $def . ' id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
+                          somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));
                         }
-                        else if ($row3[2] == 1)
-                        {
-                          if ($row4[2]>0) 
-                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . ' + ' . number_format($row4[2], 2, ',', ' ') . ' € ' . '</option>';
-                          else 
-                            echo '<option data-surcout="' . $row4[2] . '" class="" value="' . $row4[1] . '" onclick="totaliser()" id="art' . $row2[0] . 'opt' . $row4[0] . '">' . $row4[1] . '</option>';
-                        }
-
-                        echo '<br/>';
-                        $init++;
                       }
                     }
-                    echo '</select>';
-                    echo '</div>';
                   }
                 }
-                
-                echo '</div>';
-                echo '</div>';
-                  
-         	    	echo '</div>';
-					  	}						
-					  	$result2->close();
-        		}
-			   		echo '</div>';    			
-    			}
-  			}
-	   		$result->close();
-			}
-      echo '<input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">';
-      echo '</form>';
-            
-      echo '</div>';
-    ?>
-    <div id="footer">
-      <?php
-
-        	echo '<div class="grpbn">';
-					if  ($method > 0)
-					{
-						echo '<input id="totaliseur" class="navindic" type="button" value="Total">'; 
-          	echo '<input id="validcarte" class="navindic" type="button" value="Poursuivre">';
-          }
-          else
-          {
-          	echo '<input id="totaliseur" class="navindic" type="hidden" value="Total" disabled>'; 
-						echo '<input id="validcarte" class="navindic" type="hidden" value="Poursuivre" disabled>';
-          }
-          echo '</div>';
-      ?>
-    </div>
-    
-    
-    <script type="text/javascript" >
-      function totaliser() 
-      {
-        var artcel = document.getElementsByClassName("artcel");
-        var artqt = document.getElementsByClassName("artqt");
-        var somme = 0;
-        var opt = [];
-        
-        for (var i = 0; i<artqt.length; i++ )
-        {
-          idc = artcel[i].id.substr(5);  
-          qtc = parseInt(artqt[i].innerText); 
-          if (qtc === "")
-            qtc = 0;          
-          if (qtc > 0)
-          {
-            somme = somme + artcel[i].getAttribute("data-prix") * qtc;
-          }
-        }
-        for (var ii = 0; ii<artcel.length; ii++ )
-        {
-          var artopt = artcel[ii].getElementsByClassName("divopt2")[0];
-          if (artopt != null)
-          {
-            if (artopt.innerHTML != "")
-            {
-              var opttab = artcel[ii].getElementsByClassName("divopttab");
-              for (ik=0; ik<opttab.length; ik++)
-              {
-                var sefld = opttab[ik].children;
-                for (il=0; il<sefld.length; il++) 
-                {
-          				if (sefld[il].tagName == "DIV")
-          				{ 
-	          				var chsefld = sefld[il].children;
-	            			if (chsefld[2].tagName == "SELECT") 
-	            			{
-		            			var secase = chsefld[2].children;                	
-		                  for (im=0; im<secase.length; im++) 
-		                  {
-	  	                  if (secase[im].tagName == "OPTION") 
-	    	                {
-	      	                if (secase[im].selected == true)
-	        	              {
-	          	              somme = somme + parseFloat(secase[im].getAttribute("data-surcout"));                            
-	            	          }
-	            	        } 
-	                    }
-	                  }
-	                }
-                }              
-              }         
+              }
             }
           }
         }
-        document.getElementById("totaliseur").value = "Total : " + somme.toFixed(2) + " €";
-        sessionStorage.setItem("sstotal", somme.toFixed(2));      	
       }
-    </script>
+      document.getElementById("totaliseur").value = "Total : " + somme.toFixed(2) + " €";
+      sessionStorage.setItem("sstotal", somme.toFixed(2));
+    }
+  </script>
+  <script type="text/javascript">
+    async function getSession()
+    {
+      var objboutic = { requete: "getSession"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data  = await response.json();
+      customer = data[0];
+      mail = data[1];
+      method = data[2];
+      table = data[3];
+    }
 
+    async function getBouticInfo(customer)
+    {
+      var objboutic = { requete: "getBouticInfo", customer: customer};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      bouticid = data[0];
+      logo = data[1];
+      nom = data[2];
+    }
+    
+    async function getParam(bouticid, param)
+    {
+      var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
+      const response = await fetch('customerarea/boquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objparam)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data[0];
+    }
+  
+    async function getCategories(method, bouticid)
+    {
+      
+      var objcat = { bouticid: bouticid, requete:"categories"};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objcat)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+
+      for (var dat of data)
+      {
+        if ((dat[2] > 0 ) || (dat[0] == 0))
+        {
+          var but = document.createElement("BUTTON");
+          but.type = "button";
+          but.classList.add("accordion");
+          but.innerHTML = dat[1];
+          but.style.display = (dat[0] > 0) ? "block" : "none";
+          document.getElementById("mainformid").appendChild(but);
+          var divpan = document.createElement("DIV");
+          divpan.id = "divpanid" + dat[0];
+          divpan.classList.add("panel");
+          divpan.style.maxHeight = (dat[0] > 0) ? "initial" : "max-content";
+          document.getElementById("mainformid").appendChild(divpan);
+          const catid = dat[0];
+          await getArticles(method, bouticid, catid);
+            
+          reachBottom();
+
+          var artcel = document.getElementsByClassName("artcel");
+          var artqt = document.getElementsByClassName("artqt");
+
+          for (var i = 0; i<artqt.length; i++ )
+          {
+            bakqt = sessionStorage.getItem(artqt[i].id);
+            if (bakqt !== null)
+            {
+              artqt[i].innerHTML = " " + bakqt + " "; 
+              if ((parseInt(artqt[i].innerText) > 0) && (artqt[i].hidden !== true))
+              {
+                showoptions(artqt[i]);
+                artqt[i].previousElementSibling.disabled = false;
+                artqt[i].previousElementSibling.src = 'img/bouton-moins.png';
+                var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
+                txtf.value = sessionStorage.getItem(txtf.id);
+                var artopt = artcel[i].getElementsByClassName("divopt2")[0];
+                if (artopt != null)
+                {
+                  if (artopt.innerHTML != "")
+                  {
+                    var opttab = artcel[i].getElementsByClassName("divopttab");
+                    for (k=0; k<opttab.length; k++)
+                    {
+                      var sefld = opttab[k].children;
+                      for (l=0; l<sefld.length; l++) 
+                      {
+                        if (sefld[l].tagName == "DIV")
+                        {
+                          var chsefld = sefld[l].children;
+                          if (chsefld[2].tagName == "SELECT")
+                          {
+                            var secase = chsefld[2].children;
+                            for (m=0; m<secase.length; m++)
+                            {
+                              if (secase[m].tagName == "OPTION")
+                              {
+                                if (sessionStorage.getItem(secase[m].id) == 1)
+                                  secase[m].selected = true;
+                                else
+                                 secase[m].selected = false;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
+                var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
+                panel.style.maxHeight = "initial"; /*panel.scrollHeight + "px";*/
+              }
+            }
+          }
+          totaliser();
+          var aqt = document.getElementsByClassName("artqt");
+          var i;
+    
+          for (i = 0; i < aqt.length; i++) 
+          {
+            aqt[i].addEventListener("focus", function() {
+        	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
+        	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            });
+          }
+        }
+      }
+    }
+
+    async function getArticles(method, bouticid, catid)
+    {
+      var objart = { bouticid: bouticid, requete:"articles", catid:catid};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objart)
+      });
+      const data = await response.json();
+      for (var dat of data)
+      {
+        const artid = dat[0];
+        var divart = document.createElement("DIV");
+        if (sizeimg == "bigimg")
+        {
+          divart.id = "artid" + artid;
+          divart.classList.add("artcel");
+          divart.classList.add("artcelb");
+          divart.setAttribute("data-name", dat[1]);
+          divart.setAttribute("data-prix", dat[2]);
+          divart.setAttribute("data-unite", dat[3]);
+          document.getElementById("divpanid" + catid).appendChild(divart);
+          var divcarou = document.createElement("DIV");
+          divcarou.id = "carousel" + artid;
+          divcarou.classList.add('pic');
+          divcarou.classList.add(sizeimg);
+          divcarou.classList.add('carousel');
+          divcarou.classList.add('slide');
+          divcarou.setAttribute("data-ride", "carousel");
+          divcarou.setAttribute("data-interval", false);
+          divcarou.style.display = "none";
+          document.getElementById("artid" + artid).appendChild(divcarou)
+          var divcarin = document.createElement("DIV");
+          divcarin.id = 'carinid' + artid;
+          divcarin.classList.add('carousel-inner');
+          document.getElementById("carousel" + artid).appendChild(divcarin);
+          await getImages(method, bouticid, artid);
+          var ccp = document.createElement("A");
+          ccp.classList.add("carousel-control-prev");
+          ccp.href = "#carousel" + artid;
+          ccp.role = "button";
+          ccp.setAttribute("data-slide", "prev")
+          var ccpi = document.createElement("SPAN");
+          ccpi.classList.add("carousel-control-prev-icon");
+          ccpi.setAttribute("aria-hidden", "true");
+          ccp.appendChild(ccpi);
+          var prev = document.createElement("SPAN");
+          prev.classList.add("sr-only");
+          prev.innerHTML = "Previous";
+          ccp.appendChild(prev);
+          document.getElementById('carinid' + artid).appendChild(ccp);
+          var ccn = document.createElement("A");
+          ccn.classList.add("carousel-control-next");
+          ccn.href = "#carousel" + artid;
+          ccn.role = "button";
+          ccn.setAttribute("data-slide", "next")
+          var ccni = document.createElement("SPAN");
+          ccni.classList.add("carousel-control-next-icon");
+          ccni.setAttribute("aria-hidden", "true");
+          ccn.appendChild(ccni);
+          var next = document.createElement("SPAN");
+          next.classList.add("sr-only");
+          next.innerHTML = "Next";
+          ccn.appendChild(next);
+          document.getElementById('carinid' + artid).appendChild(ccn);
+          var rowah = document.createElement("DIV");
+          rowah.classList.add("rowah");
+          var colb1 = document.createElement("DIV");
+          colb1.classList.add("colb1");
+          var nom = document.createElement("DIV");
+          nom.classList.add("nom");
+          nom.innerHTML = dat[1];
+          nom.appendChild(document.createElement("BR"));
+          colb1.appendChild(nom);
+          var desc = document.createElement("DIV");
+          desc.classList.add("desc");
+          if (dat[4] != "")
+          {
+            desc.innerHTML = dat[4];
+            desc.appendChild(document.createElement("BR"));
+          }
+          colb1.appendChild(desc);
+          rowah.appendChild(colb1);
+          var colb2 = document.createElement("DIV");
+          colb2.classList.add("colb2");
+          rowah.appendChild(colb2);
+          divart.appendChild(rowah);
+          var rowah2 = document.createElement("DIV");
+          rowah2.classList.add("rowah");
+          rowah2.id = "rowah" + artid;
+          var colb1 = document.createElement("DIV");
+          colb1.classList.add("colb1");
+          if (method > 0)
+          {
+            var vctrqte = document.createElement("DIV");
+            vctrqte.classList.add("vctrqte");
+            var qte = document.createElement("P");
+            qte.classList.add("qte");
+            qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
+            vctrqte.appendChild(qte);
+            var id = 'qt' + dat[0];
+            var name = 'qty' + dat[0];
+            var bmoins = document.createElement("IMG");
+            bmoins.classList.add('bts');
+            bmoins.classList.add('bmoins');
+            bmoins.src = "img/bouton-moins-inactif.png";
+            bmoins.onclick = function() {subqt(this);};
+            bmoins.disabled = true;
+            vctrqte.appendChild(bmoins);
+            var artqt = document.createElement("P");
+            artqt.classList.add("artqt");
+            artqt.id = id;
+            artqt.name = name;
+            artqt.onkeyup = function() {showoptions(this);};
+            artqt.onchange = function() {showoptions(this);};
+            artqt.innerHTML = " 0 ";
+            vctrqte.appendChild(artqt);
+            var bplus = document.createElement("IMG");
+            bplus.classList.add('bts');
+            bplus.classList.add('bplus');
+            bplus.src = "img/bouton-plus.png";
+            bplus.onclick = function() {addqt(this);};
+            vctrqte.appendChild(bplus);
+            colb1.appendChild(vctrqte);
+          }
+          rowah2.appendChild(colb1);
+          var colb2 = document.createElement("DIV");
+          colb2.classList.add("colb2");
+          var prix = document.createElement("P");
+          prix.classList.add("prix");
+          prix.innerHTML = parseFloat(dat[2]).toFixed(2) + ' ' + dat[3];
+          prix.appendChild(document.createElement("BR"));
+          colb2.appendChild(prix);
+          rowah2.appendChild(colb2);
+          divart.appendChild(rowah2);
+        }
+        else if (sizeimg == "smallimg")
+        {
+          divart.id = "artid" + dat[0];
+          divart.classList.add("artcel");
+          divart.classList.add("artcelb");
+          divart.setAttribute("data-name", dat[1]);
+          divart.setAttribute("data-prix", dat[2]);
+          divart.setAttribute("data-unite", dat[3]);
+          document.getElementById("divpanid" + catid).appendChild(divart);
+          var rowah = document.createElement("DIV");
+          rowah.classList.add("rowah");
+          var cola1 = document.createElement("DIV");
+          cola1.classList.add("cola1");
+          var nom = document.createElement("DIV");
+          nom.classList.add("nom");
+          nom.innerHTML = dat[1];
+          nom.appendChild(document.createElement("BR"));
+          cola1.appendChild(nom);
+          var desc = document.createElement("DIV");
+          desc.classList.add("desc");
+          if (dat[4] != "")
+          {
+            desc.innerHTML = dat[4];
+            desc.appendChild(document.createElement("BR"));
+          }
+          cola1.appendChild(desc);
+          if (method > 0)
+          {
+            var vctrqte = document.createElement("DIV");
+            vctrqte.classList.add("vctrqte");
+            var qte = document.createElement("P");
+            qte.classList.add("qte");
+            qte.innerHTML = "Quantit&eacute;s :&nbsp;&nbsp;";
+            vctrqte.appendChild(qte);
+            var id = 'qt' + dat[0];
+            var nameqt = 'qty' + dat[0];
+            var bmoins = document.createElement("IMG");
+            bmoins.classList.add('bts');
+            bmoins.classList.add('bmoins');
+            bmoins.src = "img/bouton-moins-inactif.png";
+            bmoins.onclick = function() {subqt(this);};
+            bmoins.disabled = true;
+            vctrqte.appendChild(bmoins);
+            var artqt = document.createElement("P");
+            artqt.classList.add("artqt");
+            artqt.id = id;
+            artqt.name = nameqt;
+            artqt.onkeyup = function() {showoptions(this);};
+            artqt.onchange = function() {showoptions(this);};
+            artqt.innerHTML = " 0 ";
+            vctrqte.appendChild(artqt);
+            var bplus = document.createElement("IMG");
+            bplus.classList.add('bts');
+            bplus.classList.add('bplus');
+            bplus.src = "img/bouton-plus.png";
+            bplus.onclick = function() {addqt(this);};
+            vctrqte.appendChild(bplus);
+            cola1.appendChild(vctrqte);
+          }
+          var prixsm = document.createElement("DIV");
+          prixsm.classList.add("prixsm");
+          prixsm.innerHTML = parseFloat(dat[2]).toFixed(2) + ' ' + dat[3];
+          prixsm.appendChild(document.createElement("BR"));
+          cola1.appendChild(prixsm);
+          rowah.appendChild(cola1);
+          var cola2 = document.createElement("DIV");
+          cola2.classList.add("cola2");
+          var divcarou = document.createElement("DIV");
+          divcarou.id = "carousel" + artid;
+          divcarou.classList.add('pic');
+          divcarou.classList.add(sizeimg);
+          divcarou.classList.add('carousel');
+          divcarou.classList.add('slide');
+          divcarou.setAttribute("data-ride", "carousel");
+          divcarou.setAttribute("data-interval", false);
+          divcarou.style.display = "none";
+          cola2.appendChild(divcarou);
+          rowah.appendChild(cola2);
+          document.getElementById("artid" + artid).appendChild(rowah);
+          var divcarin = document.createElement("DIV");
+          divcarin.id = 'carinid' + artid;
+          divcarin.classList.add('carousel-inner');
+          document.getElementById("carousel" + artid).appendChild(divcarin);
+          await getImages(method, bouticid, artid);
+          var ccp = document.createElement("A");
+          ccp.classList.add("carousel-control-prev");
+          ccp.href = "#carousel" + artid;
+          ccp.role = "button";
+          ccp.setAttribute("data-slide", "prev")
+          var ccpi = document.createElement("SPAN");
+          ccpi.classList.add("carousel-control-prev-icon");
+          ccpi.setAttribute("aria-hidden", "true");
+          ccp.appendChild(ccpi);
+          var prev = document.createElement("SPAN");
+          prev.classList.add("sr-only");
+          prev.innerHTML = "Previous";
+          ccp.appendChild(prev);
+          document.getElementById('carinid' + artid).appendChild(ccp);
+          var ccn = document.createElement("A");
+          ccn.classList.add("carousel-control-next");
+          ccn.href = "#carousel" + artid;
+          ccn.role = "button";
+          ccn.setAttribute("data-slide", "next")
+          var ccni = document.createElement("SPAN");
+          ccni.classList.add("carousel-control-next-icon");
+          ccni.setAttribute("aria-hidden", "true");
+          ccn.appendChild(ccni);
+          var next = document.createElement("SPAN");
+          next.classList.add("sr-only");
+          next.innerHTML = "Next";
+          ccn.appendChild(next);
+          document.getElementById('carinid' + artid).appendChild(ccn);
+        }
+        var txta = document.createElement("TEXTAREA");
+        txta.id = 'idtxta' + dat[0];
+        txta.name = 'txta' + dat[0];
+        txta.placeholder = "Saisissez ici vos besoins spécifiques sur cet article";
+        txta.maxlength = "300";
+        txta.hidden = true;
+        divart.appendChild(txta);
+        const ido = 'opt' + dat[0];
+        const namo = 'opty' + dat[0];
+        var divopt = document.createElement("DIV");
+        divopt.classList.add("divopt");
+        divopt.id = ido;
+        divopt.setAttribute('name', namo);
+        divopt.style.display = (method > 0) ? "none" : "block";
+        divart.appendChild(divopt);
+        var slide = document.createElement("DIV");
+        slide.classList.add("slidepb");
+        slide.setAttribute("data-artid", dat[0]);
+        slide.setAttribute("data-nom", dat[1]);
+        slide.style.display = (method > 0) ? "flex" : "none";
+        divopt.appendChild(slide);
+        var divopt2 = document.createElement("DIV");
+        divopt2.classList.add("divopt2");
+        divopt2.id = ido;
+        divopt2.setAttribute('name', namo);
+        divopt2.style.display = (method > 0) ? "none" : "block";
+        divopt.appendChild(divopt2);
+        document.getElementById("divpanid" + catid).appendChild(divart);
+        await getGroupes(method, bouticid, artid);
+      }
+    }
+
+    async function getGroupes(method, bouticid, artid)
+    {
+      var objgrp = { bouticid: bouticid, requete:"groupesoptions", artid:artid};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objgrp)
+      });
+      const data = await response.json();
+      for (var dat of data)
+      {
+        var flexsp = document.createElement("DIV");
+        flexsp.classList.add("flexsp");
+        var lbl = document.createElement("LABEL");
+        lbl.innerHTML = dat[1] + ((dat[2] == 0) ? " (unique)" : " (multiple)");
+        flexsp.appendChild(lbl);
+        flexsp.appendChild(document.createElement("BR"));
+        var selb = document.createElement("SELECT");
+        selb.classList.add("selb");
+        selb.id = "art" + artid + "op" + dat[0];
+        selb.mpultiple = (dat[2] == 1);
+        flexsp.appendChild(selb);
+        document.querySelector('#opt' + artid + " .divopt2").appendChild(flexsp);
+        document.getElementById("art" + artid + "op" + dat[0]).setAttribute('onchange', 'totaliser()');
+        const grpoptid = dat[0];
+        await getOptions(method, bouticid, artid, grpoptid);
+      }
+    }
+
+    async function getOptions(method, bouticid, artid, grpoptid)
+    {
+      var objopt = { bouticid: bouticid, requete:"options", grpoptid:grpoptid};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objopt)
+      });
+      const data = await response.json();
+      for (var dat of data)
+      {
+        var init = 0;
+        var option = document.createElement("OPTION");
+        option.setAttribute("data-surcout", dat[2]);
+        option.value = dat[1];
+        option.selected = ((init == 0) && (dat[2]>0));
+        option.id = "art" + artid + "opt" + dat[0];
+        option.innerHTML = (dat[2]>0) ? dat[1] + ' + ' + parseFloat(dat[2]).toFixed(2) + ' € ' : dat[1];
+        document.getElementById("art" + artid + "op" + grpoptid).appendChild(option);
+        init++;
+      }
+    }
+
+    async function getImages(method, bouticid, artid)
+    {
+      var objimg = { bouticid: bouticid, requete:"images", artid:artid};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objimg)
+      });
+      const data = await response.json();
+      var first = false;
+      for (var dat of data)
+      {
+        if ((dat[0] != null) && (dat[0] != null))
+        {
+          var caritem = document.createElement("DIV");
+          caritem.classList.add('carousel-item');
+          if (!first)
+          {
+            caritem.classList.add('active');
+            first = true;
+            document.getElementById("carousel" + artid).style.display = "block";
+          }
+          var imgitem = document.createElement("IMG");
+          imgitem.classList.add("pic");
+          imgitem.classList.add(sizeimg);
+          imgitem.src = '../upload/' + dat[0];
+          imgitem.alt = "nopic";
+          //imgitem.onload = function() {
+            /*if (sizeimg == "bigimg")
+              this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
+            else if (sizeimg == "smallimg")
+              this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";*/
+          //};
+          caritem.appendChild(imgitem);
+        }
+        document.getElementById('carinid' + artid).appendChild(caritem);
+      }
+    }
+
+    window.onload = async function()
+    {
+      await getSession();
+      if (!customer)
+        document.location.href = 'error.php?code=nocustomer';
+      await getBouticInfo(customer);
+      if (!bouticid)
+        document.location.href = 'error.php?code=nobouticid';
+      if (!mail)
+        document.location.href = 'error.php?code=noemail';
+      if (mail == 'oui')
+        document.location.href = 'error.php?code=alreadysent';
+      
+      document.getElementById("logo").src = "../upload/" + logo;
+      document.getElementById("marqueid").innerHTML = nom;
+      
+      document.getElementById("totaliseur").type = (method>0) ? 'button' : 'hidden';
+      document.getElementById("validcarte").type = (method>0) ? 'button' : 'hidden';
+      document.getElementById("totaliseur").disabled = (method<=0);
+      document.getElementById("validcarte").disabled = (method<=0);
+        
+      mntcmdmini = await getParam(bouticid, "MntCmdMini");
+      sizeimg = await getParam(bouticid, "SIZE_IMG");
+
+      if (logo)
+      {
+        document.getElementById("logo").style.display = "block";
+        document.getElementById("marqueid").style.display = "none";
+      }
+      else 
+      {
+        document.getElementById("logo").style.display = "none";
+        document.getElementById("marqueid").style.display = "block";
+      }
+      
+      await getCategories(method, bouticid);
+      
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) 
+      {
+        acc[i].addEventListener("click", function() {
+          this.classList.toggle("activepb");
+          var panel = this.nextElementSibling;
+          if (panel.style.maxHeight) 
+          {
+            panel.style.maxHeight = null;
+          }
+          else 
+          {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+          }
+        });
+      }
+      
+      document.getElementById("loadid").style.display = "none";
+      document.getElementById("header").style.display = "block";
+      document.getElementById("main").style.display = "block";
+      reachBottom();
+      document.getElementById("footer").style.visibility = "visible";
+    }
+  </script>
+  <body ondragstart="return false;" ondrop="return false;">
+    <div id="loadid" class="flcentered">
+      <div class="spinner-border nospmd" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div id="header" style="display:none">
+      <a href="https://pratic-boutic.fr"><img id="mainlogo" src="img/logo-pratic-boutic.png"></a>
+    </div>
+    <div id="main" style="display:none">
+      <img id="logo">
+      <p id="marqueid" class="marque"></p>
+      <form id="mainformid" name="mainform" autocomplete="off" method="post" action="valrecap.php">
+        <input type="hidden" id="gRecaptchaResponse" name="gRecaptchaResponse">
+      </form>
+    </div>
+    <div id="footer" style="visibility:hidden">
+      <div class="grpbn">
+        <input id="totaliseur" class="navindic" value="Total">
+        <input id="validcarte" class="navindic" value="Poursuivre">
+      </div>
+    </div>
     <script type="text/javascript">
       function addqt(elem)
       {
@@ -477,11 +777,7 @@
           var somme =0;
           var failed = false;
           var opt = [];
-          var mntcmdmini = document.getElementById("main").getAttribute("data-mntcmdmini");
-          sessionStorage.setItem("method", document.getElementById("main").getAttribute("data-method"));
-          sessionStorage.setItem("table", document.getElementById("main").getAttribute("data-table"));
-          sessionStorage.setItem("customer", document.getElementById("main").getAttribute("data-customer"));
-          if (sessionStorage.getItem("method") > 0)
+          if (method > 0)
           {
             var artcel = document.getElementsByClassName("artcel");
             var artqt = document.getElementsByClassName("artqt");
@@ -748,7 +1044,7 @@
             if (i == (cur - 1))
               etodel[cur - 1].style.display = "flex";
             else
-            	etodel[i].style.display = "none";
+              etodel[i].style.display = "none";
           }       
         }
 
@@ -809,7 +1105,6 @@
           elemopt.style.display = "none";
         }
         panel.style.maxHeight = panel.scrollHeight + "px";
-             
       }
     </script>
     <script type="text/javascript" >
@@ -872,105 +1167,6 @@
         })
       }     
     </script>
-    <script type="text/javascript">
-    	var acc = document.getElementsByClassName("accordion");
-      var i;
-
-        for (i = 0; i < acc.length; i++) 
-        {
-          acc[i].addEventListener("click", function() {
-      	    this.classList.toggle("activepb");
-            var panel = this.nextElementSibling;
-            if (panel.style.maxHeight) 
-            {
-            	panel.style.maxHeight = null;
-            } 
-            else 
-            {
-              panel.style.maxHeight = panel.scrollHeight + "px";
-            } 
-          });
-        }
-    </script>
-    <script type="text/javascript">
-    	var aqt = document.getElementsByClassName("artqt");
-      var i;
-
-        for (i = 0; i < aqt.length; i++) 
-        {
-          aqt[i].addEventListener("focus", function() {
-      	    this.parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
-      	    var panel = this.parentElement.parentElement.parentElement.parentElement.parentElement;
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          });
-        }
-    </script>
-    <script type="text/javascript" >
-    window.onload=function()
-    {
-			reachBottom();    	
-    	
-      var artcel = document.getElementsByClassName("artcel");
-      var artqt = document.getElementsByClassName("artqt");
-
-      for (var i = 0; i<artqt.length; i++ )
-      {
-        bakqt = sessionStorage.getItem(artqt[i].id);
-        if (bakqt !== null)
-        {
-          artqt[i].innerHTML = " " + bakqt + " "; 
-          if ((parseInt(artqt[i].innerText) > 0) && (artqt[i].hidden !== true))
-          {
-            showoptions(artqt[i]);
-            artqt[i].previousElementSibling.disabled = false;
-            artqt[i].previousElementSibling.src = 'img/bouton-moins.png';
-            var txtf = artcel[i].getElementsByTagName("TEXTAREA")[0];
-            txtf.value = sessionStorage.getItem(txtf.id);
-            var artopt = artcel[i].getElementsByClassName("divopt2")[0];
-            if (artopt != null)
-            {
-              if (artopt.innerHTML != "")
-              {
-                var opttab = artcel[i].getElementsByClassName("divopttab");
-                for (k=0; k<opttab.length; k++)
-                {
-                  var sefld = opttab[k].children;
-                  for (l=0; l<sefld.length; l++) 
-                  {
-	          				if (sefld[l].tagName == "DIV")
-	          				{ 
-		          				var chsefld = sefld[l].children;
-		            			if (chsefld[2].tagName == "SELECT") 
-		            			{
-			            			var secase = chsefld[2].children;                	
-		                    for (m=0; m<secase.length; m++) 
-		                    {
-		                      if (secase[m].tagName == "OPTION") 
-		                      {
-	                          if (sessionStorage.getItem(secase[m].id) == 1)
-	                            secase[m].selected = true;
-	                          else 
-	                            secase[m].selected = false;
-		                      }
-		                    }
-	                    }
-                  	}
-                  }              
-                }         
-              }
-            }
-       	    artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement.previousElementSibling.classList.add("activepb");
-       	    var panel = artqt[i].parentElement.parentElement.parentElement.parentElement.parentElement;
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          }
-        }
-      }
- 
-     
-      totaliser();
-    }  
-    </script>
-    <!-- TODO This script should be removed parce que on ne supporte plus la lecture seul -->
     <script type="text/javascript" >
       reachBottom();
       var sle = document.getElementsByTagName("SELECT");

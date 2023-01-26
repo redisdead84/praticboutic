@@ -1,6 +1,4 @@
   var commande = {
-    method: sessionStorage.getItem("method"),
-    table: sessionStorage.getItem("table"),
     nom: sessionStorage.getItem("nom"),
     prenom: sessionStorage.getItem("prenom"),
     adresse1: sessionStorage.getItem("adresse1"),
@@ -13,8 +11,7 @@
     infosup: sessionStorage.getItem("infosup"),
     items: JSON.parse(sessionStorage.getItem("commande")),
     fraislivr: sessionStorage.getItem("fraislivr"),
-    customer: sessionStorage.getItem("customer"),
-    remise: sessionStorage.getItem("remise"),
+    remise: sessionStorage.getItem("remise")
   };
   if (commande.items.length > 0)
   { 
@@ -33,7 +30,7 @@
       if (typeof (data.error) !== "undefined")
       {
         alert("Erreur : " + data.error);
-        window.location.href = "404.html";
+        window.location.href = "error.php?code=errmail";
       }
     })
   }

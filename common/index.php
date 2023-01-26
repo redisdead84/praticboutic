@@ -1,75 +1,3 @@
-<?php
-
-  require '../vendor/autoload.php';
-  include "config/common_cfg.php";
-  include "param.php";
-  
-  ini_set('session.gc_maxlifetime', $maxdureesessionclt);
-  
-  session_start();
-	
-	if (empty($_GET['customer']) != 0)
-	{
-    header('LOCATION: 404.html');
-    exit();
-	}
-	else
-    $customer = htmlspecialchars($_GET['customer']);
-
-	$conn = new mysqli($servername, $username, $password, $bdd);
-  if ($conn->connect_error) 
- 	  die("Connection failed: " . $conn->connect_error);
-	
-  $reqci = $conn->prepare('SELECT customid FROM customer WHERE customer = ?');
- 	$reqci->bind_param("s", $customer);
- 	$reqci->execute();
- 	$reqci->bind_result($customid);
- 	$resultatci = $reqci->fetch();
- 	$reqci->close();
- 	  
- 	if (strcmp($customid, "") == 0 )
- 	{
-   	header('LOCATION: 404.html');
-   	exit;
-	}
-	
-  $reqai = $conn->prepare('SELECT client.stripe_customer_id FROM abonnement, client WHERE abonnement.bouticid = ? AND abonnement.cltid = client.cltid LIMIT 1');
-  
- 	$reqai->bind_param("i", $customid);
- 	$reqai->execute();
- 	$reqai->bind_result($stripe_customer_id);
- 	$resultataci = $reqai->fetch();
- 	$reqai->close();
- 	if (strcmp($stripe_customer_id, "") == 0 )
- 	{
-   	header('LOCATION: 404.html');
-   	exit;
-	}
- 	
- 	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-  $dotenv->load();
-  
-  $stripe = new \Stripe\StripeClient([
-  // TODO replace hardcoded apikey by env variable
-    'api_key' => $_ENV['STRIPE_SECRET_KEY'],
-    'stripe_version' => '2020-08-27',
-  ]);
-  $subscriptions = $stripe->subscriptions->all(['customer' => $stripe_customer_id,
-                               'status' => 'active'
-  ]);
-  if ($subscriptions->count() == 0)
-  {
-    header('LOCATION: 404.html');
-    exit();
-  }
-			
-  $_SESSION['customer'] = $customer;
- 	$_SESSION[$customer . '_mail'] = "non";
-	$_SESSION['method'] = htmlspecialchars(isset($_GET ['method']) ? $_GET ['method'] : '3');
-  $_SESSION['table'] = htmlspecialchars(isset($_GET ['table']) ? $_GET ['table'] : '0');
-  
-  session_write_close();
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -81,10 +9,88 @@
     <meta http-equiv="Expires" content="0" />
   </head>
   <body>
-		<script type="text/javascript">
-      sessionStorage.clear();
-      document.location.href = 'carte.php';
-		</script>
+    <script type="text/javascript">
+      var bouticid;
+      var logo;
+      var nom;
+      var abo;
+      
+      async function initSession(customer, method, table)
+      {
+        var objboutic = { requete: "initSession", customer: customer, method: method, table: table};
+        const response = await fetch('frontquery.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objboutic)
+        });
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        await response.json();
+      }
+
+      
+      async function getBouticInfo(customer)
+      {
+        var objboutic = { requete: "getBouticInfo", customer: customer};
+        const response = await fetch('frontquery.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objboutic)
+        });
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        bouticid = data[0];
+        logo = data[1];
+        nom = data[2];
+      }
+      
+      async function getAboActif(bouticid)
+      {
+        var objboutic = { requete: "aboactif", bouticid: bouticid};
+        const response = await fetch('frontquery.php', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body:JSON.stringify(objboutic)
+        });
+        if (!response.ok) {
+          throw new Error(`Error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        abo = data;
+      }
+      
+      window.onload = async function()
+      {
+        sessionStorage.clear();
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const customer = urlParams.get('customer');
+        if (!customer)
+          window.location = "error.php?code=nocustomer";
+        const method = urlParams.get('method') ? urlParams.get('method') : '3';
+        const table = urlParams.get('table') ? urlParams.get('table') : '0';
+        initSession(customer, method, table)
+        await getBouticInfo(customer);
+        if (!bouticid)
+          window.location = "error.php?code=nobouticid";
+        await getAboActif(bouticid);
+        if (abo.length == 0)
+          window.location = "error.php?code=noabo";
+        document.location.href = 'carte.php';
+      }
+    </script>
   </body>
 </html>
 

@@ -3,6 +3,28 @@
 
 session_start();
 
+if (empty($_SESSION['customer']) != 0)
+{
+  header('LOCATION: error.php?code=nocustomer');
+  exit();
+}
+
+$customer = $_SESSION['customer'];
+$method = $_SESSION['method'];
+$table = $_SESSION['table'];
+
+if (empty($_SESSION[$customer . '_mail']) == TRUE)
+{
+  header('LOCATION: error.php?code=noemail');
+  exit();
+}
+
+if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+{
+  header('LOCATION: error.php?code=alreadysent');
+  exit();
+}
+
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 
@@ -27,9 +49,6 @@ try
 
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
-
-  //error_log($json_str);
-	$customer = htmlspecialchars($json_obj->customer);
 
   if (strcmp($customer, "") == 0)
 	{
@@ -299,16 +318,16 @@ try
   $text = $text . '<p style="font-family: \'Sans\'"><b>Référence commande: </b> ' . $compt . '<br></p>';
   $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
 
-  if ($json_obj->method == '2')
+  if (intval($method) == '2')
   {
     $text = $text . '<p style="font-family: \'Sans\'"><b>Vente : </b>Consomation sur place<br></p>';
     $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
-    $text = $text . '<p style="font-family: \'Sans\'"><b>Commande table numéro : </b> ' . $json_obj->table . '<br></p>';
+    $text = $text . '<p style="font-family: \'Sans\'"><b>Commande table numéro : </b> ' . $table . '<br></p>';
     $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
     $text = $text . '<p style="font-family: \'Sans\'"><b>Téléphone : </b>' . $json_obj->telephone . '<br></p>';
     $text = $text . '<hr style="width:50%;text-align:left;margin-left:0">';
   }
-  if ($json_obj->method == '3')
+  if (intval($method) == '3')
   {
     if (strcmp($json_obj->vente, "EMPORTER") == 0)
     {
@@ -400,9 +419,9 @@ try
 
 	$methodstr = "INCONNU";
 
-	if ($json_obj->method == 1)
+	if (intval($method) == 1)
 		$methodstr = "ATABLE";
-	if ($json_obj->method >= 2)
+	if (intval($method) >= 2)
 		$methodstr = "CLICKNCOLLECT";
 
   $qcmdi = "INSERT INTO commande (customid, numref, nom, prenom, telephone, adresse1, adresse2, codepostal, ville, vente, paiement, sstotal, remise, " .
@@ -411,7 +430,7 @@ try
             "','" . htmlspecialchars(addslashes($json_obj->adresse2)) . "','$json_obj->codepostal','" . htmlspecialchars(addslashes($json_obj->ville)) .
             "','$json_obj->vente','$json_obj->paiement','" . strval($sum) . "','" . strval( - $json_obj->remise) . "','" . strval($json_obj->fraislivr) . "',";
   $qcmdi = $qcmdi . "'" . strval($sum - $json_obj->remise + $json_obj->fraislivr) . "','" . nl2br(stripslashes(strip_tags(htmlspecialchars(addslashes($json_obj->infosup))))) .
-           "','$methodstr','$json_obj->table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
+           "','$methodstr','$table', NOW(), (SELECT statid FROM statutcmd WHERE customid = '$customid' AND defaut = 1 LIMIT 1)) ";
 
   //error_log($qcmdi);
 
