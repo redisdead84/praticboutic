@@ -1134,3 +1134,8 @@ a
   color: #009CDB !important;
   text-decoration: underline;
 }
+
+.scrollablev
+{
+  overflow-y: scroll;
+}

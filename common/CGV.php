@@ -1,8 +1,14 @@
+<?php
+  include "config/common_cfg.php";
+?>
+
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link rel="stylesheet" href="css/style.css">-->
+    <link rel="stylesheet" media="screen" href="css/style2.css?v=<?php echo $ver_com_css;?>" />
+    <link href='https://fonts.googleapis.com/css?family=Public+Sans' rel='stylesheet'>
+    <link rel="stylesheet" href="css/style.css?v=<?php echo $ver_com_css;?>">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -34,19 +40,46 @@
       method = data[2];
       table = data[3];
     }
-    await getSession();
-    if (!customer)
-      document.location.href = 'error.php?code=nocustomer';
-    await getClientInfo(customer);
-    if (!bouticid)
-      document.location.href = 'error.php?code=nobouticid';
-    if (!mail)
-      document.location.href = 'error.php?code=noemail';
-    if (mail == 'oui')
-      document.location.href = 'error.php?code=alreadysent';
+    
+    async function getClientInfo(customer)
+    {
+      var objboutic = { requete: "getClientInfo", customer: customer};
+      const response = await fetch('frontquery.php', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body:JSON.stringify(objboutic)
+      });
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      bouticid = data[0];
+      nom = data[1];
+      adr = data[2];
+      logo = data[3];
+    }
+    window.onload = async function()
+    {
+      await getSession();
+      if (!customer)
+        document.location.href = 'error.php?code=nocustomer';
+      await getClientInfo(customer);
+      if (!bouticid)
+        document.location.href = 'error.php?code=nobouticid';
+      if (!mail)
+        document.location.href = 'error.php?code=noemail';
+      if (mail == 'oui')
+        document.location.href = 'error.php?code=alreadysent';
+    }
   </script>
-  <body ondragstart="return false;" ondrop="return false;">
-    <input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">
+  <body ondragstart="return false;" ondrop="return false;" class="scrollablev">
+    <div id="header">
+      <img id="mainlogo" src="img/logo-pratic-boutic.png">
+    </div>
+    <input class="revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">
 <br>
 <p style="text-align: justify; text-justify: inter-word;">
 <br>
@@ -216,6 +249,6 @@ L’inscription et les conditions générales standard de Praticboutic sont appl
 <br>
 Praticboutic utilisera les données personnelles fournies sur le compte du client et lors des commandes, uniquement à des fins de gestion des commandes et à aucune autre fin, sauf si nous avons obtenu votre consentement. Praticboutic se réserve le droit de divulguer les données personnelles du client à ses  prestataires, afin de permettre le bon déroulement d’une commande ou en réponse à une question de la part d’un client.<br><br>
 </p>
-    <input class="inpmove revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">
+    <input class="revenir" type="button" value="Revenir sur la commande" onclick="window.location.href = 'getinfo.php'">
   </body>
 </html>
