@@ -885,6 +885,10 @@
             })
             .then((response) => response.json())
             .then((result) => {
+              if (typeof (result.error) !== "undefined")
+				      {
+                return showOkAlert('Erreur', result.error);
+              }
               let carit = document.getElementsByClassName("carousel-item");
               for (let cari of carit)
               {
@@ -1432,6 +1436,10 @@
                 })
                 .then((response) => response.json())
                 .then((result) => {
+                  if (typeof (result.error) !== "undefined")
+				         	{
+                    return showOkAlert('Erreur', result.error);
+                  }
                   let carit = document.getElementsByClassName("carousel-item");
                   for (let cari of carit)
                   {
