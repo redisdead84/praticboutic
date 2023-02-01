@@ -576,7 +576,7 @@
         var selb = document.createElement("SELECT");
         selb.classList.add("selb");
         selb.id = "art" + artid + "op" + dat[0];
-        selb.mpultiple = (dat[2] == 1);
+        selb.multiple = !!dat[2];
         flexsp.appendChild(selb);
         document.querySelector('#opt' + artid + " .divopt2").appendChild(flexsp);
         document.getElementById("art" + artid + "op" + dat[0]).setAttribute('onchange', 'totaliser()');
