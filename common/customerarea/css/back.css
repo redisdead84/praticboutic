@@ -59,16 +59,16 @@
   
   .frameimg
   {
-    width: 85vmin !important;
-    height: 47.8125vmin !important;
+    width: 40.817vmin !important;
+    height: 22.96vmin !important;
   }
   
   .imgart
   {
     width: auto;
 	  height: auto;
-    max-width: 85vmin !important;
-    max-height: 47.8125vmin !important;
+    max-width: 40.817vmin !important;
+    max-height: 22.96vmin !important;
   }
 
 }
@@ -87,14 +87,14 @@
   
   .frameimg
   {
-    width: 85vmin !important;
-    height: 47.8125vmin !important;
+    width: 40.817vmin !important;
+    height: 22.96vmin !important;
   }
   
   .imgart
   {
-    max-width: 85vmin !important;
-    max-height: 47.8125vmin !important;
+    max-width: 40.817vmin !important;
+    max-height: 22.96vmin !important;
   }
   
   .btn-nbprimary
