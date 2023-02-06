@@ -570,22 +570,22 @@
         var flexsp = document.createElement("DIV");
         flexsp.classList.add("flexsp");
         var lbl = document.createElement("LABEL");
-        lbl.innerHTML = dat[1] + ((dat[2] == 0) ? " (unique)" : " (multiple)");
+        lbl.innerHTML = dat[1] + ((dat[2] == "0") ? " (unique)" : " (multiple)");
         flexsp.appendChild(lbl);
         flexsp.appendChild(document.createElement("BR"));
         var selb = document.createElement("SELECT");
         selb.classList.add("selb");
         selb.id = "art" + artid + "op" + dat[0];
-        selb.multiple = !!dat[2];
+        selb.multiple = (dat[2] == "1");
         flexsp.appendChild(selb);
         document.querySelector('#opt' + artid + " .divopt2").appendChild(flexsp);
         document.getElementById("art" + artid + "op" + dat[0]).setAttribute('onchange', 'totaliser()');
         const grpoptid = dat[0];
-        await getOptions(method, bouticid, artid, grpoptid);
+        await getOptions(method, bouticid, artid, grpoptid, dat[2] );
       }
     }
 
-    async function getOptions(method, bouticid, artid, grpoptid)
+    async function getOptions(method, bouticid, artid, grpoptid, multiple)
     {
       var objopt = { bouticid: bouticid, requete:"options", grpoptid:grpoptid};
       const response = await fetch('frontquery.php', {
@@ -603,7 +603,7 @@
         var option = document.createElement("OPTION");
         option.setAttribute("data-surcout", dat[2]);
         option.value = dat[1];
-        option.selected = ((init == 0) && (dat[2]>0));
+        option.selected = ((init == 0) && (multiple == "0"));
         option.id = "art" + artid + "opt" + dat[0];
         option.innerHTML = (dat[2]>0) ? dat[1] + ' + ' + parseFloat(dat[2]).toFixed(2) + ' € ' : dat[1];
         document.getElementById("art" + artid + "op" + grpoptid).appendChild(option);
