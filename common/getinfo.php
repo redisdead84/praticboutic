@@ -109,7 +109,7 @@
       <div id="header">
         <img id="mainlogo" src="img/logo-pratic-boutic.png">
       </div>
-      <div id="main">
+      <div id="main" style="display:none;">
         <form name="mainform" autocomplete="on" method="post" action="paiement.php">
           <img id="logo" style="display:none">
           <p id="marqueid" class="marque" style="display:none"></p>
@@ -366,14 +366,15 @@
         }
         reachBottom();
         initctrl();
-        document.getElementById("loadid").style.display = "none";
         if (verifcp > 0)
           checkcp(document.getElementById("lecp"));
         document.getElementById("footer").style.visibility = "visible";
+        document.getElementById("loadid").style.display = "none";
+        document.getElementById("main").style.display = "block";
       }
 
       // Appel asynchrone pour savoir si on est dans le périmètre de livraison 
-      function checkcp(elem)      
+      function checkcp(elem)
       {
         var retour;
 
