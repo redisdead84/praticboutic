@@ -38,10 +38,10 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <div id="header" style="display:none">
+    <div id="header" style="visibility: hidden;">
       <img id="mainlogo" src="img/logo-pratic-boutic.png">
     </div>
-    <div id="main" style="display:none">
+    <div id="main" style="visibility: hidden;">
       <img id="logo" style="display:none">
       <p id="marqueid" class="marque" style="display:none"></p>
       <div id="pan">
@@ -391,9 +391,9 @@
           };
         }
         document.getElementById("loadid").style.display = "none";
-        document.body.style.display = "block";
-        document.getElementById("main").style.display = "block";
-        document.getElementById("header").style.display = "block";
+        document.body.style.display = "visible";
+        document.getElementById("main").style.visibility = "visible";
+        document.getElementById("header").style.visibility = "visible";
         reachBottom();
         if ((parseInt(method) == 3) && (sessionStorage.getItem("choice")=="COMPTANT"))
         {
