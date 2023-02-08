@@ -73,7 +73,10 @@
       
       window.onload = async function()
       {
+        var bakbarre = sessionStorage.getItem("barre");
         sessionStorage.clear();
+        if (bakbarre == "close")
+          sessionStorage.setItem("barre", "close");
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const customer = urlParams.get('customer');

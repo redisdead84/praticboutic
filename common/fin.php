@@ -113,8 +113,7 @@
         document.getElementById("header").style.visibility = "visible";
         document.getElementById("finmain").style.visibility = "visible";
         document.getElementById("recommander").onclick = function () {
-          window.location.href = 'index.php?customer=' + customer;
-          sessionStorage.clear();
+          window.location.href = 'index.php?customer=' + customer + '&method=' + method + '&table=' + table;
         };
       }
     </script>
@@ -130,14 +129,6 @@
         <input id="recommander" class="soloindic" type="button" value="Passer une autre commande">
       </div>
     </div>
-    <script type="text/javascript" >
-      var close = 0; 
-      if (sessionStorage.getItem("barre") == "close")
-        close = 1;
-      
-      if (close == 1)
-        sessionStorage.setItem("barre", "close");
-    </script>
     <script type="text/javascript">
       function reachBottom() 
       {
@@ -145,8 +136,7 @@
         x = x + "px";
         document.getElementById("finmain").style.height = x;
       }
-    </script>
-    <script type="text/javascript">
+      
       window.addEventListener("resize", function() {
         reachBottom();
       })
