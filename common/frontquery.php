@@ -174,8 +174,14 @@ try
     $arm = array();
     array_push($arr, $customer, $mail, $method, $table);
   }
-
   
+ 	if (strcmp($input->action,"getparam") == 0)
+  {
+    $value = stripcslashes(GetValeurParam($input->param, $conn, $input->bouticid, ""));
+    //error_log($value);
+    $arr=array();	
+    array_push($arr, $value);
+  }
   
   $conn->close();
   $output = $arr;
