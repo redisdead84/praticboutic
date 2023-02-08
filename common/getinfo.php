@@ -106,7 +106,7 @@
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-      <div id="header" style="display:none">
+      <div id="header" style="visibility: hidden;">
         <img id="mainlogo" src="img/logo-pratic-boutic.png">
       </div>
       <div id="main" style="display:none;">
@@ -371,7 +371,7 @@
         document.getElementById("footer").style.visibility = "visible";
         document.getElementById("loadid").style.display = "none";
         document.getElementById("main").style.display = "block";
-        document.getElementById("header").style.display = "block";
+        document.getElementById("header").style.visibility = "visible";
       }
 
       // Appel asynchrone pour savoir si on est dans le périmètre de livraison 
