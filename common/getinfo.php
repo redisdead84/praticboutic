@@ -168,7 +168,7 @@
         </div>
       </form>
       <hr id="separationid" class="separation">
-      <div class="panneau" id="paye">
+      <div class="panneau" id="paye" style="display: none;">
         <div id="modep">
           <div id="blcomptant">
             <input class="paiers" type="radio" name="choixpaie" id="pcomptant" value="COMPTANT">
@@ -255,6 +255,7 @@
           document.getElementById("blocnomid").style.display = "block";
           document.getElementById("blocprenomid").style.display = "block";
           document.getElementById("met").style.display = "block";
+          document.getElementById("paye").style.display = "block";
           if (chm == "TOUS")
           {
             document.getElementById("blemporter").style.display = "block";
@@ -361,6 +362,7 @@
           document.getElementById("blocprenomid").style.display = "none";
           document.getElementById("met").style.display = "none";
           document.getElementById("separationid").style.display = "none";
+          document.getElementById("paye").style.display = "none";
         }
         reachBottom();
         initctrl();
@@ -629,6 +631,10 @@
       }
     </script>
     <script type="text/javascript" >
+    
+      function isHidden(el) {
+        return (el.offsetParent === null)
+      }
       // Vérifie que les infos nécessaires ont été saisi pour quitter le formulaire
       function checkInfo() 
       {
@@ -655,7 +661,7 @@
 	      
         for (var j=0; j < document.forms["mainform"].length; j++)
         {
-          if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false))
+          if ((document.forms["mainform"][j].checkValidity() == false) && (failed == false) && (isHidden(document.forms["mainform"][j]) == false))
           {
             alert(document.forms["mainform"][j].name + " : " + document.forms["mainform"][j].validationMessage);
             failed = true;
