@@ -27,7 +27,6 @@ try
   if (isset($input->sessionid))
     session_id($input->sessionid);
   session_start();
-  error_log("Session_id : " . session_id());
 
   if (!isset($_SESSION))
   {
@@ -104,7 +103,6 @@ try
   if (strcmp($input->requete,"getClientInfo") == 0)
   {
     $reqci = $conn->prepare('SELECT CU.customid, CU.nom, CL.adr1, CL.adr2, CL.cp, CL.ville, CU.logo FROM customer CU, client CL WHERE CU.customer = ? AND CL.cltid = CU.cltid LIMIT 1');
-    //error_log($customer);
     $reqci->bind_param("s", $input->customer);
     $reqci->execute();
     $reqci->bind_result($customid, $nom, $adresse1, $adresse2, $codepostal, $ville,  $logo);
@@ -161,7 +159,6 @@ try
   if (strcmp($input->requete, "initSession") == 0)
   {
     $_SESSION['customer'] = $input->customer;
-    error_log("SESSION[customer] : " . $_SESSION['customer']);
     $_SESSION[$input->customer . '_mail'] = "non";
     $_SESSION['method'] = htmlspecialchars(isset($input->method) ? $input->method : '3');
     $_SESSION['table'] = htmlspecialchars(isset($input->table) ? $input->table : '0');
@@ -171,8 +168,6 @@ try
   {
     $customer = $_SESSION['customer'];
     $mail = $_SESSION[$customer . '_mail'];
-    error_log("customer : " . $customer);
-    error_log("mail : " . $mail);
     $method = $_SESSION['method'];
     $table = $_SESSION['table'];
     $arm = array();
@@ -182,7 +177,6 @@ try
  	if (strcmp($input->requete,"getparam") == 0)
   {
     $value = stripcslashes(GetValeurParam($input->param, $conn, $input->bouticid, ""));
-    //error_log($value);
     $arr=array();	
     array_push($arr, $value);
   }
