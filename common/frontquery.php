@@ -175,7 +175,7 @@ try
     array_push($arr, $customer, $mail, $method, $table);
   }
   
- 	if (strcmp($input->action,"getparam") == 0)
+ 	if (strcmp($input->requete,"getparam") == 0)
   {
     $value = stripcslashes(GetValeurParam($input->param, $conn, $input->bouticid, ""));
     //error_log($value);

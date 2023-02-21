@@ -2,7 +2,7 @@ var bouticid;
 
 async function getParam(bouticid, param, defval = null)
 {
-  var objparam = { action: "getparam", table: "parametre", bouticid: bouticid, param: param};
+  var objparam = { requete: "getparam", table: "parametre", bouticid: bouticid, param: param};
   const response = await fetch('customerarea/boquery.php', {
     method: "POST",
     headers: {
