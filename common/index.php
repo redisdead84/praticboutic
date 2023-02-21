@@ -84,7 +84,7 @@
           window.location = "error.php?code=nocustomer";
         const method = urlParams.get('method') ? urlParams.get('method') : '3';
         const table = urlParams.get('table') ? urlParams.get('table') : '0';
-        initSession(customer, method, table);
+        await initSession(customer, method, table);
         await getBouticInfo(customer);
         if (!bouticid)
           window.location = "error.php?code=nobouticid";
