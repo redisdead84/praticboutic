@@ -641,12 +641,6 @@
           imgitem.classList.add(sizeimg);
           imgitem.src = '../upload/' + dat[0];
           imgitem.alt = "nopic";
-          //imgitem.onload = function() {
-            /*if (sizeimg == "bigimg")
-              this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";
-            else if (sizeimg == "smallimg")
-              this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.maxHeight = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.scrollHeight + "px";*/
-          //};
           caritem.appendChild(imgitem);
         }
         document.getElementById('carinid' + artid).appendChild(caritem);

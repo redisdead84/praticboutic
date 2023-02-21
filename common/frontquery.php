@@ -27,6 +27,7 @@ try
   if (isset($input->sessionid))
     session_id($input->sessionid);
   session_start();
+  error_log("Session_id : " . session_id());
 
   if (!isset($_SESSION))
   {
@@ -160,6 +161,7 @@ try
   if (strcmp($input->requete, "initSession") == 0)
   {
     $_SESSION['customer'] = $input->customer;
+    error_log("SESSION[customer] : " . $_SESSION['customer']);
     $_SESSION[$input->customer . '_mail'] = "non";
     $_SESSION['method'] = htmlspecialchars(isset($input->method) ? $input->method : '3');
     $_SESSION['table'] = htmlspecialchars(isset($input->table) ? $input->table : '0');
@@ -169,6 +171,8 @@ try
   {
     $customer = $_SESSION['customer'];
     $mail = $_SESSION[$customer . '_mail'];
+    error_log("customer : " . $customer);
+    error_log("mail : " . $mail);
     $method = $_SESSION['method'];
     $table = $_SESSION['table'];
     $arm = array();
