@@ -252,8 +252,8 @@
         
         if (parseInt(method)>2)
         {
-          document.getElementById("blocnomid").style.display = "block";
-          document.getElementById("blocprenomid").style.display = "block";
+          document.getElementById("blocnomid").style.display = "flex";
+          document.getElementById("blocprenomid").style.display = "flex";
           document.getElementById("met").style.display = "block";
           document.getElementById("paye").style.display = "block";
           if (chm == "TOUS")
