@@ -2433,7 +2433,7 @@
                       window.parent.parent.focus();
                     });
                     navigator.serviceWorker.ready.then(function(registration) {
-                      registration.showNotification('Arrivage de Commande Client', { body: text, icon: img });
+                      registration.showNotification('Arrivage de Commande Client', { body: text, icon: img, requireInteraction: true });
                     });
                   }
                 });
