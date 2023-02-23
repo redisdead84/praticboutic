@@ -28,8 +28,9 @@
     $authofile = fopen('../mobileapp/authorisation.json', 'r');
     $authojson = fread($authofile, filesize('../mobileapp/authorisation.json'));
     fclose($authofile);
+    $autho = json_decode($authojson);
 
-    $output = $authojson;
+    $output = $autho;
 
     echo json_encode($output);
   } 
