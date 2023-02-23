@@ -419,9 +419,9 @@ try
 
 	$methodstr = "INCONNU";
 
-	if (intval($method) == 1)
+	if (intval($method) == 2)
 		$methodstr = "ATABLE";
-	if (intval($method) >= 2)
+	if (intval($method) == 3)
 		$methodstr = "CLICKNCOLLECT";
 
   $qcmdi = "INSERT INTO commande (customid, numref, nom, prenom, telephone, adresse1, adresse2, codepostal, ville, vente, paiement, sstotal, remise, " .
