@@ -25,21 +25,12 @@
       session_id($input->sessionid);
     session_start();
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $bdd);
-    // Check connection
-    if ($conn->connect_error) {
-      throw new Error("La connexion a échoué: " . $conn->connect_error);
-    }
-    
     $authofile = fopen('../mobileapp/authorisation.json', 'r');
     $authojson = fread($authofile, filesize('../mobileapp/authorisation.json'));
     fclose($authofile);
 
     $output = $authojson;
 
-    $result->close();
-    $conn->close();
     echo json_encode($output);
   } 
   catch (Error $e) 
