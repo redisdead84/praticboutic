@@ -82,16 +82,23 @@
         const customer = urlParams.get('customer');
         if (!customer)
           window.location = "error.php?code=nocustomer";
-        const method = urlParams.get('method') ? urlParams.get('method') : '3';
-        const table = urlParams.get('table') ? urlParams.get('table') : '0';
-        await initSession(customer, method, table);
-        await getBouticInfo(customer);
-        if (!bouticid)
-          window.location = "error.php?code=nobouticid";
-        await getAboActif(bouticid);
-        if (abo.length == 0)
-          window.location = "error.php?code=noabo";
-        document.location.href = 'carte.php';
+        else 
+        {
+          const method = urlParams.get('method') ? urlParams.get('method') : '3';
+          const table = urlParams.get('table') ? urlParams.get('table') : '0';
+          await initSession(customer, method, table);
+          await getBouticInfo(customer);
+          if (!bouticid)
+            window.location = "error.php?code=nobouticid";
+          else 
+          {
+            await getAboActif(bouticid);
+            if (abo.length == 0)
+              document.location.href = "error.php?code=noabo";
+            else
+              document.location.href = 'carte.php';
+          }
+        }
       }
     </script>
   </body>
