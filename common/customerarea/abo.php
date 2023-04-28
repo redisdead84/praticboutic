@@ -85,14 +85,16 @@ try
         try
         {
           $subscription = $stripe->subscriptions->retrieve($row[3]);
-          error_log("No error.");
-          $arm = array("aboid" => $row[0], "creationboutic" => $row[1], "bouticid" => $row[2], "stripe_subscription" => $subscription );
-          array_push($lienscreation, $arm);
+          if ($subscription)
+          {
+            $arm = array("aboid" => $row[0], "creationboutic" => $row[1], "bouticid" => $row[2], "stripe_subscription" => $subscription );
+            array_push($lienscreation, $arm);
+          }
+          error_log("Test2");
         }
-        catch(\Stripe\Error\InvalidRequest $e)
+        catch(Exception $e)
         {
           //do nothing
-          error_log("Subscription erased " . $row[3]);
         }
       }
       $result->close();
