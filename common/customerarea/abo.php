@@ -90,7 +90,6 @@ try
             $arm = array("aboid" => $row[0], "creationboutic" => $row[1], "bouticid" => $row[2], "stripe_subscription" => $subscription );
             array_push($lienscreation, $arm);
           }
-          error_log("Test2");
         }
         catch(Exception $e)
         {
