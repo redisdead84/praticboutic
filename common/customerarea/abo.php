@@ -82,9 +82,16 @@ try
     {
       while ($row = $result->fetch_row()) 
       {
-        $subscription = $stripe->subscriptions->retrieve($row[3]);
-        $arm = array("aboid" => $row[0], "creationboutic" => $row[1], "bouticid" => $row[2], "stripe_subscription" => $subscription );
-        array_push($lienscreation, $arm);
+        try
+        {
+          $subscription = $stripe->subscriptions->retrieve($row[3]);
+          $arm = array("aboid" => $row[0], "creationboutic" => $row[1], "bouticid" => $row[2], "stripe_subscription" => $subscription );
+          array_push($lienscreation, $arm);
+        }
+        catch(\Stripe\Error\InvalidRequest $e)
+        {
+          //do nothing
+        }
       }
       $result->close();
     }
