@@ -29,7 +29,14 @@
   {
     $sent = 0;
     $hash = md5(microtime(TRUE)*100000);
-
+    
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    
+    $key = base64_decode($_ENV['IDENTIFICATION_KEY']);
+    error_log($key);
+    $decryptedCode = openssl_decrypt($request->code, 'AES-256-ECB', $key, OPENSSL_RAW_DATA);
+    error_log($decryptedCode);
     // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
 
@@ -103,7 +110,7 @@
       $text = $text . '<br><br>';
       $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
       $text = $text . $request->email . '<br><br>';
-      $text = $text . 'Voici le code de vérification : ' . $request->code;
+      $text = $text . 'Voici le code de vérification : ' . $decryptedCode;
       $text = $text . '<br>';
       $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
       $text = $text . '</body>';
