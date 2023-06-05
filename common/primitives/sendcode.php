@@ -33,9 +33,9 @@
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
     
-    $key = base64_decode($_ENV['IDENTIFICATION_KEY']);
+    $code = base64_decode($request->code);
     error_log($key);
-    $decryptedCode = openssl_decrypt($request->code, 'AES-256-ECB', $key, OPENSSL_RAW_DATA);
+    $decryptedCode = openssl_decrypt($code, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA);
     error_log($decryptedCode);
     // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
