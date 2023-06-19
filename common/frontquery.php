@@ -162,6 +162,8 @@ try
     $_SESSION[$input->customer . '_mail'] = "non";
     $_SESSION['method'] = htmlspecialchars(isset($input->method) ? $input->method : '3');
     $_SESSION['table'] = htmlspecialchars(isset($input->table) ? $input->table : '0');
+    $arr = array();
+    array_push($arr, session_id() );
   }
   
   if (strcmp($input->requete, "getSession") == 0)
@@ -170,7 +172,7 @@ try
     $mail = $_SESSION[$customer . '_mail'];
     $method = $_SESSION['method'];
     $table = $_SESSION['table'];
-    $arm = array();
+    $arr = array();
     array_push($arr, $customer, $mail, $method, $table);
   }
   
