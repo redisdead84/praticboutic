@@ -17,8 +17,6 @@ header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Acce
 header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json');
 
-
-
 try {
 
   $json_str = file_get_contents('php://input');
