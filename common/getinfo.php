@@ -318,7 +318,7 @@
             document.getElementById("pcomptant").style.display = "inline-block";
             document.getElementById("lblpcomptant").style.display = "inline-block";
             document.getElementById("spdcomptant").style.display = "block";
-            document.getElementById("pdcomptant").style.display = "ineline-block";
+            document.getElementById("pdcomptant").style.display = "inline-block";
             document.getElementById("pdcomptant").innerHTML = cmpt;
             document.getElementById("bllivraison").style.display = "block";
             document.getElementById("plivraison").style.display = "inline-block";
