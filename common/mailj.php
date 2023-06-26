@@ -1,30 +1,6 @@
 
 <?php
 
-session_start();
-
-if (empty($_SESSION['customer']) != 0)
-{
-  header('LOCATION: error.php?code=nocustomer');
-  exit();
-}
-
-$customer = $_SESSION['customer'];
-$method = $_SESSION['method'];
-$table = $_SESSION['table'];
-
-if (empty($_SESSION[$customer . '_mail']) == TRUE)
-{
-  header('LOCATION: error.php?code=noemail');
-  exit();
-}
-
-if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
-{
-  header('LOCATION: error.php?code=alreadysent');
-  exit();
-}
-
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 
@@ -41,14 +17,51 @@ use Ramsey\Uuid\Uuid;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+$conn = new mysqli($servername, $username, $password, $bdd);
+
+if ($conn->connect_error)
+   die("Connection failed: " . $conn->connect_error);
+
+header('Access-Control-Allow-Origin: *');
+header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
+header ("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
+header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json');
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+
 try
 {
 
   $json_str = file_get_contents('php://input');
   $json_obj = json_decode($json_str);
+  if (isset($json_obj->sessionid))
+    session_id($json_obj->sessionid);
+
+  session_start();
+
+  if (empty($_SESSION['customer']) != 0)
+  {
+    header('LOCATION: error.php?code=nocustomer');
+    exit();
+  }
+
+  $customer = $_SESSION['customer'];
+  $method = $_SESSION['method'];
+  $table = $_SESSION['table'];
+
+  if (empty($_SESSION[$customer . '_mail']) == TRUE)
+  {
+    header('LOCATION: error.php?code=noemail');
+    exit();
+  }
+
+  if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
+  {
+    header('LOCATION: error.php?code=alreadysent');
+    exit();
+  }
 
   if (strcmp($customer, "") == 0)
 	{
@@ -59,11 +72,6 @@ try
 	{
 	  throw new Exception("Courriel déjà envoyé");
 	}
-
-  $conn = new mysqli($servername, $username, $password, $bdd);
-
-  if ($conn->connect_error)
- 		die("Connection failed: " . $conn->connect_error);
 
   $reqci = $conn->prepare('SELECT customid, nom, courriel FROM customer WHERE customer = ?');
   $reqci->bind_param("s", $customer);
