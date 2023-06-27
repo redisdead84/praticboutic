@@ -504,64 +504,73 @@ try
     {
       if ($urcreated == false)
       {
-        $subscription = $stripe->subscriptions->retrieve($row[1]);
-        if ($subscription->status == "active")
+        try
         {
-          // Recuperation de la souscription grace à de l'id subscription stripe
-          //error_log($subscription->items->data[0]->id);
-          $subscription_items = $stripe->subscriptionItems->all([
-            'subscription' => $subscription,
-          ]);
-          //error_log(print_r($subscription_items, TRUE));
-          //error_log(count($subscription_items->data));
-          for ($j = 0; $j < count($subscription_items->data); $j++)
+          $subscription = $stripe->subscriptions->retrieve($row[1]);
+          if ($subscription->status == "active")
           {
-            $subscription_item = $subscription_items->data[$j];
-            //error_log(print_r($subscription_item, TRUE));
-            $metered = $subscription_item->price->recurring->usage_type;
-            //error_log(print_r($subscription_item->price->recurring, TRUE));
-            //error_log($metered);
-            if (strcmp($metered, "metered") == 0)
+            // Recuperation de la souscription grace à de l'id subscription stripe
+            //error_log($subscription->items->data[0]->id);
+            $subscription_items = $stripe->subscriptionItems->all([
+              'subscription' => $subscription,
+            ]);
+            //error_log(print_r($subscription_items, TRUE));
+            //error_log(count($subscription_items->data));
+            for ($j = 0; $j < count($subscription_items->data); $j++)
             {
-              //error_log('metered2');
-              //$price = $subscription_item->price->unit_amount;
-              //error_log($price);
-              $usage_quantity = $sum - $json_obj->remise + $json_obj->fraislivr;// * $price;
-              //error_log($usage_quantity);
-              $action = 'set';
+              $subscription_item = $subscription_items->data[$j];
+              //error_log(print_r($subscription_item, TRUE));
+              $metered = $subscription_item->price->recurring->usage_type;
+              //error_log(print_r($subscription_item->price->recurring, TRUE));
+              //error_log($metered);
+              if (strcmp($metered, "metered") == 0)
+              {
+                //error_log('metered2');
+                //$price = $subscription_item->price->unit_amount;
+                //error_log($price);
+                $usage_quantity = $sum - $json_obj->remise + $json_obj->fraislivr;// * $price;
+                //error_log($usage_quantity);
+                $action = 'set';
 
-              $date = date_create();
-              $timestamp = date_timestamp_get($date);
-              // The idempotency key allows you to retry this usage record call if it fails.
-              $idempotency_key = Uuid::uuid4()->toString();
+                $date = date_create();
+                $timestamp = date_timestamp_get($date);
+                // The idempotency key allows you to retry this usage record call if it fails.
+                $idempotency_key = Uuid::uuid4()->toString();
 
-              //error_log($subscription_item->id);
-              //error_log($usage_quantity);
-              //error_log($timestamp);
-              //error_log($action);
-              //error_log($idempotency_key);
-              $subscription_item_id = $subscription_item->id;
-              try {
-                $stripe->subscriptionItems->createUsageRecord(
-                  $subscription_item_id,
-                  [
-                    'quantity' => intval($usage_quantity),
-                    'timestamp' => $timestamp,
-                    'action' => $action,
-                  ],
-                  [
-                    'idempotency_key' => $idempotency_key,
-                  ]
-                );
-                $urcreated = true;
-              } catch (\Stripe\Exception\ApiErrorException $error) {
-                //error_log("test1");
-                //error_log(print_r($error, TRUE));
-                throw new Exception("Usage report failed for item ID $subscription_item_id with idempotency key $idempotency_key: $error.toString()");
+                //error_log($subscription_item->id);
+                //error_log($usage_quantity);
+                //error_log($timestamp);
+                //error_log($action);
+                //error_log($idempotency_key);
+                $subscription_item_id = $subscription_item->id;
+                try {
+                  $stripe->subscriptionItems->createUsageRecord(
+                    $subscription_item_id,
+                    [
+                      'quantity' => intval($usage_quantity),
+                      'timestamp' => $timestamp,
+                      'action' => $action,
+                    ],
+                    [
+                      'idempotency_key' => $idempotency_key,
+                    ]
+                  );
+                  $urcreated = true;
+                } catch (\Stripe\Exception\ApiErrorException $error) {
+                  //error_log("test1");
+                  //error_log(print_r($error, TRUE));
+                  throw new Exception("Usage report failed for item ID $subscription_item_id with idempotency key $idempotency_key: $error.toString()");
+                }
               }
             }
           }
         }
+        catch(\Stripe\Exception\ApiErrorException $error)
+        {
+          // on passe à l'abonnement suivant
+          //error_log($error);
+        }
+
       }
     }
     $result->close();
