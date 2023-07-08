@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 
 header('Access-Control-Allow-Origin: *');
 header ("Access-Control-Expose-Headers: Content-Length, X-JSON");
@@ -21,6 +21,9 @@ if ($conn->connect_error)
 
 try {
 
+  if (isset($_FILES['sessionid']))
+    session_id($_FILES['sessionid']);
+  session_start();
 	$output = "";
 	
 	$dossier = "";
