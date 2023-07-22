@@ -127,7 +127,9 @@
 
     }
     error_log($encryptedCode);
+    error_log("OK");
     echo json_encode($encryptedCode);
+    error_log(json_encode($encryptedCode));
   }
   catch (Exception $e) 
   {
