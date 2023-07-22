@@ -34,6 +34,7 @@
     $dotenv->load();
 
     $lecode = str_pad(strval(floor( rand() * pow(10, 6) )), 6, '0');
+    error_log($lecode);
     $encryptedCode = strval(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA ));
 
     error_log($encryptedCode);
