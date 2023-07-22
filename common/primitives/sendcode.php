@@ -32,9 +32,11 @@
     
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
-    
-    $code = base64_decode($request->code);
-    error_log($key);
+
+    $lecode = str_pad(strval(floor( rand() * pow(10, 6) )), 6, '0');
+    $encryptedCode = openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA );
+
+    error_log($encryptedCode);
     $decryptedCode = openssl_decrypt($code, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA);
     error_log($decryptedCode);
     // Create connection
@@ -110,7 +112,7 @@
       $text = $text . '<br><br>';
       $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
       $text = $text . $request->email . '<br><br>';
-      $text = $text . 'Voici le code de vérification : ' . $decryptedCode;
+      $text = $text . 'Voici le code de vérification : ' . $lecode;
       $text = $text . '<br>';
       $text = $text . 'Cordialement<br><br>L\'équipe praticboutic<br><br></p>';
       $text = $text . '</body>';
@@ -121,6 +123,8 @@
       $mail->send();
 
       $conn->close();
+
+      echo json_encode($encryptedCode);
     }
   }
   catch (Exception $e) 
