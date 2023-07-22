@@ -34,11 +34,11 @@
     $dotenv->load();
 
     $lecode = str_pad(strval(floor( rand() * pow(10, 6) )), 6, '0');
-    $encryptedCode = openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA );
+    $encryptedCode = strval(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA ));
 
     error_log($encryptedCode);
-    $decryptedCode = openssl_decrypt($code, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA);
-    error_log($decryptedCode);
+    //$decryptedCode = openssl_decrypt($code, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA);
+    //error_log($decryptedCode);
     // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
 
