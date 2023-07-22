@@ -35,7 +35,7 @@
 
     $lecode = substr(str_pad(strval( rand(0,999999)), 6, '0'), 0 , 6);
     error_log($lecode);
-    $encryptedCode = strval(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA ));
+    $encryptedCode = openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA );
 
     error_log($encryptedCode);
     //$decryptedCode = openssl_decrypt($code, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA);
