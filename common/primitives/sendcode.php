@@ -125,8 +125,9 @@
 
       $conn->close();
 
-      echo json_encode($encryptedCode);
     }
+    error_log($encryptedCode);
+    echo json_encode($encryptedCode);
   }
   catch (Exception $e) 
   {
