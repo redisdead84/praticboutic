@@ -33,7 +33,7 @@
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
-    $lecode = str_pad(strval(floor( rand() * pow(10, 6) )), 6, '0');
+    $lecode = substr(str_pad(strval(floor( rand() * pow(10, 6) )), 6, '0'), 6);
     error_log($lecode);
     $encryptedCode = strval(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA ));
 
