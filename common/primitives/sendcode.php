@@ -34,8 +34,8 @@
     $dotenv->load();
 
     $lecode = substr(str_pad(strval( rand(0,999999)), 6, '0'), 0 , 6);
-    $padding = OPENSSL_ZERO_PADDING;
-    $encryptedCode = base64_encode(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], $padding ));
+    //$padding = OPENSSL_NO_PADDING;
+    $encryptedCode = base64_encode(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA ));
     error_log($encryptedCode);
     
     // Create connection
