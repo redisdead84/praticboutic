@@ -34,7 +34,8 @@
     $dotenv->load();
 
     $lecode = substr(str_pad(strval( rand(0,999999)), 6, '0'), 0 , 6);
-    $encryptedCode = base64_encode(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], OPENSSL_RAW_DATA ));
+    $padding = OPENSSL_NO_PADDING;
+    $encryptedCode = base64_encode(openssl_encrypt($lecode, 'AES-256-ECB', $_ENV['IDENTIFICATION_KEY'], $padding ));
     
     // Create connection
     $conn = new mysqli($servername, $username, $password, $bdd);
