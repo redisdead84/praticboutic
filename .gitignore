@@ -16,3 +16,4 @@
 /common/customerarea/qrcode/*
 /test.php
 /key/*
+/common/primitives/.env
