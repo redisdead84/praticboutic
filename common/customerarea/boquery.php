@@ -815,7 +815,7 @@ try {
     $raz = 0;
 
     $subquery = "SELECT count(*) FROM `client` WHERE email = '" . $_SESSION['bo_email'] . "'";
-    error_log($subquery);
+    //error_log($subquery);
     if ($result = $conn->query($subquery)) 
     {
       if ($row = $result->fetch_row()) 
