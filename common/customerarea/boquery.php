@@ -647,7 +647,7 @@ try {
       }
       $result->close();
     }
-    if (strcmp($input->typ, "pass") == 0)
+    if (strcmp($input->prop, "pass") == 0)
     {
       if (strcmp($input->valeur,"") != 0) 	
         $query = "UPDATE client SET " . $input->prop . " = '" . password_hash($input->valeur, PASSWORD_DEFAULT) . "' WHERE cltid = " . $cltid;
