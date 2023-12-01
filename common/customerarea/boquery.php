@@ -589,23 +589,28 @@ try {
     {
       if ($row = $result->fetch_row())
       {
-        if (($row[0]>=1) && (strcmp($input->typ, "url")==0))
+        //error_log($row[0]);
+        if (($row[0]>=1) && (strcmp($input->type, "url")==0))
         {
           $arr = "KO";
         }
         else
         {
-          $query = "UPDATE customer SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE customid = " . $input->bouticid;
-          //error_log($query);
-
-          $arr=array();
-
-          if ($conn->query($query) === FALSE)
+          try
           {
-            throw new Error($conn->error);
+            $query = "UPDATE customer SET " . $input->prop . " = '" . addslashes($input->valeur) . "' WHERE customid = " . $input->bouticid;
+            //error_log($query);
+
+            $arr=array();
+            if ($conn->query($query) === TRUE)
+            {
+              $arr = "OK";
+            }
           }
-          else
-            $arr = "OK";
+          catch(Exception $d)
+          {
+            $arr = "KO";
+          }
         }
       }
       $result->close();
