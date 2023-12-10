@@ -75,7 +75,7 @@
           $_SESSION['bo_auth'] = 'oui';
           $_SESSION['bo_init'] = 'non';
           $_SESSION['active'] = 1;
-          error_log(session_id());
+          //error_log(session_id());
 
           $stripe = new \Stripe\StripeClient([
             'api_key' => $_ENV['STRIPE_SECRET_KEY'],
