@@ -6,14 +6,6 @@
   header ("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, X-Authorization");
   header('Access-Control-Max-Age: 86400');
 
-  $postdata = file_get_contents("php://input");
-  if (isset($postdata))
-    $request = json_decode($postdata);
-    
-  if (isset($request->sessionid))
-    session_id($request->sessionid);
-  session_start();
-
   // Import PHPMailer classes into the global namespace
   // These must be at the top of your script, not inside a function
   use PHPMailer\PHPMailer\PHPMailer;
@@ -27,6 +19,14 @@
   $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
   try 
   {
+    $postdata = file_get_contents("php://input");
+    if (isset($postdata))
+      $request = json_decode($postdata);
+      
+    if (isset($request->sessionid))
+      session_id($request->sessionid);
+    session_start();
+
     $sent = 0;
     $hash = md5(microtime(TRUE)*100000);
     
@@ -65,11 +65,11 @@
         }
       }
 
-      //$mail->SMTPDebug = 4;                                 // Enable verbose debug output
-      // $debug = '';
-      //$mail->Debugoutput = function($str, $level) {
-      //  $GLOBALS['debug'] .= "$level: $str\n";
-      //};
+      $mail->SMTPDebug = 4;                                 // Enable verbose debug output
+       $debug = '';
+      $mail->Debugoutput = function($str, $level) {
+        $GLOBALS['debug'] .= "$level: $str\n";
+      };
       
       $mail->isSMTP();                                      // Set mailer to use SMTP
       
