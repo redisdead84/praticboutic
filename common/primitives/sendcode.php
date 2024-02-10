@@ -10,8 +10,8 @@
   if (isset($postdata))
     $request = json_decode($postdata);
     
-  if (isset($input->sessionid))
-    session_id($input->sessionid);
+  if (isset($request->sessionid))
+    session_id($request->sessionid);
   session_start();
 
   // Import PHPMailer classes into the global namespace
