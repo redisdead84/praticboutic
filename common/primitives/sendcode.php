@@ -102,12 +102,12 @@
       $text = '<!DOCTYPE html>';
       $text = $text . '<html>';
       $text = $text . '<head>';
-      $text = $text . '<link href=\'https://fonts.googleapis.com/css?family=Sans\' rel=\'stylesheet\'>';
+      $text = $text . '<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">';
       $text = $text . '</head>';
       $text = $text . '<body>';
       $text = $text . '<img src="' . $protocol . $_SERVER['SERVER_NAME'] . '/common/customerarea/img/logo.png' . '" width="253" height="114" alt="">';
       $text = $text . '<br><br>';
-      $text = $text . '<p style="font-family: \'Sans\'">Bonjour ';
+      $text = $text . '<p style="font-family: \'Public+Sans\'">Bonjour ';
       $text = $text . $request->email . '<br><br>';
       $text = $text . 'Voici le code de vérification : ' . $lecode;
       $text = $text . '<br>';
