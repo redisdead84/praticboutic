@@ -772,6 +772,7 @@ try {
       array("CMPT_CMD", "0", "Compteur des références des commandes"),
       array("MONEY_SYSTEM", "STRIPE MARKETPLACE", ""),
       array("STRIPE_ACCOUNT_ID", "", "ID Compte connecté Stripe"),
+      array("NEW_ORDER", "0", "Nombre de nouvelle(s) commande(s)")
     );
 
     for($i=0; $i<count($parametres); $i++)

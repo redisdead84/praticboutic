@@ -480,6 +480,13 @@ try
   		throw new Exception("Error: " . $qlncmdi . "<br>" . $conn->error);
 
 	}
+	
+	$newcmd = GetValeurParam("NEW_ORDER", $conn, $customid, "0");
+	$newcmd++;
+	$errnc = SetValeurParam("NEW_ORDER", $newcmd, $conn, $customid);
+	if ($errnc)
+		throw new Exception("Erreur compteur nouvelle commande");
+	
 	//error_log("balise1");
 
 	/* Initialize the Stripe client */
