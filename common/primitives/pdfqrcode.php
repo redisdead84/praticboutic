@@ -84,12 +84,12 @@ while ($num< $nbex * $nbtable )
 			if ($methv == 2)
 			{
 			  $pdf->Cell( 10, 20, "Table " . strval($notable));
-				$qrcode = new QRcode($rooturlfront . 'boutic/debut/' . $boutic . '/2/' . strval($num), 'H'); // error level : L, M, Q, H
+				$qrcode = new QRcode($rooturlfront .  $boutic . '/2/' . strval($num), 'H'); // error level : L, M, Q, H
 			}
 			if ($methv == 3)
 			{
 				$pdf->Cell( 10, 20, "Qlick n Collect");
-				$qrcode = new QRcode($rooturlfront . 'boutic/debut/' . $boutic, 'H'); // error level : L, M, Q, H
+				$qrcode = new QRcode($rooturlfront . $boutic, 'H'); // error level : L, M, Q, H
 			}
 			
 			
