@@ -758,7 +758,7 @@ try {
     
     $parametres = array (
       array("isHTML_mail", "1", "HTML activé pour l'envoi de mail"),
-      array("Subject_mail","Commande PraticBoutic","Sujet du courriel pour l'envoi de mail"),
+      array("Subject_mail","Commande Praticboutic","Sujet du courriel pour l'envoi de mail"),
       array("VALIDATION_SMS", $_SESSION['confboutic_validsms'], "Commande validée par sms ?"),
       array("VerifCP", "0", "Activation de la verification des codes postaux"),
       array("Choix_Paiement", $_SESSION['confboutic_chxpaie'], "COMPTANT ou LIVRAISON ou TOUS"),
