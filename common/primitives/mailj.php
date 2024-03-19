@@ -43,8 +43,7 @@ try
 
   if (empty($_SESSION['customer']) != 0)
   {
-    header('LOCATION: error.php?code=nocustomer');
-    exit();
+    throw new Error("Pas de boutic");
   }
 
   $customer = $_SESSION['customer'];
@@ -53,14 +52,12 @@ try
 
   if (empty($_SESSION[$customer . '_mail']) == TRUE)
   {
-    header('LOCATION: error.php?code=noemail');
-    exit();
+    throw new Error("Pas de courriel");
   }
 
   if (strcmp($_SESSION[$customer . '_mail'],'oui') == 0)
   {
-    header('LOCATION: error.php?code=alreadysent');
-    exit();
+    throw new Error("Courriel déjà envoyé");
   }
 
   if (strcmp($customer, "") == 0)
