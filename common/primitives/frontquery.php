@@ -1,9 +1,9 @@
 <?php
 
-  require '../../vendor/autoload.php';
-  include "../config/common_cfg.php";
-  include "../param.php";
-
+require '../../vendor/autoload.php';
+include "../config/common_cfg.php";
+include "../param.php";
+  
 // Create connection
 $conn = new mysqli($servername, $username, $password, $bdd);
 // Check connection
