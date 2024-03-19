@@ -2,7 +2,7 @@
 
 require '../../vendor/autoload.php';
 
-require_once('../customerarea/qrcode/qrcode.class.php');
+require_once('../qrcode/qrcode.class.php');
 
 include "../config/common_cfg.php";
 include "../param.php";
