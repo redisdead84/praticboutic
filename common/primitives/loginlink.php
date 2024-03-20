@@ -21,7 +21,7 @@
       $protocole = 'http://';
     }
     
-    $server = $_SERVER['SERVER_NAME'];
+    $server = $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
     
     $account = $stripe->accounts->create([
       'type' => 'express',
