@@ -17,3 +17,7 @@
 /test.php
 /key/*
 /common/primitives/.env
+/common/routine/.env
+/common/webhooks/.env
+/common/prod/.env
+/common/prod/accueil_guichet/.env

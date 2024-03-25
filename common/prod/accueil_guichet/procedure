@@ -1,0 +1,6 @@
+Après la mise à jour des fichiers par git de praticboutic-backend
+Copier les fichier .env dans le répertoire prod et dans le répertoire webhooks
+Lancer le fichier main.sql qui créera les champs nécessaire pour l'accueil guichet
+Lancer initactive.php qui initialisera les champs pour l'accueil guichet par un navigateur attendre que la requete passe
+Déclarer le webhook dans stripe (hote + chemin wh_subscription.php + fichier wh_subscription.php) avec les évènements customer.subscription.deleted et customer.subscription.created
+
